@@ -110,11 +110,14 @@ a{color:inherit}
 }
 .menu-icon{font-size:28px;font-weight:300}
 .menu-x{
-  position:absolute;right:-44px;top:5px;
+  position:absolute;right:16px;top:16px;
   width:34px;height:34px;border-radius:50%;
   border:1px solid rgba(255,255,255,.14);
-  background:#141a21;color:#fff;cursor:pointer
+  background:rgba(255,255,255,.045);color:#fff;cursor:pointer;
+  z-index:5;backdrop-filter:blur(12px);
+  transition:background .25s ease,transform .25s var(--ease)
 }
+.menu-x:hover{background:rgba(255,255,255,.1);transform:rotate(6deg)}
 body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
 .hero{
   width:min(1480px,calc(100vw - 120px));
@@ -290,7 +293,7 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
   .menu-panel{width:calc(100vw - 20px);top:10px}
   .menu-rail{grid-template-columns:repeat(7,140px);overflow-x:auto}
   .menu-tile{min-width:140px}
-  .menu-x{right:8px;top:8px}
+  .menu-x{right:12px;top:12px}
 }
 @media(max-width:700px){
   .hero-copy h1{font-size:46px}
