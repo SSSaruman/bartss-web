@@ -230,3 +230,34 @@ document.addEventListener("click",e=>{if(soundEnabled&&e.target.closest("button,
 const baseSetActive=setActive;
 setActive=function(index){baseSetActive(index);setTimeout(()=>playShowcase(activeIndex),100)};
 requestAnimationFrame(()=>playShowcase(activeIndex));
+
+
+// Menu navigation: do not let anchor navigation scroll the oversized hero rail horizontally.
+document.querySelectorAll(".menu-tile").forEach(link=>{
+  link.addEventListener("click",e=>{
+    const cardIndex = link.dataset.cardIndex;
+    if(cardIndex !== undefined){
+      e.preventDefault();
+      closeMenu();
+      setActive(Number(cardIndex));
+      // Keep the viewport pinned to the document's left edge.
+      document.documentElement.scrollLeft = 0;
+      document.body.scrollLeft = 0;
+      return;
+    }
+
+    const targetId = link.getAttribute("href");
+    if(targetId && targetId.startsWith("#")){
+      const target = document.querySelector(targetId);
+      if(target){
+        e.preventDefault();
+        closeMenu();
+        const y = target.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({top:y,left:0,behavior:"smooth"});
+      }
+    }
+  });
+});
+window.addEventListener("scroll",()=>{
+  if(window.scrollX !== 0) window.scrollTo(0,window.scrollY);
+},{passive:true});
