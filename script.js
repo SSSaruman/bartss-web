@@ -97,3 +97,33 @@ document.querySelectorAll(".project-tile").forEach(tile=>{
   });
   tile.addEventListener("mouseleave",()=>{ if(obj) obj.style.translate="0 0"; });
 });
+
+
+// Tablet web/product experience
+const tabletExperience = document.getElementById("tabletExperience");
+const tabletScenes = [...document.querySelectorAll(".tablet-scene")];
+const tabletTabs = [...document.querySelectorAll("[data-tablet-tab]")];
+const tabletFloats = [...document.querySelectorAll(".tablet-float")];
+const tabletProgress = document.querySelector(".tablet-progress i");
+
+function setTabletScene(index){
+  tabletScenes.forEach((el,i)=>el.classList.toggle("active",i===index));
+  tabletTabs.forEach((el,i)=>el.classList.toggle("active",i===index));
+}
+function updateTabletExperience(){
+  if(!tabletExperience) return;
+  const r = tabletExperience.getBoundingClientRect();
+  const max = tabletExperience.offsetHeight - innerHeight;
+  const passed = Math.max(0,Math.min(max,-r.top));
+  const p = max>0 ? passed/max : 0;
+  const scene = Math.min(2,Math.floor(p*3));
+  setTabletScene(scene);
+  tabletFloats.forEach((el,i)=>{
+    const direction = i%2===0 ? -1 : 1;
+    el.style.transform = `translate3d(0,${direction * p * (45 + i*8)}px,0) rotate(${direction*p*2}deg)`;
+  });
+  if(tabletProgress) tabletProgress.style.transform = `scaleX(${Math.max(.08,p)})`;
+}
+tabletTabs.forEach((btn,i)=>btn.addEventListener("click",()=>setTabletScene(i)));
+window.addEventListener("scroll",updateTabletExperience,{passive:true});
+updateTabletExperience();
