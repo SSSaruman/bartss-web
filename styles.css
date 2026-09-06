@@ -513,3 +513,58 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
 .sound-control{position:fixed;left:20px;bottom:20px;z-index:95;border:1px solid rgba(255,255,255,.45);background:rgba(17,22,28,.72);color:#fff;backdrop-filter:blur(16px);height:38px;padding:0 13px;border-radius:999px;font-size:8px;letter-spacing:.16em;cursor:pointer;box-shadow:0 14px 32px rgba(0,0,0,.16);transition:.3s var(--ease)}
 .sound-control:hover{transform:translateY(-2px);background:rgba(17,22,28,.9)}.sound-control.on::before{content:"●";margin-right:7px;color:#dce879}.sound-control:not(.on)::before{content:"○";margin-right:7px;color:rgba(255,255,255,.45)}
 @media(max-width:1100px){.hero-morph-layer{display:none}.show-card.morph-source-hidden{opacity:1!important}.feature-stack.morph-muted{opacity:1;filter:none}}
+
+/* --- HERO ANCHOR CORRECTION / central object never migrates --- */
+.hero-morph-layer .hm-card{
+  left:var(--mx)!important;
+  top:var(--my)!important;
+}
+.hero-morph-layer[data-state="feature"] .hm-card{
+  width:226px;
+  height:226px;
+  transform:translate(-50%,-50%) scale(1)!important;
+}
+.hero-morph-layer[data-state="feature"] .hm-core{
+  left:50%;
+  top:37%;
+  width:34%;
+  font-size:34px;
+  transform:translate(-50%,-50%) rotate(-3deg)!important;
+}
+.hero-morph-layer[data-state="feature"] .hm-copy{
+  left:18px;
+  right:18px;
+  bottom:22px;
+}
+.hero-morph-layer[data-state="feature"] .hm-copy b{font-size:20px}
+.hero-morph-layer[data-state="spread"] .hm-card,
+.hero-morph-layer[data-state="shrink"] .hm-card,
+.hero-morph-layer[data-state="return"] .hm-card{
+  transform:translate(-50%,-50%)!important;
+}
+
+/* Satellites orbit the same fixed anchor instead of moving the composition */
+.hero-morph-layer[data-state="spread"] .hm-satellite.s1{transform:translate(calc(-50% - 168px),calc(-50% - 76px)) scale(.9) rotate(-4deg)}
+.hero-morph-layer[data-state="spread"] .hm-satellite.s2{transform:translate(calc(-50% - 142px),calc(-50% + 108px)) scale(.82) rotate(3deg)}
+.hero-morph-layer[data-state="spread"] .hm-satellite.s3{transform:translate(calc(-50% + 170px),calc(-50% - 82px)) scale(.9) rotate(4deg)}
+.hero-morph-layer[data-state="spread"] .hm-satellite.s4{transform:translate(calc(-50% + 146px),calc(-50% + 108px)) scale(.82) rotate(-3deg)}
+.hero-morph-layer[data-state="spread"] .hm-satellite.s5{transform:translate(calc(-50% + 4px),calc(-50% - 154px)) scale(.78) rotate(1deg)}
+
+.hero-morph-layer[data-state="feature"] .hm-satellite{opacity:.18;filter:blur(1px) saturate(.75)}
+.hero-morph-layer[data-state="feature"] .hm-satellite.is-active{
+  width:148px;
+  height:166px;
+  opacity:.98;
+  filter:none;
+}
+
+/* stronger organic motion without changing anchor */
+.hm-card{will-change:width,height,transform}
+.hm-card::before{animation-duration:4.8s}
+.hm-card::after{animation-duration:5.4s}
+.hm-core{animation:coreFloat 3.8s ease-in-out infinite}
+.hm-satellite.is-active{animation:activeSatelliteFloat 2.8s ease-in-out infinite}
+@keyframes activeSatelliteFloat{
+  0%,100%{translate:0 0}
+  50%{translate:0 -7px}
+}
