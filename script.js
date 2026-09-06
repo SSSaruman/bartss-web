@@ -128,90 +128,105 @@ tabletTabs.forEach((btn,i)=>btn.addEventListener("click",()=>setTabletScene(i)))
 window.addEventListener("scroll",updateTabletExperience,{passive:true});
 updateTabletExperience();
 
-// --- Hero cinematic card choreography inspired by the supplied reference ---
-const demoContent = [
-  {title:"Brand system", kicker:"BARTSS / BRAND", icon:"B", desc:"Strategy → identity → motion", detail:"A coherent brand system ready to scale.", pills:["Positioning","Identity","Motion","Launch"]},
-  {title:"Live product experience", kicker:"BARTSS / WEB", icon:"▱", desc:"UX → interface → conversion", detail:"A product that explains itself while people use it.", pills:["UX flow","UI system","Motion","Conversion"]},
-  {title:"Idea → approved asset", kicker:"AUTOLAB / AI", icon:"✦", desc:"Story → visual → QC", detail:"Storyboard, prompts, generation and consistency in one flow.", pills:["Storyboard","Prompts","QC","Consistency"]},
-  {title:"Motion system", kicker:"BARTSS / MOTION", icon:"◯", desc:"Story → movement → attention", detail:"Motion built as part of the brand, not decoration.", pills:["Film","3D","UI motion","Social"]},
-  {title:"Signals → decisions", kicker:"AIFINANCE / AI", icon:"↗", desc:"Context → signal → action", detail:"Financial context turned into a clearer next move.", pills:["Cash flow","Signals","Portfolio","Actions"]}
+// --- HERO SHOWCASE ENGINE: reference-led, product-specific states ---
+const heroShowcaseData = [
+  {
+    kicker:"BARTSS / BRAND", title:"A brand people can recognise.", cta:"See identity",
+    media:"linear-gradient(145deg,#9db9ca,#586f80)", price:"Brand system",
+    pills:["Positioning","Identity","Motion","Launch"],
+    panelTitle:"One system, many touchpoints", chips:["Logo","Type","Color","Campaign"], caption:"STRATEGY → IDENTITY → LAUNCH"
+  },
+  {
+    kicker:"BARTSS / WEB", title:"A site that explains itself.", cta:"See product",
+    media:"linear-gradient(145deg,#d8e6ee,#89aabb)", price:"Live UX",
+    pills:["UX flow","UI system","Motion","Conversion"],
+    panelTitle:"Less friction. More action.", chips:["Navigation","Content","CTA","Leads"], caption:"UX → INTERFACE → CONVERSION"
+  },
+  {
+    kicker:"AUTOLAB / AI PRODUCTION", title:"From idea to approved visual.", cta:"Run production",
+    media:"linear-gradient(145deg,#cfee35,#48672e)", price:"QC ✓",
+    pills:["Character lock","Style lock","Prompt","QC"],
+    panelTitle:"18 scenes / one visual system", chips:["Story","Shots","Prompts","Approved"], caption:"STORYBOARD → GENERATE → QC"
+  },
+  {
+    kicker:"BARTSS / MOTION", title:"Make the idea move.", cta:"Play system",
+    media:"linear-gradient(145deg,#e57c55,#522f54)", price:"Motion kit",
+    pills:["Film","3D","UI Motion","Social"],
+    panelTitle:"Motion built into the brand", chips:["Story","Timing","3D","Delivery"], caption:"STORY → MOTION → ATTENTION"
+  },
+  {
+    kicker:"AIFINANCE / SIGNALS", title:"Turn context into a next move.", cta:"See signal",
+    media:"linear-gradient(145deg,#a8d9e6,#36586a)", price:"+24.8%",
+    pills:["Cash flow","Signals","Portfolio","Actions"],
+    panelTitle:"High-intent signal detected", chips:["Context","Risk","Signal","Action"], caption:"DATA → CONTEXT → DECISION"
+  }
 ];
 
-function makeHeroDemo(card,index){
-  card.querySelector(".hero-demo")?.remove();
-  const d=demoContent[index] || demoContent[0];
-  const demo=document.createElement("div");
-  demo.className="hero-demo stage-cluster";
-  demo.innerHTML=`
-    <div class="demo-cluster">
-      <i class="demo-tile"></i><i class="demo-tile"></i><i class="demo-tile"></i>
-      <i class="demo-tile"></i><i class="demo-tile"></i><i class="demo-tile"></i>
-    </div>
-    <div class="demo-main">
-      <div class="demo-main-inner"><small>${d.kicker}</small><div class="demo-main-icon">${d.icon}</div><b>${d.title}</b><em>${d.desc}</em></div>
-    </div>
-    <div class="demo-pills">${d.pills.map(x=>`<span class="demo-pill"><i></i>${x}</span>`).join("")}</div>
-    <div class="demo-detail"><span>WHY IT MATTERS</span><b>${d.detail}</b><i></i></div>
-    <div class="demo-status">BUILDING THE SYSTEM...</div>`;
-  card.querySelector(".visual").appendChild(demo);
-  card.classList.add("demo-playing");
-  return demo;
+function createShowcase(card,index){
+  card.querySelector(".hero-showcase")?.remove();
+  const d=heroShowcaseData[index] || heroShowcaseData[0];
+  const el=document.createElement("div");
+  el.className="hero-showcase";
+  el.dataset.state="grid";
+  el.innerHTML=`
+    <div class="hs-stage">
+      <div class="hs-grid">${Array.from({length:8},()=>'<i class="hs-thumb"></i>').join("")}</div>
+      <div class="hs-side-card left"></div><div class="hs-side-card right"></div>
+      <div class="hs-ad" style="--media:${d.media}">
+        <div class="hs-ad-media"></div>
+        <div class="hs-ad-copy"><small>${d.kicker}</small><b>${d.title}</b><em>${d.cta} →</em></div>
+        <span class="hs-price">${d.price}</span>
+      </div>
+      <div class="hs-pills">${d.pills.map(x=>`<span class="hs-pill"><i></i>${x}</span>`).join("")}</div>
+      <div class="hs-panel">
+        <div class="hs-panel-head"><small>HOW IT WORKS</small><i>+</i></div>
+        <h4>${d.panelTitle}</h4>
+        <div class="hs-chip-row">${d.chips.map(x=>`<span>${x}</span>`).join("")}</div>
+        <div class="hs-bars"><i style="--w:88%"></i><i style="--w:70%"></i><i style="--w:94%"></i></div>
+      </div>
+      <div class="hs-caption">${d.caption}</div>
+    </div>`;
+  card.querySelector(".visual").appendChild(el);
+  return el;
 }
 
-let demoTimer=null, demoStageTimer=null, demoRunId=0;
-const stages=["stage-cluster","stage-main","stage-features","stage-detail","stage-out"];
-function runHeroDemo(index=activeIndex){
-  clearTimeout(demoTimer); clearTimeout(demoStageTimer);
-  const runId=++demoRunId;
-  document.querySelectorAll(".hero-demo").forEach(x=>x.remove());
-  cards.forEach(x=>x.classList.remove("demo-playing"));
-  const card=cards[index]; if(!card || !card.classList.contains("active")) return;
-  const demo=makeHeroDemo(card,index);
-  let stage=0;
-  const advance=()=>{
-    if(runId!==demoRunId || !demo.isConnected) return;
-    demo.className="hero-demo "+stages[stage];
-    if(stage===1) playUiSound("whoosh");
-    if(stage===2) playUiSound("pop");
-    if(stage===3) playUiSound("glass");
-    stage++;
-    if(stage<stages.length){ demoStageTimer=setTimeout(advance, stage===1?1150:stage===2?1350:stage===3?1500:1350); }
-    else { demoTimer=setTimeout(()=>runHeroDemo(activeIndex),900); }
+let heroShowcaseToken=0, heroShowcaseTimer=null;
+const heroStates=["grid","ad","product","panel","final"];
+const heroDurations=[1450,1550,1700,1650,1900];
+
+function playShowcase(index=activeIndex){
+  clearTimeout(heroShowcaseTimer);
+  const token=++heroShowcaseToken;
+  document.querySelectorAll(".hero-showcase").forEach(x=>x.remove());
+  const card=cards[index];
+  if(!card || !card.classList.contains("active")) return;
+  const el=createShowcase(card,index);
+  let s=0;
+  const next=()=>{
+    if(token!==heroShowcaseToken || !el.isConnected) return;
+    el.dataset.state=heroStates[s];
+    if(s===1) playUiSound("whoosh");
+    if(s===2) playUiSound("glass");
+    if(s===3) playUiSound("pop");
+    s++;
+    if(s<heroStates.length) heroShowcaseTimer=setTimeout(next,heroDurations[s-1]);
+    else heroShowcaseTimer=setTimeout(()=>playShowcase(activeIndex),heroDurations[4]);
   };
-  advance();
+  next();
 }
 
-// sound layer (browser requires user gesture; user can enable explicitly)
+// subtle interaction sound; off by default due browser autoplay rules
 let audioCtx=null, soundEnabled=false;
 const soundBtn=document.createElement("button");
-soundBtn.className="sound-control"; soundBtn.textContent="SOUND OFF";
+soundBtn.className="sound-control";
+soundBtn.textContent="SOUND OFF";
 document.body.appendChild(soundBtn);
-function ensureAudio(){ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==="suspended") audioCtx.resume(); }
-function tone(freq,duration=.06,gain=.035,type="sine",when=0){
-  if(!soundEnabled) return; ensureAudio();
-  const o=audioCtx.createOscillator(), g=audioCtx.createGain();
-  o.type=type;o.frequency.setValueAtTime(freq,audioCtx.currentTime+when);
-  g.gain.setValueAtTime(0.0001,audioCtx.currentTime+when);
-  g.gain.exponentialRampToValueAtTime(gain,audioCtx.currentTime+when+.008);
-  g.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+when+duration);
-  o.connect(g);g.connect(audioCtx.destination);o.start(audioCtx.currentTime+when);o.stop(audioCtx.currentTime+when+duration+.02);
-}
-function playUiSound(kind){
-  if(!soundEnabled) return;
-  if(kind==="click"){tone(520,.045,.026,"triangle");tone(760,.04,.016,"sine",.025)}
-  if(kind==="pop"){tone(330,.08,.025,"sine");tone(660,.07,.018,"triangle",.025)}
-  if(kind==="glass"){tone(980,.09,.016,"sine");tone(1450,.12,.01,"sine",.03)}
-  if(kind==="whoosh"){tone(180,.16,.018,"sawtooth");tone(280,.14,.012,"sine",.05)}
-}
-soundBtn.addEventListener("click",()=>{
-  soundEnabled=!soundEnabled; ensureAudio(); soundBtn.classList.toggle("on",soundEnabled); soundBtn.textContent=soundEnabled?"SOUND ON":"SOUND OFF"; if(soundEnabled) playUiSound("pop");
-});
-document.addEventListener("click",e=>{ if(soundEnabled && e.target.closest("button,a,.show-card")) playUiSound("click"); },true);
+function ensureAudio(){if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")audioCtx.resume()}
+function tone(freq,dur=.055,gain=.022,type="sine",delay=0){if(!soundEnabled)return;ensureAudio();const o=audioCtx.createOscillator(),g=audioCtx.createGain(),t=audioCtx.currentTime+delay;o.type=type;o.frequency.setValueAtTime(freq,t);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(gain,t+.008);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(audioCtx.destination);o.start(t);o.stop(t+dur+.02)}
+function playUiSound(kind){if(kind==="click"){tone(460,.045,.016,"triangle");tone(720,.04,.009,"sine",.025)}if(kind==="pop"){tone(320,.07,.016,"sine");tone(610,.06,.01,"triangle",.02)}if(kind==="glass"){tone(900,.08,.009,"sine");tone(1320,.10,.006,"sine",.025)}if(kind==="whoosh"){tone(150,.13,.008,"sawtooth");tone(250,.12,.006,"sine",.035)}}
+soundBtn.addEventListener("click",()=>{soundEnabled=!soundEnabled;ensureAudio();soundBtn.classList.toggle("on",soundEnabled);soundBtn.textContent=soundEnabled?"SOUND ON":"SOUND OFF";if(soundEnabled)playUiSound("pop")});
+document.addEventListener("click",e=>{if(soundEnabled&&e.target.closest("button,a,.show-card"))playUiSound("click")},true);
 
-// restart cinematic demo whenever active hero card changes
-const originalSetActive=setActive;
-setActive=function(index){
-  originalSetActive(index);
-  setTimeout(()=>runHeroDemo(activeIndex),120);
-};
-requestAnimationFrame(()=>runHeroDemo(activeIndex));
+const baseSetActive=setActive;
+setActive=function(index){baseSetActive(index);setTimeout(()=>playShowcase(activeIndex),100)};
+requestAnimationFrame(()=>playShowcase(activeIndex));
