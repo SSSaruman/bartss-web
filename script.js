@@ -196,7 +196,7 @@ function createMorph(index){
 function springSpread(layer){
  const sats=[...layer.querySelectorAll(".hm-satellite")];
  const targets=[
-  [-245,-60,-5,1],[-128,132,4,.92],[244,-72,5,1],[132,136,-4,.92],[4,-194,2,.86]
+  [-168,-76,-4,.90],[-142,108,3,.82],[170,-82,4,.90],[146,108,-3,.82],[4,-154,1,.78]
  ];
  sats.forEach((el,i)=>{
    const [x,y,r,s]=targets[i];
@@ -217,7 +217,7 @@ function startOrganicDrift(layer){
      if(layer.dataset.state!=="spread" && layer.dataset.state!=="feature")return;
      if(el.classList.contains("is-active"))return;
      const x=Number(el.dataset.baseX||0),y=Number(el.dataset.baseY||0),r=Number(el.dataset.baseR||0),s=Number(el.dataset.baseS||1);
-     const dx=Math.sin(t*.78+i*1.7)*6,dy=Math.cos(t*.92+i*1.13)*7,dr=Math.sin(t*.55+i)*1.2;
+     const dx=Math.sin(t*.78+i*1.7)*3.2,dy=Math.cos(t*.92+i*1.13)*4.2,dr=Math.sin(t*.55+i)*.65;
      el.style.transform=`translate(calc(-50% + ${x+dx}px),calc(-50% + ${y+dy}px)) scale(${s}) rotate(${r+dr}deg)`;
    });
    morphRaf=requestAnimationFrame(tick);
@@ -229,9 +229,16 @@ function setFeature(ctx,fi){
  const sats=[...layer.querySelectorAll(".hm-satellite")];
  sats.forEach((s,i)=>s.classList.toggle("is-active",i===fi));
  const active=sats[fi];
- // active satellite grows on the right, while the main hero card changes into that feature
- active.style.transform="translate(calc(-50% + 150px),calc(-50% - 12px)) scale(1) rotate(0deg)";
- card.style.setProperty("--a", active?getComputedStyle(active).getPropertyValue("--sa")||d.accent[0]:d.accent[0]);
+ // Keep the hero-card's center fixed. The selected feature orbits the same anchor.
+ const orbit=[
+   [162,-64,-2],[146,92,2],[-162,-66,2],[-146,92,-2],[0,-150,0]
+ ][fi];
+ active.style.transform=`translate(calc(-50% + ${orbit[0]}px),calc(-50% + ${orbit[1]}px)) scale(.94) rotate(${orbit[2]}deg)`;
+ const satStyle=getComputedStyle(active);
+ const featureA=satStyle.getPropertyValue("--sa").trim()||d.accent[0];
+ const featureB=satStyle.getPropertyValue("--sb").trim()||d.accent[1];
+ card.style.setProperty("--a",featureA);
+ card.style.setProperty("--b",featureB);
  core.textContent=item[3]; core.animate([{transform:"translate(-50%,-50%) rotate(4deg) scale(.72)",opacity:.2},{transform:"translate(-50%,-50%) rotate(4deg) scale(1.08)",opacity:1,offset:.65},{transform:"translate(-50%,-50%) rotate(4deg) scale(1)",opacity:1}],{duration:520,easing:"cubic-bezier(.16,1,.3,1)"});
  copy.animate([{opacity:.12,transform:"translateY(9px)"},{opacity:1,transform:"translateY(0)"}],{duration:430,easing:"ease-out"});
  copy.querySelector("small").textContent=`${d.eyebrow} / ${item[2]}`;
