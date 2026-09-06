@@ -128,110 +128,6 @@ tabletTabs.forEach((btn,i)=>btn.addEventListener("click",()=>setTabletScene(i)))
 window.addEventListener("scroll",updateTabletExperience,{passive:true});
 updateTabletExperience();
 
-// --- HERO SHOWCASE ENGINE: reference-led, product-specific states ---
-const heroShowcaseData = [
-  {
-    kicker:"BARTSS / BRAND", title:"A brand people can recognise.", cta:"See identity",
-    media:"linear-gradient(145deg,#9db9ca,#586f80)", price:"Brand system",
-    pills:["Positioning","Identity","Motion","Launch"],
-    panelTitle:"One system, many touchpoints", chips:["Logo","Type","Color","Campaign"], caption:"STRATEGY → IDENTITY → LAUNCH"
-  },
-  {
-    kicker:"BARTSS / WEB", title:"A site that explains itself.", cta:"See product",
-    media:"linear-gradient(145deg,#d8e6ee,#89aabb)", price:"Live UX",
-    pills:["UX flow","UI system","Motion","Conversion"],
-    panelTitle:"Less friction. More action.", chips:["Navigation","Content","CTA","Leads"], caption:"UX → INTERFACE → CONVERSION"
-  },
-  {
-    kicker:"AUTOLAB / AI PRODUCTION", title:"From idea to approved visual.", cta:"Run production",
-    media:"linear-gradient(145deg,#cfee35,#48672e)", price:"QC ✓",
-    pills:["Character lock","Style lock","Prompt","QC"],
-    panelTitle:"18 scenes / one visual system", chips:["Story","Shots","Prompts","Approved"], caption:"STORYBOARD → GENERATE → QC"
-  },
-  {
-    kicker:"BARTSS / MOTION", title:"Make the idea move.", cta:"Play system",
-    media:"linear-gradient(145deg,#e57c55,#522f54)", price:"Motion kit",
-    pills:["Film","3D","UI Motion","Social"],
-    panelTitle:"Motion built into the brand", chips:["Story","Timing","3D","Delivery"], caption:"STORY → MOTION → ATTENTION"
-  },
-  {
-    kicker:"AIFINANCE / SIGNALS", title:"Turn context into a next move.", cta:"See signal",
-    media:"linear-gradient(145deg,#a8d9e6,#36586a)", price:"+24.8%",
-    pills:["Cash flow","Signals","Portfolio","Actions"],
-    panelTitle:"High-intent signal detected", chips:["Context","Risk","Signal","Action"], caption:"DATA → CONTEXT → DECISION"
-  }
-];
-
-function createShowcase(card,index){
-  card.querySelector(".hero-showcase")?.remove();
-  const d=heroShowcaseData[index] || heroShowcaseData[0];
-  const el=document.createElement("div");
-  el.className="hero-showcase";
-  el.dataset.state="grid";
-  el.innerHTML=`
-    <div class="hs-stage">
-      <div class="hs-grid">${Array.from({length:8},()=>'<i class="hs-thumb"></i>').join("")}</div>
-      <div class="hs-side-card left"></div><div class="hs-side-card right"></div>
-      <div class="hs-ad" style="--media:${d.media}">
-        <div class="hs-ad-media"></div>
-        <div class="hs-ad-copy"><small>${d.kicker}</small><b>${d.title}</b><em>${d.cta} →</em></div>
-        <span class="hs-price">${d.price}</span>
-      </div>
-      <div class="hs-pills">${d.pills.map(x=>`<span class="hs-pill"><i></i>${x}</span>`).join("")}</div>
-      <div class="hs-panel">
-        <div class="hs-panel-head"><small>HOW IT WORKS</small><i>+</i></div>
-        <h4>${d.panelTitle}</h4>
-        <div class="hs-chip-row">${d.chips.map(x=>`<span>${x}</span>`).join("")}</div>
-        <div class="hs-bars"><i style="--w:88%"></i><i style="--w:70%"></i><i style="--w:94%"></i></div>
-      </div>
-      <div class="hs-caption">${d.caption}</div>
-    </div>`;
-  card.querySelector(".visual").appendChild(el);
-  return el;
-}
-
-let heroShowcaseToken=0, heroShowcaseTimer=null;
-const heroStates=["grid","ad","product","panel","final"];
-const heroDurations=[1450,1550,1700,1650,1900];
-
-function playShowcase(index=activeIndex){
-  clearTimeout(heroShowcaseTimer);
-  const token=++heroShowcaseToken;
-  document.querySelectorAll(".hero-showcase").forEach(x=>x.remove());
-  const card=cards[index];
-  if(!card || !card.classList.contains("active")) return;
-  const el=createShowcase(card,index);
-  let s=0;
-  const next=()=>{
-    if(token!==heroShowcaseToken || !el.isConnected) return;
-    el.dataset.state=heroStates[s];
-    if(s===1) playUiSound("whoosh");
-    if(s===2) playUiSound("glass");
-    if(s===3) playUiSound("pop");
-    s++;
-    if(s<heroStates.length) heroShowcaseTimer=setTimeout(next,heroDurations[s-1]);
-    else heroShowcaseTimer=setTimeout(()=>playShowcase(activeIndex),heroDurations[4]);
-  };
-  next();
-}
-
-// subtle interaction sound; off by default due browser autoplay rules
-let audioCtx=null, soundEnabled=false;
-const soundBtn=document.createElement("button");
-soundBtn.className="sound-control";
-soundBtn.textContent="SOUND OFF";
-document.body.appendChild(soundBtn);
-function ensureAudio(){if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")audioCtx.resume()}
-function tone(freq,dur=.055,gain=.022,type="sine",delay=0){if(!soundEnabled)return;ensureAudio();const o=audioCtx.createOscillator(),g=audioCtx.createGain(),t=audioCtx.currentTime+delay;o.type=type;o.frequency.setValueAtTime(freq,t);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(gain,t+.008);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(audioCtx.destination);o.start(t);o.stop(t+dur+.02)}
-function playUiSound(kind){if(kind==="click"){tone(460,.045,.016,"triangle");tone(720,.04,.009,"sine",.025)}if(kind==="pop"){tone(320,.07,.016,"sine");tone(610,.06,.01,"triangle",.02)}if(kind==="glass"){tone(900,.08,.009,"sine");tone(1320,.10,.006,"sine",.025)}if(kind==="whoosh"){tone(150,.13,.008,"sawtooth");tone(250,.12,.006,"sine",.035)}}
-soundBtn.addEventListener("click",()=>{soundEnabled=!soundEnabled;ensureAudio();soundBtn.classList.toggle("on",soundEnabled);soundBtn.textContent=soundEnabled?"SOUND ON":"SOUND OFF";if(soundEnabled)playUiSound("pop")});
-document.addEventListener("click",e=>{if(soundEnabled&&e.target.closest("button,a,.show-card"))playUiSound("click")},true);
-
-const baseSetActive=setActive;
-setActive=function(index){baseSetActive(index);setTimeout(()=>playShowcase(activeIndex),100)};
-requestAnimationFrame(()=>playShowcase(activeIndex));
-
-
 // Menu navigation: do not let anchor navigation scroll the oversized hero rail horizontally.
 document.querySelectorAll(".menu-tile").forEach(link=>{
   link.addEventListener("click",e=>{
@@ -261,3 +157,91 @@ document.querySelectorAll(".menu-tile").forEach(link=>{
 window.addEventListener("scroll",()=>{
   if(window.scrollX !== 0) window.scrollTo(0,window.scrollY);
 },{passive:true});
+
+
+// --- HERO MORPH ENGINE: the main card physically becomes the smaller product cards ---
+const morphData=[
+ {title:"Brand Identity",eyebrow:"BARTSS / BRAND",icon:"B",desc:"One identity system.",accent:["#bdd8e9","#9bbdd1","#dce879"],items:[["Positioning","Find the sharp point.","01"],["Identity","Build recognition.","02"],["Motion","Make it move.","03"],["Launch","Enter with impact.","04"],["System","Keep it coherent.","05"]]},
+ {title:"Web & Product",eyebrow:"BARTSS / WEB",icon:"▱",desc:"A living digital experience.",accent:["#c7e0ef","#8faebe","#dce879"],items:[["UX Flow","Remove friction.","01"],["UI System","Build clarity.","02"],["Motion","Explain through movement.","03"],["Conversion","Turn intent into action.","04"],["Scale","Keep it consistent.","05"]]},
+ {title:"AutoLAB",eyebrow:"AUTOLAB / AI",icon:"✦",desc:"Idea to approved asset.",accent:["#b6d04f","#819457","#dce879"],items:[["Storyboard","Turn story into scenes.","01"],["Character Lock","Keep people consistent.","02"],["Style Lock","Protect visual language.","03"],["Prompt Engine","Generate with context.","04"],["QC","Approve the right output.","05"]]},
+ {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",icon:"◯",desc:"Ideas in motion.",accent:["#c2dcea","#7d98aa","#e6b4a0"],items:[["Story","Find the beat.","01"],["Motion","Build the rhythm.","02"],["3D","Create the world.","03"],["UI Motion","Make feedback visible.","04"],["Delivery","Adapt every format.","05"]]},
+ {title:"AiFinance",eyebrow:"AIFINANCE / AI",icon:"↗",desc:"Signals into decisions.",accent:["#d9de91","#8a9a62","#b9d7e6"],items:[["Context","See the whole picture.","01"],["Signals","Detect what changed.","02"],["Risk","Understand exposure.","03"],["Action","Choose the next move.","04"],["Tracking","Measure what followed.","05"]]}
+];
+
+let morphTimer=null,morphToken=0;
+function removeMorph(){
+  clearTimeout(morphTimer);
+  document.querySelector(".hero-morph-layer")?.remove();
+  cards.forEach(c=>c.classList.remove("morph-source-hidden"));
+  document.getElementById("featureStack")?.classList.remove("morph-muted");
+}
+function createMorph(index){
+  removeMorph();
+  if(window.innerWidth<=1100) return null;
+  const card=cards[index],wrap=document.querySelector(".rail-wrap");
+  if(!card||!wrap) return null;
+  const cr=card.getBoundingClientRect(),wr=wrap.getBoundingClientRect(),d=morphData[index]||morphData[0];
+  const layer=document.createElement("div");
+  layer.className="hero-morph-layer";
+  layer.dataset.state="full";
+  layer.style.setProperty("--mx",`${cr.left-wr.left+cr.width/2}px`);
+  layer.style.setProperty("--my",`${cr.top-wr.top+cr.height/2}px`);
+  layer.style.setProperty("--mw",`${cr.width}px`);
+  layer.style.setProperty("--mh",`${cr.height}px`);
+  layer.style.setProperty("--accent-a",d.accent[0]);
+  layer.style.setProperty("--accent-b",d.accent[1]);
+  layer.style.setProperty("--accent-c",d.accent[2]);
+  layer.innerHTML=`
+   <div class="hm-card">
+     <div class="hm-top"><i>${String(index+1).padStart(2,"0")}</i><span>BARTSS LAB</span></div>
+     <div class="hm-core">${d.icon}</div>
+     <div class="hm-copy"><small>${d.eyebrow}</small><b>${d.title}</b><em>${d.desc}</em></div>
+   </div>
+   ${d.items.map((it,i)=>`<div class="hm-satellite s${i+1}"><div class="hm-sat-inner"><span>${it[2]}</span><i>↗</i><b>${it[0]}</b><small>${it[1]}</small></div></div>`).join("")}
+   <div class="hm-caption">${d.eyebrow} → ${d.items.map(x=>x[0].toUpperCase()).join(" → ")}</div>`;
+  wrap.appendChild(layer);
+  card.classList.add("morph-source-hidden");
+  document.getElementById("featureStack")?.classList.add("morph-muted");
+  return layer;
+}
+
+const morphStates=["full","shrink","spread","focus","return"];
+const morphDurations=[700,1050,2100,2200,950];
+function playMorph(index=activeIndex){
+  const token=++morphToken;
+  const layer=createMorph(index);
+  if(!layer) return;
+  let s=0;
+  const advance=()=>{
+    if(token!==morphToken||!layer.isConnected)return;
+    layer.dataset.state=morphStates[s];
+    if(s===1)playUiSound("whoosh");
+    if(s===2){playUiSound("pop");setTimeout(()=>playUiSound("glass"),140)}
+    if(s===3)playUiSound("click");
+    s++;
+    if(s<morphStates.length)morphTimer=setTimeout(advance,morphDurations[s-1]);
+    else morphTimer=setTimeout(()=>{
+      if(token!==morphToken)return;
+      removeMorph();
+      morphTimer=setTimeout(()=>playMorph(activeIndex),850);
+    },morphDurations[4]);
+  };
+  advance();
+}
+
+// restrained interaction sound, opt-in
+let audioCtx=null,soundEnabled=false;
+let soundBtn=document.querySelector(".sound-control");
+if(!soundBtn){soundBtn=document.createElement("button");soundBtn.className="sound-control";soundBtn.textContent="SOUND OFF";document.body.appendChild(soundBtn)}
+function ensureAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")audioCtx.resume()}
+function tone(freq,dur=.055,gain=.018,type="sine",delay=0){if(!soundEnabled)return;ensureAudio();const o=audioCtx.createOscillator(),g=audioCtx.createGain(),t=audioCtx.currentTime+delay;o.type=type;o.frequency.setValueAtTime(freq,t);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(gain,t+.008);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(audioCtx.destination);o.start(t);o.stop(t+dur+.02)}
+function playUiSound(k){if(k==="click"){tone(440,.04,.012,"triangle");tone(680,.035,.007,"sine",.02)}if(k==="pop"){tone(300,.065,.014,"sine");tone(590,.055,.008,"triangle",.02)}if(k==="glass"){tone(920,.075,.007,"sine");tone(1380,.09,.004,"sine",.024)}if(k==="whoosh"){tone(145,.12,.006,"sawtooth");tone(240,.11,.004,"sine",.03)}}
+soundBtn.addEventListener("click",()=>{soundEnabled=!soundEnabled;ensureAudio();soundBtn.classList.toggle("on",soundEnabled);soundBtn.textContent=soundEnabled?"SOUND ON":"SOUND OFF";if(soundEnabled)playUiSound("pop")});
+document.addEventListener("click",e=>{if(soundEnabled&&e.target.closest("button,a,.show-card"))playUiSound("click")},true);
+
+const morphBaseSetActive=setActive;
+setActive=function(index){
+  morphToken++;removeMorph();morphBaseSetActive(index);
+  setTimeout(()=>playMorph(activeIndex),220);
+};
+requestAnimationFrame(()=>playMorph(activeIndex));
