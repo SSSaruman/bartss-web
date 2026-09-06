@@ -60,3 +60,40 @@ const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIn
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 window.addEventListener("resize",()=>setActive(activeIndex));
 requestAnimationFrame(()=>setActive(2));
+
+// Immersive sticky parallax + phone scenes
+const immersive = document.getElementById("immersiveWork");
+const mosaic = document.querySelector(".mosaic-back");
+const phoneScenes = [...document.querySelectorAll(".phone-scene")];
+function updateImmersive(){
+  if(!immersive) return;
+  const r = immersive.getBoundingClientRect();
+  const max = immersive.offsetHeight - innerHeight;
+  const passed = Math.max(0, Math.min(max, -r.top));
+  const p = max > 0 ? passed / max : 0;
+  if(mosaic) mosaic.style.transform = `translate3d(0,${(p * -42)}vh,0) scale(${1 + p*.06})`;
+  const scene = Math.min(phoneScenes.length - 1, Math.floor(p * phoneScenes.length));
+  phoneScenes.forEach((el,i)=>el.classList.toggle("active",i===scene));
+}
+window.addEventListener("scroll",updateImmersive,{passive:true});
+updateImmersive();
+
+// Liquid glass hover cursor for projects
+document.querySelectorAll(".project-tile").forEach(tile=>{
+  const bubble = tile.querySelector(".liquid-cursor");
+  let tx=0,ty=0,cx=0,cy=0,raf=0;
+  const loop=()=>{ cx += (tx-cx)*.18; cy += (ty-cy)*.18; bubble.style.left=`${cx}px`; bubble.style.top=`${cy}px`; raf=requestAnimationFrame(loop); };
+  tile.addEventListener("mouseenter",e=>{ const r=tile.getBoundingClientRect(); tx=e.clientX-r.left;ty=e.clientY-r.top;cx=tx;cy=ty; if(!raf) loop(); });
+  tile.addEventListener("mousemove",e=>{ const r=tile.getBoundingClientRect(); tx=e.clientX-r.left;ty=e.clientY-r.top; });
+  tile.addEventListener("mouseleave",()=>{ cancelAnimationFrame(raf); raf=0; });
+});
+
+// Subtle cursor-reactive project object depth
+document.querySelectorAll(".project-tile").forEach(tile=>{
+  const obj=tile.querySelector(".project-object");
+  tile.addEventListener("mousemove",e=>{
+    const r=tile.getBoundingClientRect(), nx=(e.clientX-r.left)/r.width-.5, ny=(e.clientY-r.top)/r.height-.5;
+    if(obj && !obj.classList.contains("project-lock")) obj.style.translate=`${nx*12}px ${ny*10}px`;
+  });
+  tile.addEventListener("mouseleave",()=>{ if(obj) obj.style.translate="0 0"; });
+});
