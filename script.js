@@ -172,6 +172,7 @@ let seqTimer=null,seqToken=0;
 function clearSeq(){
   clearTimeout(seqTimer);
   document.querySelector(".hero-seq")?.remove();
+  document.body.classList.remove("hero-seq-active");
   cards.forEach(c=>c.classList.remove("hero-seq-hidden"));
   document.getElementById("featureStack")?.classList.remove("hero-seq-muted");
 }
@@ -195,10 +196,10 @@ function buildSeq(index){
     <div class="hq-search"><div class="hq-search-title">${d.search}</div><div class="hq-search-row"><i></i><i></i><i></i><i></i><i></i></div><div class="hq-search-assets">${Array.from({length:8},()=>'<i></i>').join("")}</div></div>
     <div class="hq-formats"><div class="hq-format f1"><b>${d.title}</b><small>wide banner</small></div><div class="hq-format f2"><b>${d.title}</b><small>landscape</small></div><div class="hq-format f3"><b>${d.title}</b><small>vertical</small></div><div class="hq-format f4"><b>${d.title}</b><small>square</small></div><div class="hq-format f5"><b>${d.icon}</b><small>tile</small></div></div>
    </div>`;
-  wrap.appendChild(el);card.classList.add("hero-seq-hidden");document.getElementById("featureStack")?.classList.add("hero-seq-muted");return el;
+  wrap.appendChild(el);document.body.classList.add("hero-seq-active");card.classList.add("hero-seq-hidden");document.getElementById("featureStack")?.classList.add("hero-seq-muted");return el;
 }
 const seqStates=["grid","card","targets","metric","expand","strip","search","formats","targets","final"];
-const seqTimes=[1800,1500,1600,1500,1300,1200,1900,1900,1500,2200];
+const seqTimes=[1250,1400,1550,1450,1200,1100,1650,1700,1450,2100];
 function playSeq(index=activeIndex){
  const token=++seqToken,el=buildSeq(index);if(!el)return;let s=0;
  const next=()=>{
