@@ -159,112 +159,59 @@ window.addEventListener("scroll",()=>{
 },{passive:true});
 
 
-// --- HERO ORGANIC MORPH / active card changes with every feature ---
-const morphData=[
- {title:"Brand Identity",eyebrow:"BARTSS / BRAND",icon:"B",desc:"One identity system.",accent:["#bdd8e9","#8ba7b7","#dce879"],items:[["Positioning","Find the sharp point.","01","◎"],["Identity","Build recognition.","02","B"],["Motion","Make it move.","03","▶"],["Launch","Enter with impact.","04","↗"],["System","Keep it coherent.","05","∞"]]},
- {title:"Web & Product",eyebrow:"BARTSS / WEB",icon:"▱",desc:"A living digital experience.",accent:["#c7e0ef","#86a9bb","#dce879"],items:[["UX Flow","Remove friction.","01","↝"],["UI System","Build clarity.","02","▦"],["Motion","Explain through movement.","03","◌"],["Conversion","Turn intent into action.","04","↗"],["Scale","Keep it consistent.","05","∞"]]},
- {title:"AutoLAB",eyebrow:"AUTOLAB / AI",icon:"✦",desc:"Idea to approved asset.",accent:["#b6d04f","#758a4f","#dce879"],items:[["Storyboard","Turn story into scenes.","01","▦"],["Character Lock","Keep people consistent.","02","◉"],["Style Lock","Protect visual language.","03","◇"],["Prompt Engine","Generate with context.","04","✦"],["QC","Approve the right output.","05","✓"]]},
- {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",icon:"◯",desc:"Ideas in motion.",accent:["#c2dcea","#7896a8","#e6b4a0"],items:[["Story","Find the beat.","01","≋"],["Motion","Build the rhythm.","02","▶"],["3D","Create the world.","03","⬡"],["UI Motion","Make feedback visible.","04","◌"],["Delivery","Adapt every format.","05","↗"]]},
- {title:"AiFinance",eyebrow:"AIFINANCE / AI",icon:"↗",desc:"Signals into decisions.",accent:["#d9de91","#80915b","#b9d7e6"],items:[["Context","See the whole picture.","01","◎"],["Signals","Detect what changed.","02","⌁"],["Risk","Understand exposure.","03","△"],["Action","Choose the next move.","04","↗"],["Tracking","Measure what followed.","05","◌"]]}
+// --- HERO REFERENCE SEQUENCE: central anchor, Hightouch-style transformation rhythm ---
+const seqData=[
+ {title:"Brand Identity",eyebrow:"BARTSS / BRAND",icon:"B",desc:"One identity. Many touchpoints.",accent:["#bdd8e9","#8ca7b6","#dce879"],targets:["Positioning","Identity","Motion","Launch"],search:"Searching brand assets…",metric:"92",metricLabel:"Brand consistency",strip:"Channel-ready identity"},
+ {title:"Web & Product",eyebrow:"BARTSS / WEB",icon:"▱",desc:"A digital product that explains itself.",accent:["#c7e0ef","#87a8ba","#dce879"],targets:["Desktop","Mobile","Returning user","High intent"],search:"Searching product patterns…",metric:"38",metricLabel:"UX friction removed",strip:"Conversion-ready product"},
+ {title:"AutoLAB",eyebrow:"AUTOLAB / AI",icon:"✦",desc:"From idea to approved visual.",accent:["#b6d04f","#74894e","#dce879"],targets:["Character Lock","Style Lock","Prompt Engine","QC passed"],search:"Searching visual references…",metric:"94",metricLabel:"QC pass rate",strip:"Production-ready system"},
+ {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",icon:"◯",desc:"One idea. Many motion outputs.",accent:["#c2dcea","#7895a7","#e5b3a0"],targets:["Film","Social","UI motion","3D"],search:"Searching motion assets…",metric:"24",metricLabel:"Format variants",strip:"Motion distribution system"},
+ {title:"AiFinance",eyebrow:"AIFINANCE / SIGNALS",icon:"↗",desc:"Turn context into a next move.",accent:["#d9de91","#7d8f59","#b9d7e6"],targets:["Germany","Berlin","iPhone / Android","3+ visits"],search:"Searching existing signals…",metric:"650",metricLabel:"Qualified signal",strip:"Channel strategy"}
 ];
 
-let morphTimer=null,morphToken=0,morphRaf=0;
-function removeMorph(){
- clearTimeout(morphTimer);cancelAnimationFrame(morphRaf);
- document.querySelector(".hero-morph-layer")?.remove();
- cards.forEach(c=>c.classList.remove("morph-source-hidden"));
- document.getElementById("featureStack")?.classList.remove("morph-muted");
+let seqTimer=null,seqToken=0;
+function clearSeq(){
+  clearTimeout(seqTimer);
+  document.querySelector(".hero-seq")?.remove();
+  cards.forEach(c=>c.classList.remove("hero-seq-hidden"));
+  document.getElementById("featureStack")?.classList.remove("hero-seq-muted");
 }
-function createMorph(index){
- removeMorph(); if(innerWidth<=1100)return null;
- const card=cards[index],wrap=document.querySelector(".rail-wrap"); if(!card||!wrap)return null;
- const cr=card.getBoundingClientRect(),wr=wrap.getBoundingClientRect(),d=morphData[index]||morphData[0];
- const layer=document.createElement("div");layer.className="hero-morph-layer";layer.dataset.state="full";
- [["--mx",cr.left-wr.left+cr.width/2+"px"],["--my",cr.top-wr.top+cr.height/2+"px"],["--mw",cr.width+"px"],["--mh",cr.height+"px"],["--a",d.accent[0]],["--b",d.accent[1]],["--c",d.accent[2]]].forEach(([k,v])=>layer.style.setProperty(k,v));
- layer.innerHTML=`
-  <div class="hm-card">
-   <div class="hm-top"><i>${String(index+1).padStart(2,"0")}</i><span>BARTSS LAB</span></div>
-   <div class="hm-core">${d.icon}</div>
-   <div class="hm-feature-meter"><i></i></div>
-   <div class="hm-copy"><small>${d.eyebrow}</small><b>${d.title}</b><em>${d.desc}</em></div>
-  </div>
-  ${d.items.map((it,i)=>`<div class="hm-satellite s${i+1}" data-i="${i}"><div class="hm-sat-inner"><span>${it[2]}</span><i>↗</i><div class="hm-sat-visual"><i></i></div><b>${it[0]}</b><small>${it[1]}</small></div></div>`).join("")}
-  <div class="hm-caption">${d.eyebrow}</div>`;
- wrap.appendChild(layer);card.classList.add("morph-source-hidden");document.getElementById("featureStack")?.classList.add("morph-muted");
- return {layer,d};
+function buildSeq(index){
+  clearSeq(); if(innerWidth<=1100)return null;
+  const card=cards[index],wrap=document.querySelector(".rail-wrap");if(!card||!wrap)return null;
+  const cr=card.getBoundingClientRect(),wr=wrap.getBoundingClientRect(),d=seqData[index]||seqData[0];
+  const el=document.createElement("div");el.className="hero-seq";el.dataset.state="grid";
+  [["--cx",cr.left-wr.left+cr.width/2+"px"],["--cy",cr.top-wr.top+cr.height/2+"px"],["--cw",cr.width+"px"],["--ch",cr.height+"px"],["--a",d.accent[0]],["--b",d.accent[1]],["--c",d.accent[2]]].forEach(([k,v])=>el.style.setProperty(k,v));
+  el.innerHTML=`
+   <div class="hq-scene">
+    <div class="hq-grid"><div class="hq-grid-label"><b>Building…</b><small>Content strategy<br>Generating assets<br>Testing outputs</small></div>${Array.from({length:9},()=>'<i class="hq-tile"></i>').join("")}</div>
+    <div class="hq-card">
+      <div class="hq-top"><i>${String(index+1).padStart(2,"0")}</i><span>BARTSS LAB</span></div>
+      <div class="hq-object">${d.icon}</div>
+      <div class="hq-copy"><small>${d.eyebrow}</small><b>${d.title}</b><em>${d.desc}</em></div>
+    </div>
+    <div class="hq-targets">${d.targets.map(x=>`<span class="hq-target"><i></i>${x}</span>`).join("")}</div>
+    <div class="hq-metric"><small>${d.metricLabel}</small><div class="hq-chart"></div><b>${d.metric}</b></div>
+    <div class="hq-strip"><div class="hq-strip-inner"><div class="hq-strip-object">${d.icon}</div><b>${d.strip}</b><span>→ LIVE</span></div></div>
+    <div class="hq-search"><div class="hq-search-title">${d.search}</div><div class="hq-search-row"><i></i><i></i><i></i><i></i><i></i></div><div class="hq-search-assets">${Array.from({length:8},()=>'<i></i>').join("")}</div></div>
+    <div class="hq-formats"><div class="hq-format f1"><b>${d.title}</b><small>wide banner</small></div><div class="hq-format f2"><b>${d.title}</b><small>landscape</small></div><div class="hq-format f3"><b>${d.title}</b><small>vertical</small></div><div class="hq-format f4"><b>${d.title}</b><small>square</small></div><div class="hq-format f5"><b>${d.icon}</b><small>tile</small></div></div>
+   </div>`;
+  wrap.appendChild(el);card.classList.add("hero-seq-hidden");document.getElementById("featureStack")?.classList.add("hero-seq-muted");return el;
 }
-function springSpread(layer){
- const sats=[...layer.querySelectorAll(".hm-satellite")];
- const targets=[
-  [-168,-76,-4,.90],[-142,108,3,.82],[170,-82,4,.90],[146,108,-3,.82],[4,-154,1,.78]
- ];
- sats.forEach((el,i)=>{
-   const [x,y,r,s]=targets[i];
-   el.animate([
-    {transform:"translate(-50%,-50%) scale(.16)",opacity:0},
-    {transform:`translate(calc(-50% + ${x*1.08}px),calc(-50% + ${y*1.08}px)) scale(${s*1.04}) rotate(${r*1.12}deg)`,opacity:1,offset:.72},
-    {transform:`translate(calc(-50% + ${x}px),calc(-50% + ${y}px)) scale(${s}) rotate(${r}deg)`,opacity:1}
-   ],{duration:980+70*i,easing:"cubic-bezier(.16,1,.3,1)",fill:"forwards"});
-   el.dataset.baseX=x;el.dataset.baseY=y;el.dataset.baseR=r;el.dataset.baseS=s;
- });
-}
-function startOrganicDrift(layer){
- const sats=[...layer.querySelectorAll(".hm-satellite")]; const start=performance.now();
- const tick=now=>{
-   if(!layer.isConnected)return;
-   const t=(now-start)/1000;
-   sats.forEach((el,i)=>{
-     if(layer.dataset.state!=="spread" && layer.dataset.state!=="feature")return;
-     if(el.classList.contains("is-active"))return;
-     const x=Number(el.dataset.baseX||0),y=Number(el.dataset.baseY||0),r=Number(el.dataset.baseR||0),s=Number(el.dataset.baseS||1);
-     const dx=Math.sin(t*.78+i*1.7)*3.2,dy=Math.cos(t*.92+i*1.13)*4.2,dr=Math.sin(t*.55+i)*.65;
-     el.style.transform=`translate(calc(-50% + ${x+dx}px),calc(-50% + ${y+dy}px)) scale(${s}) rotate(${r+dr}deg)`;
-   });
-   morphRaf=requestAnimationFrame(tick);
+const seqStates=["grid","card","targets","metric","expand","strip","search","formats","targets","final"];
+const seqTimes=[1800,1500,1600,1500,1300,1200,1900,1900,1500,2200];
+function playSeq(index=activeIndex){
+ const token=++seqToken,el=buildSeq(index);if(!el)return;let s=0;
+ const next=()=>{
+  if(token!==seqToken||!el.isConnected)return;
+  el.dataset.state=seqStates[s];
+  if(s===1||s===4||s===5)playUiSound("whoosh");
+  if(s===2||s===7)playUiSound("pop");
+  if(s===3||s===8)playUiSound("glass");
+  s++;
+  if(s<seqStates.length)seqTimer=setTimeout(next,seqTimes[s-1]);
+  else seqTimer=setTimeout(()=>{if(token!==seqToken)return;clearSeq();seqTimer=setTimeout(()=>playSeq(activeIndex),650)},seqTimes[9]);
  };
- morphRaf=requestAnimationFrame(tick);
-}
-function setFeature(ctx,fi){
- const {layer,d}=ctx, item=d.items[fi],card=layer.querySelector(".hm-card"),core=layer.querySelector(".hm-core"),copy=layer.querySelector(".hm-copy"),meter=layer.querySelector(".hm-feature-meter i"),caption=layer.querySelector(".hm-caption");
- const sats=[...layer.querySelectorAll(".hm-satellite")];
- sats.forEach((s,i)=>s.classList.toggle("is-active",i===fi));
- const active=sats[fi];
- // Keep the hero-card's center fixed. The selected feature orbits the same anchor.
- const orbit=[
-   [162,-64,-2],[146,92,2],[-162,-66,2],[-146,92,-2],[0,-150,0]
- ][fi];
- active.style.transform=`translate(calc(-50% + ${orbit[0]}px),calc(-50% + ${orbit[1]}px)) scale(.94) rotate(${orbit[2]}deg)`;
- const satStyle=getComputedStyle(active);
- const featureA=satStyle.getPropertyValue("--sa").trim()||d.accent[0];
- const featureB=satStyle.getPropertyValue("--sb").trim()||d.accent[1];
- card.style.setProperty("--a",featureA);
- card.style.setProperty("--b",featureB);
- core.textContent=item[3]; core.animate([{transform:"translate(-50%,-50%) rotate(4deg) scale(.72)",opacity:.2},{transform:"translate(-50%,-50%) rotate(4deg) scale(1.08)",opacity:1,offset:.65},{transform:"translate(-50%,-50%) rotate(4deg) scale(1)",opacity:1}],{duration:520,easing:"cubic-bezier(.16,1,.3,1)"});
- copy.animate([{opacity:.12,transform:"translateY(9px)"},{opacity:1,transform:"translateY(0)"}],{duration:430,easing:"ease-out"});
- copy.querySelector("small").textContent=`${d.eyebrow} / ${item[2]}`;
- copy.querySelector("b").textContent=item[0];
- copy.querySelector("em").textContent=item[1];
- meter.style.width=`${(fi+1)*20}%`;
- caption.textContent=`${d.title.toUpperCase()} → ${item[0].toUpperCase()}`;
- active.animate([{filter:"brightness(1.2)",boxShadow:"0 0 0 rgba(0,0,0,0)"},{filter:"brightness(1)",boxShadow:"0 30px 60px rgba(20,28,32,.22)"}],{duration:600,easing:"ease-out"});
-}
-function playMorph(index=activeIndex){
- const token=++morphToken,ctx=createMorph(index);if(!ctx)return;const {layer,d}=ctx;
- layer.dataset.state="full";
- morphTimer=setTimeout(()=>{if(token!==morphToken)return;layer.dataset.state="shrink";playUiSound("whoosh");
-  morphTimer=setTimeout(()=>{if(token!==morphToken)return;layer.dataset.state="spread";springSpread(layer);startOrganicDrift(layer);playUiSound("pop");
-    morphTimer=setTimeout(()=>featureLoop(0),1250);
-  },900);
- },650);
- function featureLoop(fi){
-   if(token!==morphToken||!layer.isConnected)return;
-   if(fi>=d.items.length){
-     layer.dataset.state="return";playUiSound("whoosh");
-     morphTimer=setTimeout(()=>{if(token!==morphToken)return;removeMorph();morphTimer=setTimeout(()=>playMorph(activeIndex),700)},1000);return;
-   }
-   layer.dataset.state="feature";setFeature(ctx,fi);playUiSound(fi===d.items.length-1?"glass":"click");
-   morphTimer=setTimeout(()=>featureLoop(fi+1),1450);
- }
+ next();
 }
 
 // opt-in micro sound
@@ -276,6 +223,6 @@ function playUiSound(k){if(k==="click"){tone(420,.04,.01,"triangle");tone(680,.0
 soundBtn.addEventListener("click",()=>{soundEnabled=!soundEnabled;ensureAudio();soundBtn.classList.toggle("on",soundEnabled);soundBtn.textContent=soundEnabled?"SOUND ON":"SOUND OFF";if(soundEnabled)playUiSound("pop")});
 document.addEventListener("click",e=>{if(soundEnabled&&e.target.closest("button,a,.show-card"))playUiSound("click")},true);
 
-const organicBaseSetActive=setActive;
-setActive=function(index){morphToken++;removeMorph();organicBaseSetActive(index);setTimeout(()=>playMorph(activeIndex),180)};
-requestAnimationFrame(()=>playMorph(activeIndex));
+const seqBaseSetActive=setActive;
+setActive=function(index){seqToken++;clearSeq();seqBaseSetActive(index);setTimeout(()=>playSeq(activeIndex),180)};
+requestAnimationFrame(()=>playSeq(activeIndex));
