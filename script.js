@@ -180,8 +180,14 @@ function buildSeq(index){
   clearSeq(); if(innerWidth<=1100)return null;
   const card=cards[index],wrap=document.querySelector(".rail-wrap");if(!card||!wrap)return null;
   const cr=card.getBoundingClientRect(),wr=wrap.getBoundingClientRect(),d=seqData[index]||seqData[0];
+  const intro=document.querySelector(".hero-intro");
+  const ir=intro?intro.getBoundingClientRect():null;
+  // The showcase belongs to the RIGHT hero column, not to the selected rail-card.
+  // Keep a fixed presentation anchor in the visual center of that column.
+  const anchorX=ir ? (ir.left-wr.left + ir.width/2) : (wr.width*.76);
+  const anchorY=Math.min(250,Math.max(210,wr.height*.39));
   const el=document.createElement("div");el.className="hero-seq";el.dataset.state="grid";
-  [["--cx",cr.left-wr.left+cr.width/2+"px"],["--cy",cr.top-wr.top+cr.height/2+"px"],["--cw",cr.width+"px"],["--ch",cr.height+"px"],["--a",d.accent[0]],["--b",d.accent[1]],["--c",d.accent[2]]].forEach(([k,v])=>el.style.setProperty(k,v));
+  [["--cx",anchorX+"px"],["--cy",anchorY+"px"],["--cw",Math.min(360,cr.width)+"px"],["--ch",Math.min(360,cr.height)+"px"],["--a",d.accent[0]],["--b",d.accent[1]],["--c",d.accent[2]]].forEach(([k,v])=>el.style.setProperty(k,v));
   el.innerHTML=`
    <div class="hq-scene">
     <div class="hq-grid"><div class="hq-grid-label"><b>Building…</b><small>Content strategy<br>Generating assets<br>Testing outputs</small></div>${Array.from({length:9},()=>'<i class="hq-tile"></i>').join("")}</div>
