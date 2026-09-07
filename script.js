@@ -120,3 +120,33 @@ function updateTabletExperience(){
 tabletTabs.forEach((btn,i)=>btn.addEventListener("click",()=>setTabletScene(i)));
 window.addEventListener("scroll",updateTabletExperience,{passive:true});
 updateTabletExperience();
+
+
+// Project brief qualifier
+const briefPanel = document.getElementById("briefPanel");
+const briefOpen = document.getElementById("briefOpen");
+const briefClose = document.getElementById("briefClose");
+const briefBackdrop = document.getElementById("briefBackdrop");
+const briefForm = document.getElementById("briefForm");
+function openBrief(){
+  if(!briefPanel) return;
+  briefPanel.classList.add("open");
+  briefPanel.setAttribute("aria-hidden","false");
+  document.body.classList.add("brief-open");
+}
+function closeBrief(){
+  if(!briefPanel) return;
+  briefPanel.classList.remove("open");
+  briefPanel.setAttribute("aria-hidden","true");
+  document.body.classList.remove("brief-open");
+}
+briefOpen?.addEventListener("click",openBrief);
+briefClose?.addEventListener("click",closeBrief);
+briefBackdrop?.addEventListener("click",closeBrief);
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && briefPanel?.classList.contains("open")) closeBrief(); });
+briefForm?.addEventListener("submit",e=>{
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(briefForm).entries());
+  sessionStorage.setItem("bartssProjectBrief",JSON.stringify(data));
+  window.location.href="./offers.html";
+});
