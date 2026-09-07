@@ -44,6 +44,15 @@
     document.querySelectorAll("[data-scope]").forEach(card => {
       card.classList.toggle("selected", card.dataset.scope === brief.engagement);
     });
+    const initialSubject = encodeURIComponent("BARTSS Project Scope — " + (brief.engagement || "Project"));
+    const initialBody = encodeURIComponent(
+      "Company: " + (brief.company || "") + "\n" +
+      "Role: " + (brief.role || "") + "\n" +
+      "Engagement: " + (brief.engagement || "") + "\n" +
+      "Investment: " + (brief.budget || "") + "\n\n" +
+      "What needs to change:\n" + (brief.problem || "")
+    );
+    document.getElementById("scopeContinue").href = "mailto:hello@bartss.com?subject=" + initialSubject + "&body=" + initialBody;
   }
   document.querySelectorAll("[data-scope] button").forEach(btn => {
     btn.addEventListener("click", () => {
