@@ -269,10 +269,11 @@ function heroV2Reset(){
   const stage=document.querySelector(".hero-v2-stage");
   if(stage)stage.remove();
   liveCards().forEach(c=>{
-    c.classList.remove("hero-v2-source","hero-v2-neighbor-left","hero-v2-neighbor-right");
+    c.classList.remove("hero-v2-source","hero-v2-neighbor-left","hero-v2-neighbor-right","hero-v2-space");
     c.style.removeProperty("opacity");
     c.style.removeProperty("visibility");
     c.style.removeProperty("pointer-events");
+    c.style.removeProperty("--hero-space");
   });
   heroRailWrap?.classList.remove("hero-v2-playing");
   const center=liveCards()[CENTER_POS];
@@ -320,8 +321,19 @@ function heroV2Build(index){
   source.style.setProperty("opacity","0","important");
   source.style.setProperty("visibility","hidden","important");
   source.style.setProperty("pointer-events","none","important");
-  if(arr[i-1])arr[i-1].classList.add("hero-v2-neighbor-left");
-  if(arr[i+1])arr[i+1].classList.add("hero-v2-neighbor-right");
+
+  // Real in-flow spacing: add equal left/right margins to the hidden source.
+  // Counter-shift the rail by the left margin so the story stays centered;
+  // this physically pushes the left neighbor left and the right neighbor right.
+  const storySpace=178;
+  source.classList.add("hero-v2-space");
+  source.style.setProperty("--hero-space",storySpace+"px");
+  const beforeSpaceX=railX;
+  requestAnimationFrame(()=>{
+    rail.style.transition="transform .84s cubic-bezier(.16,1,.3,1)";
+    railX=beforeSpaceX-storySpace;
+    rail.style.transform="translate3d("+railX+"px,0,0)";
+  });
 
   heroRailWrap.classList.add("hero-v2-playing");
   heroRailWrap.appendChild(stage);
@@ -386,13 +398,22 @@ async function heroV2Play(index){
   if(!await hvWait(1100,token))return;
 
   // Exact source handoff: restore source, then fade overlay.
-  source.style.setProperty("opacity","1","important");
-  source.style.setProperty("visibility","visible","important");
-  source.style.setProperty("pointer-events","auto","important");
-  source.classList.remove("hero-v2-source");
-  liveCards().forEach(c=>c.classList.remove("hero-v2-neighbor-left","hero-v2-neighbor-right"));
-  stage.classList.add("final-handoff");
-  heroRailWrap.classList.remove("hero-v2-playing");
+  const storySpace=parseFloat(source.style.getPropertyValue("--hero-space"))||178;
+  source.style.setProperty("--hero-space","0px");
+  rail.style.transition="transform .78s cubic-bezier(.16,1,.3,1)";
+  railX=railX+storySpace;
+  rail.style.transform="translate3d("+railX+"px,0,0)";
+
+  setTimeout(()=>{
+    if(token!==heroV2Token)return;
+    source.style.setProperty("opacity","1","important");
+    source.style.setProperty("visibility","visible","important");
+    source.style.setProperty("pointer-events","auto","important");
+    source.classList.remove("hero-v2-source","hero-v2-space");
+    source.style.removeProperty("--hero-space");
+    stage.classList.add("final-handoff");
+    heroRailWrap.classList.remove("hero-v2-playing");
+  },520);
 
   setTimeout(()=>{
     if(token!==heroV2Token)return;
@@ -400,5 +421,5 @@ async function heroV2Play(index){
     heroBusy=false;
     markIdleActive(source);
     scheduleIdleLoop(2400);
-  },520);
+  },980);
 }
