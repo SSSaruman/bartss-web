@@ -14,134 +14,132 @@ document.addEventListener("pointerdown", e => { if(!document.body.classList.cont
 let activeIndex = 2;
 const baseCards = cards.map(c=>c.cloneNode(true));
 const baseCount = baseCards.length;
-// Click-only hero: one physical set only. No clones, no canonical-set rebasing.
-const SETS = 1;
-const CENTER_SET = 0;
-rail.replaceChildren();
+const heroRailWrap = document.querySelector(".rail-wrap");
+const CENTER_POS = 2;
+let railX = 0;
+let heroShiftToken = 0;
+let heroIdleTimer = null;
+let heroIntroDone = false;
+let heroBusy = false;
 
+rail.replaceChildren();
 baseCards.forEach((tpl,i)=>{
   const card=tpl.cloneNode(true);
+  card.removeAttribute("id");
   card.dataset.logical=String(i);
-  card.dataset.set="0";
   rail.appendChild(card);
 });
-const loopCards=[...rail.querySelectorAll(".show-card")];
-let railX=0,setWidth=0,railDragging=false,dragStartX=0,dragStartRailX=0,lastDragX=0,lastDragT=0,railVelocity=0,railInertia=0,dragMoved=false,wheelLock=false;
-const heroRailWrap=document.querySelector(".rail-wrap");
 
-function getRailX(){
-  const m=getComputedStyle(rail).transform;
-  return m==="none"?0:new DOMMatrixReadOnly(m).m41;
-}
-function cardAt(setIndex,logical){ return loopCards[setIndex*baseCount+logical]; }
+function liveCards(){ return [...rail.querySelectorAll(".show-card")]; }
 function centerXForCard(card){
   const wrap=heroRailWrap.getBoundingClientRect();
   return window.innerWidth/2-wrap.left-(card.offsetLeft+card.offsetWidth/2);
 }
-function refreshSetWidth(){ setWidth=0; }
-function applyIdleFocus(card){
-  loopCards.forEach(c=>c.classList.remove("hero-v2-idle-left","hero-v2-idle-right"));
-  if(!card || heroRailWrap?.classList.contains("hero-v2-playing")) return;
-  const i=loopCards.indexOf(card);
-  if(i>0) loopCards[i-1]?.classList.add("hero-v2-idle-left");
-  if(i<loopCards.length-1) loopCards[i+1]?.classList.add("hero-v2-idle-right");
+function setRailX(x,animate=true){
+  rail.style.transition = animate ? "transform .82s cubic-bezier(.16,1,.3,1)" : "none";
+  railX=x;
+  rail.style.transform="translate3d("+railX+"px,0,0)";
 }
-function markActive(card){
-  loopCards.forEach(c=>c.classList.remove("active"));
-  if(card) card.classList.add("active");
-  applyIdleFocus(card);
+function markIdleActive(card){
+  liveCards().forEach(c=>c.classList.remove("active","hero-idle-left","hero-idle-right"));
+  if(!card)return;
+  card.classList.add("active");
+  const arr=liveCards(),i=arr.indexOf(card);
+  if(arr[i-1])arr[i-1].classList.add("hero-idle-left");
+  if(arr[i+1])arr[i+1].classList.add("hero-idle-right");
+  activeIndex=Number(card.dataset.logical);
 }
-function normalizeNearCenter(x){
-  if(!setWidth)refreshSetWidth();
-  const anchor=centerXForCard(cardAt(CENTER_SET,activeIndex));
-  const min=anchor-setWidth*.55,max=anchor+setWidth*.55;
-  while(x<min)x+=setWidth;
-  while(x>max)x-=setWidth;
-  return x;
+function canonicalCenter(){
+  const arr=liveCards();
+  const card=arr[CENTER_POS];
+  if(!card)return;
+  setRailX(centerXForCard(card),false);
+  markIdleActive(card);
 }
-function canonicalize(logical,animate=false){
-  activeIndex=((logical%baseCount)+baseCount)%baseCount;
-  const target=cardAt(CENTER_SET,activeIndex); if(!target)return;
-  const tx=centerXForCard(target); markActive(target);
-  if(animate){
-    rail.style.transition="transform .78s cubic-bezier(.18,.82,.18,1)";
-    railX=tx; rail.style.transform="translate3d("+railX+"px,0,0)";
-  }else{
-    rail.style.transition="none";
-    railX=tx; rail.style.transform="translate3d("+railX+"px,0,0)";
-    rail.offsetHeight; rail.style.transition="";
+function rotateToCenter(card){
+  const arr=liveCards();
+  let idx=arr.indexOf(card);
+  if(idx<0)return;
+  while(idx>CENTER_POS){
+    rail.insertBefore(rail.lastElementChild,rail.firstElementChild);
+    idx--;
+  }
+  while(idx<CENTER_POS){
+    rail.appendChild(rail.firstElementChild);
+    idx++;
   }
 }
-function setActive(index,immediate=false){
-  activeIndex=((index%baseCount)+baseCount)%baseCount;
-  requestAnimationFrame(()=>canonicalize(activeIndex,!immediate));
+function normalizeAfterShift(card){
+  rail.style.transition="none";
+  rotateToCenter(card);
+  const centered=liveCards()[CENTER_POS];
+  setRailX(centerXForCard(centered),false);
+  rail.offsetHeight;
+  rail.style.transition="";
+  markIdleActive(centered);
 }
-function nearestCard(){
-  let best=null,dist=Infinity;
-  loopCards.forEach(card=>{
-    const r=card.getBoundingClientRect(),d=Math.abs((r.left+r.width/2)-window.innerWidth/2);
-    if(d<dist){dist=d;best=card;}
-  });
-  return best;
+function stopIdleLoop(){
+  clearTimeout(heroIdleTimer);
+  heroIdleTimer=null;
 }
-function snapNearest(){
-  const target=nearestCard(); if(!target)return;
-  const logical=Number(target.dataset.logical);
-  markActive(target);
-  rail.style.transition="transform .76s cubic-bezier(.18,.82,.18,1)";
-  railX=centerXForCard(target);
-  rail.style.transform="translate3d("+railX+"px,0,0)";
-  setTimeout(()=>{
-    activeIndex=logical; canonicalize(activeIndex,false);
-    // Drag only navigates. Motion starts only when the user clicks a card.
-  },790);
+function scheduleIdleLoop(delay=3400){
+  stopIdleLoop();
+  if(heroBusy)return;
+  heroIdleTimer=setTimeout(()=>{
+    if(heroBusy)return;
+    const arr=liveCards();
+    const next=arr[CENTER_POS+1] || arr[0];
+    focusCard(next,{play:false,fromIdle:true});
+  },delay);
 }
-function stopInertia(){if(railInertia)cancelAnimationFrame(railInertia);railInertia=0;}
+function focusCard(card,{play=true,fromIdle=false}={}){
+  if(!card || innerWidth<=1100)return;
+  stopIdleLoop();
+  const token=++heroShiftToken;
 
-let heroSelectionToken=0;
-function focusPhysicalCard(card,{play=true}={}){
-  if(!card)return;
-  const token=++heroSelectionToken;
-  const next=Number(card.dataset.logical);
+  // Interrupt any existing product story first.
+  if(typeof heroV2Reset==="function") heroV2Reset();
 
-  heroV2Reset();
-  activeIndex=next;
-  const target=cardAt(CENTER_SET,next);
-  const targetX=centerXForCard(target);
-
-  markActive(target);
-  rail.style.transition="transform .82s cubic-bezier(.16,1,.3,1)";
-  railX=targetX;
-  rail.style.transform="translate3d("+railX+"px,0,0)";
+  // The exact clicked physical card moves directly to center.
+  const targetX=centerXForCard(card);
+  liveCards().forEach(c=>c.classList.remove("active","hero-idle-left","hero-idle-right"));
+  card.classList.add("active");
+  setRailX(targetX,true);
 
   setTimeout(()=>{
-    if(token!==heroSelectionToken)return;
-    applyIdleFocus(target);
-    if(play) heroV2Play(next);
+    if(token!==heroShiftToken)return;
+    normalizeAfterShift(card);
+    const centered=liveCards()[CENTER_POS];
+    if(play){
+      setTimeout(()=>{
+        if(token===heroShiftToken) heroV2Play(Number(centered.dataset.logical));
+      },110);
+    }else{
+      scheduleIdleLoop(fromIdle?3000:3400);
+    }
   },860);
 }
 
-loopCards.forEach(card=>card.addEventListener("click",()=>focusPhysicalCard(card,{play:true})));
+rail.addEventListener("click",e=>{
+  const card=e.target.closest(".show-card");
+  if(!card)return;
+  e.preventDefault();
+  focusCard(card,{play:true});
+});
 
-// Hero selection is click-only. Drag and wheel navigation are intentionally disabled
-// so the rail stays spatially stable and the selected card can always center cleanly.
-if(heroRailWrap){
-  heroRailWrap.addEventListener("pointerdown",e=>{
-    if(innerWidth<=1100||e.button!==0)return;
-    railDragging=false;
-  });
-}
-window.addEventListener("resize",()=>{refreshSetWidth();canonicalize(activeIndex,false);});
+window.addEventListener("resize",()=>{
+  if(innerWidth<=1100)return;
+  canonicalCenter();
+});
+
 requestAnimationFrame(()=>{
-  refreshSetWidth();
-  canonicalize(activeIndex,false);
-  loopCards.forEach((c,i)=>{
-    const centerIndex=activeIndex;
-    const distance=Math.min(5,Math.abs(i-centerIndex));
-    c.style.setProperty("--hv2-intro-delay",(distance*55)+"ms");
-  });
-  heroRailWrap?.classList.add("hero-v2-intro");
-  requestAnimationFrame(()=>requestAnimationFrame(()=>heroRailWrap?.classList.add("hero-v2-intro-done")));
+  canonicalCenter();
+  heroRailWrap?.classList.add("hero-intro");
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    heroRailWrap?.classList.add("hero-intro-done");
+    heroIntroDone=true;
+    scheduleIdleLoop(3600);
+  }));
 });
 let featureOffset=0;
 setInterval(()=>{ featureOffset=(featureOffset+1)%featureButtons.length; featureButtons.forEach((btn,i)=>{ const order=(i-featureOffset+featureButtons.length)%featureButtons.length; const tops=[0,28,60,95,133,175], widths=[180,215,250,286,322,360], op=[.46,.55,.62,.70,.78,.88]; btn.style.top=`${tops[order]}px`; btn.style.width=`${widths[order]}px`; btn.style.opacity=op[order]; }); },1600);
@@ -242,7 +240,7 @@ window.addEventListener("scroll",updateTabletExperience,{passive:true});
 updateTabletExperience();
 
 
-// HERO V2 — exact 7-step timeline adapted from the supplied Hightouch reference.
+// HERO V2 — deterministic Hightouch-style product story.
 const heroV2Data=[
  {title:"Brand Identity",eyebrow:"BARTSS / BRAND",art:"https://images.unsplash.com/photo-1600508774634-4e11d34730e2?auto=format&fit=crop&w=1200&q=84",build:[["Logo design","Ownable mark"],["Brand identity","One visual language"],["Typography & color","Recognisable system"],["Print assets","Ready for real-world use"]],resultTitle:"Identity system ready",resultSub:"Logo, type, color and print working as one.",value:"Brand recognition",metric:"+38%"},
  {title:"Web & Product",eyebrow:"BARTSS / WEB",art:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=84",build:[["UX architecture","Clear user path"],["Responsive UI","Every screen covered"],["Design system","Faster iteration"],["Conversion flow","More completed actions"]],resultTitle:"Product flow ready",resultSub:"Clearer UX, reusable UI and stronger conversion.",value:"Task completion",metric:"+31%"},
@@ -252,56 +250,53 @@ const heroV2Data=[
  {title:"Proposal System",eyebrow:"BARTSS / SALES",art:"https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=84",build:[["Scope builder","Clear choices"],["Interactive pricing","Less back-and-forth"],["Approval flow","Shorter sign-off"],["Client tracking","Visible buying intent"]],resultTitle:"Sales flow ready",resultSub:"Interest moves faster toward approval.",value:"Approval speed",metric:"+46%"}
 ];
 
-loopCards.forEach(card=>{
-  const logical=Number(card.dataset.logical);
+liveCards().forEach(card=>{
+  const i=Number(card.dataset.logical);
   const img=card.querySelector(".hero-card-art");
-  if(img){img.src=heroV2Data[logical].art;img.loading="eager";img.decoding="async";}
+  if(img){img.src=heroV2Data[i].art;img.loading="eager";img.decoding="async";}
 });
 
-let heroV2Token=0,heroV2Timer=null,heroV2Running=false,heroV2AutoTimer=null;
+let heroV2Token=0;
+let heroV2Timer=null;
 
 function hvWait(ms,token){
   return new Promise(resolve=>heroV2Timer=setTimeout(()=>resolve(token===heroV2Token),ms));
 }
-function heroV2RestoreSources(){
-  loopCards.forEach(c=>{
-    c.classList.remove("hero-v2-source","hero-v2-slot","hero-v2-neighbor-left","hero-v2-neighbor-right");
-    c.style.removeProperty("--hv2-slot-extra");
-    if(c.dataset.hv2Hidden==="1"){
-      c.style.removeProperty("opacity");
-      c.style.removeProperty("visibility");
-      c.style.removeProperty("pointer-events");
-      c.style.removeProperty("transform");
-      c.dataset.hv2Hidden="0";
-    }
-  });
-}
 function heroV2Reset(){
   heroV2Token++;
-  clearTimeout(heroV2Timer);clearTimeout(heroV2AutoTimer);
-  heroV2Running=false;
-  heroV2RestoreSources();
+  clearTimeout(heroV2Timer);
+  heroBusy=false;
+  const stage=document.querySelector(".hero-v2-stage");
+  if(stage)stage.remove();
+  liveCards().forEach(c=>{
+    c.classList.remove("hero-v2-source","hero-v2-neighbor-left","hero-v2-neighbor-right");
+    c.style.removeProperty("opacity");
+    c.style.removeProperty("visibility");
+    c.style.removeProperty("pointer-events");
+  });
   heroRailWrap?.classList.remove("hero-v2-playing");
-  document.querySelector(".hero-v2-stage")?.remove();
-  applyIdleFocus(cardAt(CENTER_SET,activeIndex));
+  const center=liveCards()[CENTER_POS];
+  if(center)markIdleActive(center);
 }
+
 function heroV2Build(index){
-  heroV2Reset();
   if(innerWidth<=1100)return null;
   const d=heroV2Data[index];
-  const active=cardAt(CENTER_SET,index);
-  if(!d||!active)return null;
-  const wrap=heroRailWrap.getBoundingClientRect(),cr=active.getBoundingClientRect();
+  const source=liveCards()[CENTER_POS];
+  if(!d||!source||Number(source.dataset.logical)!==index)return null;
+
+  const wrap=heroRailWrap.getBoundingClientRect();
+  const cr=source.getBoundingClientRect();
   const stage=document.createElement("div");
   stage.className="hero-v2-stage";
   stage.dataset.phase="card";
   stage.style.setProperty("--hy",(cr.top-wrap.top+cr.height/2)+"px");
 
-  const thumbs=d.build.map((x,n)=>
-    '<i style="--n:'+n+'"><img src="'+d.art+'" alt=""><b>'+x[0]+'</b><em>'+x[1]+'</em></i>'
-  ).join("");
   const checklist=d.build.map((x,n)=>
     '<span style="--n:'+n+'"><i></i><b>'+x[0]+'</b><em>'+x[1]+'</em></span>'
+  ).join("");
+  const thumbs=d.build.map((x,n)=>
+    '<i style="--n:'+n+'"><img src="'+d.art+'" alt=""><b>'+x[0]+'</b><em>'+x[1]+'</em></i>'
   ).join("");
 
   stage.innerHTML=
@@ -320,73 +315,49 @@ function heroV2Build(index){
       '<div class="hv2-impact"><small>'+d.value+'</small><svg class="hv2-impact-chart" viewBox="0 0 100 40" aria-hidden="true"><path class="hv2-impact-grid" d="M0 34H100 M0 20H100 M0 6H100"/><path class="hv2-impact-line" d="M2 32 C15 28 20 25 29 27 S44 19 53 20 S69 10 77 13 S91 6 98 3"/></svg><b>'+d.metric+'</b></div>'+
     '</div>';
 
-  const visibleActive=active;
-  loopCards.forEach(c=>{
-    if(Number(c.dataset.logical)===index || c===visibleActive){
-      c.classList.add("hero-v2-source");
-      c.dataset.hv2Hidden="1";
-      c.style.setProperty("opacity","0","important");
-      c.style.setProperty("visibility","hidden","important");
-      c.style.setProperty("pointer-events","none","important");
-      c.style.setProperty("transform","scale(.92)","important");
-    }
-  });
+  const arr=liveCards(),i=arr.indexOf(source);
+  source.classList.add("hero-v2-source");
+  source.style.setProperty("opacity","0","important");
+  source.style.setProperty("visibility","hidden","important");
+  source.style.setProperty("pointer-events","none","important");
+  if(arr[i-1])arr[i-1].classList.add("hero-v2-neighbor-left");
+  if(arr[i+1])arr[i+1].classList.add("hero-v2-neighbor-right");
 
-  // Expand the actual visible slot in-flow so neighboring cards are physically pushed away.
-  loopCards.forEach(c=>c.classList.remove("hero-v2-idle-left","hero-v2-idle-right"));
   heroRailWrap.classList.add("hero-v2-playing");
-
-  // Keep the rail itself completely fixed during motion.
-  // Only nearby cards move outward so selecting another card never causes
-  // the whole carousel to slide or re-canonicalize mid-animation.
-  const visibleIndex=loopCards.indexOf(visibleActive);
-  loopCards.forEach((c,i)=>{
-    c.classList.remove("hero-v2-neighbor-left","hero-v2-neighbor-right");
-    if(i===visibleIndex-1) c.classList.add("hero-v2-neighbor-left");
-    if(i===visibleIndex+1) c.classList.add("hero-v2-neighbor-right");
-  });
-
   heroRailWrap.appendChild(stage);
-  return stage;
+  return {stage,source,d};
 }
 
-async function heroV2Play(index=activeIndex){
-  if(innerWidth<=1100||railDragging||heroV2Running)return;
-  const d=heroV2Data[index];
-  const stage=heroV2Build(index);
-  if(!stage)return;
-  heroV2Running=true;
+async function heroV2Play(index){
+  stopIdleLoop();
+  heroV2Reset();
+  heroBusy=true;
+  const built=heroV2Build(index);
+  if(!built){heroBusy=false;return;}
+  const {stage,source,d}=built;
   const token=++heroV2Token;
 
-  // 1. Full hero card — visible briefly exactly where the slider card was.
   stage.dataset.phase="card";
-  if(!await hvWait(900,token))return;
+  if(!await hvWait(720,token))return;
 
-  // 2. Card compresses into the Building bubble.
   stage.dataset.phase="building";
   if(!await hvWait(820,token))return;
 
-  // 3. Building stays on the left; checklist + Pinterest-style asset grid builds beside it.
   stage.dataset.phase="build";
-  if(!await hvWait(3400,token))return;
+  if(!await hvWait(3000,token))return;
 
-  // 4. Entire build UI shrinks/fades away as one system.
   stage.dataset.phase="collapse";
   if(!await hvWait(760,token))return;
 
-  // 5. Selected/generated asset emerges small from the center.
   stage.dataset.phase="resultSeed";
-  if(!await hvWait(650,token))return;
+  if(!await hvWait(620,token))return;
 
-  // 6. Result card grows smoothly toward full card size.
   stage.dataset.phase="resultGrow";
-  if(!await hvWait(1150,token))return;
+  if(!await hvWait(1080,token))return;
 
-  // 7. Value/impact graph draws in, then number counts to the result.
   stage.dataset.phase="impact";
-  const impactBox=stage.querySelector(".hv2-impact");
-  const impactNumber=impactBox?.querySelector("b");
-  const impactLine=impactBox?.querySelector(".hv2-impact-line");
+  const impactNumber=stage.querySelector(".hv2-impact b");
+  const impactLine=stage.querySelector(".hv2-impact-line");
   if(impactLine){
     impactLine.style.strokeDasharray="160";
     impactLine.style.strokeDashoffset="160";
@@ -397,45 +368,37 @@ async function heroV2Play(index=activeIndex){
     const numeric=parseFloat(String(raw).replace(/[^0-9.]/g,""));
     const prefix=String(raw).trim().startsWith("+")?"+":"";
     const suffix=String(raw).includes("%")?"%":(String(raw).includes("×")?"×":"");
-    if(Number.isFinite(numeric)){
-      const started=performance.now();
-      const duration=1250;
-      const tick=now=>{
-        if(token!==heroV2Token||!impactNumber.isConnected)return;
-        const p=Math.min(1,(now-started)/duration);
-        const eased=1-Math.pow(1-p,3);
-        const value=numeric*eased;
-        impactNumber.textContent=prefix+(numeric%1?value.toFixed(1):Math.round(value))+suffix;
-        if(p<1)requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    }
+    const started=performance.now();
+    const duration=1250;
+    const tick=now=>{
+      if(token!==heroV2Token||!impactNumber.isConnected)return;
+      const p=Math.min(1,(now-started)/duration);
+      const eased=1-Math.pow(1-p,3);
+      const value=numeric*eased;
+      impactNumber.textContent=prefix+(numeric%1?value.toFixed(1):Math.round(value))+suffix;
+      if(p<1)requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
   }
   if(!await hvWait(1750,token))return;
+
   stage.dataset.phase="final";
-  heroV2Running=false;
-  await hvWait(1150,token);
-  if(token!==heroV2Token)return;
-  const source=cardAt(CENTER_SET,index);
-  loopCards.forEach(c=>c.classList.remove("hero-v2-neighbor-left","hero-v2-neighbor-right"));
-  if(source){
-    source.style.setProperty("opacity","1","important");
-    source.style.setProperty("visibility","visible","important");
-    source.style.setProperty("pointer-events","auto","important");
-    source.classList.remove("hero-v2-source","hero-v2-slot");
-    source.style.removeProperty("--hv2-slot-extra");
-    source.dataset.hv2Hidden="0";
-  }
+  if(!await hvWait(1100,token))return;
+
+  // Exact source handoff: restore source, then fade overlay.
+  source.style.setProperty("opacity","1","important");
+  source.style.setProperty("visibility","visible","important");
+  source.style.setProperty("pointer-events","auto","important");
+  source.classList.remove("hero-v2-source");
+  liveCards().forEach(c=>c.classList.remove("hero-v2-neighbor-left","hero-v2-neighbor-right"));
   stage.classList.add("final-handoff");
-  heroRailWrap?.classList.remove("hero-v2-playing");
+  heroRailWrap.classList.remove("hero-v2-playing");
+
   setTimeout(()=>{
+    if(token!==heroV2Token)return;
     stage.remove();
-    applyIdleFocus(source);
+    heroBusy=false;
+    markIdleActive(source);
+    scheduleIdleLoop(2400);
   },520);
-
-  // Hold the completed card briefly, then bring the adjacent card to center.
-  // Any user click cancels this timer through heroV2Reset().
-  clearTimeout(heroV2AutoTimer);
 }
-
-// Motion is intentionally click-triggered. Hover remains a lightweight visual cue only.
