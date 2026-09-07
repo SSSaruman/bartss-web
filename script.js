@@ -10,6 +10,7 @@ function closeMenu(){ document.body.classList.remove("menu-open"); menuPanel.cla
 menuTrigger.addEventListener("click", openMenu); menuClose.addEventListener("click", closeMenu);
 document.addEventListener("keydown", e => e.key === "Escape" && closeMenu());
 document.addEventListener("pointerdown", e => { if(!document.body.classList.contains("menu-open")) return; if(menuPanel.contains(e.target) || menuTrigger.contains(e.target)) return; closeMenu(); });
+menuPanel.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMenu));
 
 let activeIndex = 2;
 function setActive(index){
@@ -23,7 +24,12 @@ function setActive(index){
     rail.style.transform = `translateX(${viewportCenter - (base + cardCenter)}px)`;
   }
 }
-cards.forEach((card,i)=> card.addEventListener("click",()=>setActive(i)));
+cards.forEach((card,i)=> card.addEventListener("click",()=>{
+  setActive(i);
+  if(window.innerWidth <= 1100){
+    card.scrollIntoView({behavior:"smooth",block:"nearest",inline:"center"});
+  }
+}));
 let wheelLock = false;
 window.addEventListener("wheel", e => {
   if(window.innerWidth <= 1100 || document.body.classList.contains("menu-open")) return;
@@ -68,7 +74,6 @@ function updateImmersive(){
   const scene = Math.min(phoneScenes.length - 1, Math.floor(p * phoneScenes.length));
   phoneScenes.forEach((el,i)=>el.classList.toggle("active",i===scene));
 }
-window.addEventListener("scroll",updateImmersive,{passive:true});
 updateImmersive();
 
 // Liquid glass hover cursor for projects
@@ -118,8 +123,18 @@ function updateTabletExperience(){
   if(tabletProgress) tabletProgress.style.transform = `scaleX(${Math.max(.08,p)})`;
 }
 tabletTabs.forEach((btn,i)=>btn.addEventListener("click",()=>setTabletScene(i)));
-window.addEventListener("scroll",updateTabletExperience,{passive:true});
 updateTabletExperience();
+
+let scrollFrame = 0;
+function scheduleScrollEffects(){
+  if(scrollFrame) return;
+  scrollFrame = requestAnimationFrame(()=>{
+    scrollFrame = 0;
+    updateImmersive();
+    updateTabletExperience();
+  });
+}
+window.addEventListener("scroll",scheduleScrollEffects,{passive:true});
 
 
 // Project brief qualifier
@@ -150,3 +165,24 @@ briefForm?.addEventListener("submit",e=>{
   sessionStorage.setItem("bartssProjectBrief",JSON.stringify(data));
   window.location.href="./offers.html";
 });
+
+
+// Keep mobile hero state aligned with the card nearest the viewport center.
+let railScrollFrame = 0;
+rail?.addEventListener("scroll",()=>{
+  if(window.innerWidth > 1100 || railScrollFrame) return;
+  railScrollFrame = requestAnimationFrame(()=>{
+    railScrollFrame = 0;
+    const center = window.innerWidth / 2;
+    let nearest = 0, best = Infinity;
+    cards.forEach((card,i)=>{
+      const r = card.getBoundingClientRect();
+      const d = Math.abs((r.left + r.width/2) - center);
+      if(d < best){ best = d; nearest = i; }
+    });
+    if(nearest !== activeIndex){
+      activeIndex = nearest;
+      cards.forEach((card,i)=>card.classList.toggle("active",i===activeIndex));
+    }
+  });
+},{passive:true});
