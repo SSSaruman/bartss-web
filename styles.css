@@ -1597,3 +1597,24 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
   transform:translate(-50%,-50%) scale(1.045)!important;
   transform-origin:center center!important;
 }
+
+
+/* HERO V2 — click-only selection, no drag */
+@media(min-width:1101px){
+  .rail-wrap{
+    cursor:default!important;
+    touch-action:auto!important;
+  }
+  .show-card{
+    cursor:pointer!important;
+  }
+  .rail-wrap::after{
+    content:"SELECT A CARD  ·  CLICK TO SEE HOW IT WORKS"!important;
+  }
+  .rail-wrap.is-dragging .show-card,
+  .rail-wrap.is-dragging .show-card.active{
+    transform:none!important;
+    opacity:1!important;
+    filter:none!important;
+  }
+}
