@@ -518,3 +518,10 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
 @keyframes hv2fmt{to{opacity:1;transform:scale(1)}}
 .hero-v2-stage[data-state="final"] .hv2-main{opacity:1;width:var(--hw);height:var(--hh)}
 @media(max-width:1100px){.hero-v2-stage{display:none}.show-card.hero-v2-source{opacity:1!important}}
+
+/* HERO V2 CENTER LOCK — active/main card must sit on viewport centerline */
+@media(min-width:1101px){
+  .rail-wrap{overflow:visible}
+  .show-card.active{transform:scale(1.13);transform-origin:center center}
+  .hero-v2-stage{--hx:50vw}
+}
