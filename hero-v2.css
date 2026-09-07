@@ -1698,3 +1698,67 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
     content:"SELECT A CARD  ·  CLICK TO SEE HOW IT WORKS"!important;
   }
 }
+
+
+/* HERO V2 — organic motion pass */
+@media(min-width:1101px){
+  .card-rail{
+    will-change:transform;
+  }
+  .show-card{
+    transition:
+      transform .78s cubic-bezier(.16,1,.3,1),
+      opacity .52s cubic-bezier(.22,.61,.36,1),
+      filter .52s cubic-bezier(.22,.61,.36,1)!important;
+  }
+  .rail-wrap:not(.hero-v2-playing) .show-card.active{
+    transform:scale(1.15)!important;
+  }
+  .rail-wrap:not(.hero-v2-playing) .show-card.hero-v2-idle-left{
+    transform:translateX(-34px) scale(.985)!important;
+  }
+  .rail-wrap:not(.hero-v2-playing) .show-card.hero-v2-idle-right{
+    transform:translateX(34px) scale(.985)!important;
+  }
+  .rail-wrap.hero-v2-playing .show-card.hero-v2-neighbor-left{
+    transform:translateX(-112px) scale(.965)!important;
+  }
+  .rail-wrap.hero-v2-playing .show-card.hero-v2-neighbor-right{
+    transform:translateX(112px) scale(.965)!important;
+  }
+}
+
+/* Softer, more organic product-story morphs */
+.hv2-main-card,
+.hv2-building,
+.hv2-build-copy,
+.hv2-pin-grid,
+.hv2-result-card,
+.hv2-impact{
+  transition:
+    opacity .56s cubic-bezier(.22,.61,.36,1),
+    transform .94s cubic-bezier(.16,1,.3,1),
+    width .94s cubic-bezier(.16,1,.3,1),
+    height .94s cubic-bezier(.16,1,.3,1),
+    filter .58s cubic-bezier(.22,.61,.36,1)!important;
+}
+.hv2-build-copy>span,
+.hv2-pin-grid>i{
+  transition:
+    opacity .52s cubic-bezier(.22,.61,.36,1) calc(var(--n)*110ms),
+    transform .82s cubic-bezier(.16,1,.3,1) calc(var(--n)*110ms)!important;
+}
+.hero-v2-stage[data-phase="building"] .hv2-building{
+  transform:translate(-50%,-50%) scale(1)!important;
+}
+.hero-v2-stage[data-phase="build"] .hv2-building{
+  transform:translate(-50%,-50%) scale(.98)!important;
+}
+.hero-v2-stage[data-phase="resultSeed"] .hv2-result-card{
+  transform:translate(-50%,-50%) scale(.82)!important;
+}
+.hero-v2-stage[data-phase="resultGrow"] .hv2-result-card,
+.hero-v2-stage[data-phase="impact"] .hv2-result-card,
+.hero-v2-stage[data-phase="final"] .hv2-result-card{
+  transform:translate(-50%,-50%) scale(1)!important;
+}
