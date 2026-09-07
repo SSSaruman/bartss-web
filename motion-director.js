@@ -59,6 +59,10 @@
       entries.forEach(entry=>{
         if(entry.isIntersecting){
           entry.target.classList.add("motion-heading-in");
+          entry.target.animate(
+            [{opacity:.45,transform:"translateY(20px)"},{opacity:1,transform:"translateY(0)"}],
+            {duration:720,easing:"cubic-bezier(.16,1,.3,1)",fill:"none"}
+          );
           headingIO.unobserve(entry.target);
         }
       });
