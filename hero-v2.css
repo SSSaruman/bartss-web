@@ -1244,3 +1244,53 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
   width:365px!important;
   height:365px!important;
 }
+
+
+/* === HERO V2 exact Hightouch timeline / authoritative === */
+.show-card.hero-v2-source{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+.hero-v2-stage{position:absolute;left:50%;top:0;width:100vw;height:100%;transform:translateX(-50%);z-index:40;pointer-events:none}
+.hv2-exact-scene{position:absolute;left:50%;top:var(--hy);width:620px;height:450px;transform:translate(-50%,-50%);--ease:cubic-bezier(.18,.82,.18,1)}
+.hv2-main-card,.hv2-building,.hv2-build-copy,.hv2-pin-grid,.hv2-result-card,.hv2-impact{position:absolute;left:50%;top:50%;will-change:transform,opacity,width,height;transition:opacity .46s ease,transform .78s var(--ease),width .82s var(--ease),height .82s var(--ease),filter .5s ease}
+.hv2-main-card,.hv2-result-card{width:350px;height:350px;transform:translate(-50%,-50%);border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.78);box-shadow:inset 0 1px rgba(255,255,255,.92),0 30px 72px rgba(25,40,48,.16);background:rgba(215,233,241,.3);backdrop-filter:blur(24px) saturate(140%)}
+.hv2-main-photo,.hv2-result-photo{position:absolute;inset:0}.hv2-main-photo::after,.hv2-result-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(15,23,28,.58))}
+.hv2-main-photo img,.hv2-result-photo img{width:100%;height:100%;object-fit:cover;filter:saturate(.72) contrast(1.04) brightness(.92);transform:scale(1.04);transition:transform 1.05s var(--ease)}
+.hv2-main-copy,.hv2-result-copy{position:absolute;z-index:2;left:20px;right:20px;bottom:18px;color:#fff}.hv2-main-copy small,.hv2-result-copy small{font-size:6px;letter-spacing:.16em;opacity:.7}.hv2-main-copy b,.hv2-result-copy b{display:block;font-size:26px;line-height:1;font-weight:500;letter-spacing:-.04em;margin:6px 0}.hv2-main-copy span{font-size:6px;opacity:.7}
+
+.hv2-building{width:122px;height:38px;transform:translate(-50%,-50%) scale(.9);border-radius:999px;background:rgba(247,252,255,.78);border:1px solid rgba(255,255,255,.92);box-shadow:0 14px 30px rgba(26,41,49,.1);backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;gap:8px;opacity:0}
+.hv2-building b{font-size:8px;font-weight:500}.spinner{width:11px;height:11px;border-radius:50%;border:1.5px solid rgba(24,34,39,.18);border-top-color:#1b2429;animation:hvSpin .9s linear infinite}@keyframes hvSpin{to{transform:rotate(360deg)}}
+
+.hv2-build-copy{left:calc(50% - 185px);width:150px;display:grid;gap:8px;transform:translate(-50%,-50%) translateX(-8px);opacity:0}
+.hv2-build-copy>span{height:29px;padding:0 11px;border-radius:10px;background:rgba(246,252,255,.64);border:1px solid rgba(255,255,255,.84);display:flex;align-items:center;gap:7px;font-size:7px;color:#172128;backdrop-filter:blur(16px);opacity:0;transform:translateX(-12px);transition:opacity .4s ease calc(var(--n)*90ms),transform .62s var(--ease) calc(var(--n)*90ms)}
+.hv2-build-copy>span i{width:6px;height:6px;border-radius:50%;background:#1c252a}
+
+.hv2-pin-grid{left:calc(50% + 70px);width:245px;height:220px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;transform:translate(-50%,-50%) scale(.9);opacity:0}
+.hv2-pin-grid>i{position:relative;overflow:hidden;border-radius:11px;border:1px solid rgba(255,255,255,.82);background:rgba(240,248,252,.5);box-shadow:0 12px 28px rgba(24,39,48,.08);opacity:0;transform:translateY(12px) scale(.86);transition:opacity .44s ease calc(var(--n)*80ms),transform .68s var(--ease) calc(var(--n)*80ms)}
+.hv2-pin-grid>i:nth-child(2){grid-row:span 2}.hv2-pin-grid>i img{width:100%;height:100%;object-fit:cover;filter:saturate(.65) brightness(.94);transform:scale(1.12)}.hv2-pin-grid>i::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(14,22,27,.48))}.hv2-pin-grid>i b{position:absolute;z-index:2;left:8px;right:6px;bottom:7px;color:#fff;font-size:5.5px;font-weight:500;line-height:1.1}
+
+.hv2-result-card{width:155px;height:180px;opacity:0;transform:translate(-50%,-50%) scale(.82)}
+.hv2-impact{left:calc(50% + 125px);top:calc(50% + 120px);width:178px;height:88px;padding:12px;border-radius:18px;background:rgba(247,252,255,.76);border:1px solid rgba(255,255,255,.92);box-shadow:0 18px 40px rgba(22,36,44,.14);backdrop-filter:blur(18px);opacity:0;transform:translate(-50%,-50%) translateY(14px) scale(.84);color:#172128}
+.hv2-impact small{font-size:6px;opacity:.5}.hv2-impact b{position:absolute;right:13px;bottom:13px;font-size:26px;font-weight:500}.hv2-impact-chart{position:absolute;left:13px;right:70px;bottom:18px;height:30px;border-bottom:1px solid rgba(24,34,39,.14)}.hv2-impact-chart::after{content:"";position:absolute;inset:3px 0;background:#1a2328;clip-path:polygon(0 74%,14% 58%,28% 66%,42% 42%,56% 50%,72% 25%,87% 34%,100% 8%,100% 16%,87% 43%,72% 34%,56% 59%,42% 51%,28% 75%,14% 67%,0 82%)}
+
+/* 1 — card */
+.hero-v2-stage[data-phase="card"] .hv2-main-card{opacity:1}
+/* 2 — card becomes Building bubble */
+.hero-v2-stage[data-phase="building"] .hv2-main-card{width:122px;height:38px;border-radius:999px;opacity:.12;transform:translate(-50%,-50%) scale(.92);filter:blur(3px)}
+.hero-v2-stage[data-phase="building"] .hv2-building{opacity:1;transform:translate(-50%,-50%) scale(1)}
+/* 3 — build UI/checklist + pinterest grid */
+.hero-v2-stage[data-phase="build"] .hv2-building{left:calc(50% - 185px);opacity:1;transform:translate(-50%,-50%) scale(.96)}
+.hero-v2-stage[data-phase="build"] .hv2-build-copy{opacity:1;transform:translate(-50%,-50%)}
+.hero-v2-stage[data-phase="build"] .hv2-build-copy>span{opacity:1;transform:none}
+.hero-v2-stage[data-phase="build"] .hv2-pin-grid{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.hero-v2-stage[data-phase="build"] .hv2-pin-grid>i{opacity:1;transform:none}
+/* 4 — whole build UI collapses and disappears */
+.hero-v2-stage[data-phase="collapse"] .hv2-building,.hero-v2-stage[data-phase="collapse"] .hv2-build-copy,.hero-v2-stage[data-phase="collapse"] .hv2-pin-grid{opacity:0;transform:translate(-50%,-50%) scale(.68);filter:blur(2px)}
+/* 5 — generated asset emerges */
+.hero-v2-stage[data-phase="resultSeed"] .hv2-result-card{opacity:1;transform:translate(-50%,-50%) scale(1)}
+/* 6 — result grows */
+.hero-v2-stage[data-phase="resultGrow"] .hv2-result-card{opacity:1;width:350px;height:350px;transform:translate(-50%,-50%) scale(1)}
+.hero-v2-stage[data-phase="resultGrow"] .hv2-result-copy b{font-size:26px}
+/* 7 — impact metric and final */
+.hero-v2-stage[data-phase="impact"] .hv2-result-card,.hero-v2-stage[data-phase="final"] .hv2-result-card{opacity:1;width:360px;height:360px;transform:translate(-50%,-50%) scale(1)}
+.hero-v2-stage[data-phase="impact"] .hv2-result-copy b,.hero-v2-stage[data-phase="final"] .hv2-result-copy b{font-size:28px}
+.hero-v2-stage[data-phase="impact"] .hv2-impact{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.hero-v2-stage[data-phase="final"] .hv2-impact{opacity:1;transform:translate(-50%,-50%) scale(1)}
