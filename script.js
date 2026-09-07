@@ -15,6 +15,7 @@ let activeIndex = 2;
 function setActive(index){
   activeIndex = Math.max(0, Math.min(cards.length - 1, index));
   cards.forEach((card,i)=>card.classList.toggle("active", i===activeIndex));
+  updateFeatureStack(activeIndex);
   if(window.innerWidth > 1100){
     const card = cards[activeIndex], cardCenter = card.offsetLeft + card.offsetWidth/2, viewportCenter = window.innerWidth/2;
     const matrix = getComputedStyle(rail).transform, currentX = matrix === "none" ? 0 : new DOMMatrixReadOnly(matrix).m41;
@@ -30,31 +31,23 @@ window.addEventListener("wheel", e => {
   wheelLock=true; setActive(activeIndex + (e.deltaY>0?1:-1)); setTimeout(()=>wheelLock=false,650);
 },{passive:true});
 
-let featureOffset=0;
-setInterval(()=>{ featureOffset=(featureOffset+1)%featureButtons.length; featureButtons.forEach((btn,i)=>{ const order=(i-featureOffset+featureButtons.length)%featureButtons.length; const tops=[0,28,60,95,133,175], widths=[180,215,250,286,322,360], op=[.46,.55,.62,.70,.78,.88]; btn.style.top=`${tops[order]}px`; btn.style.width=`${widths[order]}px`; btn.style.opacity=op[order]; }); },1600);
-
-const solutionMap={
-  brand:"Brand Strategy + Identity + Launch System",
-  product:"UX Strategy + Product Design + Motion Prototype",
-  attention:"Campaign Concept + Motion + Content System",
-  automation:"AI Workflow + Custom Agents + Automation Layer"
-};
-document.querySelectorAll(".need-card").forEach(btn=>btn.addEventListener("click",()=>{
-  document.querySelectorAll(".need-card").forEach(x=>x.classList.remove("active")); btn.classList.add("active");
-  const title=document.getElementById("solutionTitle"); title.animate([{opacity:.2,transform:"translateY(8px)"},{opacity:1,transform:"none"}],{duration:350,easing:"cubic-bezier(.22,1,.36,1)"});
-  title.textContent=solutionMap[btn.dataset.solution];
-}));
-
-const stage=document.getElementById("transformStage"), after=document.getElementById("afterLayer"), line=document.getElementById("dragLine");
-let dragging=false;
-function updateSplit(clientX){
-  const r=stage.getBoundingClientRect(); const p=Math.max(8,Math.min(92,((clientX-r.left)/r.width)*100));
-  after.style.clipPath=`inset(0 0 0 ${p}%)`; line.style.left=`${p}%`;
+const featureSets = [
+  ["POSITIONING CLARITY","SYSTEM, NOT ASSETS","BUILT TO EXTEND"],
+  ["CLEARER USER JOURNEY","MOTION WITH PURPOSE","LEAD & CONVERSION LOGIC"],
+  ["FASTER PRODUCTION","CONSISTENCY CONTROL","HUMAN QC"],
+  ["STRONGER ATTENTION","COMPLEXITY MADE CLEAR","CAMPAIGN-READY OUTPUT"],
+  ["CUSTOM BUSINESS LOGIC","CONNECTED WORKFLOWS","TOOLS YOUR TEAM CAN USE"]
+];
+function updateFeatureStack(index){
+  const items = featureSets[index] || featureSets[0];
+  featureButtons.forEach((btn,i)=>{
+    const label = btn.querySelector("span");
+    if(label) label.textContent = items[i] || "";
+    btn.style.top = `${i*42}px`;
+    btn.style.width = `${220 + i*42}px`;
+    btn.style.opacity = `${.62 + i*.14}`;
+  });
 }
-document.getElementById("dragHandle").addEventListener("pointerdown",e=>{dragging=true;e.currentTarget.setPointerCapture(e.pointerId)});
-window.addEventListener("pointermove",e=>dragging&&updateSplit(e.clientX));
-window.addEventListener("pointerup",()=>dragging=false);
-stage.addEventListener("click",e=>updateSplit(e.clientX));
 
 const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting) entry.target.classList.add("in-view")}),{threshold:.12});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
