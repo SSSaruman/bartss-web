@@ -44,9 +44,17 @@ function refreshSetWidth(){
   const ca=cardAt(CENTER_SET,0),cb=cardAt(CENTER_SET+1,0);
   if(ca&&cb)setWidth=cb.offsetLeft-ca.offsetLeft;
 }
+function applyIdleFocus(card){
+  loopCards.forEach(c=>c.classList.remove("hero-v2-idle-left","hero-v2-idle-right"));
+  if(!card || heroRailWrap?.classList.contains("hero-v2-playing")) return;
+  const i=loopCards.indexOf(card);
+  if(i>0) loopCards[i-1]?.classList.add("hero-v2-idle-left");
+  if(i<loopCards.length-1) loopCards[i+1]?.classList.add("hero-v2-idle-right");
+}
 function markActive(card){
   loopCards.forEach(c=>c.classList.remove("active"));
   if(card) card.classList.add("active");
+  applyIdleFocus(card);
 }
 function normalizeNearCenter(x){
   if(!setWidth)refreshSetWidth();
@@ -99,12 +107,12 @@ loopCards.forEach(card=>card.addEventListener("click",()=>{
   const next=Number(card.dataset.logical);
   if(next===activeIndex && document.querySelector(".hero-v2-stage")) return;
   heroV2Reset();
-  rail.style.transition="transform .68s cubic-bezier(.18,.82,.18,1)";
+  rail.style.transition="transform .72s cubic-bezier(.18,.82,.18,1)";
   setActive(next);
   setTimeout(()=>{
     canonicalize(next,false);
     heroV2Play(next);
-  },720);
+  },760);
 }));
 
 // Hero selection is click-only. Drag and wheel navigation are intentionally disabled
@@ -116,7 +124,17 @@ if(heroRailWrap){
   });
 }
 window.addEventListener("resize",()=>{refreshSetWidth();canonicalize(activeIndex,false);});
-requestAnimationFrame(()=>{refreshSetWidth();canonicalize(activeIndex,false);});
+requestAnimationFrame(()=>{
+  refreshSetWidth();
+  canonicalize(activeIndex,false);
+  loopCards.forEach((c,i)=>{
+    const centerIndex=CENTER_SET*baseCount+activeIndex;
+    const distance=Math.min(5,Math.abs(i-centerIndex));
+    c.style.setProperty("--hv2-intro-delay",(distance*55)+"ms");
+  });
+  heroRailWrap?.classList.add("hero-v2-intro");
+  requestAnimationFrame(()=>requestAnimationFrame(()=>heroRailWrap?.classList.add("hero-v2-intro-done")));
+});
 let featureOffset=0;
 setInterval(()=>{ featureOffset=(featureOffset+1)%featureButtons.length; featureButtons.forEach((btn,i)=>{ const order=(i-featureOffset+featureButtons.length)%featureButtons.length; const tops=[0,28,60,95,133,175], widths=[180,215,250,286,322,360], op=[.46,.55,.62,.70,.78,.88]; btn.style.top=`${tops[order]}px`; btn.style.width=`${widths[order]}px`; btn.style.opacity=op[order]; }); },1600);
 
@@ -257,6 +275,7 @@ function heroV2Reset(){
   heroV2RestoreSources();
   heroRailWrap?.classList.remove("hero-v2-playing");
   document.querySelector(".hero-v2-stage")?.remove();
+  applyIdleFocus(cardAt(CENTER_SET,activeIndex));
 }
 function heroV2Build(index){
   heroV2Reset();
@@ -306,6 +325,7 @@ function heroV2Build(index){
   });
 
   // Expand the actual visible slot in-flow so neighboring cards are physically pushed away.
+  loopCards.forEach(c=>c.classList.remove("hero-v2-idle-left","hero-v2-idle-right"));
   heroRailWrap.classList.add("hero-v2-playing");
 
   // Keep the rail itself completely fixed during motion.
@@ -324,6 +344,7 @@ function heroV2Build(index){
 
 async function heroV2Play(index=activeIndex){
   if(innerWidth<=1100||railDragging||heroV2Running)return;
+  const d=heroV2Data[index];
   const stage=heroV2Build(index);
   if(!stage)return;
   heroV2Running=true;
@@ -401,9 +422,19 @@ async function heroV2Play(index=activeIndex){
   },260);
   stage.classList.add("final-handoff");
   heroRailWrap?.classList.remove("hero-v2-playing");
-  setTimeout(()=>stage.remove(),520);
+  setTimeout(()=>{
+    stage.remove();
+    canonicalize(index,false);
+    applyIdleFocus(cardAt(CENTER_SET,index));
+  },520);
 
-  // Final state holds. Next card is user-driven (click or drag).
+  // Hold the completed card briefly, then bring the adjacent card to center.
+  // Any user click cancels this timer through heroV2Reset().
+  heroV2AutoTimer=setTimeout(()=>{
+    if(document.querySelector(".hero-v2-stage") || heroV2Running) return;
+    const next=(index+1)%baseCount;
+    setActive(next);
+  },2600);
 }
 
 // Motion is intentionally click-triggered. Hover remains a lightweight visual cue only.
