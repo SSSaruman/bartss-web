@@ -1646,3 +1646,55 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
     transform:translateX(0) scale(1.12)!important;
   }
 }
+
+
+/* === HERO V2 state model: intro -> idle focus -> click playback -> idle -> next === */
+@media(min-width:1101px){
+  /* Opening: cards glide into position once, then remain stable. */
+  .rail-wrap.hero-v2-intro .show-card{
+    opacity:0!important;
+    transform:translateX(84px) scale(.94)!important;
+    transition:
+      opacity .72s cubic-bezier(.18,.82,.18,1) var(--hv2-intro-delay,0ms),
+      transform .9s cubic-bezier(.18,.82,.18,1) var(--hv2-intro-delay,0ms)!important;
+  }
+  .rail-wrap.hero-v2-intro.hero-v2-intro-done .show-card{
+    opacity:.86!important;
+    transform:translateX(0) scale(1)!important;
+  }
+
+  /* Resting composition: center card is 15% larger and opens a little breathing room. */
+  .rail-wrap:not(.hero-v2-playing) .show-card.active{
+    opacity:1!important;
+    transform:scale(1.15)!important;
+    z-index:12!important;
+  }
+  .rail-wrap:not(.hero-v2-playing) .show-card.hero-v2-idle-left{
+    transform:translateX(-34px) scale(.98)!important;
+    opacity:.78!important;
+  }
+  .rail-wrap:not(.hero-v2-playing) .show-card.hero-v2-idle-right{
+    transform:translateX(34px) scale(.98)!important;
+    opacity:.78!important;
+  }
+
+  /* After intro has settled, normal interaction transitions take over. */
+  .rail-wrap.hero-v2-intro-done .show-card{
+    transition:
+      transform .72s cubic-bezier(.18,.82,.18,1),
+      opacity .46s ease,
+      filter .46s ease!important;
+  }
+
+  /* While product story is running, center space opens without moving the rail itself. */
+  .rail-wrap.hero-v2-playing .show-card.hero-v2-neighbor-left{
+    transform:translateX(-118px) scale(.96)!important;
+  }
+  .rail-wrap.hero-v2-playing .show-card.hero-v2-neighbor-right{
+    transform:translateX(118px) scale(.96)!important;
+  }
+
+  .rail-wrap::after{
+    content:"SELECT A CARD  ·  CLICK TO SEE HOW IT WORKS"!important;
+  }
+}
