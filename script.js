@@ -16,10 +16,14 @@ function setActive(index){
   activeIndex = Math.max(0, Math.min(cards.length - 1, index));
   cards.forEach((card,i)=>card.classList.toggle("active", i===activeIndex));
   if(window.innerWidth > 1100){
-    const card = cards[activeIndex], cardCenter = card.offsetLeft + card.offsetWidth/2, viewportCenter = window.innerWidth/2;
-    const matrix = getComputedStyle(rail).transform, currentX = matrix === "none" ? 0 : new DOMMatrixReadOnly(matrix).m41;
-    const base = rail.getBoundingClientRect().left - currentX;
-    rail.style.transform = `translateX(${viewportCenter - (base + cardCenter)}px)`;
+    const card = cards[activeIndex];
+    const matrix = getComputedStyle(rail).transform;
+    const currentX = matrix === "none" ? 0 : new DOMMatrixReadOnly(matrix).m41;
+    const rect = card.getBoundingClientRect();
+    const cardCenterNow = rect.left + rect.width/2;
+    const viewportCenter = window.innerWidth/2;
+    const nextX = currentX + (viewportCenter - cardCenterNow);
+    rail.style.transform = `translate3d(${nextX}px,0,0)`;
   }
 }
 cards.forEach((card,i)=> card.addEventListener("click",()=>setActive(i)));
@@ -151,7 +155,7 @@ function heroV2Build(index){
   const wrap=document.querySelector(".rail-wrap"),card=cards[index];if(!wrap||!card)return null;
   const wr=wrap.getBoundingClientRect(),cr=card.getBoundingClientRect(),d=heroV2Data[index]||heroV2Data[0];
   const stage=document.createElement("div");stage.className="hero-v2-stage";stage.dataset.state="grid";
-  const cx=cr.left-wr.left+cr.width/2,cy=cr.top-wr.top+cr.height/2;
+  const cx=(window.innerWidth/2)-wr.left,cy=cr.top-wr.top+cr.height/2;
   stage.style.setProperty("--hx",cx+"px");stage.style.setProperty("--hy",cy+"px");
   stage.style.setProperty("--hw",cr.width+"px");stage.style.setProperty("--hh",cr.height+"px");
   stage.style.setProperty("--ha",d.a);stage.style.setProperty("--hb",d.b);
