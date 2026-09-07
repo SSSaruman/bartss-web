@@ -519,3 +519,35 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
 .contact-primary span{font-size:clamp(22px,2.4vw,34px);letter-spacing:-.03em}
 .contact-secondary span{font-size:14px}
 .contact-actions small{max-width:420px}
+
+/* --- FIT / QUALIFICATION --- */
+.fit-section{width:min(1480px,calc(100vw - 120px));margin:0 auto;padding:170px 0 40px}
+.fit-head{display:grid;grid-template-columns:1.1fr .9fr;gap:110px;align-items:end;margin-bottom:72px}
+.fit-head h2{font-size:clamp(54px,6vw,96px);line-height:.93;letter-spacing:-.055em;font-weight:400;margin:0}
+.fit-head p{max-width:540px;font-size:18px;line-height:1.5;color:rgba(17,20,24,.62);margin:0}
+.fit-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.fit-card{border-radius:28px;padding:30px;min-height:470px;border:1px solid rgba(17,20,24,.1);display:flex;flex-direction:column}
+.fit-yes{background:#dce879}.fit-no{background:#161b1f;color:#f4f3ee}
+.fit-card>span{font-size:9px;letter-spacing:.22em;opacity:.45}
+.fit-card h3{font-size:clamp(30px,3vw,46px);line-height:1;letter-spacing:-.04em;font-weight:400;margin:46px 0 30px}
+.fit-card ul{list-style:none;padding:0;margin:auto 0 0}
+.fit-card li{position:relative;padding:15px 0 15px 28px;border-top:1px solid currentColor;font-size:13px;line-height:1.45;opacity:.72}
+.fit-card li:before{content:"→";position:absolute;left:0;top:14px}
+.investment-band{margin-top:20px;border-radius:28px;padding:34px;background:rgba(255,255,255,.42);border:1px solid rgba(17,20,24,.1);display:grid;grid-template-columns:.75fr 1.25fr;gap:40px 70px;align-items:start;backdrop-filter:blur(15px)}
+.investment-band>div>span{font-size:9px;letter-spacing:.22em;opacity:.42}.investment-band h3{font-size:34px;font-weight:400;letter-spacing:-.04em;margin:14px 0 0}
+.investment-levels{display:grid;gap:0}.investment-levels>div{display:flex;justify-content:space-between;gap:24px;padding:15px 0;border-top:1px solid rgba(17,20,24,.1)}
+.investment-levels b{font-size:13px;font-weight:500}.investment-levels span{font-size:12px;opacity:.58;text-align:right}
+.investment-band small{grid-column:1/-1;font-size:9px;line-height:1.5;letter-spacing:.04em;opacity:.45}
+@media(max-width:1000px){
+ .fit-section{width:calc(100vw - 36px);padding:110px 0 20px}
+ .fit-head{grid-template-columns:1fr;gap:28px}
+ .fit-grid{grid-template-columns:1fr}
+ .investment-band{grid-template-columns:1fr;gap:26px}
+ .investment-band small{grid-column:auto}
+}
+@media(max-width:650px){
+ .fit-head h2{font-size:44px}
+ .fit-card{min-height:390px;padding:22px}
+ .investment-levels>div{display:grid;gap:6px}
+ .investment-levels span{text-align:left}
+}
