@@ -85,6 +85,7 @@ function selectHero(index,{play=true,sequence=false}={}){
   const token=++heroNavToken;
   heroV2Reset();
   activeIndex=((index%baseCount)+baseCount)%baseCount;
+  updateFeatureStack(activeIndex);
   applyHeroLayout({animate:true});
 
   if(play){
@@ -106,6 +107,7 @@ window.addEventListener("resize",()=>applyHeroLayout({animate:false}));
 
 requestAnimationFrame(()=>{
   heroRailWrap?.classList.add("hero-intro");
+  updateFeatureStack(activeIndex);
   liveCards().forEach((card,i)=>card.style.setProperty("--intro-delay",(Math.abs(i-activeIndex)*65)+"ms"));
   applyHeroLayout({animate:false});
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
@@ -113,8 +115,22 @@ requestAnimationFrame(()=>{
     applyHeroLayout({animate:true});
   }));
 });
-let featureOffset=0;
-setInterval(()=>{ featureOffset=(featureOffset+1)%featureButtons.length; featureButtons.forEach((btn,i)=>{ const order=(i-featureOffset+featureButtons.length)%featureButtons.length; const tops=[0,28,60,95,133,175], widths=[180,215,250,286,322,360], op=[.46,.55,.62,.70,.78,.88]; btn.style.top=`${tops[order]}px`; btn.style.width=`${widths[order]}px`; btn.style.opacity=op[order]; }); },1600);
+const heroFeatureMap=[
+  ["LOGO SYSTEM","BRAND LANGUAGE","PRINT READY"],
+  ["UX ARCHITECTURE","RESPONSIVE UI","CONVERSION FLOW"],
+  ["CHARACTER LOCK","STYLE LOCK","QC PIPELINE"],
+  ["MOTION LANGUAGE","3D ASSETS","FORMAT SYSTEM"],
+  ["SIGNAL FILTER","RISK VIEW","ACTION TRACKING"],
+  ["SCOPE BUILDER","INTERACTIVE PRICING","APPROVAL FLOW"]
+];
+
+function updateFeatureStack(index){
+  const labels=heroFeatureMap[index] || heroFeatureMap[0];
+  featureButtons.forEach((btn,i)=>{
+    const span=btn.querySelector("span");
+    if(span) span.textContent=labels[i] || "";
+  });
+}
 
 const solutionMap={
   brand:"Brand Strategy + Identity + Launch System",
@@ -364,6 +380,7 @@ async function heroV2Play(index,{sequence=false}={}){
 
     if(sequence){
       activeIndex=(index+1)%baseCount;
+      updateFeatureStack(activeIndex);
       applyHeroLayout({animate:true});
       heroSequenceTimer=setTimeout(()=>{
         if(token===heroV2Token)heroV2Play(activeIndex,{sequence:true});
