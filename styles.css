@@ -956,3 +956,13 @@ body{background:#d7e7ee}
   .asiatic-real-preview img{height:300px}
   .asiatic-real-preview figcaption{align-items:flex-start;flex-direction:column;gap:4px}
 }
+
+/* --- REAL LEAD CAPTURE --- */
+.brief-form label>span em{font-style:normal;opacity:.55;text-transform:none;letter-spacing:0}
+.brief-consent{display:grid!important;grid-template-columns:auto 1fr;gap:10px!important;align-items:start;padding:14px 0}
+.brief-consent input{width:16px!important;height:16px;margin:1px 0 0}
+.brief-consent span{font-size:10px!important;line-height:1.45;letter-spacing:0!important;opacity:.62!important}
+.brief-consent a{text-underline-offset:2px}
+.brief-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+.brief-error{padding:12px 14px;border-radius:12px;background:#f1d7d2;color:#6d2119;font-size:11px;line-height:1.4}
+.brief-submit-row button:disabled{opacity:.55;cursor:wait}
