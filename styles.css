@@ -2189,3 +2189,224 @@ body{
   .motion-item{opacity:1!important;transform:none!important}
   .case-art,.system-visual{transform:none!important}
 }
+
+/* =========================================================
+   BARTSS MOTION DIRECTOR LAYER — menu excluded
+   ========================================================= */
+.bartss-loader{
+  position:fixed;inset:0;z-index:9999;
+  background:#10161a;color:#f3f4ef;
+  display:grid;grid-template-rows:1fr auto auto;
+  padding:32px 34px 28px;
+  transform:translate3d(0,0,0);
+  transition:transform .9s cubic-bezier(.77,0,.18,1);
+}
+.bartss-loader.is-done{transform:translate3d(0,-101%,0)}
+.loader-word{
+  align-self:end;
+  font-size:clamp(74px,13vw,210px);
+  line-height:.72;
+  letter-spacing:-.075em;
+  font-weight:500;
+  transform:translateY(18px);
+  opacity:0;
+  animation:loaderWordIn .7s .08s cubic-bezier(.16,1,.3,1) forwards;
+}
+.loader-meta{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:28px;
+  font-size:8px;letter-spacing:.2em;color:rgba(255,255,255,.46)
+}
+.loader-meta b{font-size:11px;font-weight:500;color:#fff}
+.loader-line{height:1px;background:rgba(255,255,255,.14);margin-top:15px;overflow:hidden}
+.loader-line i{display:block;width:100%;height:100%;background:#dce879;transform:scaleX(0);transform-origin:left center}
+@keyframes loaderWordIn{to{opacity:1;transform:translateY(0)}}
+
+.scroll-progress{
+  position:fixed;left:0;top:0;right:0;height:2px;z-index:120;
+  pointer-events:none;background:transparent
+}
+.scroll-progress i{
+  display:block;height:100%;width:100%;
+  transform:scaleX(0);transform-origin:left center;
+  background:#dce879;
+  will-change:transform
+}
+
+/* first-frame choreography */
+.hero-copy h1,
+.hero-intro,
+.hero .rail-wrap,
+.hero-footer{
+  will-change:transform,opacity,clip-path;
+}
+body.motion-ready .hero-copy h1{
+  animation:heroHeadlineIn 1.05s .08s cubic-bezier(.16,1,.3,1) both;
+}
+body.motion-ready .hero-intro{
+  animation:heroIntroIn .9s .3s cubic-bezier(.16,1,.3,1) both;
+}
+body.motion-ready .hero .rail-wrap{
+  animation:heroRailIn 1.05s .46s cubic-bezier(.16,1,.3,1) both;
+}
+body.motion-ready .hero-footer{
+  animation:heroFooterIn .75s .72s ease both;
+}
+@keyframes heroHeadlineIn{
+  from{opacity:0;transform:translate3d(0,42px,0);clip-path:inset(0 0 100% 0)}
+  to{opacity:1;transform:none;clip-path:inset(0)}
+}
+@keyframes heroIntroIn{
+  from{opacity:0;transform:translate3d(0,28px,0)}
+  to{opacity:1;transform:none}
+}
+@keyframes heroRailIn{
+  from{opacity:0;transform:translate3d(0,52px,0)}
+  to{opacity:1;transform:none}
+}
+@keyframes heroFooterIn{from{opacity:0}to{opacity:1}}
+
+/* card reactive material */
+.show-card{
+  --rx:0deg;--ry:0deg;--shine-x:50%;--shine-y:45%;--velocity-skew:0deg;
+}
+.show-card .visual{
+  transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) skewX(var(--velocity-skew));
+  transition:transform .24s ease-out,filter .28s ease;
+  will-change:transform
+}
+.show-card .visual:before{
+  content:"";
+  position:absolute;inset:-20%;
+  z-index:3;pointer-events:none;
+  background:radial-gradient(circle at var(--shine-x) var(--shine-y),rgba(255,255,255,.38),transparent 26%);
+  opacity:0;
+  transition:opacity .25s ease
+}
+.show-card:hover .visual:before,.show-card.active .visual:before{opacity:.55}
+.card-rail.is-dragging .show-card .visual{
+  filter:saturate(1.05) contrast(1.02)
+}
+
+/* section headings enter with directional wipe */
+.work-head h2,.motion-copy h2,.process-head h2,.systems-head h2,.contact-section h2{
+  clip-path:inset(0 0 100% 0);
+  transform:translateY(24px);
+  opacity:.01;
+  transition:clip-path .95s cubic-bezier(.16,1,.3,1),transform .95s cubic-bezier(.16,1,.3,1),opacity .55s ease
+}
+.motion-heading-in{
+  clip-path:inset(0)!important;
+  transform:none!important;
+  opacity:1!important
+}
+
+/* case study motion staging */
+.case-card{
+  --case-shift:0px;
+}
+.case-card .case-info{
+  transform:translate3d(0,calc(var(--case-shift) * -.36),0);
+  will-change:transform
+}
+.case-card .case-art{
+  transform:translate3d(0,var(--case-shift),0);
+}
+.case-card .case-meta{
+  transition:letter-spacing .55s cubic-bezier(.16,1,.3,1)
+}
+.case-card:hover .case-meta{letter-spacing:.045em}
+
+/* moving capability rail */
+.motion-rail{
+  will-change:transform;
+}
+.motion-rail.is-auto-moving article:nth-child(odd){
+  transform:translateY(-3px);
+}
+.motion-rail article{
+  transition:transform .5s cubic-bezier(.16,1,.3,1),background .35s ease;
+}
+.motion-rail article:hover{
+  transform:translateY(-9px);
+  background:rgba(255,255,255,.32)
+}
+
+/* process flow line */
+.process-grid{
+  position:relative;
+}
+.process-grid:before{
+  content:"";
+  position:absolute;
+  left:39px;top:0;bottom:0;width:1px;
+  background:rgba(17,23,28,.12)
+}
+.process-grid:after{
+  content:"";
+  position:absolute;
+  left:39px;top:0;width:1px;height:100%;
+  background:#11171c;
+  transform:scaleY(var(--process-progress,0));
+  transform-origin:top center;
+  will-change:transform
+}
+.process-grid article>span{
+  position:relative;z-index:2;
+  background:var(--paper);
+  width:30px;height:30px;
+  display:grid;place-items:center;
+  border:1px solid rgba(17,23,28,.16);
+  border-radius:50%;
+  transition:background .35s ease,color .35s ease
+}
+.process-grid article.motion-in>span{
+  background:#11171c;color:#fff
+}
+
+/* systems hover depth */
+.system-card{
+  --sys-x:0px;--sys-y:0px;
+}
+.system-card .system-visual{
+  transform:translate3d(var(--sys-x),calc(var(--sys-y) + var(--parallax-y,0px)),0) scale(1);
+  transition:transform .5s cubic-bezier(.16,1,.3,1),filter .35s ease
+}
+.system-card:hover .system-visual{
+  transform:translate3d(var(--sys-x),calc(var(--sys-y) + var(--parallax-y,0px)),0) scale(1.025);
+  filter:brightness(1.04)
+}
+.system-card .system-link{
+  transition:transform .35s cubic-bezier(.16,1,.3,1)
+}
+.system-card:hover .system-link{transform:translateX(7px)}
+
+/* magnetic CTA */
+.contact-primary,.contact-secondary{
+  --mx:0px;--my:0px;
+  transform:translate3d(var(--mx),var(--my),0);
+  transition:transform .18s ease-out,opacity .25s ease
+}
+
+/* tiny background rhythm */
+body:before{
+  content:"";
+  position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:radial-gradient(circle at var(--bg-x,50%) var(--bg-y,30%),rgba(220,232,121,.08),transparent 26%);
+  transition:background .2s linear
+}
+
+@media(max-width:1100px){
+  .bartss-loader{padding:24px 20px 22px}
+  .process-grid:before,.process-grid:after{display:none}
+  .show-card .visual{transform:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .bartss-loader{display:none!important}
+  .scroll-progress{display:none}
+  body.motion-ready .hero-copy h1,
+  body.motion-ready .hero-intro,
+  body.motion-ready .hero .rail-wrap,
+  body.motion-ready .hero-footer{animation:none!important}
+  .show-card .visual,.case-card .case-info,.case-card .case-art,.system-card .system-visual,.contact-primary,.contact-secondary{transform:none!important}
+}
