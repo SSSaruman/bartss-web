@@ -92,12 +92,17 @@ function snapNearest(){
 }
 function stopInertia(){if(railInertia)cancelAnimationFrame(railInertia);railInertia=0;}
 
-loopCards.forEach(card=>card.addEventListener("click",()=>setActive(Number(card.dataset.logical))));
+loopCards.forEach(card=>card.addEventListener("click",()=>{
+  heroV2Reset(false);
+  const next=Number(card.dataset.logical);
+  setActive(next);
+  setTimeout(()=>{ if(heroRailWrap.matches(":hover")&&!railDragging) heroV2Play(next); },820);
+}));
 
 if(heroRailWrap){
   heroRailWrap.addEventListener("pointerdown",e=>{
     if(innerWidth<=1100||e.button!==0)return;
-    stopInertia(); heroV2Reset(true);
+    stopInertia(); heroV2Reset(false);
     railDragging=true;dragMoved=false;
     dragStartX=lastDragX=e.clientX;lastDragT=performance.now();
     dragStartRailX=getRailX();railX=dragStartRailX;railVelocity=0;
@@ -247,90 +252,123 @@ window.addEventListener("scroll",updateTabletExperience,{passive:true});
 updateTabletExperience();
 
 
-// HERO V2 — Hightouch-inspired product storytelling, adapted to BARTSS.
+// HERO V2 — exact 7-step timeline adapted from the supplied Hightouch reference.
 const heroV2Data=[
- {title:"Brand Identity",eyebrow:"BARTSS / BRAND",art:"https://images.unsplash.com/photo-1600508774634-4e11d34730e2?auto=format&fit=crop&w=1200&q=84",context:"Brand context loading",output:"Distinct by design.",sub:"One identity. Every touchpoint.",assets:[["Positioning","Clear differentiation"],["Voice","Recognisable tone"],["Identity","Memorable system"],["Guidelines","Less brand drift"],["Applications","Ready to launch"],["Motion","Behaviour that sticks"]],benefits:["Recognisable faster","Consistent everywhere","Easier approvals","Ready to scale"],metric:"1 SYSTEM",metricLabel:"Brand outcome",formats:["Website","Deck","Social","Packaging","Motion"]},
- {title:"Web & Product",eyebrow:"BARTSS / WEB",art:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=84",context:"Product context loading",output:"Make the next step obvious.",sub:"Less friction. More completed actions.",assets:[["UX Architecture","Clearer journeys"],["Responsive UI","Every screen covered"],["Motion","Useful feedback"],["Conversion","More completed actions"],["Design System","Faster releases"],["Analytics","Learn what works"]],benefits:["Easier to understand","Faster to use","Conversion-ready","Reusable UI"],metric:"FLOW",metricLabel:"Product outcome",formats:["Desktop","Mobile","Landing","Product","Checkout"]},
- {title:"AutoLAB",eyebrow:"AUTOLAB / AI",art:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=84",context:"Story + brand context loading",output:"Ready to publish.",sub:"From story to approved visual.",assets:[["Storyboard","Scenes before generation"],["Character Lock","Consistent people"],["Style Lock","One visual language"],["Prompt Engine","Faster generations"],["Production","Automated variants"],["QC","Approved output only"]],benefits:["Fewer handoffs","Less visual drift","Faster variants","QC built in"],metric:"QC ON",metricLabel:"Production outcome",formats:["16:9","9:16","1:1","Ads","Campaign"]},
- {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",art:"https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1200&q=84",context:"Motion system loading",output:"Make the idea move.",sub:"One motion language. Every format.",assets:[["Story","Clear motion intent"],["Key Visual","A strong anchor"],["3D","Premium depth"],["Motion Rules","Consistent behaviour"],["UI Motion","Useful feedback"],["Formats","Every channel covered"]],benefits:["More attention","Stronger recall","Reusable motion","Multi-format"],metric:"MOTION",metricLabel:"Attention outcome",formats:["Film","Social","UI","3D","Launch"]},
- {title:"AiFinance",eyebrow:"AIFINANCE / AI",art:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=84",context:"Decision context loading",output:"Less noise. Clearer moves.",sub:"Signals become decisions.",assets:[["Context","Understand why"],["Signals","Filter the noise"],["Risk","See exposure"],["Action","Decide faster"],["Tracking","Learn from outcomes"],["Agents","Keep watching"]],benefits:["Clear priorities","Less noise","Faster decisions","Traceable actions"],metric:"LIVE",metricLabel:"Decision outcome",formats:["Portfolio","Risk","Signals","Actions","Report"]},
- {title:"Proposal System",eyebrow:"BARTSS / SALES",art:"https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=84",context:"Sales context loading",output:"From interest to approval.",sub:"A proposal people can act on.",assets:[["Need","Understand intent"],["Scope","Make choices clear"],["Pricing","Interactive options"],["Approval","Shorter sign-off"],["Tracking","See buying intent"],["System","Reuse every time"]],benefits:["Faster approvals","Less email friction","Visible intent","Reusable sales flow"],metric:"READY",metricLabel:"Sales outcome",formats:["Brand","Web","Motion","AI","Retainer"]}
+ {title:"Brand Identity",eyebrow:"BARTSS / BRAND",art:"https://images.unsplash.com/photo-1600508774634-4e11d34730e2?auto=format&fit=crop&w=1200&q=84",build:["Logo design","Brand identity","Typography & color palette","Print assets"],value:"Brand recognition",metric:"+38%"},
+ {title:"Web & Product",eyebrow:"BARTSS / WEB",art:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=84",build:["UX architecture","Responsive UI","Design system","Conversion flow"],value:"Task completion",metric:"+31%"},
+ {title:"AutoLAB",eyebrow:"AUTOLAB / AI",art:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=84",build:["Storyboard","Character Lock","Style Lock","QC pipeline"],value:"Production speed",metric:"3.4×"},
+ {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",art:"https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1200&q=84",build:["Storyboard","3D asset","Motion language","Format system"],value:"Attention lift",metric:"+42%"},
+ {title:"AiFinance",eyebrow:"AIFINANCE / AI",art:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=84",build:["Context layer","Signal filter","Risk view","Action tracking"],value:"Decision clarity",metric:"+27%"},
+ {title:"Proposal System",eyebrow:"BARTSS / SALES",art:"https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=84",build:["Scope builder","Interactive pricing","Approval flow","Client tracking"],value:"Approval speed",metric:"+46%"}
 ];
 
-const staticArts=heroV2Data.map(x=>x.art);
 loopCards.forEach(card=>{
   const logical=Number(card.dataset.logical);
   const img=card.querySelector(".hero-card-art");
-  if(img){img.src=staticArts[logical];img.loading="eager";img.decoding="async";}
+  if(img){img.src=heroV2Data[logical].art;img.loading="eager";img.decoding="async";}
 });
 
-let heroV2Token=0,heroV2Timer=null,heroV2Running=false;
-const wait=(ms,token)=>new Promise(resolve=>heroV2Timer=setTimeout(()=>resolve(token===heroV2Token),ms));
-function heroV2Reset(animate=true){
-  heroV2Token++;clearTimeout(heroV2Timer);heroV2Running=false;
+let heroV2Token=0,heroV2Timer=null,heroV2Running=false,heroV2AutoTimer=null;
+
+function hvWait(ms,token){
+  return new Promise(resolve=>heroV2Timer=setTimeout(()=>resolve(token===heroV2Token),ms));
+}
+function heroV2Reset(){
+  heroV2Token++;
+  clearTimeout(heroV2Timer);clearTimeout(heroV2AutoTimer);
+  heroV2Running=false;
   document.querySelectorAll(".show-card.hero-v2-source").forEach(c=>c.classList.remove("hero-v2-source"));
-  const stage=document.querySelector(".hero-v2-stage");
-  if(!stage)return;
-  if(animate){
-    stage.dataset.phase="reset";stage.classList.add("resetting");
-    setTimeout(()=>stage.remove(),480);
-  } else stage.remove();
+  document.querySelector(".hero-v2-stage")?.remove();
 }
 function heroV2Build(index){
-  heroV2Reset(false);
+  heroV2Reset();
   if(innerWidth<=1100)return null;
   const d=heroV2Data[index],active=cardAt(CENTER_SET,index);
   if(!d||!active)return null;
   const wrap=heroRailWrap.getBoundingClientRect(),cr=active.getBoundingClientRect();
   const stage=document.createElement("div");
-  stage.className="hero-v2-stage";stage.dataset.phase="context";
+  stage.className="hero-v2-stage";
+  stage.dataset.phase="card";
   stage.style.setProperty("--hy",(cr.top-wrap.top+cr.height/2)+"px");
-  const assetHtml=d.assets.map((x,n)=>'<i style="--n:'+n+'"><b>'+x[0]+'</b><span>'+x[1]+'</span></i>').join("");
-  const benefitHtml=d.benefits.map((x,n)=>'<span style="--n:'+n+'"><i></i>'+x+'</span>').join("");
-  const formatHtml=d.formats.map((x,n)=>'<i style="--n:'+n+'"><b>'+x+'</b><span>'+d.output+'</span></i>').join("");
+
+  const thumbs=d.build.map((x,n)=>
+    '<i style="--n:'+n+'"><img src="'+d.art+'" alt=""><b>'+x+'</b></i>'
+  ).join("");
+  const checklist=d.build.map((x,n)=>
+    '<span style="--n:'+n+'"><i></i>'+x+'</span>'
+  ).join("");
+
   stage.innerHTML=
-    '<div class="hv2-scene">'+
-      '<div class="hv2-context"><b>'+d.context+'</b><span>● ● ● ● ●</span></div>'+
-      '<div class="hv2-assets">'+assetHtml+'</div>'+
-      '<div class="hv2-output"><div class="hv2-photo"><img src="'+d.art+'" alt=""></div><div class="hv2-output-copy"><small>'+d.eyebrow+'</small><b>'+d.output+'</b><span>'+d.sub+'</span></div></div>'+
-      '<div class="hv2-benefits">'+benefitHtml+'</div>'+
-      '<div class="hv2-metric"><small>'+d.metricLabel+'</small><div class="hv2-chart"></div><b>'+d.metric+'</b></div>'+
-      '<div class="hv2-strategy"><span>✦</span><b>'+d.title+'</b><em>→ system ready</em></div>'+
-      '<div class="hv2-formats">'+formatHtml+'</div>'+
+    '<div class="hv2-exact-scene">'+
+      '<div class="hv2-main-card">'+
+        '<div class="hv2-main-photo"><img src="'+d.art+'" alt=""></div>'+
+        '<div class="hv2-main-copy"><small>'+d.eyebrow+'</small><b>'+d.title+'</b><span>Ideas into outcomes.</span></div>'+
+      '</div>'+
+      '<div class="hv2-building"><span class="spinner"></span><b>Building…</b></div>'+
+      '<div class="hv2-build-copy">'+checklist+'</div>'+
+      '<div class="hv2-pin-grid">'+thumbs+'</div>'+
+      '<div class="hv2-result-card">'+
+        '<div class="hv2-result-photo"><img src="'+d.art+'" alt=""></div>'+
+        '<div class="hv2-result-copy"><small>'+d.eyebrow+'</small><b>'+d.title+'</b></div>'+
+      '</div>'+
+      '<div class="hv2-impact"><small>'+d.value+'</small><div class="hv2-impact-chart"></div><b>'+d.metric+'</b></div>'+
     '</div>';
+
   active.classList.add("hero-v2-source");
   heroRailWrap.appendChild(stage);
   return stage;
 }
+
 async function heroV2Play(index=activeIndex){
   if(innerWidth<=1100||railDragging||heroV2Running)return;
+  const stage=heroV2Build(index);
+  if(!stage)return;
   heroV2Running=true;
-  const stage=heroV2Build(index);if(!stage){heroV2Running=false;return;}
   const token=++heroV2Token;
-  const phases=[
-    ["context",520],
-    ["skeleton",780],
-    ["assets",980],
-    ["seed",520],
-    ["grow",980],
-    ["benefits",1380],
-    ["metric",1320],
-    ["strategy",720],
-    ["formats",1500],
-    ["return",980],
-    ["final",2200]
-  ];
-  for(const pair of phases){
-    if(token!==heroV2Token)return;
-    stage.dataset.phase=pair[0];
-    if(!await wait(pair[1],token))return;
-  }
-  stage.dataset.complete="true";heroV2Running=false;
-  document.querySelectorAll(".show-card.hero-v2-source").forEach(c=>c.classList.remove("hero-v2-source"));
+
+  // 1. Full hero card — visible briefly exactly where the slider card was.
+  stage.dataset.phase="card";
+  if(!await hvWait(900,token))return;
+
+  // 2. Card compresses into the Building bubble.
+  stage.dataset.phase="building";
+  if(!await hvWait(820,token))return;
+
+  // 3. Building stays on the left; checklist + Pinterest-style asset grid builds beside it.
+  stage.dataset.phase="build";
+  if(!await hvWait(2100,token))return;
+
+  // 4. Entire build UI shrinks/fades away as one system.
+  stage.dataset.phase="collapse";
+  if(!await hvWait(760,token))return;
+
+  // 5. Selected/generated asset emerges small from the center.
+  stage.dataset.phase="resultSeed";
+  if(!await hvWait(650,token))return;
+
+  // 6. Result card grows smoothly toward full card size.
+  stage.dataset.phase="resultGrow";
+  if(!await hvWait(1150,token))return;
+
+  // 7. Value/impact graph appears bottom-right, then final card stays stable.
+  stage.dataset.phase="impact";
+  if(!await hvWait(1700,token))return;
+  stage.dataset.phase="final";
+  heroV2Running=false;
+
+  // Reference-like continuation: hold, then advance only while the hero remains hovered.
+  heroV2AutoTimer=setTimeout(()=>{
+    if(heroRailWrap.matches(":hover")&&!railDragging){
+      const next=(index+1)%baseCount;
+      heroV2Reset();
+      setActive(next);
+      setTimeout(()=>heroV2Play(next),850);
+    }
+  },2600);
 }
+
 heroRailWrap?.addEventListener("mouseenter",()=>{
   if(innerWidth<=1100||railDragging||heroV2Running)return;
-  const existing=document.querySelector(".hero-v2-stage");
-  if(existing?.dataset.complete==="true")return;
-  setTimeout(()=>{if(heroRailWrap.matches(":hover")&&!railDragging)heroV2Play(activeIndex)},160);
+  if(document.querySelector(".hero-v2-stage"))return;
+  setTimeout(()=>{if(heroRailWrap.matches(":hover")&&!railDragging)heroV2Play(activeIndex)},180);
 });
