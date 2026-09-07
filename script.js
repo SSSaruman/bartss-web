@@ -159,11 +159,34 @@ briefOpen?.addEventListener("click",openBrief);
 briefClose?.addEventListener("click",closeBrief);
 briefBackdrop?.addEventListener("click",closeBrief);
 document.addEventListener("keydown",e=>{ if(e.key==="Escape" && briefPanel?.classList.contains("open")) closeBrief(); });
-briefForm?.addEventListener("submit",e=>{
+briefForm?.addEventListener("submit",async e=>{
   e.preventDefault();
+  const submit = document.getElementById("briefSubmit");
+  const errorBox = document.getElementById("briefError");
   const data = Object.fromEntries(new FormData(briefForm).entries());
-  sessionStorage.setItem("bartssProjectBrief",JSON.stringify(data));
-  window.location.href="./offers.html";
+  data.action = "create";
+  data.consent = data.consent === "1";
+  if(errorBox){ errorBox.hidden = true; errorBox.textContent = ""; }
+  if(submit){ submit.disabled = true; submit.dataset.label = submit.innerHTML; submit.innerHTML = "Creating lead…"; }
+  try{
+    const res = await fetch("./api/leads.php",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify(data)
+    });
+    const payload = await res.json().catch(()=>({ok:false,error:"invalid_response"}));
+    if(!res.ok || !payload.ok) throw new Error(payload.error || "lead_create_failed");
+    const stored = {...data, lead_id:payload.leadId, update_token:payload.updateToken};
+    delete stored.company_fax;
+    sessionStorage.setItem("bartssProjectBrief",JSON.stringify(stored));
+    window.location.href="./offers.html";
+  }catch(err){
+    const msg = err?.message === "rate_limited"
+      ? "Too many attempts. Please wait a few minutes and try again."
+      : "Your project could not be saved. Please check the form and try again.";
+    if(errorBox){ errorBox.textContent = msg; errorBox.hidden = false; }
+    if(submit){ submit.disabled = false; submit.innerHTML = submit.dataset.label || "Create project lead →"; }
+  }
 });
 
 
