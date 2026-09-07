@@ -294,7 +294,8 @@ const heroV2Data=[
  {title:"Web & Product",eyebrow:"BARTSS / WEB",art:"https://cdn.dribbble.com/userupload/36025617/file/original-24879b126976f1c510da521e1ab16360.png?resize=1200x1200&vertical=center",desc:"A product experience that removes friction and moves people to action.",a:"#b8d4e4",b:"#5e7889",prompt:"Turn interest into a clear next action",status:"Removing product friction…",steps:[["UX Architecture","Clearer journeys"],["Responsive UI","Works on every screen"],["Motion System","Feedback people understand"],["Conversion Flow","More completed actions"],["Design System","Faster future releases"]],pills:["Easier to understand","Faster to use","Conversion-ready","Reusable UI"],metric:"FLOW",metricLabel:"Product outcome"},
  {title:"AutoLAB",eyebrow:"AUTOLAB / AI",art:"https://cdn.vicsee.com/blog/20260228-seedance-omni-reference/hero.jpg",desc:"A controlled AI production pipeline from story to approved asset.",a:"#bed55e",b:"#657b45",prompt:"Turn a story into approved visual production",status:"Building the production pipeline…",steps:[["Storyboard","Scenes before generation"],["Character Lock","Consistent people"],["Style Lock","One visual language"],["Prompt Engine","Faster generations"],["QC","Approved output only"]],pills:["Fewer handoffs","Less visual drift","Faster variants","QC built in"],metric:"QC ON",metricLabel:"Production outcome"},
  {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",art:"https://i.pinimg.com/originals/30/90/43/3090437ce606d8965c958910a6c9e294.png",desc:"A motion language that turns static ideas into memorable behaviour.",a:"#b9d5e5",b:"#5e7789",prompt:"Give the idea a motion language",status:"Building movement and depth…",steps:[["Storyboard","Clear motion intent"],["3D Asset","Premium visual depth"],["Motion Language","Stronger brand recall"],["UI Motion","Useful interaction feedback"],["Format System","Every channel covered"]],pills:["More attention","Stronger recall","Reusable motion","Multi-format"],metric:"MOTION",metricLabel:"Attention outcome"},
- {title:"AiFinance",eyebrow:"AIFINANCE / AI",art:"https://files.muzli.cloud/131fbc64d7065b35accaf302d0648723_medium.jpeg?_cb=1778503539794",desc:"Decision intelligence that filters noise and makes the next move clearer.",a:"#d5df79",b:"#627546",prompt:"Turn financial noise into clear decisions",status:"Filtering decision context…",steps:[["Context","Understand why"],["Signal Filter","Less noise"],["Risk Layer","See exposure"],["Action","Decide faster"],["Tracking","Learn from outcomes"]],pills:["Clear priorities","Less noise","Faster decisions","Traceable actions"],metric:"LIVE",metricLabel:"Decision outcome"}
+ {title:"AiFinance",eyebrow:"AIFINANCE / AI",art:"https://files.muzli.cloud/131fbc64d7065b35accaf302d0648723_medium.jpeg?_cb=1778503539794",desc:"Decision intelligence that filters noise and makes the next move clearer.",a:"#d5df79",b:"#627546",prompt:"Turn financial noise into clear decisions",status:"Filtering decision context…",steps:[["Context","Understand why"],["Signal Filter","Less noise"],["Risk Layer","See exposure"],["Action","Decide faster"],["Tracking","Learn from outcomes"]],pills:["Clear priorities","Less noise","Faster decisions","Traceable actions"],metric:"LIVE",metricLabel:"Decision outcome"},
+ {title:"Proposal System",eyebrow:"BARTSS / SALES",art:"https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=82",desc:"A proposal experience that shortens the path from interest to approval.",a:"#d9dfaa",b:"#7d875f",prompt:"Turn a sales conversation into a clear approval path",status:"Assembling proposal logic…",steps:[["Scope Builder","Clearer decisions"],["Interactive Pricing","Less back-and-forth"],["Approval Flow","Faster sign-off"],["Client Tracking","See buying intent"],["Reusable System","Sell again faster"]],pills:["Faster approvals","Less email friction","Visible intent","Reusable sales flow"],metric:"READY",metricLabel:"Sales outcome"}
 ];
 
 const heroStaticArts=heroV2Data.map(x=>x.art);
@@ -379,3 +380,21 @@ if(heroRailWrap){
 requestAnimationFrame(()=>{setActive(activeIndex,true);setTimeout(refreshLoopGeometry,80);});
 window.addEventListener("load",()=>{setActive(activeIndex,true);setTimeout(refreshLoopGeometry,120);});
 if(document.fonts?.ready)document.fonts.ready.then(()=>{setActive(activeIndex,true);setTimeout(refreshLoopGeometry,80);});
+
+
+// BARTSS utility widgets — inspired by Hightouch's low-friction cookie/chat patterns.
+const cookie=document.getElementById("bartssCookie");
+document.querySelectorAll("[data-close-cookie]").forEach(btn=>btn.addEventListener("click",()=>cookie?.classList.add("closed")));
+document.getElementById("cookieCustomize")?.addEventListener("click",()=>{
+  const detail=document.getElementById("cookieDetail");
+  if(detail) detail.hidden=!detail.hidden;
+});
+const chatLauncher=document.getElementById("chatLauncher");
+const chatPanel=document.getElementById("chatPanel");
+const chatClose=document.getElementById("chatClose");
+function setChat(open){
+  chatPanel?.classList.toggle("open",open);
+  chatLauncher?.setAttribute("aria-expanded",String(open));
+}
+chatLauncher?.addEventListener("click",()=>setChat(!chatPanel?.classList.contains("open")));
+chatClose?.addEventListener("click",()=>setChat(false));
