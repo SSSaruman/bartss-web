@@ -58,7 +58,13 @@ function updateFeatureStack(index){
 const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting) entry.target.classList.add("in-view")}),{threshold:.12});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 window.addEventListener("resize",()=>setActive(activeIndex));
-requestAnimationFrame(()=>setActive(2));
+async function initHeroRail(){
+  try{ if(document.fonts?.ready) await document.fonts.ready; }catch(e){}
+  setActive(2);
+  requestAnimationFrame(()=>rail?.classList.add("ready"));
+}
+window.addEventListener("load",initHeroRail,{once:true});
+requestAnimationFrame(()=>{ if(document.readyState==="complete") initHeroRail(); });
 
 // Immersive sticky parallax + phone scenes
 const immersive = document.getElementById("immersiveWork");
