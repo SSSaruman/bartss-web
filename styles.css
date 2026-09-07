@@ -1020,3 +1020,116 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
 /* tactile drag */
 .rail-wrap.is-dragging .show-card{transform:scale(.92)!important;opacity:.72!important}
 .rail-wrap.is-dragging .show-card.active{transform:scale(1.02)!important;opacity:.9!important}
+
+
+/* HERO V2 — approved Hightouch/Novra-inspired glass direction */
+.visual-proposal{background:linear-gradient(155deg,#d9dfaa 0%,#aab27a 100%)}
+.proposal-visual{
+  position:relative;width:165px;height:150px;transform:translateY(-18px);
+}
+.proposal-visual span{
+  position:absolute;left:50%;width:92px;height:112px;border-radius:20px;
+  background:linear-gradient(145deg,rgba(255,255,255,.62),rgba(255,255,255,.16));
+  border:1px solid rgba(255,255,255,.62);
+  box-shadow:0 20px 35px rgba(28,39,32,.12),inset 0 1px rgba(255,255,255,.88);
+  backdrop-filter:blur(16px);
+}
+.proposal-visual span:nth-child(1){transform:translateX(-62%) rotate(-10deg);opacity:.52}
+.proposal-visual span:nth-child(2){transform:translateX(-50%) rotate(-2deg);opacity:.72}
+.proposal-visual span:nth-child(3){transform:translateX(-38%) rotate(7deg)}
+.proposal-visual i{
+  position:absolute;left:50%;top:46%;width:58px;height:5px;border-radius:99px;background:rgba(76,85,61,.42);
+  box-shadow:0 16px 0 rgba(76,85,61,.26),0 32px 0 rgba(76,85,61,.18);transform:translateX(-40%);
+}
+
+/* Stronger optical glass: translucent material, edge refraction, moving specular line */
+.show-card{
+  overflow:hidden;
+  background:linear-gradient(145deg,rgba(230,245,252,.24),rgba(105,132,145,.16))!important;
+  border:1px solid rgba(255,255,255,.72)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.95),
+    inset 1px 0 0 rgba(255,255,255,.25),
+    inset -1px 0 0 rgba(86,110,122,.12),
+    inset 0 -36px 70px rgba(34,55,66,.16),
+    0 28px 70px rgba(29,44,53,.15)!important;
+  backdrop-filter:blur(28px) saturate(138%) brightness(1.03)!important;
+  -webkit-backdrop-filter:blur(28px) saturate(138%) brightness(1.03)!important;
+}
+.show-card::before{
+  background:
+    linear-gradient(112deg,rgba(255,255,255,.72) 0%,rgba(255,255,255,.16) 17%,transparent 39%),
+    radial-gradient(circle at 78% 4%,rgba(255,255,255,.64),transparent 26%),
+    linear-gradient(180deg,rgba(255,255,255,.10),transparent 18%)!important;
+}
+.show-card.active::before{animation:glassSpecular 5.6s ease-in-out infinite}
+@keyframes glassSpecular{
+  0%,28%{transform:translateX(-10%);opacity:.52}
+  52%{transform:translateX(12%);opacity:.82}
+  100%{transform:translateX(-10%);opacity:.52}
+}
+.show-card.active{box-shadow:
+  inset 0 1px 0 rgba(255,255,255,.98),
+  inset 0 -42px 78px rgba(42,65,75,.17),
+  0 34px 92px rgba(49,68,58,.18),
+  0 0 0 1px rgba(255,255,255,.22)!important;
+}
+.card-top .tag,.card-top .index,.round-arrow{
+  border-color:rgba(255,255,255,.58)!important;
+  background:linear-gradient(145deg,rgba(245,252,255,.18),rgba(183,210,222,.08))!important;
+  backdrop-filter:blur(18px) saturate(145%)!important;
+}
+.hero-card-art{filter:saturate(.67) contrast(1.04) brightness(.9)!important}
+.card-copy{background:linear-gradient(180deg,transparent,rgba(17,25,29,.09));border-radius:0 0 20px 20px}
+
+/* compact carousel affordances */
+.rail-wrap::after{
+  content:"DRAG  ·  EXPLORE  ·  SEE WHAT'S POSSIBLE";
+  position:absolute;left:50%;bottom:66px;transform:translateX(-50%);
+  font-size:7px;letter-spacing:.24em;color:rgba(24,34,39,.46);white-space:nowrap;
+}
+.rail-wrap::before{
+  content:"••••••";
+  position:absolute;left:50%;bottom:88px;transform:translateX(-50%);
+  letter-spacing:.55em;font-size:13px;color:rgba(24,34,39,.22);
+}
+
+/* utility surfaces */
+.bartss-cookie,.chat-panel{
+  position:fixed;z-index:70;
+  background:linear-gradient(145deg,rgba(247,252,255,.76),rgba(221,236,242,.55));
+  border:1px solid rgba(255,255,255,.82);
+  box-shadow:inset 0 1px rgba(255,255,255,.95),0 22px 58px rgba(22,36,43,.16);
+  backdrop-filter:blur(28px) saturate(145%);
+  -webkit-backdrop-filter:blur(28px) saturate(145%);
+}
+.bartss-cookie{left:24px;bottom:24px;width:300px;border-radius:20px;padding:17px;transition:.55s cubic-bezier(.2,.8,.2,1)}
+.bartss-cookie.closed{opacity:0;transform:translateY(18px) scale(.96);pointer-events:none}
+.utility-head{display:flex;justify-content:space-between;align-items:center;font-size:9px;letter-spacing:.12em;font-weight:600}
+.utility-head button{border:0;background:transparent;font-size:18px;cursor:pointer}
+.bartss-cookie h3,.chat-intro h3{font-size:17px;margin:18px 0 8px;font-weight:500;letter-spacing:-.02em}
+.bartss-cookie p,.chat-intro p{font-size:10px;line-height:1.5;color:rgba(20,30,35,.62);margin:0}
+.cookie-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.cookie-actions button{height:40px;border-radius:999px;font-size:9px;cursor:pointer}
+.cookie-primary{background:#171b1e;color:white;border:0}.cookie-secondary{background:rgba(255,255,255,.54);border:1px solid rgba(255,255,255,.88)}
+.cookie-detail{margin-top:12px;border-top:1px solid rgba(24,34,39,.08);padding-top:8px}
+.cookie-detail label{display:flex;justify-content:space-between;align-items:center;padding:7px 2px;font-size:9px}
+.cookie-detail strong{font-size:8px;color:#617683}
+
+.bartss-chat{position:fixed;right:24px;bottom:24px;z-index:72}
+.chat-launcher{width:54px;height:54px;border-radius:50%;border:1px solid rgba(255,255,255,.72);background:#171b1e;color:#fff;font-size:20px;box-shadow:0 16px 34px rgba(20,30,35,.18);cursor:pointer}
+.chat-panel{right:0;bottom:68px;width:300px;border-radius:20px;padding:17px;opacity:0;transform:translateY(14px) scale(.96);pointer-events:none;transition:.5s cubic-bezier(.2,.8,.2,1)}
+.chat-panel.open{opacity:1;transform:none;pointer-events:auto}
+.chat-intro{display:flex;gap:12px;align-items:flex-start;margin:16px 0}
+.chat-intro i{font-style:normal;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#171b1e;color:white;font-size:17px}
+.chat-intro h3{margin:1px 0 5px}
+.chat-input{height:44px;border-radius:13px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.84);display:flex;align-items:center;padding:0 7px 0 12px;color:rgba(20,30,35,.4);font-size:9px}
+.chat-input button{margin-left:auto;width:31px;height:31px;border:0;border-radius:9px;background:#171b1e;color:#fff}
+.chat-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.chat-chips button{border:1px solid rgba(25,35,40,.12);background:rgba(255,255,255,.38);border-radius:999px;padding:7px 9px;font-size:8px}
+
+/* mobile: utilities compact */
+@media(max-width:700px){
+  .bartss-cookie{left:12px;right:12px;bottom:12px;width:auto}
+  .bartss-chat{right:12px;bottom:12px}
+  .chat-panel{width:min(300px,calc(100vw - 24px))}
+}
