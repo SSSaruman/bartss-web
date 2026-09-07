@@ -445,7 +445,7 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
   .rail-wrap{min-height:610px}
   .show-card.active{z-index:8}
   .show-card.hero-v2-source{opacity:0!important}
-  .feature-stack{left:63%}
+  .feature-stack{left:50%}
 }
 .hero-v2-stage{
   position:absolute;inset:0;z-index:22;pointer-events:none;overflow:visible;
