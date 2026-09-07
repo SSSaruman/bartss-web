@@ -48,7 +48,7 @@ function updateFeatureStack(index){
   const items = featureSets[index] || featureSets[0];
   featureButtons.forEach((btn,i)=>{
     const label = btn.querySelector("span");
-    if(label) label.textContent = items[i] || "";
+    if(label) label.textContent = window.BARTSSI18N?.translate(items[i] || "") ?? (items[i] || "");
     btn.style.top = `${i*42}px`;
     btn.style.width = `${220 + i*42}px`;
     btn.style.opacity = `${.62 + i*.14}`;
@@ -215,3 +215,5 @@ rail?.addEventListener("scroll",()=>{
     }
   });
 },{passive:true});
+
+window.addEventListener("bartss:lang",()=>updateFeatureStack(activeIndex));
