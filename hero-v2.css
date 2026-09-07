@@ -652,3 +652,71 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
   height:390px;
 }
 .hv2-pill{animation-timing-function:var(--hv2-ease)!important}
+
+
+/* HERO V2 — interaction and motion polish */
+@media(min-width:1101px){
+  .rail-wrap{cursor:grab}
+  .rail-wrap.is-dragging{cursor:grabbing}
+  .show-card{will-change:transform,opacity,filter}
+  .show-card.active{z-index:9}
+}
+.hero-v2-stage[data-complete="true"] .hv2-main{
+  opacity:1;width:390px;height:390px;
+}
+.hv2-main{will-change:width,height,transform,opacity,filter}
+.hv2-main::after{
+  content:"";position:absolute;inset:-35%;z-index:1;
+  background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.32) 48%,transparent 61%);
+  transform:translateX(-55%) rotate(8deg);opacity:0;
+}
+.hero-v2-stage[data-state="card"] .hv2-main::after,
+.hero-v2-stage[data-state="expand"] .hv2-main::after{
+  animation:hv2Sheen 1.25s cubic-bezier(.22,.7,.18,1) forwards;
+}
+@keyframes hv2Sheen{
+  0%{opacity:0;transform:translateX(-55%) rotate(8deg)}
+  22%{opacity:.75}
+  100%{opacity:0;transform:translateX(55%) rotate(8deg)}
+}
+.hv2-object{
+  transition:
+    width 1.15s cubic-bezier(.22,.72,.18,1),
+    transform 1.15s cubic-bezier(.22,.72,.18,1),
+    filter .9s ease,
+    opacity .75s ease;
+}
+.hero-v2-stage[data-state="seed"] .hv2-object{
+  transform:translate(-50%,-50%) rotate(-12deg) scale(.82);
+  filter:blur(.4px);
+}
+.hero-v2-stage[data-state="card"] .hv2-object{
+  transform:translate(-50%,-50%) rotate(-5deg) scale(1.04);
+}
+.hero-v2-stage[data-state="expand"] .hv2-object{
+  transform:translate(-50%,-50%) rotate(2deg) scale(1.08);
+}
+.hv2-pills,.hv2-metric,.hv2-strip,.hv2-search,.hv2-formats{
+  transition:
+    opacity .85s cubic-bezier(.22,.72,.18,1),
+    transform 1.05s cubic-bezier(.22,.72,.18,1),
+    filter .85s ease!important;
+}
+.hero-v2-stage[data-state="pills"] .hv2-pills{transform:translate(-50%,-50%) translateX(8px)}
+.hero-v2-stage[data-state="metric"] .hv2-metric{animation:hv2MetricFloat 3.2s ease-in-out infinite}
+@keyframes hv2MetricFloat{50%{translate:0 -5px}}
+.hv2-cell,.hv2-search-assets i,.hv2-format{
+  box-shadow:0 16px 34px rgba(18,27,31,.12);
+}
+.hero-v2-stage[data-state="formats"] .hv2-format{
+  animation-timing-function:cubic-bezier(.22,.72,.18,1)!important;
+}
+
+/* Phone showcase begins at the top of its sticky section */
+.phone-wrap{
+  top:2.5vh!important;
+  transform:translateX(-50%)!important;
+}
+@media(max-width:1000px){
+  .phone-wrap{top:3vh!important}
+}
