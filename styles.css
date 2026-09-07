@@ -567,3 +567,61 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
 .brief-submit-row>span{font-size:10px;line-height:1.5;opacity:.48;max-width:300px}.brief-submit-row button{border:0;border-radius:999px;background:#161b1f;color:white;padding:15px 20px;font:inherit;font-size:12px;cursor:pointer}.brief-submit-row b{font-size:18px;font-weight:400;margin-left:14px}
 body.brief-open{overflow:hidden}
 @media(max-width:650px){.brief-dialog{padding:24px}.brief-two,.brief-submit-row{grid-template-columns:1fr}.brief-dialog h2{font-size:42px}}
+
+/* --- RESPONSIVE / PERFORMANCE HARDENING --- */
+@media(max-width:1100px){
+  .card-rail{
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:42px;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-inline:contain;
+    scrollbar-width:none;
+  }
+  .card-rail::-webkit-scrollbar{display:none}
+  .show-card{scroll-snap-align:center;scroll-snap-stop:always}
+  .rail-wrap{min-height:330px}
+  .show-card .card-copy h2{font-size:24px}
+  .show-card .card-copy p{font-size:8px;line-height:1.35;margin-right:44px}
+  .show-card .card-copy small{font-size:7px;line-height:1.35;display:block;margin-right:42px}
+  .immersive-work{height:200vh}
+  .tablet-experience{height:200vh}
+}
+@media(max-width:700px){
+  .site-top{margin-top:12px}
+  .menu-trigger{min-width:0;width:min(310px,calc(100vw - 36px))}
+  .menu-panel{max-height:calc(100vh - 20px);overflow:hidden}
+  .menu-rail{
+    grid-template-columns:repeat(7,124px);
+    padding:12px;
+    gap:8px;
+    overflow-x:auto;
+    overscroll-behavior-inline:contain;
+    scrollbar-width:none;
+  }
+  .menu-rail::-webkit-scrollbar{display:none}
+  .menu-tile{min-width:124px;border-radius:15px;font-size:11px}
+  .menu-icon{font-size:23px}
+  .hero{margin-top:34px}
+  .hero-copy h1{font-size:clamp(39px,12vw,46px);line-height:.96}
+  .hero-intro{padding-top:0}
+  .cta{width:100%;justify-content:space-between}
+  .card-rail{gap:16px;padding-inline:26px;scroll-padding-inline:26px}
+  .show-card,.show-card.active{width:min(78vw,286px)}
+  .rail-wrap{min-height:315px}
+  .hero-footer{gap:20px;align-items:flex-start;flex-direction:column}
+  .immersive-work{height:165vh;margin-top:80px}
+  .tablet-experience{height:165vh}
+  .brief-dialog{inset:8px;width:auto;border-radius:22px}
+  .brief-close{right:16px;top:14px}
+  .fit-card li{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+  .immersive-work,.tablet-experience{height:auto;min-height:100vh}
+  .immersive-sticky,.tablet-sticky{position:relative}
+}
