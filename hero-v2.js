@@ -90,16 +90,17 @@ function snapNearest(){
   rail.style.transform="translate3d("+railX+"px,0,0)";
   setTimeout(()=>{
     activeIndex=logical; canonicalize(activeIndex,false);
-    if(heroRailWrap.matches(":hover")&&!railDragging)setTimeout(()=>heroV2Play(activeIndex),260);
+    // Drag only navigates. Motion starts only when the user clicks a card.
   },790);
 }
 function stopInertia(){if(railInertia)cancelAnimationFrame(railInertia);railInertia=0;}
 
 loopCards.forEach(card=>card.addEventListener("click",()=>{
-  heroV2Reset(false);
+  if(railDragging)return;
   const next=Number(card.dataset.logical);
+  heroV2Reset();
   setActive(next);
-  setTimeout(()=>{ if(heroRailWrap.matches(":hover")&&!railDragging) heroV2Play(next); },820);
+  setTimeout(()=>heroV2Play(next),820);
 }));
 
 if(heroRailWrap){
@@ -346,8 +347,19 @@ function heroV2Build(index){
 
   // Expand the actual visible slot in-flow so neighboring cards are physically pushed away.
   visibleActive.classList.add("hero-v2-slot");
-  visibleActive.style.setProperty("--hv2-slot-extra","360px");
+  const slotExtra=240;
+  visibleActive.style.setProperty("--hv2-slot-extra",slotExtra+"px");
   heroRailWrap.classList.add("hero-v2-playing");
+
+  // Expanding a flex item grows to the right. Counter-shift the rail by half
+  // the added width so the active motion area stays centered and both neighbors
+  // are displaced outward symmetrically.
+  requestAnimationFrame(()=>{
+    railX=getRailX()-(slotExtra/2);
+    rail.style.transition="transform .82s cubic-bezier(.18,.82,.18,1)";
+    rail.style.transform="translate3d("+railX+"px,0,0)";
+  });
+
   heroRailWrap.appendChild(stage);
   return stage;
 }
@@ -420,7 +432,11 @@ async function heroV2Play(index=activeIndex){
   const source=nearestCard() || cardAt(CENTER_SET,index);
   const slot=heroRailWrap.querySelector(".show-card.hero-v2-slot");
   if(slot){
+    const currentExtra=parseFloat(getComputedStyle(slot).getPropertyValue("--hv2-slot-extra"))||240;
     slot.style.setProperty("--hv2-slot-extra","0px");
+    railX=getRailX()+(currentExtra/2);
+    rail.style.transition="transform .72s cubic-bezier(.18,.82,.18,1)";
+    rail.style.transform="translate3d("+railX+"px,0,0)";
   }
   setTimeout(()=>{
     if(source){
@@ -436,18 +452,7 @@ async function heroV2Play(index=activeIndex){
   heroRailWrap?.classList.remove("hero-v2-playing");
   setTimeout(()=>stage.remove(),520);
 
-  heroV2AutoTimer=setTimeout(()=>{
-    if(heroRailWrap.matches(":hover")&&!railDragging){
-      const next=(index+1)%baseCount;
-      heroV2Reset();
-      setActive(next);
-      setTimeout(()=>heroV2Play(next),850);
-    }
-  },2200);
+  // Final state holds. Next card is user-driven (click or drag).
 }
 
-heroRailWrap?.addEventListener("mouseenter",()=>{
-  if(innerWidth<=1100||railDragging||heroV2Running)return;
-  if(document.querySelector(".hero-v2-stage"))return;
-  setTimeout(()=>{if(heroRailWrap.matches(":hover")&&!railDragging)heroV2Play(activeIndex)},180);
-});
+// Motion is intentionally click-triggered. Hover remains a lightweight visual cue only.
