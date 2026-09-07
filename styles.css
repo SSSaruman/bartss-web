@@ -720,3 +720,50 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
 @media(max-width:1000px){
   .phone-wrap{top:3vh!important}
 }
+
+
+/* HERO V2 — artwork-based cards */
+.hero-card-art{
+  width:88%;height:88%;object-fit:contain;display:block;
+  filter:drop-shadow(0 18px 28px rgba(20,28,34,.16));
+  transform:translateZ(0) scale(.96);
+  transition:transform .9s cubic-bezier(.22,.72,.18,1),filter .9s ease,opacity .75s ease;
+}
+.show-card:hover .hero-card-art,.show-card.active .hero-card-art{
+  transform:translateZ(0) scale(1.035) rotate(-1.2deg);
+  filter:drop-shadow(0 28px 42px rgba(20,28,34,.22));
+}
+.hv2-object{
+  overflow:visible!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+}
+.hv2-object::before,.hv2-object::after{display:none!important}
+.hv2-object img{
+  width:155%;height:155%;object-fit:contain;display:block;
+  filter:drop-shadow(0 24px 34px rgba(20,28,34,.22));
+  transform:translate3d(0,0,0) rotate(-3deg) scale(.92);
+  transition:transform 1.25s cubic-bezier(.22,.72,.18,1),filter .9s ease,opacity .7s ease;
+}
+.hero-v2-stage[data-state="seed"] .hv2-object img{
+  transform:translate3d(0,10px,0) rotate(-8deg) scale(.72);
+  filter:drop-shadow(0 12px 18px rgba(20,28,34,.13)) blur(.25px);
+}
+.hero-v2-stage[data-state="card"] .hv2-object img{
+  transform:translate3d(0,0,0) rotate(-3deg) scale(.95);
+}
+.hero-v2-stage[data-state="pills"] .hv2-object img{
+  transform:translate3d(-10px,-4px,0) rotate(-1deg) scale(1.02);
+}
+.hero-v2-stage[data-state="metric"] .hv2-object img{
+  transform:translate3d(-12px,-8px,0) rotate(1deg) scale(1.04);
+}
+.hero-v2-stage[data-state="expand"] .hv2-object img{
+  transform:translate3d(0,-10px,0) rotate(3deg) scale(1.1);
+  filter:drop-shadow(0 34px 46px rgba(20,28,34,.27));
+}
+.hero-v2-stage[data-state="final"] .hv2-object img{
+  transform:translate3d(0,-4px,0) rotate(0deg) scale(1.06);
+}
