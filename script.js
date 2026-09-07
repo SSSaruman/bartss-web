@@ -16,7 +16,7 @@ function setActive(index){
   activeIndex = Math.max(0, Math.min(cards.length - 1, index));
   cards.forEach((card,i)=>card.classList.toggle("active", i===activeIndex));
   if(window.innerWidth > 1100){
-    const card = cards[activeIndex], cardCenter = card.offsetLeft + card.offsetWidth/2, viewportCenter = window.innerWidth/2;
+    const card = cards[activeIndex], cardCenter = card.offsetLeft + card.offsetWidth/2, viewportCenter = window.innerWidth * .63;
     const matrix = getComputedStyle(rail).transform, currentX = matrix === "none" ? 0 : new DOMMatrixReadOnly(matrix).m41;
     const base = rail.getBoundingClientRect().left - currentX;
     rail.style.transform = `translateX(${viewportCenter - (base + cardCenter)}px)`;
@@ -127,3 +127,66 @@ function updateTabletExperience(){
 tabletTabs.forEach((btn,i)=>btn.addEventListener("click",()=>setTabletScene(i)));
 window.addEventListener("scroll",updateTabletExperience,{passive:true});
 updateTabletExperience();
+
+
+// HERO V2: isolated motion prototype based on the supplied 43.9s Hightouch reference.
+// All animation is contained inside .rail-wrap; lower-page code is untouched.
+const heroV2Data=[
+ {title:"Brand Identity",eyebrow:"BARTSS / BRAND",icon:"B",desc:"One identity. Many touchpoints.",a:"#bdd8e9",b:"#8ca7b6",grid:"Building…",pills:["Positioning","Identity","Motion","Launch"],search:"Searching brand assets…",metric:"92",metricLabel:"Brand consistency",strip:"Channel-ready identity"},
+ {title:"Web & Product",eyebrow:"BARTSS / WEB",icon:"▱",desc:"A digital product that explains itself.",a:"#c7e0ef",b:"#87a8ba",grid:"Building…",pills:["Desktop","Mobile","Returning user","High intent"],search:"Searching product patterns…",metric:"38",metricLabel:"UX friction removed",strip:"Conversion-ready product"},
+ {title:"AutoLAB",eyebrow:"AUTOLAB / AI",icon:"✦",desc:"From idea to approved visual.",a:"#b6d04f",b:"#74894e",grid:"Building…",pills:["Character Lock","Style Lock","Prompt Engine","QC passed"],search:"Searching visual references…",metric:"94",metricLabel:"QC pass rate",strip:"Production-ready system"},
+ {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",icon:"◯",desc:"One idea. Many motion outputs.",a:"#c2dcea",b:"#7895a7",grid:"Building…",pills:["Film","Social","UI motion","3D"],search:"Searching motion assets…",metric:"24",metricLabel:"Format variants",strip:"Motion distribution system"},
+ {title:"AiFinance",eyebrow:"AIFINANCE / AI",icon:"↗",desc:"Turn context into a next move.",a:"#d9de91",b:"#7d8f59",grid:"Building…",pills:["Context","Signals","Risk","Action"],search:"Searching existing signals…",metric:"650",metricLabel:"Qualified signal",strip:"Channel strategy"}
+];
+
+let heroV2Timer=null,heroV2Token=0;
+function heroV2Clear(){
+  clearTimeout(heroV2Timer);
+  document.querySelector(".hero-v2-stage")?.remove();
+  cards.forEach(c=>c.classList.remove("hero-v2-source"));
+}
+function heroV2Build(index){
+  heroV2Clear();
+  if(innerWidth<=1100)return null;
+  const wrap=document.querySelector(".rail-wrap"),card=cards[index];if(!wrap||!card)return null;
+  const wr=wrap.getBoundingClientRect(),cr=card.getBoundingClientRect(),d=heroV2Data[index]||heroV2Data[0];
+  const stage=document.createElement("div");stage.className="hero-v2-stage";stage.dataset.state="grid";
+  const cx=cr.left-wr.left+cr.width/2,cy=cr.top-wr.top+cr.height/2;
+  stage.style.setProperty("--hx",cx+"px");stage.style.setProperty("--hy",cy+"px");
+  stage.style.setProperty("--hw",cr.width+"px");stage.style.setProperty("--hh",cr.height+"px");
+  stage.style.setProperty("--ha",d.a);stage.style.setProperty("--hb",d.b);
+  stage.innerHTML=`
+    <div class="hero-v2-scene">
+      <div class="hv2-grid" data-label="${d.grid}">${Array.from({length:9},()=>'<i class="hv2-cell"></i>').join("")}</div>
+      <div class="hv2-main">
+        <div class="hv2-top"><i>${String(index+1).padStart(2,"0")}</i><span>BARTSS LAB</span></div>
+        <div class="hv2-object">${d.icon}</div>
+        <div class="hv2-copy"><small>${d.eyebrow}</small><b>${d.title}</b><em>${d.desc}</em></div>
+      </div>
+      <div class="hv2-pills">${d.pills.map(x=>`<span class="hv2-pill"><i></i>${x}</span>`).join("")}</div>
+      <div class="hv2-metric"><small>${d.metricLabel}</small><div class="hv2-metric-line"></div><b>${d.metric}</b></div>
+      <div class="hv2-strip"><div class="hv2-strip-inner"><div class="hv2-strip-object">${d.icon}</div><b>${d.strip}</b><span>→ LIVE</span></div></div>
+      <div class="hv2-search"><div class="hv2-search-title">${d.search}</div><div class="hv2-search-dots"><i></i><i></i><i></i><i></i><i></i></div><div class="hv2-search-assets">${Array.from({length:8},()=>'<i></i>').join("")}</div></div>
+      <div class="hv2-formats"><div class="hv2-format f1"><b>${d.title}</b><small>wide banner</small></div><div class="hv2-format f2"><b>${d.title}</b><small>landscape</small></div><div class="hv2-format f3"><b>${d.title}</b><small>vertical</small></div><div class="hv2-format f4"><b>${d.title}</b><small>square</small></div><div class="hv2-format f5"><b>${d.icon}</b><small>tile</small></div></div>
+    </div>`;
+  wrap.appendChild(stage);card.classList.add("hero-v2-source");return stage;
+}
+const heroV2States=["grid","card","pills","metric","expand","strip","search","formats","pills","final"];
+const heroV2Times=[1350,1450,1450,1350,1150,1050,1700,1750,1400,2200];
+function heroV2Play(index=activeIndex){
+  const token=++heroV2Token,stage=heroV2Build(index);if(!stage)return;
+  let s=0;
+  const advance=()=>{
+    if(token!==heroV2Token||!stage.isConnected)return;
+    stage.dataset.state=heroV2States[s++];
+    if(s<heroV2States.length)heroV2Timer=setTimeout(advance,heroV2Times[s-1]);
+    else heroV2Timer=setTimeout(()=>{if(token!==heroV2Token)return;heroV2Clear();heroV2Timer=setTimeout(()=>heroV2Play(activeIndex),650)},heroV2Times.at(-1));
+  };
+  advance();
+}
+const heroV2BaseSetActive=setActive;
+setActive=function(index){
+  heroV2Token++;heroV2Clear();heroV2BaseSetActive(index);
+  setTimeout(()=>heroV2Play(activeIndex),220);
+};
+requestAnimationFrame(()=>heroV2Play(activeIndex));
