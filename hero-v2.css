@@ -861,3 +861,104 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
 .hero-v2-stage.resetting .hv2-prompt,.hero-v2-stage.resetting .hv2-status,.hero-v2-stage.resetting .hv2-assets,.hero-v2-stage.resetting .hv2-pills,.hero-v2-stage.resetting .hv2-metric{opacity:0!important}
 /* phone starts from the top edge of its sticky scene */
 .phone-wrap{top:0!important;transform:translateX(-50%)!important}
+
+
+/* HERO V2 — unified liquid-glass art direction */
+.show-card{
+  background:linear-gradient(145deg,rgba(225,241,249,.30),rgba(105,133,147,.18))!important;
+  border:1px solid rgba(255,255,255,.62)!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.82),
+    inset 0 -24px 55px rgba(45,67,79,.13),
+    0 24px 64px rgba(34,52,61,.15)!important;
+  backdrop-filter:blur(26px) saturate(145%)!important;
+  -webkit-backdrop-filter:blur(26px) saturate(145%)!important;
+}
+.show-card::before{
+  content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;
+  background:
+    linear-gradient(118deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.10) 28%,transparent 52%),
+    radial-gradient(circle at 75% 6%,rgba(255,255,255,.55),transparent 27%);
+  mix-blend-mode:screen;opacity:.58;
+}
+.show-card::after{
+  content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;
+  background:
+    radial-gradient(circle at 20% 30%,rgba(255,255,255,.13) 0 1px,transparent 1.5px),
+    radial-gradient(circle at 75% 65%,rgba(255,255,255,.10) 0 1px,transparent 1.5px);
+  background-size:18px 18px,23px 23px;opacity:.24;
+}
+.visual{background:transparent!important}
+.visual::before{
+  content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(203,226,237,.08) 0%,rgba(70,93,105,.18) 55%,rgba(22,31,36,.56) 100%);
+}
+.visual::after{
+  background:radial-gradient(circle at 50% 32%,transparent 0 32%,rgba(20,29,34,.16) 72%,rgba(14,21,25,.44) 100%)!important;
+}
+.hero-card-art{
+  width:100%!important;height:100%!important;object-fit:cover!important;
+  filter:saturate(.72) contrast(1.04) brightness(.96) hue-rotate(-4deg)!important;
+  transform:scale(1.07)!important;
+  transition:transform 1.05s cubic-bezier(.18,.82,.18,1),filter .8s ease!important;
+}
+.show-card.active .hero-card-art{transform:scale(1.12)!important}
+.card-top,.card-copy,.round-arrow{z-index:5!important}
+.tag,.index,.round-arrow{
+  background:rgba(224,239,246,.12)!important;
+  backdrop-filter:blur(14px) saturate(150%);
+  -webkit-backdrop-filter:blur(14px) saturate(150%);
+}
+.card-copy{text-shadow:0 1px 16px rgba(8,14,18,.22)}
+@media(min-width:1101px){
+ .card-rail{gap:74px!important}
+ .rail-wrap{cursor:grab}
+ .rail-wrap.is-dragging{cursor:grabbing}
+}
+
+/* Benefit-led glass modules */
+.hv2-card{
+ background:linear-gradient(145deg,rgba(218,238,247,.32),rgba(79,105,118,.22))!important;
+ border:1px solid rgba(255,255,255,.68)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.85),inset 0 -28px 58px rgba(27,44,54,.18),0 28px 72px rgba(22,31,36,.19)!important;
+ backdrop-filter:blur(24px) saturate(150%);
+ -webkit-backdrop-filter:blur(24px) saturate(150%);
+}
+.hv2-glass-wash{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(215,236,245,.03) 20%,rgba(14,22,27,.52) 100%)}
+.hv2-photo img{filter:saturate(.75) contrast(1.05) brightness(.97);transition:transform 1.15s cubic-bezier(.18,.82,.18,1),filter .9s ease,opacity .7s ease!important}
+.hv2-prompt,.hv2-status,.hv2-pills>span,.hv2-metric,.hv2-assets>i{
+ background:linear-gradient(145deg,rgba(246,252,255,.68),rgba(205,224,234,.42))!important;
+ border:1px solid rgba(255,255,255,.82)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 14px 34px rgba(29,46,55,.11)!important;
+ backdrop-filter:blur(18px) saturate(150%)!important;
+ -webkit-backdrop-filter:blur(18px) saturate(150%)!important;
+}
+.hv2-assets{width:330px!important;height:190px!important;grid-template-columns:repeat(2,1fr)!important;gap:9px!important}
+.hv2-assets>i{display:flex!important;align-items:flex-end!important;padding:13px!important;font-style:normal!important;color:#162027!important}
+.hv2-assets>i span{
+ position:static!important;inset:auto!important;background:none!important;opacity:1!important;transform:none!important;
+ font-size:8px!important;line-height:1.25!important;font-weight:500!important;letter-spacing:.04em!important;
+}
+.hv2-assets>i::before{
+ content:counter(step);counter-increment:step;position:absolute;left:12px;top:11px;width:22px;height:22px;border-radius:50%;
+ display:grid;place-items:center;background:rgba(255,255,255,.5);font-size:7px;color:#1b252b;
+}
+.hv2-assets{counter-reset:step}
+.hv2-pills{left:calc(50% + 215px)!important}
+.hv2-pills>span{font-size:7px!important;color:#162027!important}
+.hv2-metric{color:#162027!important}
+.hero-v2-stage[data-phase="skeleton"] .hv2-assets>i{opacity:.32!important}
+.hero-v2-stage[data-phase="skeleton"] .hv2-assets>i span{opacity:.35!important}
+.hero-v2-stage[data-phase="assets"] .hv2-assets>i{opacity:1!important}
+.hero-v2-stage[data-phase="assets"] .hv2-assets>i span{opacity:1!important}
+.hero-v2-stage[data-phase="reset"] .hv2-card,
+.hero-v2-stage.resetting .hv2-card{
+ width:320px!important;height:320px!important;border-radius:23px!important;
+ transform:translate(-50%,-50%) scale(.9)!important;opacity:.25!important;filter:blur(1px)!important;
+ transition:all .52s cubic-bezier(.4,0,.2,1)!important;
+}
+.hero-v2-stage[data-phase="reset"] .hv2-prompt,
+.hero-v2-stage[data-phase="reset"] .hv2-status,
+.hero-v2-stage[data-phase="reset"] .hv2-assets,
+.hero-v2-stage[data-phase="reset"] .hv2-pills,
+.hero-v2-stage[data-phase="reset"] .hv2-metric{opacity:0!important;transform:translate(-50%,-50%) scale(.88)!important;transition:.38s ease!important}
