@@ -244,7 +244,7 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
 }
 .feature-stack{
   position:absolute;
-  width:360px;height:245px;
+  width:320px;height:150px;
   left:50%;top:382px;transform:translateX(-50%);
   z-index:1;pointer-events:none
 }
@@ -264,12 +264,9 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
     opacity .45s ease,
     transform .7s var(--ease);
 }
-.feature-stack button:nth-child(1){top:0;width:180px;opacity:.46}
-.feature-stack button:nth-child(2){top:28px;width:215px;opacity:.55}
-.feature-stack button:nth-child(3){top:60px;width:250px;opacity:.62}
-.feature-stack button:nth-child(4){top:95px;width:286px;opacity:.70}
-.feature-stack button:nth-child(5){top:133px;width:322px;opacity:.78}
-.feature-stack button:nth-child(6){top:175px;width:360px;opacity:.88}
+.feature-stack button:nth-child(1){top:0;width:200px;opacity:.58}
+.feature-stack button:nth-child(2){top:30px;width:250px;opacity:.72}
+.feature-stack button:nth-child(3){top:62px;width:300px;opacity:.9}
 .feature-stack button span{margin-left:9px}
 .hero-footer{
   grid-column:1/-1;
