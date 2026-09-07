@@ -292,12 +292,14 @@ function heroV2Reset(){
   clearTimeout(heroV2Timer);clearTimeout(heroV2AutoTimer);
   heroV2Running=false;
   heroV2RestoreSources();
+  heroRailWrap?.classList.remove("hero-v2-playing");
   document.querySelector(".hero-v2-stage")?.remove();
 }
 function heroV2Build(index){
   heroV2Reset();
   if(innerWidth<=1100)return null;
-  const d=heroV2Data[index],active=cardAt(CENTER_SET,index);
+  const d=heroV2Data[index];
+  const active=nearestCard() || cardAt(CENTER_SET,index);
   if(!d||!active)return null;
   const wrap=heroRailWrap.getBoundingClientRect(),cr=active.getBoundingClientRect();
   const stage=document.createElement("div");
@@ -328,15 +330,18 @@ function heroV2Build(index){
       '<div class="hv2-impact"><small>'+d.value+'</small><svg class="hv2-impact-chart" viewBox="0 0 100 40" aria-hidden="true"><path class="hv2-impact-grid" d="M0 34H100 M0 20H100 M0 6H100"/><path class="hv2-impact-line" d="M2 32 C15 28 20 25 29 27 S44 19 53 20 S69 10 77 13 S91 6 98 3"/></svg><b>'+d.metric+'</b></div>'+
     '</div>';
 
+  const visibleActive=nearestCard() || active;
   loopCards.forEach(c=>{
-    if(Number(c.dataset.logical)===index){
+    if(Number(c.dataset.logical)===index || c===visibleActive){
       c.classList.add("hero-v2-source");
       c.dataset.hv2Hidden="1";
       c.style.setProperty("opacity","0","important");
       c.style.setProperty("visibility","hidden","important");
       c.style.setProperty("pointer-events","none","important");
+      c.style.setProperty("transform","scale(.92)","important");
     }
   });
+  heroRailWrap.classList.add("hero-v2-playing");
   heroRailWrap.appendChild(stage);
   return stage;
 }
@@ -358,7 +363,7 @@ async function heroV2Play(index=activeIndex){
 
   // 3. Building stays on the left; checklist + Pinterest-style asset grid builds beside it.
   stage.dataset.phase="build";
-  if(!await hvWait(2100,token))return;
+  if(!await hvWait(3400,token))return;
 
   // 4. Entire build UI shrinks/fades away as one system.
   stage.dataset.phase="collapse";
@@ -415,6 +420,7 @@ async function heroV2Play(index=activeIndex){
     source.dataset.hv2Hidden="0";
   }
   stage.classList.add("final-handoff");
+  heroRailWrap?.classList.remove("hero-v2-playing");
   setTimeout(()=>stage.remove(),520);
 
   heroV2AutoTimer=setTimeout(()=>{
