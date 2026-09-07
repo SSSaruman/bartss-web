@@ -15,12 +15,9 @@ let activeIndex = 2;
 const baseCards = cards.map(c=>c.cloneNode(true));
 const baseCount = baseCards.length;
 const heroRailWrap = document.querySelector(".rail-wrap");
-const CENTER_POS = 2;
-let railX = 0;
-let heroShiftToken = 0;
-let heroIdleTimer = null;
-let heroIntroDone = false;
 let heroBusy = false;
+let heroIdleTimer = null;
+let heroNavToken = 0;
 
 rail.replaceChildren();
 baseCards.forEach((tpl,i)=>{
@@ -31,118 +28,78 @@ baseCards.forEach((tpl,i)=>{
 });
 
 function liveCards(){ return [...rail.querySelectorAll(".show-card")]; }
-function centerXForCard(card){
-  const wrap=heroRailWrap.getBoundingClientRect();
-  return window.innerWidth/2-wrap.left-(card.offsetLeft+card.offsetWidth/2);
-}
-function setRailX(x,animate=true){
-  rail.style.transition = animate ? "transform .82s cubic-bezier(.16,1,.3,1)" : "none";
-  railX=x;
-  rail.style.transform="translate3d("+railX+"px,0,0)";
-}
-function markIdleActive(card){
-  liveCards().forEach(c=>c.classList.remove("active","hero-idle-left","hero-idle-right"));
-  if(!card)return;
-  card.classList.add("active");
-  const arr=liveCards(),i=arr.indexOf(card);
-  if(arr[i-1])arr[i-1].classList.add("hero-idle-left");
-  if(arr[i+1])arr[i+1].classList.add("hero-idle-right");
-  activeIndex=Number(card.dataset.logical);
-}
-function canonicalCenter(){
-  const arr=liveCards();
-  const card=arr[CENTER_POS];
-  if(!card)return;
-  setRailX(centerXForCard(card),false);
-  markIdleActive(card);
-}
-function rotateToCenter(card){
-  let idx=liveCards().indexOf(card);
-  if(idx<0)return;
+function stopIdleLoop(){ clearTimeout(heroIdleTimer); heroIdleTimer=null; }
 
-  // If the clicked card is to the right of center, move items from
-  // the front to the end. This shifts the clicked card left by one.
-  while(idx>CENTER_POS){
-    rail.appendChild(rail.firstElementChild);
-    idx=liveCards().indexOf(card);
-  }
+function circularDistance(index,active){
+  let d=index-active;
+  while(d>baseCount/2)d-=baseCount;
+  while(d<-baseCount/2)d+=baseCount;
+  return d;
+}
 
-  // If the clicked card is to the left of center, move items from
-  // the end to the front. This shifts the clicked card right by one.
-  while(idx<CENTER_POS){
-    rail.insertBefore(rail.lastElementChild,rail.firstElementChild);
-    idx=liveCards().indexOf(card);
-  }
+function layoutHeroCards(animate=true){
+  const wrapW=heroRailWrap?.clientWidth || innerWidth;
+  const step=Math.min(392,Math.max(315,wrapW*.225));
+  liveCards().forEach(card=>{
+    const i=Number(card.dataset.logical);
+    const d=circularDistance(i,activeIndex);
+    let x=d*step;
+    if(heroBusy && d!==0) x += d<0 ? -118 : 118;
+    card.style.setProperty("--hero-x",x+"px");
+    card.style.setProperty("--hero-scale",d===0?"1.15":(Math.abs(d)===1?".98":".94"));
+    card.style.setProperty("--hero-opacity",d===0?"1":(Math.abs(d)===1?".82":".58"));
+    card.classList.toggle("active",d===0);
+    card.classList.toggle("hero-side-left",d<0);
+    card.classList.toggle("hero-side-right",d>0);
+    card.style.transitionDuration=animate?".82s":"0s";
+    card.style.zIndex=String(20-Math.abs(d));
+  });
 }
-function normalizeAfterShift(card){
-  rail.style.transition="none";
-  rotateToCenter(card);
-  const centered=liveCards()[CENTER_POS];
-  setRailX(centerXForCard(centered),false);
-  rail.offsetHeight;
-  rail.style.transition="";
-  markIdleActive(centered);
-}
-function stopIdleLoop(){
-  clearTimeout(heroIdleTimer);
-  heroIdleTimer=null;
-}
-function scheduleIdleLoop(delay=3400){
+
+function scheduleIdleLoop(delay=3600){
   stopIdleLoop();
   if(heroBusy)return;
   heroIdleTimer=setTimeout(()=>{
     if(heroBusy)return;
-    const arr=liveCards();
-    const next=arr[CENTER_POS+1] || arr[0];
-    focusCard(next,{play:false,fromIdle:true});
+    activeIndex=(activeIndex+1)%baseCount;
+    layoutHeroCards(true);
+    scheduleIdleLoop(3400);
   },delay);
 }
-function focusCard(card,{play=true,fromIdle=false}={}){
-  if(!card || innerWidth<=1100)return;
+
+function selectHeroCard(index,{play=true}={}){
   stopIdleLoop();
-  const token=++heroShiftToken;
-
-  // Interrupt any existing product story first.
+  const token=++heroNavToken;
   if(typeof heroV2Reset==="function") heroV2Reset();
-
-  // The exact clicked physical card moves directly to center.
-  const targetX=centerXForCard(card);
-  liveCards().forEach(c=>c.classList.remove("active","hero-idle-left","hero-idle-right"));
-  card.classList.add("active");
-  setRailX(targetX,true);
-
-  setTimeout(()=>{
-    if(token!==heroShiftToken)return;
-    normalizeAfterShift(card);
-    const centered=liveCards()[CENTER_POS];
-    if(play){
-      setTimeout(()=>{
-        if(token===heroShiftToken) heroV2Play(Number(centered.dataset.logical));
-      },110);
-    }else{
-      scheduleIdleLoop(fromIdle?3000:3400);
-    }
-  },860);
+  activeIndex=((index%baseCount)+baseCount)%baseCount;
+  layoutHeroCards(true);
+  if(play){
+    setTimeout(()=>{
+      if(token===heroNavToken) heroV2Play(activeIndex);
+    },880);
+  }else{
+    scheduleIdleLoop(3200);
+  }
 }
 
 rail.addEventListener("click",e=>{
   const card=e.target.closest(".show-card");
   if(!card)return;
   e.preventDefault();
-  focusCard(card,{play:true});
+  selectHeroCard(Number(card.dataset.logical),{play:true});
 });
 
-window.addEventListener("resize",()=>{
-  if(innerWidth<=1100)return;
-  canonicalCenter();
-});
+window.addEventListener("resize",()=>layoutHeroCards(false));
 
 requestAnimationFrame(()=>{
-  canonicalCenter();
+  liveCards().forEach((card,i)=>{
+    card.style.setProperty("--intro-delay",(Math.abs(i-activeIndex)*55)+"ms");
+  });
   heroRailWrap?.classList.add("hero-intro");
+  layoutHeroCards(false);
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
     heroRailWrap?.classList.add("hero-intro-done");
-    heroIntroDone=true;
+    layoutHeroCards(true);
     scheduleIdleLoop(3600);
   }));
 });
@@ -174,8 +131,8 @@ stage.addEventListener("click",e=>updateSplit(e.clientX));
 
 const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting) entry.target.classList.add("in-view")}),{threshold:.12});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
-window.addEventListener("resize",()=>setActive(activeIndex));
-requestAnimationFrame(()=>setActive(2));
+
+
 
 // Immersive sticky parallax + phone scenes
 const immersive = document.getElementById("immersiveWork");
@@ -245,7 +202,7 @@ window.addEventListener("scroll",updateTabletExperience,{passive:true});
 updateTabletExperience();
 
 
-// HERO V2 — deterministic Hightouch-style product story.
+// HERO V2 — clean deterministic product-story engine.
 const heroV2Data=[
  {title:"Brand Identity",eyebrow:"BARTSS / BRAND",art:"https://images.unsplash.com/photo-1600508774634-4e11d34730e2?auto=format&fit=crop&w=1200&q=84",build:[["Logo design","Ownable mark"],["Brand identity","One visual language"],["Typography & color","Recognisable system"],["Print assets","Ready for real-world use"]],resultTitle:"Identity system ready",resultSub:"Logo, type, color and print working as one.",value:"Brand recognition",metric:"+38%"},
  {title:"Web & Product",eyebrow:"BARTSS / WEB",art:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=84",build:[["UX architecture","Clear user path"],["Responsive UI","Every screen covered"],["Design system","Faster iteration"],["Conversion flow","More completed actions"]],resultTitle:"Product flow ready",resultSub:"Clearer UX, reusable UI and stronger conversion.",value:"Task completion",metric:"+31%"},
@@ -256,9 +213,9 @@ const heroV2Data=[
 ];
 
 liveCards().forEach(card=>{
-  const i=Number(card.dataset.logical);
+  const d=heroV2Data[Number(card.dataset.logical)];
   const img=card.querySelector(".hero-card-art");
-  if(img){img.src=heroV2Data[i].art;img.loading="eager";img.decoding="async";}
+  if(img){img.src=d.art;img.loading="eager";img.decoding="async";}
 });
 
 let heroV2Token=0;
@@ -267,29 +224,26 @@ let heroV2Timer=null;
 function hvWait(ms,token){
   return new Promise(resolve=>heroV2Timer=setTimeout(()=>resolve(token===heroV2Token),ms));
 }
+
 function heroV2Reset(){
   heroV2Token++;
   clearTimeout(heroV2Timer);
-  heroBusy=false;
-  const stage=document.querySelector(".hero-v2-stage");
-  if(stage)stage.remove();
+  document.querySelector(".hero-v2-stage")?.remove();
   liveCards().forEach(c=>{
-    c.classList.remove("hero-v2-source","hero-v2-neighbor-left","hero-v2-neighbor-right","hero-v2-space");
-    c.style.removeProperty("opacity");
+    c.classList.remove("hero-v2-source");
     c.style.removeProperty("visibility");
     c.style.removeProperty("pointer-events");
-    c.style.removeProperty("--hero-space");
   });
+  heroBusy=false;
   heroRailWrap?.classList.remove("hero-v2-playing");
-  const center=liveCards()[CENTER_POS];
-  if(center)markIdleActive(center);
+  layoutHeroCards(true);
 }
 
-function heroV2Build(index){
+function buildStory(index){
   if(innerWidth<=1100)return null;
+  const source=liveCards().find(c=>Number(c.dataset.logical)===index);
   const d=heroV2Data[index];
-  const source=liveCards()[CENTER_POS];
-  if(!d||!source||Number(source.dataset.logical)!==index)return null;
+  if(!source||!d)return null;
 
   const wrap=heroRailWrap.getBoundingClientRect();
   const cr=source.getBoundingClientRect();
@@ -307,40 +261,20 @@ function heroV2Build(index){
 
   stage.innerHTML=
     '<div class="hv2-exact-scene">'+
-      '<div class="hv2-main-card">'+
-        '<div class="hv2-main-photo"><img src="'+d.art+'" alt=""></div>'+
-        '<div class="hv2-main-copy"><small>'+d.eyebrow+'</small><b>'+d.title+'</b><span>Ideas into outcomes.</span></div>'+
-      '</div>'+
+      '<div class="hv2-main-card"><div class="hv2-main-photo"><img src="'+d.art+'" alt=""></div><div class="hv2-main-copy"><small>'+d.eyebrow+'</small><b>'+d.title+'</b><span>Ideas into outcomes.</span></div></div>'+
       '<div class="hv2-building"><span class="spinner"></span><b>Building…</b></div>'+
       '<div class="hv2-build-copy">'+checklist+'</div>'+
       '<div class="hv2-pin-grid">'+thumbs+'</div>'+
-      '<div class="hv2-result-card">'+
-        '<div class="hv2-result-photo"><img src="'+d.art+'" alt=""></div>'+
-        '<div class="hv2-result-copy"><small>'+d.eyebrow+'</small><b>'+d.resultTitle+'</b><span>'+d.resultSub+'</span></div>'+
-      '</div>'+
-      '<div class="hv2-impact"><small>'+d.value+'</small><svg class="hv2-impact-chart" viewBox="0 0 100 40" aria-hidden="true"><path class="hv2-impact-grid" d="M0 34H100 M0 20H100 M0 6H100"/><path class="hv2-impact-line" d="M2 32 C15 28 20 25 29 27 S44 19 53 20 S69 10 77 13 S91 6 98 3"/></svg><b>'+d.metric+'</b></div>'+
+      '<div class="hv2-result-card"><div class="hv2-result-photo"><img src="'+d.art+'" alt=""></div><div class="hv2-result-copy"><small>'+d.eyebrow+'</small><b>'+d.resultTitle+'</b><span>'+d.resultSub+'</span></div></div>'+
+      '<div class="hv2-impact"><small>'+d.value+'</small><svg class="hv2-impact-chart" viewBox="0 0 100 40"><path class="hv2-impact-grid" d="M0 34H100 M0 20H100 M0 6H100"/><path class="hv2-impact-line" d="M2 32 C15 28 20 25 29 27 S44 19 53 20 S69 10 77 13 S91 6 98 3"/></svg><b>'+d.metric+'</b></div>'+
     '</div>';
 
-  const arr=liveCards(),i=arr.indexOf(source);
   source.classList.add("hero-v2-source");
-  source.style.setProperty("opacity","0","important");
   source.style.setProperty("visibility","hidden","important");
   source.style.setProperty("pointer-events","none","important");
-
-  // Real in-flow spacing: add equal left/right margins to the hidden source.
-  // Counter-shift the rail by the left margin so the story stays centered;
-  // this physically pushes the left neighbor left and the right neighbor right.
-  const storySpace=178;
-  source.classList.add("hero-v2-space");
-  source.style.setProperty("--hero-space",storySpace+"px");
-  const beforeSpaceX=railX;
-  requestAnimationFrame(()=>{
-    rail.style.transition="transform .84s cubic-bezier(.16,1,.3,1)";
-    railX=beforeSpaceX-storySpace;
-    rail.style.transform="translate3d("+railX+"px,0,0)";
-  });
-
+  heroBusy=true;
   heroRailWrap.classList.add("hero-v2-playing");
+  layoutHeroCards(true);
   heroRailWrap.appendChild(stage);
   return {stage,source,d};
 }
@@ -349,16 +283,18 @@ async function heroV2Play(index){
   stopIdleLoop();
   heroV2Reset();
   heroBusy=true;
-  const built=heroV2Build(index);
+  layoutHeroCards(true);
+
+  const built=buildStory(index);
   if(!built){heroBusy=false;return;}
   const {stage,source,d}=built;
   const token=++heroV2Token;
 
   stage.dataset.phase="card";
-  if(!await hvWait(720,token))return;
+  if(!await hvWait(700,token))return;
 
   stage.dataset.phase="building";
-  if(!await hvWait(820,token))return;
+  if(!await hvWait(850,token))return;
 
   stage.dataset.phase="build";
   if(!await hvWait(3000,token))return;
@@ -370,61 +306,48 @@ async function heroV2Play(index){
   if(!await hvWait(620,token))return;
 
   stage.dataset.phase="resultGrow";
-  if(!await hvWait(1080,token))return;
+  if(!await hvWait(1050,token))return;
 
   stage.dataset.phase="impact";
-  const impactNumber=stage.querySelector(".hv2-impact b");
-  const impactLine=stage.querySelector(".hv2-impact-line");
-  if(impactLine){
-    impactLine.style.strokeDasharray="160";
-    impactLine.style.strokeDashoffset="160";
-    requestAnimationFrame(()=>impactLine.style.strokeDashoffset="0");
+  const line=stage.querySelector(".hv2-impact-line");
+  const number=stage.querySelector(".hv2-impact b");
+  if(line){
+    line.style.strokeDasharray="160";
+    line.style.strokeDashoffset="160";
+    requestAnimationFrame(()=>line.style.strokeDashoffset="0");
   }
-  if(impactNumber){
+  if(number){
     const raw=d.metric;
-    const numeric=parseFloat(String(raw).replace(/[^0-9.]/g,""));
-    const prefix=String(raw).trim().startsWith("+")?"+":"";
-    const suffix=String(raw).includes("%")?"%":(String(raw).includes("×")?"×":"");
-    const started=performance.now();
-    const duration=1250;
-    const tick=now=>{
-      if(token!==heroV2Token||!impactNumber.isConnected)return;
-      const p=Math.min(1,(now-started)/duration);
+    const numeric=parseFloat(raw.replace(/[^0-9.]/g,""));
+    const prefix=raw.startsWith("+")?"+":"";
+    const suffix=raw.includes("%")?"%":(raw.includes("×")?"×":"");
+    const t0=performance.now();
+    const animateNumber=now=>{
+      if(token!==heroV2Token||!number.isConnected)return;
+      const p=Math.min(1,(now-t0)/1250);
       const eased=1-Math.pow(1-p,3);
-      const value=numeric*eased;
-      impactNumber.textContent=prefix+(numeric%1?value.toFixed(1):Math.round(value))+suffix;
-      if(p<1)requestAnimationFrame(tick);
+      const val=numeric*eased;
+      number.textContent=prefix+(numeric%1?val.toFixed(1):Math.round(val))+suffix;
+      if(p<1)requestAnimationFrame(animateNumber);
     };
-    requestAnimationFrame(tick);
+    requestAnimationFrame(animateNumber);
   }
   if(!await hvWait(1750,token))return;
 
   stage.dataset.phase="final";
-  if(!await hvWait(1100,token))return;
+  if(!await hvWait(1050,token))return;
 
-  // Exact source handoff: restore source, then fade overlay.
-  const storySpace=parseFloat(source.style.getPropertyValue("--hero-space"))||178;
-  source.style.setProperty("--hero-space","0px");
-  rail.style.transition="transform .78s cubic-bezier(.16,1,.3,1)";
-  railX=railX+storySpace;
-  rail.style.transform="translate3d("+railX+"px,0,0)";
-
-  setTimeout(()=>{
-    if(token!==heroV2Token)return;
-    source.style.setProperty("opacity","1","important");
-    source.style.setProperty("visibility","visible","important");
-    source.style.setProperty("pointer-events","auto","important");
-    source.classList.remove("hero-v2-source","hero-v2-space");
-    source.style.removeProperty("--hero-space");
-    stage.classList.add("final-handoff");
-    heroRailWrap.classList.remove("hero-v2-playing");
-  },520);
+  source.style.removeProperty("visibility");
+  source.style.removeProperty("pointer-events");
+  source.classList.remove("hero-v2-source");
+  stage.classList.add("final-handoff");
+  heroBusy=false;
+  heroRailWrap.classList.remove("hero-v2-playing");
+  layoutHeroCards(true);
 
   setTimeout(()=>{
     if(token!==heroV2Token)return;
     stage.remove();
-    heroBusy=false;
-    markIdleActive(source);
-    scheduleIdleLoop(2400);
-  },980);
+    scheduleIdleLoop(2500);
+  },520);
 }
