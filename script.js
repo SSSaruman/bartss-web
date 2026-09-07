@@ -268,10 +268,13 @@ let heroV2Token=0,heroV2Timer=null,heroV2Running=false;
 const wait=(ms,token)=>new Promise(resolve=>heroV2Timer=setTimeout(()=>resolve(token===heroV2Token),ms));
 function heroV2Reset(animate=true){
   heroV2Token++;clearTimeout(heroV2Timer);heroV2Running=false;
+  document.querySelectorAll(".show-card.hero-v2-source").forEach(c=>c.classList.remove("hero-v2-source"));
   const stage=document.querySelector(".hero-v2-stage");
   if(!stage)return;
-  if(animate){stage.dataset.phase="reset";stage.classList.add("resetting");setTimeout(()=>stage.remove(),480);}
-  else stage.remove();
+  if(animate){
+    stage.dataset.phase="reset";stage.classList.add("resetting");
+    setTimeout(()=>stage.remove(),480);
+  } else stage.remove();
 }
 function heroV2Build(index){
   heroV2Reset(false);
@@ -295,6 +298,7 @@ function heroV2Build(index){
       '<div class="hv2-strategy"><span>✦</span><b>'+d.title+'</b><em>→ system ready</em></div>'+
       '<div class="hv2-formats">'+formatHtml+'</div>'+
     '</div>';
+  active.classList.add("hero-v2-source");
   heroRailWrap.appendChild(stage);
   return stage;
 }
@@ -303,13 +307,26 @@ async function heroV2Play(index=activeIndex){
   heroV2Running=true;
   const stage=heroV2Build(index);if(!stage){heroV2Running=false;return;}
   const token=++heroV2Token;
-  const phases=[["context",650],["skeleton",900],["assets",1100],["seed",680],["grow",1150],["benefits",1650],["metric",1650],["strategy",950],["formats",1800],["return",1250],["final",2600]];
+  const phases=[
+    ["context",520],
+    ["skeleton",780],
+    ["assets",980],
+    ["seed",520],
+    ["grow",980],
+    ["benefits",1380],
+    ["metric",1320],
+    ["strategy",720],
+    ["formats",1500],
+    ["return",980],
+    ["final",2200]
+  ];
   for(const pair of phases){
     if(token!==heroV2Token)return;
     stage.dataset.phase=pair[0];
     if(!await wait(pair[1],token))return;
   }
   stage.dataset.complete="true";heroV2Running=false;
+  document.querySelectorAll(".show-card.hero-v2-source").forEach(c=>c.classList.remove("hero-v2-source"));
 }
 heroRailWrap?.addEventListener("mouseenter",()=>{
   if(innerWidth<=1100||railDragging||heroV2Running)return;
