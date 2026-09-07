@@ -20,10 +20,18 @@ async function audit(name,width,height){
   if(await hero.count()) await hero.screenshot({path:`${out}/${name}-hero.png`});
 
   if(width>1100){
-    const target=page.locator('#products');
-    await target.click({position:{x:140,y:140}});
+    await page.evaluate(()=>{
+      const cards=[...document.querySelectorAll('.card-rail .show-card[data-index="4"]')];
+      const center=innerWidth/2;
+      const target=cards.reduce((best,card)=>{
+        const r=card.getBoundingClientRect();
+        const d=Math.abs((r.left+r.width/2)-center);
+        return !best||d<best.d?{card,d}:best;
+      },null)?.card;
+      target?.click();
+    });
     await page.waitForTimeout(850);
-    const active=await page.locator('.card-rail .show-card.active').first().getAttribute("data-index");
+    const active=await page.evaluate(()=>document.querySelector('.card-rail .show-card.active')?.dataset.index||null);
     if(active!=="4") errors.push("hero-active-mismatch: expected 4 got "+active);
   }
 
