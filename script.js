@@ -14,19 +14,17 @@ document.addEventListener("pointerdown", e => { if(!document.body.classList.cont
 let activeIndex = 2;
 const baseCards = cards.map(c=>c.cloneNode(true));
 const baseCount = baseCards.length;
-const SETS = 5;
-const CENTER_SET = 2;
+// Click-only hero: one physical set only. No clones, no canonical-set rebasing.
+const SETS = 1;
+const CENTER_SET = 0;
 rail.replaceChildren();
 
-for(let s=0;s<SETS;s++){
-  baseCards.forEach((tpl,i)=>{
-    const card=tpl.cloneNode(true);
-    card.removeAttribute("id");
-    card.dataset.logical=String(i);
-    card.dataset.set=String(s);
-    rail.appendChild(card);
-  });
-}
+baseCards.forEach((tpl,i)=>{
+  const card=tpl.cloneNode(true);
+  card.dataset.logical=String(i);
+  card.dataset.set="0";
+  rail.appendChild(card);
+});
 const loopCards=[...rail.querySelectorAll(".show-card")];
 let railX=0,setWidth=0,railDragging=false,dragStartX=0,dragStartRailX=0,lastDragX=0,lastDragT=0,railVelocity=0,railInertia=0,dragMoved=false,wheelLock=false;
 const heroRailWrap=document.querySelector(".rail-wrap");
@@ -40,10 +38,7 @@ function centerXForCard(card){
   const wrap=heroRailWrap.getBoundingClientRect();
   return window.innerWidth/2-wrap.left-(card.offsetLeft+card.offsetWidth/2);
 }
-function refreshSetWidth(){
-  const ca=cardAt(CENTER_SET,0),cb=cardAt(CENTER_SET+1,0);
-  if(ca&&cb)setWidth=cb.offsetLeft-ca.offsetLeft;
-}
+function refreshSetWidth(){ setWidth=0; }
 function applyIdleFocus(card){
   loopCards.forEach(c=>c.classList.remove("hero-v2-idle-left","hero-v2-idle-right"));
   if(!card || heroRailWrap?.classList.contains("hero-v2-playing")) return;
@@ -120,10 +115,8 @@ function focusPhysicalCard(card,{play=true}={}){
   rail.style.transform="translate3d("+railX+"px,0,0)";
 
   setTimeout(()=>{
-    // Rebase silently to the center-set twin AFTER the visible move is complete.
-    // Because the repeated sets are identical, this is visually lossless.
-    canonicalize(next,false);
-    applyIdleFocus(cardAt(CENTER_SET,next));
+    // Single physical set: no hidden rebase and therefore no second sweep.
+    applyIdleFocus(card);
     if(play) setTimeout(()=>heroV2Play(next),120);
   },780);
 }
@@ -143,7 +136,7 @@ requestAnimationFrame(()=>{
   refreshSetWidth();
   canonicalize(activeIndex,false);
   loopCards.forEach((c,i)=>{
-    const centerIndex=CENTER_SET*baseCount+activeIndex;
+    const centerIndex=activeIndex;
     const distance=Math.min(5,Math.abs(i-centerIndex));
     c.style.setProperty("--hv2-intro-delay",(distance*55)+"ms");
   });
@@ -449,8 +442,8 @@ async function heroV2Play(index=activeIndex){
     if(document.querySelector(".hero-v2-stage") || heroV2Running) return;
     const current=cardAt(CENTER_SET,index);
     const currentIdx=loopCards.indexOf(current);
-    const nextCard=loopCards[currentIdx+1] || cardAt(CENTER_SET,(index+1)%baseCount);
-    focusPhysicalCard(nextCard,{play:false});
+    const nextCard=loopCards[currentIdx+1];
+    if(nextCard) focusPhysicalCard(nextCard,{play:false});
   },2600);
 }
 
