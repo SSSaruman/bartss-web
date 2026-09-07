@@ -44,7 +44,10 @@ function refreshSetWidth(){
   const ca=cardAt(CENTER_SET,0),cb=cardAt(CENTER_SET+1,0);
   if(ca&&cb)setWidth=cb.offsetLeft-ca.offsetLeft;
 }
-function markActive(card){ loopCards.forEach(c=>c.classList.toggle("active",c===card)); }
+function markActive(card){
+  loopCards.forEach(c=>c.classList.remove("active"));
+  if(card) card.classList.add("active");
+}
 function normalizeNearCenter(x){
   if(!setWidth)refreshSetWidth();
   const anchor=centerXForCard(cardAt(CENTER_SET,activeIndex));
@@ -254,12 +257,12 @@ updateTabletExperience();
 
 // HERO V2 — exact 7-step timeline adapted from the supplied Hightouch reference.
 const heroV2Data=[
- {title:"Brand Identity",eyebrow:"BARTSS / BRAND",art:"https://images.unsplash.com/photo-1600508774634-4e11d34730e2?auto=format&fit=crop&w=1200&q=84",build:["Logo design","Brand identity","Typography & color palette","Print assets"],value:"Brand recognition",metric:"+38%"},
- {title:"Web & Product",eyebrow:"BARTSS / WEB",art:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=84",build:["UX architecture","Responsive UI","Design system","Conversion flow"],value:"Task completion",metric:"+31%"},
- {title:"AutoLAB",eyebrow:"AUTOLAB / AI",art:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=84",build:["Storyboard","Character Lock","Style Lock","QC pipeline"],value:"Production speed",metric:"3.4×"},
- {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",art:"https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1200&q=84",build:["Storyboard","3D asset","Motion language","Format system"],value:"Attention lift",metric:"+42%"},
- {title:"AiFinance",eyebrow:"AIFINANCE / AI",art:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=84",build:["Context layer","Signal filter","Risk view","Action tracking"],value:"Decision clarity",metric:"+27%"},
- {title:"Proposal System",eyebrow:"BARTSS / SALES",art:"https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=84",build:["Scope builder","Interactive pricing","Approval flow","Client tracking"],value:"Approval speed",metric:"+46%"}
+ {title:"Brand Identity",eyebrow:"BARTSS / BRAND",art:"https://images.unsplash.com/photo-1600508774634-4e11d34730e2?auto=format&fit=crop&w=1200&q=84",build:[["Logo design","Ownable mark"],["Brand identity","One visual language"],["Typography & color","Recognisable system"],["Print assets","Ready for real-world use"]],resultTitle:"Identity system ready",resultSub:"Logo, type, color and print working as one.",value:"Brand recognition",metric:"+38%"},
+ {title:"Web & Product",eyebrow:"BARTSS / WEB",art:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=84",build:[["UX architecture","Clear user path"],["Responsive UI","Every screen covered"],["Design system","Faster iteration"],["Conversion flow","More completed actions"]],resultTitle:"Product flow ready",resultSub:"Clearer UX, reusable UI and stronger conversion.",value:"Task completion",metric:"+31%"},
+ {title:"AutoLAB",eyebrow:"AUTOLAB / AI",art:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=84",build:[["Storyboard","Scene structure"],["Character Lock","Consistent people"],["Style Lock","One visual language"],["QC pipeline","Approved output only"]],resultTitle:"Production pipeline ready",resultSub:"Story to approved visual with less drift.",value:"Production speed",metric:"3.4×"},
+ {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",art:"https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1200&q=84",build:[["Storyboard","Clear motion intent"],["3D asset","Premium depth"],["Motion language","Memorable behaviour"],["Format system","Every channel covered"]],resultTitle:"Motion system ready",resultSub:"One idea adapted across every moving format.",value:"Attention lift",metric:"+42%"},
+ {title:"AiFinance",eyebrow:"AIFINANCE / AI",art:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=84",build:[["Context layer","Understand why"],["Signal filter","Remove noise"],["Risk view","See exposure"],["Action tracking","Close the loop"]],resultTitle:"Decision system ready",resultSub:"Noise filtered into clearer actions.",value:"Decision clarity",metric:"+27%"},
+ {title:"Proposal System",eyebrow:"BARTSS / SALES",art:"https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=84",build:[["Scope builder","Clear choices"],["Interactive pricing","Less back-and-forth"],["Approval flow","Shorter sign-off"],["Client tracking","Visible buying intent"]],resultTitle:"Sales flow ready",resultSub:"Interest moves faster toward approval.",value:"Approval speed",metric:"+46%"}
 ];
 
 loopCards.forEach(card=>{
@@ -277,7 +280,7 @@ function heroV2Reset(){
   heroV2Token++;
   clearTimeout(heroV2Timer);clearTimeout(heroV2AutoTimer);
   heroV2Running=false;
-  document.querySelectorAll(".show-card.hero-v2-source").forEach(c=>c.classList.remove("hero-v2-source"));
+  loopCards.forEach(c=>c.classList.remove("hero-v2-source"));
   document.querySelector(".hero-v2-stage")?.remove();
 }
 function heroV2Build(index){
@@ -292,10 +295,10 @@ function heroV2Build(index){
   stage.style.setProperty("--hy",(cr.top-wrap.top+cr.height/2)+"px");
 
   const thumbs=d.build.map((x,n)=>
-    '<i style="--n:'+n+'"><img src="'+d.art+'" alt=""><b>'+x+'</b></i>'
+    '<i style="--n:'+n+'"><img src="'+d.art+'" alt=""><b>'+x[0]+'</b><em>'+x[1]+'</em></i>'
   ).join("");
   const checklist=d.build.map((x,n)=>
-    '<span style="--n:'+n+'"><i></i>'+x+'</span>'
+    '<span style="--n:'+n+'"><i></i><b>'+x[0]+'</b><em>'+x[1]+'</em></span>'
   ).join("");
 
   stage.innerHTML=
@@ -309,12 +312,14 @@ function heroV2Build(index){
       '<div class="hv2-pin-grid">'+thumbs+'</div>'+
       '<div class="hv2-result-card">'+
         '<div class="hv2-result-photo"><img src="'+d.art+'" alt=""></div>'+
-        '<div class="hv2-result-copy"><small>'+d.eyebrow+'</small><b>'+d.title+'</b></div>'+
+        '<div class="hv2-result-copy"><small>'+d.eyebrow+'</small><b>'+d.resultTitle+'</b><span>'+d.resultSub+'</span></div>'+
       '</div>'+
       '<div class="hv2-impact"><small>'+d.value+'</small><div class="hv2-impact-chart"></div><b>'+d.metric+'</b></div>'+
     '</div>';
 
-  active.classList.add("hero-v2-source");
+  loopCards.forEach(c=>{
+    if(Number(c.dataset.logical)===index) c.classList.add("hero-v2-source");
+  });
   heroRailWrap.appendChild(stage);
   return stage;
 }
