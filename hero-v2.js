@@ -97,9 +97,14 @@ function stopInertia(){if(railInertia)cancelAnimationFrame(railInertia);railIner
 
 loopCards.forEach(card=>card.addEventListener("click",()=>{
   const next=Number(card.dataset.logical);
+  if(next===activeIndex && document.querySelector(".hero-v2-stage")) return;
   heroV2Reset();
+  rail.style.transition="transform .68s cubic-bezier(.18,.82,.18,1)";
   setActive(next);
-  setTimeout(()=>heroV2Play(next),900);
+  setTimeout(()=>{
+    canonicalize(next,false);
+    heroV2Play(next);
+  },720);
 }));
 
 // Hero selection is click-only. Drag and wheel navigation are intentionally disabled
@@ -234,7 +239,7 @@ function hvWait(ms,token){
 }
 function heroV2RestoreSources(){
   loopCards.forEach(c=>{
-    c.classList.remove("hero-v2-source","hero-v2-slot");
+    c.classList.remove("hero-v2-source","hero-v2-slot","hero-v2-neighbor-left","hero-v2-neighbor-right");
     c.style.removeProperty("--hv2-slot-extra");
     if(c.dataset.hv2Hidden==="1"){
       c.style.removeProperty("opacity");
@@ -301,18 +306,16 @@ function heroV2Build(index){
   });
 
   // Expand the actual visible slot in-flow so neighboring cards are physically pushed away.
-  visibleActive.classList.add("hero-v2-slot");
-  const slotExtra=240;
-  visibleActive.style.setProperty("--hv2-slot-extra",slotExtra+"px");
   heroRailWrap.classList.add("hero-v2-playing");
 
-  // Expanding a flex item grows to the right. Counter-shift the rail by half
-  // the added width so the active motion area stays centered and both neighbors
-  // are displaced outward symmetrically.
-  requestAnimationFrame(()=>{
-    railX=getRailX()-(slotExtra/2);
-    rail.style.transition="transform .82s cubic-bezier(.18,.82,.18,1)";
-    rail.style.transform="translate3d("+railX+"px,0,0)";
+  // Keep the rail itself completely fixed during motion.
+  // Only nearby cards move outward so selecting another card never causes
+  // the whole carousel to slide or re-canonicalize mid-animation.
+  const visibleIndex=loopCards.indexOf(visibleActive);
+  loopCards.forEach((c,i)=>{
+    c.classList.remove("hero-v2-neighbor-left","hero-v2-neighbor-right");
+    if(i===visibleIndex-1 || i===visibleIndex-2) c.classList.add("hero-v2-neighbor-left");
+    if(i===visibleIndex+1 || i===visibleIndex+2) c.classList.add("hero-v2-neighbor-right");
   });
 
   heroRailWrap.appendChild(stage);
@@ -385,14 +388,7 @@ async function heroV2Play(index=activeIndex){
   await hvWait(1150,token);
   if(token!==heroV2Token)return;
   const source=nearestCard() || cardAt(CENTER_SET,index);
-  const slot=heroRailWrap.querySelector(".show-card.hero-v2-slot");
-  if(slot){
-    const currentExtra=parseFloat(getComputedStyle(slot).getPropertyValue("--hv2-slot-extra"))||240;
-    slot.style.setProperty("--hv2-slot-extra","0px");
-    railX=getRailX()+(currentExtra/2);
-    rail.style.transition="transform .72s cubic-bezier(.18,.82,.18,1)";
-    rail.style.transform="translate3d("+railX+"px,0,0)";
-  }
+  loopCards.forEach(c=>c.classList.remove("hero-v2-neighbor-left","hero-v2-neighbor-right"));
   setTimeout(()=>{
     if(source){
       source.style.setProperty("opacity","1","important");
@@ -402,7 +398,7 @@ async function heroV2Play(index=activeIndex){
       source.style.removeProperty("--hv2-slot-extra");
       source.dataset.hv2Hidden="0";
     }
-  },360);
+  },260);
   stage.classList.add("final-handoff");
   heroRailWrap?.classList.remove("hero-v2-playing");
   setTimeout(()=>stage.remove(),520);
