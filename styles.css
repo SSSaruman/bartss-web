@@ -1540,3 +1540,28 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
 .hv2-impact b{
   font-size:28px!important;
 }
+
+
+/* HERO V2 — expanding in-flow slot pushes neighbor cards aside */
+@media(min-width:1101px){
+  .show-card{
+    flex:0 0 310px!important;
+    width:310px!important;
+    transition:
+      flex-basis .82s cubic-bezier(.18,.82,.18,1),
+      width .82s cubic-bezier(.18,.82,.18,1),
+      transform .82s cubic-bezier(.18,.82,.18,1),
+      opacity .5s ease,
+      filter .5s ease!important;
+  }
+  .show-card.hero-v2-slot{
+    flex-basis:calc(310px + var(--hv2-slot-extra,360px))!important;
+    width:calc(310px + var(--hv2-slot-extra,360px))!important;
+  }
+  .show-card.hero-v2-slot .visual,
+  .show-card.hero-v2-slot .card-top,
+  .show-card.hero-v2-slot .card-copy,
+  .show-card.hero-v2-slot .round-arrow{
+    opacity:0!important;
+  }
+}
