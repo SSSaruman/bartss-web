@@ -12,138 +12,94 @@ document.addEventListener("keydown", e => e.key === "Escape" && closeMenu());
 document.addEventListener("pointerdown", e => { if(!document.body.classList.contains("menu-open")) return; if(menuPanel.contains(e.target) || menuTrigger.contains(e.target)) return; closeMenu(); });
 
 let activeIndex = 2;
-let railX = 0;
-const baseCards = cards;
+const baseCards = cards.map(c=>c.cloneNode(true));
 const baseCount = baseCards.length;
+const SETS = 5;
+const CENTER_SET = 2;
+rail.replaceChildren();
 
-// Infinite visual rail: [clone set] [real set] [clone set].
-const beforeFrag=document.createDocumentFragment();
-baseCards.forEach((card,i)=>{
-  const clone=card.cloneNode(true);
-  clone.removeAttribute("id");
-  clone.dataset.clone="before";
-  clone.dataset.logical=String(i);
-  beforeFrag.appendChild(clone);
-});
-rail.insertBefore(beforeFrag,rail.firstChild);
-const afterFrag=document.createDocumentFragment();
-baseCards.forEach((card,i)=>{
-  const clone=card.cloneNode(true);
-  clone.removeAttribute("id");
-  clone.dataset.clone="after";
-  clone.dataset.logical=String(i);
-  afterFrag.appendChild(clone);
-});
-rail.appendChild(afterFrag);
-
+for(let s=0;s<SETS;s++){
+  baseCards.forEach((tpl,i)=>{
+    const card=tpl.cloneNode(true);
+    card.removeAttribute("id");
+    card.dataset.logical=String(i);
+    card.dataset.set=String(s);
+    rail.appendChild(card);
+  });
+}
 const loopCards=[...rail.querySelectorAll(".show-card")];
-loopCards.forEach((card,i)=>{
-  if(card.dataset.logical==null) card.dataset.logical=String((i-baseCount+baseCount)%baseCount);
-});
+let railX=0,setWidth=0,railDragging=false,dragStartX=0,dragStartRailX=0,lastDragX=0,lastDragT=0,railVelocity=0,railInertia=0,dragMoved=false,wheelLock=false;
+const heroRailWrap=document.querySelector(".rail-wrap");
 
 function getRailX(){
   const m=getComputedStyle(rail).transform;
   return m==="none"?0:new DOMMatrixReadOnly(m).m41;
 }
+function cardAt(setIndex,logical){ return loopCards[setIndex*baseCount+logical]; }
 function centerXForCard(card){
-  const wrap=document.querySelector(".rail-wrap").getBoundingClientRect();
+  const wrap=heroRailWrap.getBoundingClientRect();
   return window.innerWidth/2-wrap.left-(card.offsetLeft+card.offsetWidth/2);
 }
-function markActiveCopy(copyIndex){
-  loopCards.forEach((card,i)=>card.classList.toggle("active",i===copyIndex));
+function refreshSetWidth(){
+  const ca=cardAt(CENTER_SET,0),cb=cardAt(CENTER_SET+1,0);
+  if(ca&&cb)setWidth=cb.offsetLeft-ca.offsetLeft;
 }
-function centerActiveCard(immediate=false){
-  if(window.innerWidth<=1100)return;
-  const targetIndex=baseCount+activeIndex;
-  const target=loopCards[targetIndex];
-  if(!target)return;
-  railX=centerXForCard(target);
-  const prev=rail.style.transition;
-  if(immediate)rail.style.transition="none";
-  rail.style.transform=`translate3d(${railX}px,0,0)`;
-  markActiveCopy(targetIndex);
-  if(immediate){
-    rail.offsetHeight;
-    rail.style.transition=prev;
+function markActive(card){ loopCards.forEach(c=>c.classList.toggle("active",c===card)); }
+function normalizeNearCenter(x){
+  if(!setWidth)refreshSetWidth();
+  const anchor=centerXForCard(cardAt(CENTER_SET,activeIndex));
+  const min=anchor-setWidth*.55,max=anchor+setWidth*.55;
+  while(x<min)x+=setWidth;
+  while(x>max)x-=setWidth;
+  return x;
+}
+function canonicalize(logical,animate=false){
+  activeIndex=((logical%baseCount)+baseCount)%baseCount;
+  const target=cardAt(CENTER_SET,activeIndex); if(!target)return;
+  const tx=centerXForCard(target); markActive(target);
+  if(animate){
+    rail.style.transition="transform .78s cubic-bezier(.18,.82,.18,1)";
+    railX=tx; rail.style.transform="translate3d("+railX+"px,0,0)";
+  }else{
+    rail.style.transition="none";
+    railX=tx; rail.style.transform="translate3d("+railX+"px,0,0)";
+    rail.offsetHeight; rail.style.transition="";
   }
 }
 function setActive(index,immediate=false){
   activeIndex=((index%baseCount)+baseCount)%baseCount;
-  requestAnimationFrame(()=>centerActiveCard(immediate));
+  requestAnimationFrame(()=>canonicalize(activeIndex,!immediate));
 }
-function nearestLoopCard(){
-  let best=baseCount+activeIndex,bestDist=Infinity;
-  loopCards.forEach((card,i)=>{
-    const r=card.getBoundingClientRect();
-    const d=Math.abs((r.left+r.width/2)-window.innerWidth/2);
-    if(d<bestDist){bestDist=d;best=i;}
+function nearestCard(){
+  let best=null,dist=Infinity;
+  loopCards.forEach(card=>{
+    const r=card.getBoundingClientRect(),d=Math.abs((r.left+r.width/2)-window.innerWidth/2);
+    if(d<dist){dist=d;best=card;}
   });
   return best;
 }
-function snapToLoopCard(copyIndex){
-  const target=loopCards[copyIndex];
-  if(!target)return;
-  activeIndex=Number(target.dataset.logical);
-  markActiveCopy(copyIndex);
+function snapNearest(){
+  const target=nearestCard(); if(!target)return;
+  const logical=Number(target.dataset.logical);
+  markActive(target);
+  rail.style.transition="transform .76s cubic-bezier(.18,.82,.18,1)";
   railX=centerXForCard(target);
-  rail.style.transition="transform .78s cubic-bezier(.18,.82,.18,1)";
-  rail.style.transform=`translate3d(${railX}px,0,0)`;
+  rail.style.transform="translate3d("+railX+"px,0,0)";
   setTimeout(()=>{
-    const canonical=baseCount+activeIndex;
-    if(copyIndex!==canonical){
-      rail.style.transition="none";
-      railX=centerXForCard(loopCards[canonical]);
-      rail.style.transform=`translate3d(${railX}px,0,0)`;
-      markActiveCopy(canonical);
-      rail.offsetHeight;
-      rail.style.transition="";
-    }
-  },820);
+    activeIndex=logical; canonicalize(activeIndex,false);
+    if(heroRailWrap.matches(":hover")&&!railDragging)setTimeout(()=>heroV2Play(activeIndex),260);
+  },790);
 }
-loopCards.forEach(card=>card.addEventListener("click",()=>{
-  if(card.dataset.clone){
-    activeIndex=Number(card.dataset.logical);
-    setActive(activeIndex);
-  }else setActive(Number(card.dataset.index));
-}));
+function stopInertia(){if(railInertia)cancelAnimationFrame(railInertia);railInertia=0;}
 
-let wheelLock=false;
-window.addEventListener("wheel",e=>{
-  if(window.innerWidth<=1100||document.body.classList.contains("menu-open"))return;
-  const rect=rail.getBoundingClientRect();
-  if(rect.bottom<0||rect.top>window.innerHeight||Math.abs(e.deltaY)<18||wheelLock)return;
-  wheelLock=true;
-  heroV2Reset(true);
-  setActive(activeIndex+(e.deltaY>0?1:-1));
-  setTimeout(()=>wheelLock=false,620);
-},{passive:true});
+loopCards.forEach(card=>card.addEventListener("click",()=>setActive(Number(card.dataset.logical))));
 
-// Tactile drag: motion collapses first, rail follows pointer 1:1, inertia, snap, loop.
-const heroRailWrap=document.querySelector(".rail-wrap");
-let railDragging=false,dragStartX=0,dragStartRailX=0,lastDragX=0,lastDragT=0,railVelocity=0,railInertia=0,dragMoved=false;
-function stopRailInertia(){if(railInertia)cancelAnimationFrame(railInertia);railInertia=0;}
-let loopSetWidth=0,loopOriginX=0;
-function refreshLoopGeometry(){
-  if(window.innerWidth<=1100||loopCards.length<baseCount*2)return;
-  loopSetWidth=loopCards[baseCount].offsetLeft-loopCards[0].offsetLeft;
-  loopOriginX=centerXForCard(loopCards[baseCount+activeIndex]);
-}
-function normalizeLoopX(x){
-  if(!loopSetWidth)refreshLoopGeometry();
-  if(!loopSetWidth)return x;
-  const low=loopOriginX-loopSetWidth/2,high=loopOriginX+loopSetWidth/2;
-  while(x<low)x+=loopSetWidth;
-  while(x>high)x-=loopSetWidth;
-  return x;
-}
 if(heroRailWrap){
   heroRailWrap.addEventListener("pointerdown",e=>{
-    if(window.innerWidth<=1100||e.button!==0)return;
-    stopRailInertia();
-    heroV2Reset(true);
+    if(innerWidth<=1100||e.button!==0)return;
+    stopInertia(); heroV2Reset(true);
     railDragging=true;dragMoved=false;
-    dragStartX=lastDragX=e.clientX;
-    lastDragT=performance.now();
+    dragStartX=lastDragX=e.clientX;lastDragT=performance.now();
     dragStartRailX=getRailX();railX=dragStartRailX;railVelocity=0;
     heroRailWrap.classList.add("is-dragging");
     rail.style.transition="none";
@@ -153,42 +109,45 @@ if(heroRailWrap){
     if(!railDragging)return;
     const now=performance.now(),dt=Math.max(8,now-lastDragT);
     const dx=e.clientX-dragStartX;
-    if(Math.abs(dx)>4)dragMoved=true;
-    railX=normalizeLoopX(dragStartRailX+dx);
-    rail.style.transform=`translate3d(${railX}px,0,0)`;
+    if(Math.abs(dx)>3)dragMoved=true;
+    const raw=dragStartRailX+dx;
+    railX=normalizeNearCenter(raw);
+    if(Math.abs(railX-raw)>.5)dragStartRailX=railX-dx;
+    rail.style.transform="translate3d("+railX+"px,0,0)";
     const instant=(e.clientX-lastDragX)/dt*16.67;
-    railVelocity=railVelocity*.68+instant*.32;
+    railVelocity=railVelocity*.7+instant*.3;
     lastDragX=e.clientX;lastDragT=now;
-    markActiveCopy(nearestLoopCard());
+    markActive(nearestCard());
   });
   const finish=e=>{
     if(!railDragging)return;
-    railDragging=false;
-    heroRailWrap.classList.remove("is-dragging");
+    railDragging=false;heroRailWrap.classList.remove("is-dragging");
     try{heroRailWrap.releasePointerCapture(e.pointerId)}catch{}
-    if(!dragMoved){
-      rail.style.transition="";
-      snapToLoopCard(nearestLoopCard());
-      return;
-    }
-    let v=Math.max(-34,Math.min(34,railVelocity*1.2));
+    if(!dragMoved){rail.style.transition="";snapNearest();return;}
+    let v=Math.max(-38,Math.min(38,railVelocity*1.32));
     const glide=()=>{
-      v*=.93;
-      railX=normalizeLoopX(railX+v);
-      rail.style.transform=`translate3d(${railX}px,0,0)`;
-      markActiveCopy(nearestLoopCard());
-      if(Math.abs(v)>.32)railInertia=requestAnimationFrame(glide);
-      else{
-        railInertia=0;
-        snapToLoopCard(nearestLoopCard());
-        setTimeout(()=>{refreshLoopGeometry();if(heroRailWrap.matches(":hover")&&!railDragging)heroV2Play(activeIndex);},900);
-      }
+      v*=.938;
+      railX=normalizeNearCenter(railX+v);
+      rail.style.transform="translate3d("+railX+"px,0,0)";
+      markActive(nearestCard());
+      if(Math.abs(v)>.28)railInertia=requestAnimationFrame(glide);
+      else{railInertia=0;snapNearest();}
     };
     railInertia=requestAnimationFrame(glide);
   };
   heroRailWrap.addEventListener("pointerup",finish);
   heroRailWrap.addEventListener("pointercancel",finish);
 }
+window.addEventListener("wheel",e=>{
+  if(innerWidth<=1100||document.body.classList.contains("menu-open"))return;
+  const r=heroRailWrap.getBoundingClientRect();
+  if(r.bottom<0||r.top>innerHeight||Math.abs(e.deltaY)<18||wheelLock)return;
+  wheelLock=true;heroV2Reset(true);
+  setActive(activeIndex+(e.deltaY>0?1:-1));
+  setTimeout(()=>wheelLock=false,620);
+},{passive:true});
+window.addEventListener("resize",()=>{refreshSetWidth();canonicalize(activeIndex,false);});
+requestAnimationFrame(()=>{refreshSetWidth();canonicalize(activeIndex,false);});
 let featureOffset=0;
 setInterval(()=>{ featureOffset=(featureOffset+1)%featureButtons.length; featureButtons.forEach((btn,i)=>{ const order=(i-featureOffset+featureButtons.length)%featureButtons.length; const tops=[0,28,60,95,133,175], widths=[180,215,250,286,322,360], op=[.46,.55,.62,.70,.78,.88]; btn.style.top=`${tops[order]}px`; btn.style.width=`${widths[order]}px`; btn.style.opacity=op[order]; }); },1600);
 
@@ -288,67 +247,55 @@ window.addEventListener("scroll",updateTabletExperience,{passive:true});
 updateTabletExperience();
 
 
-// HERO V2: benefit-led motion choreography based on the supplied reference.
+// HERO V2 — Hightouch-inspired product storytelling, adapted to BARTSS.
 const heroV2Data=[
- {title:"Brand Identity",eyebrow:"BARTSS / BRAND",art:"https://imockups.com/storage/product/1512/ggaQh3Jpsf2HomOEs9Lf.png",desc:"A recognisable identity system that stays coherent everywhere.",a:"#afcddd",b:"#587080",prompt:"Build a brand people recognise instantly",status:"Structuring the brand system…",steps:[["Positioning","Clear differentiation"],["Identity System","Stronger recognition"],["Guidelines","Less brand drift"],["Launch Kit","Faster rollout"],["Motion Rules","Memorable behaviour"]],pills:["Recognisable faster","Consistent everywhere","Easier approvals","Ready to scale"],metric:"SYSTEM",metricLabel:"Brand outcome"},
- {title:"Web & Product",eyebrow:"BARTSS / WEB",art:"https://cdn.dribbble.com/userupload/36025617/file/original-24879b126976f1c510da521e1ab16360.png?resize=1200x1200&vertical=center",desc:"A product experience that removes friction and moves people to action.",a:"#b8d4e4",b:"#5e7889",prompt:"Turn interest into a clear next action",status:"Removing product friction…",steps:[["UX Architecture","Clearer journeys"],["Responsive UI","Works on every screen"],["Motion System","Feedback people understand"],["Conversion Flow","More completed actions"],["Design System","Faster future releases"]],pills:["Easier to understand","Faster to use","Conversion-ready","Reusable UI"],metric:"FLOW",metricLabel:"Product outcome"},
- {title:"AutoLAB",eyebrow:"AUTOLAB / AI",art:"https://cdn.vicsee.com/blog/20260228-seedance-omni-reference/hero.jpg",desc:"A controlled AI production pipeline from story to approved asset.",a:"#bed55e",b:"#657b45",prompt:"Turn a story into approved visual production",status:"Building the production pipeline…",steps:[["Storyboard","Scenes before generation"],["Character Lock","Consistent people"],["Style Lock","One visual language"],["Prompt Engine","Faster generations"],["QC","Approved output only"]],pills:["Fewer handoffs","Less visual drift","Faster variants","QC built in"],metric:"QC ON",metricLabel:"Production outcome"},
- {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",art:"https://i.pinimg.com/originals/30/90/43/3090437ce606d8965c958910a6c9e294.png",desc:"A motion language that turns static ideas into memorable behaviour.",a:"#b9d5e5",b:"#5e7789",prompt:"Give the idea a motion language",status:"Building movement and depth…",steps:[["Storyboard","Clear motion intent"],["3D Asset","Premium visual depth"],["Motion Language","Stronger brand recall"],["UI Motion","Useful interaction feedback"],["Format System","Every channel covered"]],pills:["More attention","Stronger recall","Reusable motion","Multi-format"],metric:"MOTION",metricLabel:"Attention outcome"},
- {title:"AiFinance",eyebrow:"AIFINANCE / AI",art:"https://files.muzli.cloud/131fbc64d7065b35accaf302d0648723_medium.jpeg?_cb=1778503539794",desc:"Decision intelligence that filters noise and makes the next move clearer.",a:"#d5df79",b:"#627546",prompt:"Turn financial noise into clear decisions",status:"Filtering decision context…",steps:[["Context","Understand why"],["Signal Filter","Less noise"],["Risk Layer","See exposure"],["Action","Decide faster"],["Tracking","Learn from outcomes"]],pills:["Clear priorities","Less noise","Faster decisions","Traceable actions"],metric:"LIVE",metricLabel:"Decision outcome"},
- {title:"Proposal System",eyebrow:"BARTSS / SALES",art:"https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=82",desc:"A proposal experience that shortens the path from interest to approval.",a:"#d9dfaa",b:"#7d875f",prompt:"Turn a sales conversation into a clear approval path",status:"Assembling proposal logic…",steps:[["Scope Builder","Clearer decisions"],["Interactive Pricing","Less back-and-forth"],["Approval Flow","Faster sign-off"],["Client Tracking","See buying intent"],["Reusable System","Sell again faster"]],pills:["Faster approvals","Less email friction","Visible intent","Reusable sales flow"],metric:"READY",metricLabel:"Sales outcome"}
+ {title:"Brand Identity",eyebrow:"BARTSS / BRAND",art:"https://images.unsplash.com/photo-1600508774634-4e11d34730e2?auto=format&fit=crop&w=1200&q=84",context:"Brand context loading",output:"Distinct by design.",sub:"One identity. Every touchpoint.",assets:[["Positioning","Clear differentiation"],["Voice","Recognisable tone"],["Identity","Memorable system"],["Guidelines","Less brand drift"],["Applications","Ready to launch"],["Motion","Behaviour that sticks"]],benefits:["Recognisable faster","Consistent everywhere","Easier approvals","Ready to scale"],metric:"1 SYSTEM",metricLabel:"Brand outcome",formats:["Website","Deck","Social","Packaging","Motion"]},
+ {title:"Web & Product",eyebrow:"BARTSS / WEB",art:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=84",context:"Product context loading",output:"Make the next step obvious.",sub:"Less friction. More completed actions.",assets:[["UX Architecture","Clearer journeys"],["Responsive UI","Every screen covered"],["Motion","Useful feedback"],["Conversion","More completed actions"],["Design System","Faster releases"],["Analytics","Learn what works"]],benefits:["Easier to understand","Faster to use","Conversion-ready","Reusable UI"],metric:"FLOW",metricLabel:"Product outcome",formats:["Desktop","Mobile","Landing","Product","Checkout"]},
+ {title:"AutoLAB",eyebrow:"AUTOLAB / AI",art:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=84",context:"Story + brand context loading",output:"Ready to publish.",sub:"From story to approved visual.",assets:[["Storyboard","Scenes before generation"],["Character Lock","Consistent people"],["Style Lock","One visual language"],["Prompt Engine","Faster generations"],["Production","Automated variants"],["QC","Approved output only"]],benefits:["Fewer handoffs","Less visual drift","Faster variants","QC built in"],metric:"QC ON",metricLabel:"Production outcome",formats:["16:9","9:16","1:1","Ads","Campaign"]},
+ {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",art:"https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1200&q=84",context:"Motion system loading",output:"Make the idea move.",sub:"One motion language. Every format.",assets:[["Story","Clear motion intent"],["Key Visual","A strong anchor"],["3D","Premium depth"],["Motion Rules","Consistent behaviour"],["UI Motion","Useful feedback"],["Formats","Every channel covered"]],benefits:["More attention","Stronger recall","Reusable motion","Multi-format"],metric:"MOTION",metricLabel:"Attention outcome",formats:["Film","Social","UI","3D","Launch"]},
+ {title:"AiFinance",eyebrow:"AIFINANCE / AI",art:"https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=84",context:"Decision context loading",output:"Less noise. Clearer moves.",sub:"Signals become decisions.",assets:[["Context","Understand why"],["Signals","Filter the noise"],["Risk","See exposure"],["Action","Decide faster"],["Tracking","Learn from outcomes"],["Agents","Keep watching"]],benefits:["Clear priorities","Less noise","Faster decisions","Traceable actions"],metric:"LIVE",metricLabel:"Decision outcome",formats:["Portfolio","Risk","Signals","Actions","Report"]},
+ {title:"Proposal System",eyebrow:"BARTSS / SALES",art:"https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=84",context:"Sales context loading",output:"From interest to approval.",sub:"A proposal people can act on.",assets:[["Need","Understand intent"],["Scope","Make choices clear"],["Pricing","Interactive options"],["Approval","Shorter sign-off"],["Tracking","See buying intent"],["System","Reuse every time"]],benefits:["Faster approvals","Less email friction","Visible intent","Reusable sales flow"],metric:"READY",metricLabel:"Sales outcome",formats:["Brand","Web","Motion","AI","Retainer"]}
 ];
 
-const heroStaticArts=heroV2Data.map(x=>x.art);
+const staticArts=heroV2Data.map(x=>x.art);
 loopCards.forEach(card=>{
-  const logical=Number(card.dataset.logical ?? card.dataset.index ?? 0);
+  const logical=Number(card.dataset.logical);
   const img=card.querySelector(".hero-card-art");
-  if(img){img.src=heroStaticArts[logical];img.loading="eager";img.decoding="async";}
+  if(img){img.src=staticArts[logical];img.loading="eager";img.decoding="async";}
 });
 
 let heroV2Token=0,heroV2Timer=null,heroV2Running=false;
-const wait=(ms,token)=>new Promise(resolve=>{
-  heroV2Timer=setTimeout(()=>resolve(token===heroV2Token),ms);
-});
+const wait=(ms,token)=>new Promise(resolve=>heroV2Timer=setTimeout(()=>resolve(token===heroV2Token),ms));
 function heroV2Reset(animate=true){
-  heroV2Token++;
-  clearTimeout(heroV2Timer);
-  heroV2Running=false;
+  heroV2Token++;clearTimeout(heroV2Timer);heroV2Running=false;
   const stage=document.querySelector(".hero-v2-stage");
-  loopCards.forEach(c=>c.classList.remove("hero-v2-source"));
   if(!stage)return;
-  if(animate){
-    stage.classList.add("resetting");
-    stage.dataset.phase="reset";
-    setTimeout(()=>stage.remove(),560);
-  }else stage.remove();
+  if(animate){stage.dataset.phase="reset";stage.classList.add("resetting");setTimeout(()=>stage.remove(),480);}
+  else stage.remove();
 }
 function heroV2Build(index){
   heroV2Reset(false);
   if(innerWidth<=1100)return null;
-  const wrap=document.querySelector(".rail-wrap");
-  const card=loopCards[baseCount+index];
-  const d=heroV2Data[index];
-  if(!wrap||!card||!d)return null;
-  const wr=wrap.getBoundingClientRect(),cr=card.getBoundingClientRect();
+  const d=heroV2Data[index],active=cardAt(CENTER_SET,index);
+  if(!d||!active)return null;
+  const wrap=heroRailWrap.getBoundingClientRect(),cr=active.getBoundingClientRect();
   const stage=document.createElement("div");
-  stage.className="hero-v2-stage";stage.dataset.phase="idle";
-  stage.style.setProperty("--hy",(cr.top-wr.top+cr.height/2)+"px");
-  stage.style.setProperty("--ha",d.a);stage.style.setProperty("--hb",d.b);
-  stage.innerHTML=`
-   <div class="hv2-ref-scene">
-    <div class="hv2-card">
-      <div class="hv2-photo"><img src="${d.art}" alt="" aria-hidden="true"></div>
-      <div class="hv2-glass-wash"></div>
-      <div class="hv2-card-top"><span>${String(index+1).padStart(2,"0")}</span><em>BARTSS LAB</em></div>
-      <div class="hv2-card-copy"><small>${d.eyebrow}</small><b>${d.title}</b><i>${d.desc}</i></div>
-    </div>
-    <div class="hv2-prompt"><span>✦</span><b>${d.prompt}</b><i>→</i></div>
-    <div class="hv2-status">● ${d.status}</div>
-    <div class="hv2-assets">${d.steps.map((x,n)=>`<i style="--n:${n}"><b>${x[0]}</b><span>${x[1]}</span></i>`).join("")}</div>
-    <div class="hv2-pills">${d.pills.map((x,n)=>`<span style="--n:${n}"><i></i>${x}</span>`).join("")}</div>
-    <div class="hv2-metric"><small>${d.metricLabel}</small><div class="hv2-chart"></div><b>${d.metric}</b></div>
-   </div>`;
-  wrap.appendChild(stage);
+  stage.className="hero-v2-stage";stage.dataset.phase="context";
+  stage.style.setProperty("--hy",(cr.top-wrap.top+cr.height/2)+"px");
+  const assetHtml=d.assets.map((x,n)=>'<i style="--n:'+n+'"><b>'+x[0]+'</b><span>'+x[1]+'</span></i>').join("");
+  const benefitHtml=d.benefits.map((x,n)=>'<span style="--n:'+n+'"><i></i>'+x+'</span>').join("");
+  const formatHtml=d.formats.map((x,n)=>'<i style="--n:'+n+'"><b>'+x+'</b><span>'+d.output+'</span></i>').join("");
+  stage.innerHTML=
+    '<div class="hv2-scene">'+
+      '<div class="hv2-context"><b>'+d.context+'</b><span>● ● ● ● ●</span></div>'+
+      '<div class="hv2-assets">'+assetHtml+'</div>'+
+      '<div class="hv2-output"><div class="hv2-photo"><img src="'+d.art+'" alt=""></div><div class="hv2-output-copy"><small>'+d.eyebrow+'</small><b>'+d.output+'</b><span>'+d.sub+'</span></div></div>'+
+      '<div class="hv2-benefits">'+benefitHtml+'</div>'+
+      '<div class="hv2-metric"><small>'+d.metricLabel+'</small><div class="hv2-chart"></div><b>'+d.metric+'</b></div>'+
+      '<div class="hv2-strategy"><span>✦</span><b>'+d.title+'</b><em>→ system ready</em></div>'+
+      '<div class="hv2-formats">'+formatHtml+'</div>'+
+    '</div>';
+  heroRailWrap.appendChild(stage);
   return stage;
 }
 async function heroV2Play(index=activeIndex){
@@ -356,45 +303,17 @@ async function heroV2Play(index=activeIndex){
   heroV2Running=true;
   const stage=heroV2Build(index);if(!stage){heroV2Running=false;return;}
   const token=++heroV2Token;
-  stage.dataset.phase="idle";
-  if(!await wait(520,token))return;
-  stage.dataset.phase="collapse"; if(!await wait(850,token))return;
-  stage.dataset.phase="prompt"; if(!await wait(720,token))return;
-  stage.dataset.phase="status"; if(!await wait(520,token))return;
-  stage.dataset.phase="skeleton"; if(!await wait(900,token))return;
-  stage.dataset.phase="assets"; if(!await wait(1050,token))return;
-  stage.dataset.phase="seed"; if(!await wait(650,token))return;
-  stage.dataset.phase="grow"; if(!await wait(1200,token))return;
-  stage.dataset.phase="pills"; if(!await wait(1700,token))return;
-  stage.dataset.phase="metric"; if(!await wait(1800,token))return;
-  stage.dataset.phase="final";stage.dataset.complete="true";heroV2Running=false;
+  const phases=[["context",650],["skeleton",900],["assets",1100],["seed",680],["grow",1150],["benefits",1650],["metric",1650],["strategy",950],["formats",1800],["return",1250],["final",2600]];
+  for(const pair of phases){
+    if(token!==heroV2Token)return;
+    stage.dataset.phase=pair[0];
+    if(!await wait(pair[1],token))return;
+  }
+  stage.dataset.complete="true";heroV2Running=false;
 }
-if(heroRailWrap){
-  heroRailWrap.addEventListener("mouseenter",()=>{
-    if(innerWidth<=1100||railDragging)return;
-    const existing=document.querySelector(".hero-v2-stage");
-    if(existing?.dataset.complete==="true"||heroV2Running)return;
-    setTimeout(()=>{if(heroRailWrap.matches(":hover")&&!railDragging)heroV2Play(activeIndex)},180);
-  });
-}
-requestAnimationFrame(()=>{setActive(activeIndex,true);setTimeout(refreshLoopGeometry,80);});
-window.addEventListener("load",()=>{setActive(activeIndex,true);setTimeout(refreshLoopGeometry,120);});
-if(document.fonts?.ready)document.fonts.ready.then(()=>{setActive(activeIndex,true);setTimeout(refreshLoopGeometry,80);});
-
-
-// BARTSS utility widgets — inspired by Hightouch's low-friction cookie/chat patterns.
-const cookie=document.getElementById("bartssCookie");
-document.querySelectorAll("[data-close-cookie]").forEach(btn=>btn.addEventListener("click",()=>cookie?.classList.add("closed")));
-document.getElementById("cookieCustomize")?.addEventListener("click",()=>{
-  const detail=document.getElementById("cookieDetail");
-  if(detail) detail.hidden=!detail.hidden;
+heroRailWrap?.addEventListener("mouseenter",()=>{
+  if(innerWidth<=1100||railDragging||heroV2Running)return;
+  const existing=document.querySelector(".hero-v2-stage");
+  if(existing?.dataset.complete==="true")return;
+  setTimeout(()=>{if(heroRailWrap.matches(":hover")&&!railDragging)heroV2Play(activeIndex)},160);
 });
-const chatLauncher=document.getElementById("chatLauncher");
-const chatPanel=document.getElementById("chatPanel");
-const chatClose=document.getElementById("chatClose");
-function setChat(open){
-  chatPanel?.classList.toggle("open",open);
-  chatLauncher?.setAttribute("aria-expanded",String(open));
-}
-chatLauncher?.addEventListener("click",()=>setChat(!chatPanel?.classList.contains("open")));
-chatClose?.addEventListener("click",()=>setChat(false));
