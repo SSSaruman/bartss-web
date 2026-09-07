@@ -122,6 +122,20 @@ window.addEventListener("wheel",e=>{
 const heroRailWrap=document.querySelector(".rail-wrap");
 let railDragging=false,dragStartX=0,dragStartRailX=0,lastDragX=0,lastDragT=0,railVelocity=0,railInertia=0,dragMoved=false;
 function stopRailInertia(){if(railInertia)cancelAnimationFrame(railInertia);railInertia=0;}
+let loopSetWidth=0,loopOriginX=0;
+function refreshLoopGeometry(){
+  if(window.innerWidth<=1100||loopCards.length<baseCount*2)return;
+  loopSetWidth=loopCards[baseCount].offsetLeft-loopCards[0].offsetLeft;
+  loopOriginX=centerXForCard(loopCards[baseCount+activeIndex]);
+}
+function normalizeLoopX(x){
+  if(!loopSetWidth)refreshLoopGeometry();
+  if(!loopSetWidth)return x;
+  const low=loopOriginX-loopSetWidth/2,high=loopOriginX+loopSetWidth/2;
+  while(x<low)x+=loopSetWidth;
+  while(x>high)x-=loopSetWidth;
+  return x;
+}
 if(heroRailWrap){
   heroRailWrap.addEventListener("pointerdown",e=>{
     if(window.innerWidth<=1100||e.button!==0)return;
@@ -140,7 +154,7 @@ if(heroRailWrap){
     const now=performance.now(),dt=Math.max(8,now-lastDragT);
     const dx=e.clientX-dragStartX;
     if(Math.abs(dx)>4)dragMoved=true;
-    railX=dragStartRailX+dx;
+    railX=normalizeLoopX(dragStartRailX+dx);
     rail.style.transform=`translate3d(${railX}px,0,0)`;
     const instant=(e.clientX-lastDragX)/dt*16.67;
     railVelocity=railVelocity*.68+instant*.32;
@@ -160,16 +174,14 @@ if(heroRailWrap){
     let v=Math.max(-34,Math.min(34,railVelocity*1.2));
     const glide=()=>{
       v*=.93;
-      railX+=v;
+      railX=normalizeLoopX(railX+v);
       rail.style.transform=`translate3d(${railX}px,0,0)`;
       markActiveCopy(nearestLoopCard());
       if(Math.abs(v)>.32)railInertia=requestAnimationFrame(glide);
       else{
         railInertia=0;
         snapToLoopCard(nearestLoopCard());
-        setTimeout(()=>{
-          if(heroRailWrap.matches(":hover")&&!railDragging)heroV2Play(activeIndex);
-        },900);
+        setTimeout(()=>{refreshLoopGeometry();if(heroRailWrap.matches(":hover")&&!railDragging)heroV2Play(activeIndex);},900);
       }
     };
     railInertia=requestAnimationFrame(glide);
@@ -278,11 +290,11 @@ updateTabletExperience();
 
 // HERO V2: benefit-led motion choreography based on the supplied reference.
 const heroV2Data=[
- {title:"Brand Identity",eyebrow:"BARTSS / BRAND",art:"https://s.tmimgcdn.com/scr/800x500/189000/modelo-de-logotipo-de-luxo-3d-com-gravacao-em-relevo-e-papel-preto_189032-original.jpg",desc:"A recognisable system, not a logo file.",a:"#b9d8e8",b:"#708b9b",prompt:"Make the brand impossible to confuse",status:"Building recognition system…",steps:["Sharper positioning","One visual language","Faster approvals","Consistent launch"],pills:["More recognition","Less brand drift","Faster rollout","Reusable system"],metric:"LOCKED",metricLabel:"Brand system"},
- {title:"Web & Product",eyebrow:"BARTSS / WEB",art:"https://cdn.prod.website-files.com/64d4be623fb4a054b3fa4619/65ec420f38f81cb76925c3f5_65a55222f26b2bf8ef59f239_snagshout_cover_2x_compressed%2520in%2520figma.webp",desc:"A clearer path from interest to action.",a:"#bed9e8",b:"#718d9f",prompt:"Turn attention into action",status:"Removing experience friction…",steps:["Clear UX flow","Responsive system","Motion feedback","Conversion path"],pills:["Easier to understand","Faster to use","Reusable UI","Conversion-ready"],metric:"LIVE",metricLabel:"Experience system"},
- {title:"AutoLAB",eyebrow:"AUTOLAB / AI",art:"https://edit.comfyonline.app/ed45ecb5-f2c1-4d09-bb24-e7e29d1b44ed.png",desc:"From idea to approved visual with fewer handoffs.",a:"#bfd85d",b:"#70864c",prompt:"Go from idea to approved asset",status:"Automating production…",steps:["Storyboard context","Character consistency","Prompt automation","QC before delivery"],pills:["Fewer manual handoffs","Consistent characters","Faster variants","QC built in"],metric:"ON",metricLabel:"Quality gate"},
- {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",art:"https://images.unsplash.com/photo-1760355813251-54c9d122f9d3?auto=format&fit=crop&w=1200&q=85",desc:"A motion language that scales across formats.",a:"#bdd9e8",b:"#718d9f",prompt:"Make the idea impossible to ignore",status:"Building motion language…",steps:["Story rhythm","3D depth","UI motion","Format adaptation"],pills:["More attention","Stronger recall","Reusable motion","Multi-format output"],metric:"READY",metricLabel:"Motion system"},
- {title:"AiFinance",eyebrow:"AIFINANCE / AI",art:"https://ai.openspace.finance/assets/app-dashboard-screenshot-D1DWbNKy.jpg",desc:"Less noise. Clearer decisions.",a:"#dce879",b:"#70884e",prompt:"Turn signals into next moves",status:"Connecting decision context…",steps:["Context first","Meaningful signals","Risk visibility","Action tracking"],pills:["Less noise","Clear priorities","Faster decisions","Traceable actions"],metric:"LIVE",metricLabel:"Decision context"}
+ {title:"Brand Identity",eyebrow:"BARTSS / BRAND",art:"https://imockups.com/storage/product/1512/ggaQh3Jpsf2HomOEs9Lf.png",desc:"A recognisable identity system that stays coherent everywhere.",a:"#afcddd",b:"#587080",prompt:"Build a brand people recognise instantly",status:"Structuring the brand system…",steps:[["Positioning","Clear differentiation"],["Identity System","Stronger recognition"],["Guidelines","Less brand drift"],["Launch Kit","Faster rollout"],["Motion Rules","Memorable behaviour"]],pills:["Recognisable faster","Consistent everywhere","Easier approvals","Ready to scale"],metric:"SYSTEM",metricLabel:"Brand outcome"},
+ {title:"Web & Product",eyebrow:"BARTSS / WEB",art:"https://cdn.dribbble.com/userupload/36025617/file/original-24879b126976f1c510da521e1ab16360.png?resize=1200x1200&vertical=center",desc:"A product experience that removes friction and moves people to action.",a:"#b8d4e4",b:"#5e7889",prompt:"Turn interest into a clear next action",status:"Removing product friction…",steps:[["UX Architecture","Clearer journeys"],["Responsive UI","Works on every screen"],["Motion System","Feedback people understand"],["Conversion Flow","More completed actions"],["Design System","Faster future releases"]],pills:["Easier to understand","Faster to use","Conversion-ready","Reusable UI"],metric:"FLOW",metricLabel:"Product outcome"},
+ {title:"AutoLAB",eyebrow:"AUTOLAB / AI",art:"https://cdn.vicsee.com/blog/20260228-seedance-omni-reference/hero.jpg",desc:"A controlled AI production pipeline from story to approved asset.",a:"#bed55e",b:"#657b45",prompt:"Turn a story into approved visual production",status:"Building the production pipeline…",steps:[["Storyboard","Scenes before generation"],["Character Lock","Consistent people"],["Style Lock","One visual language"],["Prompt Engine","Faster generations"],["QC","Approved output only"]],pills:["Fewer handoffs","Less visual drift","Faster variants","QC built in"],metric:"QC ON",metricLabel:"Production outcome"},
+ {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",art:"https://i.pinimg.com/originals/30/90/43/3090437ce606d8965c958910a6c9e294.png",desc:"A motion language that turns static ideas into memorable behaviour.",a:"#b9d5e5",b:"#5e7789",prompt:"Give the idea a motion language",status:"Building movement and depth…",steps:[["Storyboard","Clear motion intent"],["3D Asset","Premium visual depth"],["Motion Language","Stronger brand recall"],["UI Motion","Useful interaction feedback"],["Format System","Every channel covered"]],pills:["More attention","Stronger recall","Reusable motion","Multi-format"],metric:"MOTION",metricLabel:"Attention outcome"},
+ {title:"AiFinance",eyebrow:"AIFINANCE / AI",art:"https://files.muzli.cloud/131fbc64d7065b35accaf302d0648723_medium.jpeg?_cb=1778503539794",desc:"Decision intelligence that filters noise and makes the next move clearer.",a:"#d5df79",b:"#627546",prompt:"Turn financial noise into clear decisions",status:"Filtering decision context…",steps:[["Context","Understand why"],["Signal Filter","Less noise"],["Risk Layer","See exposure"],["Action","Decide faster"],["Tracking","Learn from outcomes"]],pills:["Clear priorities","Less noise","Faster decisions","Traceable actions"],metric:"LIVE",metricLabel:"Decision outcome"}
 ];
 
 const heroStaticArts=heroV2Data.map(x=>x.art);
@@ -331,12 +343,11 @@ function heroV2Build(index){
     </div>
     <div class="hv2-prompt"><span>✦</span><b>${d.prompt}</b><i>→</i></div>
     <div class="hv2-status">● ${d.status}</div>
-    <div class="hv2-assets">${d.steps.map((x,n)=>`<i style="--n:${n}"><span>${x}</span></i>`).join("")}</div>
+    <div class="hv2-assets">${d.steps.map((x,n)=>`<i style="--n:${n}"><b>${x[0]}</b><span>${x[1]}</span></i>`).join("")}</div>
     <div class="hv2-pills">${d.pills.map((x,n)=>`<span style="--n:${n}"><i></i>${x}</span>`).join("")}</div>
     <div class="hv2-metric"><small>${d.metricLabel}</small><div class="hv2-chart"></div><b>${d.metric}</b></div>
    </div>`;
   wrap.appendChild(stage);
-  loopCards[baseCount+index].classList.add("hero-v2-source");
   return stage;
 }
 async function heroV2Play(index=activeIndex){
@@ -365,6 +376,6 @@ if(heroRailWrap){
     setTimeout(()=>{if(heroRailWrap.matches(":hover")&&!railDragging)heroV2Play(activeIndex)},180);
   });
 }
-requestAnimationFrame(()=>setActive(activeIndex,true));
-window.addEventListener("load",()=>setActive(activeIndex,true));
-if(document.fonts?.ready)document.fonts.ready.then(()=>setActive(activeIndex,true));
+requestAnimationFrame(()=>{setActive(activeIndex,true);setTimeout(refreshLoopGeometry,80);});
+window.addEventListener("load",()=>{setActive(activeIndex,true);setTimeout(refreshLoopGeometry,120);});
+if(document.fonts?.ready)document.fonts.ready.then(()=>{setActive(activeIndex,true);setTimeout(refreshLoopGeometry,80);});
