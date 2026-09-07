@@ -512,3 +512,10 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
   .pipeline-proof i{display:none}
   .proof-metrics{grid-template-columns:auto 1fr}
 }
+
+/* --- COMMERCIAL FOCUS PASS --- */
+.project-gallery .section-kicker,
+.motion-manifesto .section-kicker{opacity:.48}
+.contact-primary span{font-size:clamp(22px,2.4vw,34px);letter-spacing:-.03em}
+.contact-secondary span{font-size:14px}
+.contact-actions small{max-width:420px}
