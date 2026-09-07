@@ -12,23 +12,22 @@ document.addEventListener("keydown", e => e.key === "Escape" && closeMenu());
 document.addEventListener("pointerdown", e => { if(!document.body.classList.contains("menu-open")) return; if(menuPanel.contains(e.target) || menuTrigger.contains(e.target)) return; closeMenu(); });
 
 let activeIndex = 2;
-const baseCards = cards.map(c=>c.cloneNode(true));
-const baseCount = baseCards.length;
-const heroRailWrap = document.querySelector(".rail-wrap");
-let heroBusy = false;
-let heroIdleTimer = null;
-let heroNavToken = 0;
-
-rail.replaceChildren();
-baseCards.forEach((tpl,i)=>{
-  const card=tpl.cloneNode(true);
-  card.removeAttribute("id");
-  card.dataset.logical=String(i);
-  rail.appendChild(card);
+const baseCards = cards.map((c,i)=>{
+  const clone=c.cloneNode(true);
+  clone.removeAttribute("id");
+  clone.dataset.logical=String(i);
+  return clone;
 });
+const baseCount=baseCards.length;
+const heroRailWrap=document.querySelector(".rail-wrap");
+let heroBusy=false;
+let heroNavToken=0;
+let heroSequenceTimer=null;
+
+rail.replaceChildren(...baseCards);
 
 function liveCards(){ return [...rail.querySelectorAll(".show-card")]; }
-function stopIdleLoop(){ clearTimeout(heroIdleTimer); heroIdleTimer=null; }
+function clearHeroSequence(){ clearTimeout(heroSequenceTimer); heroSequenceTimer=null; }
 
 function circularDistance(index,active){
   let d=index-active;
@@ -37,48 +36,62 @@ function circularDistance(index,active){
   return d;
 }
 
-function layoutHeroCards(animate=true){
-  const wrapW=heroRailWrap?.clientWidth || innerWidth;
-  const step=Math.min(392,Math.max(315,wrapW*.225));
-  liveCards().forEach(card=>{
+function heroStep(){
+  const w=heroRailWrap?.clientWidth||innerWidth;
+  return Math.max(300,Math.min(390,w*.215));
+}
+
+function applyHeroLayout({animate=true}={}){
+  const step=heroStep();
+  const cardsNow=liveCards();
+  cardsNow.forEach(card=>{
     const i=Number(card.dataset.logical);
     const d=circularDistance(i,activeIndex);
-    let x=d*step;
-    if(heroBusy && d!==0) x += d<0 ? -118 : 118;
+    const abs=Math.abs(d);
+    const push=heroBusy && d!==0 ? (d<0?-150:150) : (abs===1 ? (d<0?-24:24) : 0);
+    const x=d*step+push;
+    const scale=d===0?1.15:(abs===1?.985:.94);
+    const opacity=d===0?1:(abs===1?.82:.56);
+
+    // A wrap card teleports only while nearly invisible, preventing a long sweep across the viewport.
+    const prev=parseFloat(card.dataset.heroDistance ?? d);
+    const wraps=Math.abs(prev-d)>baseCount/2-0.5;
+    if(wraps){
+      card.classList.add("hero-teleport");
+      card.style.transitionDuration="0s";
+    }else{
+      card.classList.remove("hero-teleport");
+      card.style.transitionDuration=animate?".82s":"0s";
+    }
+
+    card.dataset.heroDistance=String(d);
     card.style.setProperty("--hero-x",x+"px");
-    card.style.setProperty("--hero-scale",d===0?"1.15":(Math.abs(d)===1?".98":".94"));
-    card.style.setProperty("--hero-opacity",d===0?"1":(Math.abs(d)===1?".82":".58"));
+    card.style.setProperty("--hero-scale",String(scale));
+    card.style.setProperty("--hero-opacity",String(opacity));
+    card.style.zIndex=String(30-abs);
     card.classList.toggle("active",d===0);
-    card.classList.toggle("hero-side-left",d<0);
-    card.classList.toggle("hero-side-right",d>0);
-    card.style.transitionDuration=animate?".82s":"0s";
-    card.style.zIndex=String(20-Math.abs(d));
+
+    if(wraps){
+      requestAnimationFrame(()=>{
+        card.classList.remove("hero-teleport");
+        card.style.transitionDuration=".82s";
+      });
+    }
   });
 }
 
-function scheduleIdleLoop(delay=3600){
-  stopIdleLoop();
-  if(heroBusy)return;
-  heroIdleTimer=setTimeout(()=>{
-    if(heroBusy)return;
-    activeIndex=(activeIndex+1)%baseCount;
-    layoutHeroCards(true);
-    scheduleIdleLoop(3400);
-  },delay);
-}
-
-function selectHeroCard(index,{play=true}={}){
-  stopIdleLoop();
+function selectHero(index,{play=true,sequence=false}={}){
+  clearHeroSequence();
   const token=++heroNavToken;
-  if(typeof heroV2Reset==="function") heroV2Reset();
+  heroV2Reset();
   activeIndex=((index%baseCount)+baseCount)%baseCount;
-  layoutHeroCards(true);
+  applyHeroLayout({animate:true});
+
   if(play){
-    setTimeout(()=>{
-      if(token===heroNavToken) heroV2Play(activeIndex);
-    },880);
-  }else{
-    scheduleIdleLoop(3200);
+    heroSequenceTimer=setTimeout(()=>{
+      if(token!==heroNavToken)return;
+      heroV2Play(activeIndex,{sequence});
+    },900);
   }
 }
 
@@ -86,21 +99,18 @@ rail.addEventListener("click",e=>{
   const card=e.target.closest(".show-card");
   if(!card)return;
   e.preventDefault();
-  selectHeroCard(Number(card.dataset.logical),{play:true});
+  selectHero(Number(card.dataset.logical),{play:true,sequence:true});
 });
 
-window.addEventListener("resize",()=>layoutHeroCards(false));
+window.addEventListener("resize",()=>applyHeroLayout({animate:false}));
 
 requestAnimationFrame(()=>{
-  liveCards().forEach((card,i)=>{
-    card.style.setProperty("--intro-delay",(Math.abs(i-activeIndex)*55)+"ms");
-  });
   heroRailWrap?.classList.add("hero-intro");
-  layoutHeroCards(false);
+  liveCards().forEach((card,i)=>card.style.setProperty("--intro-delay",(Math.abs(i-activeIndex)*65)+"ms"));
+  applyHeroLayout({animate:false});
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
     heroRailWrap?.classList.add("hero-intro-done");
-    layoutHeroCards(true);
-    scheduleIdleLoop(3600);
+    applyHeroLayout({animate:true});
   }));
 });
 let featureOffset=0;
@@ -202,7 +212,7 @@ window.addEventListener("scroll",updateTabletExperience,{passive:true});
 updateTabletExperience();
 
 
-// HERO V2 — clean deterministic product-story engine.
+// HERO V2 — clean Hightouch-inspired product story.
 const heroV2Data=[
  {title:"Brand Identity",eyebrow:"BARTSS / BRAND",art:"https://images.unsplash.com/photo-1600508774634-4e11d34730e2?auto=format&fit=crop&w=1200&q=84",build:[["Logo design","Ownable mark"],["Brand identity","One visual language"],["Typography & color","Recognisable system"],["Print assets","Ready for real-world use"]],resultTitle:"Identity system ready",resultSub:"Logo, type, color and print working as one.",value:"Brand recognition",metric:"+38%"},
  {title:"Web & Product",eyebrow:"BARTSS / WEB",art:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=84",build:[["UX architecture","Clear user path"],["Responsive UI","Every screen covered"],["Design system","Faster iteration"],["Conversion flow","More completed actions"]],resultTitle:"Product flow ready",resultSub:"Clearer UX, reusable UI and stronger conversion.",value:"Task completion",metric:"+31%"},
@@ -215,7 +225,7 @@ const heroV2Data=[
 liveCards().forEach(card=>{
   const d=heroV2Data[Number(card.dataset.logical)];
   const img=card.querySelector(".hero-card-art");
-  if(img){img.src=d.art;img.loading="eager";img.decoding="async";}
+  if(img){ img.src=d.art; img.loading="eager"; img.decoding="async"; }
 });
 
 let heroV2Token=0;
@@ -236,14 +246,13 @@ function heroV2Reset(){
   });
   heroBusy=false;
   heroRailWrap?.classList.remove("hero-v2-playing");
-  layoutHeroCards(true);
+  applyHeroLayout({animate:true});
 }
 
-function buildStory(index){
-  if(innerWidth<=1100)return null;
+function heroV2Build(index){
   const source=liveCards().find(c=>Number(c.dataset.logical)===index);
   const d=heroV2Data[index];
-  if(!source||!d)return null;
+  if(!source||!d||innerWidth<=1100)return null;
 
   const wrap=heroRailWrap.getBoundingClientRect();
   const cr=source.getBoundingClientRect();
@@ -266,7 +275,7 @@ function buildStory(index){
       '<div class="hv2-build-copy">'+checklist+'</div>'+
       '<div class="hv2-pin-grid">'+thumbs+'</div>'+
       '<div class="hv2-result-card"><div class="hv2-result-photo"><img src="'+d.art+'" alt=""></div><div class="hv2-result-copy"><small>'+d.eyebrow+'</small><b>'+d.resultTitle+'</b><span>'+d.resultSub+'</span></div></div>'+
-      '<div class="hv2-impact"><small>'+d.value+'</small><svg class="hv2-impact-chart" viewBox="0 0 100 40"><path class="hv2-impact-grid" d="M0 34H100 M0 20H100 M0 6H100"/><path class="hv2-impact-line" d="M2 32 C15 28 20 25 29 27 S44 19 53 20 S69 10 77 13 S91 6 98 3"/></svg><b>'+d.metric+'</b></div>'+
+      '<div class="hv2-impact"><small>'+d.value+'</small><svg class="hv2-impact-chart" viewBox="0 0 100 40" aria-hidden="true"><path class="hv2-impact-grid" d="M0 34H100 M0 20H100 M0 6H100"/><path class="hv2-impact-line" d="M2 32 C15 28 20 25 29 27 S44 19 53 20 S69 10 77 13 S91 6 98 3"/></svg><b>'+d.metric+'</b></div>'+
     '</div>';
 
   source.classList.add("hero-v2-source");
@@ -274,68 +283,72 @@ function buildStory(index){
   source.style.setProperty("pointer-events","none","important");
   heroBusy=true;
   heroRailWrap.classList.add("hero-v2-playing");
-  layoutHeroCards(true);
+  applyHeroLayout({animate:true});
   heroRailWrap.appendChild(stage);
   return {stage,source,d};
 }
 
-async function heroV2Play(index){
-  stopIdleLoop();
+async function heroV2Play(index,{sequence=false}={}){
+  clearHeroSequence();
   heroV2Reset();
-  heroBusy=true;
-  layoutHeroCards(true);
 
-  const built=buildStory(index);
-  if(!built){heroBusy=false;return;}
+  // reset() restores idle state; immediately enter story state once, without a second navigation.
+  heroBusy=true;
+  applyHeroLayout({animate:true});
+  const built=heroV2Build(index);
+  if(!built){ heroBusy=false; return; }
+
   const {stage,source,d}=built;
   const token=++heroV2Token;
 
   stage.dataset.phase="card";
-  if(!await hvWait(700,token))return;
-
-  stage.dataset.phase="building";
-  if(!await hvWait(850,token))return;
-
-  stage.dataset.phase="build";
-  if(!await hvWait(3000,token))return;
-
-  stage.dataset.phase="collapse";
   if(!await hvWait(760,token))return;
 
+  stage.dataset.phase="building";
+  if(!await hvWait(900,token))return;
+
+  stage.dataset.phase="build";
+  if(!await hvWait(3200,token))return;
+
+  stage.dataset.phase="collapse";
+  if(!await hvWait(820,token))return;
+
   stage.dataset.phase="resultSeed";
-  if(!await hvWait(620,token))return;
+  if(!await hvWait(680,token))return;
 
   stage.dataset.phase="resultGrow";
-  if(!await hvWait(1050,token))return;
+  if(!await hvWait(1150,token))return;
 
   stage.dataset.phase="impact";
   const line=stage.querySelector(".hv2-impact-line");
   const number=stage.querySelector(".hv2-impact b");
+
   if(line){
     line.style.strokeDasharray="160";
     line.style.strokeDashoffset="160";
     requestAnimationFrame(()=>line.style.strokeDashoffset="0");
   }
+
   if(number){
     const raw=d.metric;
     const numeric=parseFloat(raw.replace(/[^0-9.]/g,""));
     const prefix=raw.startsWith("+")?"+":"";
     const suffix=raw.includes("%")?"%":(raw.includes("×")?"×":"");
     const t0=performance.now();
-    const animateNumber=now=>{
+    const count=now=>{
       if(token!==heroV2Token||!number.isConnected)return;
-      const p=Math.min(1,(now-t0)/1250);
+      const p=Math.min(1,(now-t0)/1350);
       const eased=1-Math.pow(1-p,3);
-      const val=numeric*eased;
-      number.textContent=prefix+(numeric%1?val.toFixed(1):Math.round(val))+suffix;
-      if(p<1)requestAnimationFrame(animateNumber);
+      const value=numeric*eased;
+      number.textContent=prefix+(numeric%1?value.toFixed(1):Math.round(value))+suffix;
+      if(p<1)requestAnimationFrame(count);
     };
-    requestAnimationFrame(animateNumber);
+    requestAnimationFrame(count);
   }
-  if(!await hvWait(1750,token))return;
 
+  if(!await hvWait(1900,token))return;
   stage.dataset.phase="final";
-  if(!await hvWait(1050,token))return;
+  if(!await hvWait(1200,token))return;
 
   source.style.removeProperty("visibility");
   source.style.removeProperty("pointer-events");
@@ -343,11 +356,18 @@ async function heroV2Play(index){
   stage.classList.add("final-handoff");
   heroBusy=false;
   heroRailWrap.classList.remove("hero-v2-playing");
-  layoutHeroCards(true);
+  applyHeroLayout({animate:true});
 
-  setTimeout(()=>{
+  heroSequenceTimer=setTimeout(()=>{
     if(token!==heroV2Token)return;
     stage.remove();
-    scheduleIdleLoop(2500);
+
+    if(sequence){
+      activeIndex=(index+1)%baseCount;
+      applyHeroLayout({animate:true});
+      heroSequenceTimer=setTimeout(()=>{
+        if(token===heroV2Token)heroV2Play(activeIndex,{sequence:true});
+      },2100);
+    }
   },520);
 }
