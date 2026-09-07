@@ -208,11 +208,11 @@ updateTabletExperience();
 // HERO V2: isolated motion prototype based on the supplied 43.9s Hightouch reference.
 // All animation is contained inside .rail-wrap; lower-page code is untouched.
 const heroV2Data=[
- {title:"Brand Identity",eyebrow:"BARTSS / BRAND",icon:"B",desc:"One identity. Many touchpoints.",a:"#bdd8e9",b:"#8ca7b6",grid:"Building…",pills:["Positioning","Identity","Motion","Launch"],search:"Searching brand assets…",metric:"92",metricLabel:"Brand consistency",strip:"Channel-ready identity"},
- {title:"Web & Product",eyebrow:"BARTSS / WEB",icon:"▱",desc:"A digital product that explains itself.",a:"#c7e0ef",b:"#87a8ba",grid:"Building…",pills:["Desktop","Mobile","Returning user","High intent"],search:"Searching product patterns…",metric:"38",metricLabel:"UX friction removed",strip:"Conversion-ready product"},
- {title:"AutoLAB",eyebrow:"AUTOLAB / AI",icon:"✦",desc:"From idea to approved visual.",a:"#b6d04f",b:"#74894e",grid:"Building…",pills:["Character Lock","Style Lock","Prompt Engine","QC passed"],search:"Searching visual references…",metric:"94",metricLabel:"QC pass rate",strip:"Production-ready system"},
- {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",icon:"◯",desc:"One idea. Many motion outputs.",a:"#c2dcea",b:"#7895a7",grid:"Building…",pills:["Film","Social","UI motion","3D"],search:"Searching motion assets…",metric:"24",metricLabel:"Format variants",strip:"Motion distribution system"},
- {title:"AiFinance",eyebrow:"AIFINANCE / AI",icon:"↗",desc:"Turn context into a next move.",a:"#d9de91",b:"#7d8f59",grid:"Building…",pills:["Context","Signals","Risk","Action"],search:"Searching existing signals…",metric:"650",metricLabel:"Qualified signal",strip:"Channel strategy"}
+ {title:"Brand Identity",eyebrow:"BARTSS / BRAND",icon:"B",art:"./hero-assets/brand.svg",desc:"One identity. Many touchpoints.",a:"#bdd8e9",b:"#8ca7b6",grid:"Building…",pills:["Positioning","Identity","Motion","Launch"],search:"Searching brand assets…",metric:"92",metricLabel:"Brand consistency",strip:"Channel-ready identity"},
+ {title:"Web & Product",eyebrow:"BARTSS / WEB",icon:"▱",art:"./hero-assets/web.svg",desc:"A digital product that explains itself.",a:"#c7e0ef",b:"#87a8ba",grid:"Building…",pills:["Desktop","Mobile","Returning user","High intent"],search:"Searching product patterns…",metric:"38",metricLabel:"UX friction removed",strip:"Conversion-ready product"},
+ {title:"AutoLAB",eyebrow:"AUTOLAB / AI",icon:"✦",art:"./hero-assets/autolab.svg",desc:"From idea to approved visual.",a:"#b6d04f",b:"#74894e",grid:"Building…",pills:["Character Lock","Style Lock","Prompt Engine","QC passed"],search:"Searching visual references…",metric:"94",metricLabel:"QC pass rate",strip:"Production-ready system"},
+ {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",icon:"◯",art:"./hero-assets/motion.svg",desc:"One idea. Many motion outputs.",a:"#c2dcea",b:"#7895a7",grid:"Building…",pills:["Film","Social","UI motion","3D"],search:"Searching motion assets…",metric:"24",metricLabel:"Format variants",strip:"Motion distribution system"},
+ {title:"AiFinance",eyebrow:"AIFINANCE / AI",icon:"↗",art:"./hero-assets/finance.svg",desc:"Turn context into a next move.",a:"#d9de91",b:"#7d8f59",grid:"Building…",pills:["Context","Signals","Risk","Action"],search:"Searching existing signals…",metric:"650",metricLabel:"Qualified signal",strip:"Channel strategy"}
 ];
 
 let heroV2Timer=null,heroV2Token=0;
@@ -236,7 +236,7 @@ function heroV2Build(index){
       <div class="hv2-grid" data-label="${d.grid}">${Array.from({length:9},()=>'<i class="hv2-cell"></i>').join("")}</div>
       <div class="hv2-main">
         <div class="hv2-top"><i>${String(index+1).padStart(2,"0")}</i><span>BARTSS LAB</span></div>
-        <div class="hv2-object">${d.icon}</div>
+        <div class="hv2-object"><img src="${d.art}" alt="" aria-hidden="true"></div>
         <div class="hv2-copy"><small>${d.eyebrow}</small><b>${d.title}</b><em>${d.desc}</em></div>
       </div>
       <div class="hv2-pills">${d.pills.map(x=>`<span class="hv2-pill"><i></i>${x}</span>`).join("")}</div>
