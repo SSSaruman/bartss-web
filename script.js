@@ -278,11 +278,13 @@ function hvWait(ms,token){
 }
 function heroV2RestoreSources(){
   loopCards.forEach(c=>{
-    c.classList.remove("hero-v2-source");
+    c.classList.remove("hero-v2-source","hero-v2-slot");
+    c.style.removeProperty("--hv2-slot-extra");
     if(c.dataset.hv2Hidden==="1"){
       c.style.removeProperty("opacity");
       c.style.removeProperty("visibility");
       c.style.removeProperty("pointer-events");
+      c.style.removeProperty("transform");
       c.dataset.hv2Hidden="0";
     }
   });
@@ -341,6 +343,10 @@ function heroV2Build(index){
       c.style.setProperty("transform","scale(.92)","important");
     }
   });
+
+  // Expand the actual visible slot in-flow so neighboring cards are physically pushed away.
+  visibleActive.classList.add("hero-v2-slot");
+  visibleActive.style.setProperty("--hv2-slot-extra","360px");
   heroRailWrap.classList.add("hero-v2-playing");
   heroRailWrap.appendChild(stage);
   return stage;
@@ -411,14 +417,21 @@ async function heroV2Play(index=activeIndex){
   heroV2Running=false;
   await hvWait(1150,token);
   if(token!==heroV2Token)return;
-  const source=cardAt(CENTER_SET,index);
-  if(source){
-    source.style.setProperty("opacity","1","important");
-    source.style.setProperty("visibility","visible","important");
-    source.style.setProperty("pointer-events","auto","important");
-    source.classList.remove("hero-v2-source");
-    source.dataset.hv2Hidden="0";
+  const source=nearestCard() || cardAt(CENTER_SET,index);
+  const slot=heroRailWrap.querySelector(".show-card.hero-v2-slot");
+  if(slot){
+    slot.style.setProperty("--hv2-slot-extra","0px");
   }
+  setTimeout(()=>{
+    if(source){
+      source.style.setProperty("opacity","1","important");
+      source.style.setProperty("visibility","visible","important");
+      source.style.setProperty("pointer-events","auto","important");
+      source.classList.remove("hero-v2-source","hero-v2-slot");
+      source.style.removeProperty("--hv2-slot-extra");
+      source.dataset.hv2Hidden="0";
+    }
+  },360);
   stage.classList.add("final-handoff");
   heroRailWrap?.classList.remove("hero-v2-playing");
   setTimeout(()=>stage.remove(),520);
