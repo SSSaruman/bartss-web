@@ -12,26 +12,97 @@ document.addEventListener("keydown", e => e.key === "Escape" && closeMenu());
 document.addEventListener("pointerdown", e => { if(!document.body.classList.contains("menu-open")) return; if(menuPanel.contains(e.target) || menuTrigger.contains(e.target)) return; closeMenu(); });
 
 let activeIndex = 2;
-function setActive(index){
-  activeIndex = Math.max(0, Math.min(cards.length - 1, index));
-  cards.forEach((card,i)=>card.classList.toggle("active", i===activeIndex));
-  if(window.innerWidth > 1100){
-    const card = cards[activeIndex];
-    const wrap = document.querySelector(".rail-wrap");
-    const wrapRect = wrap.getBoundingClientRect();
-    const cardCenterInRail = card.offsetLeft + card.offsetWidth/2;
-    const viewportCenter = window.innerWidth/2;
-    const exactX = viewportCenter - wrapRect.left - cardCenterInRail;
-    rail.style.transform = `translate3d(${exactX}px,0,0)`;
+let railX = 0;
+function getRailX(){
+  const m=getComputedStyle(rail).transform;
+  return m==="none"?0:new DOMMatrixReadOnly(m).m41;
+}
+function centerActiveCard(immediate=false){
+  if(window.innerWidth<=1100)return;
+  const card=cards[activeIndex];
+  const before=getComputedStyle(rail).transition;
+  if(immediate) rail.style.transition="none";
+  const rect=card.getBoundingClientRect();
+  const delta=(window.innerWidth/2)-(rect.left+rect.width/2);
+  railX=getRailX()+delta;
+  rail.style.transform=`translate3d(${railX}px,0,0)`;
+  if(immediate){
+    rail.offsetHeight;
+    rail.style.transition=before;
   }
 }
-cards.forEach((card,i)=> card.addEventListener("click",()=>setActive(i)));
+function setActive(index,immediate=false){
+  activeIndex = Math.max(0, Math.min(cards.length - 1, index));
+  cards.forEach((card,i)=>card.classList.toggle("active", i===activeIndex));
+  requestAnimationFrame(()=>centerActiveCard(immediate));
+}
+cards.forEach((card,i)=>{
+  card.addEventListener("mouseenter",()=>{
+    if(window.innerWidth<=1100)return;
+    setActive(i);
+    heroV2Token++;
+    heroV2Clear();
+    setTimeout(()=>heroV2Play(i),380);
+  });
+  card.addEventListener("click",()=>setActive(i));
+});
 let wheelLock = false;
 window.addEventListener("wheel", e => {
   if(window.innerWidth <= 1100 || document.body.classList.contains("menu-open")) return;
   const rect = rail.getBoundingClientRect(); if(rect.bottom < 0 || rect.top > window.innerHeight || Math.abs(e.deltaY)<18 || wheelLock) return;
   wheelLock=true; setActive(activeIndex + (e.deltaY>0?1:-1)); setTimeout(()=>wheelLock=false,650);
 },{passive:true});
+
+// Drag / swipe rail with momentum and snap-to-card.
+const heroRailWrap=document.querySelector(".rail-wrap");
+let railDragging=false,dragStartX=0,dragStartRailX=0,lastDragX=0,lastDragT=0,railVelocity=0,railInertia=0;
+function nearestCardToCenter(){
+  let best=activeIndex,bestDist=Infinity;
+  cards.forEach((card,i)=>{
+    const r=card.getBoundingClientRect();
+    const d=Math.abs((r.left+r.width/2)-window.innerWidth/2);
+    if(d<bestDist){bestDist=d;best=i;}
+  });
+  return best;
+}
+function stopRailInertia(){cancelAnimationFrame(railInertia);railInertia=0;}
+if(heroRailWrap){
+  heroRailWrap.addEventListener("pointerdown",e=>{
+    if(window.innerWidth<=1100 || e.button!==0)return;
+    stopRailInertia();
+    railDragging=true;dragStartX=e.clientX;lastDragX=e.clientX;lastDragT=performance.now();
+    dragStartRailX=getRailX();railX=dragStartRailX;railVelocity=0;
+    heroRailWrap.classList.add("is-dragging");
+    heroRailWrap.setPointerCapture(e.pointerId);
+  });
+  heroRailWrap.addEventListener("pointermove",e=>{
+    if(!railDragging)return;
+    const now=performance.now(),dx=e.clientX-dragStartX,dt=Math.max(8,now-lastDragT);
+    railX=dragStartRailX+dx;
+    rail.style.transform=`translate3d(${railX}px,0,0)`;
+    railVelocity=(e.clientX-lastDragX)/dt*16.67;
+    lastDragX=e.clientX;lastDragT=now;
+  });
+  const endDrag=e=>{
+    if(!railDragging)return;
+    railDragging=false;heroRailWrap.classList.remove("is-dragging");
+    try{heroRailWrap.releasePointerCapture(e.pointerId)}catch{}
+    let v=railVelocity;
+    const glide=()=>{
+      v*=.92;
+      railX+=v;
+      rail.style.transform=`translate3d(${railX}px,0,0)`;
+      if(Math.abs(v)>.45) railInertia=requestAnimationFrame(glide);
+      else{
+        const idx=nearestCardToCenter();
+        setActive(idx);
+      }
+    };
+    railInertia=requestAnimationFrame(glide);
+  };
+  heroRailWrap.addEventListener("pointerup",endDrag);
+  heroRailWrap.addEventListener("pointercancel",endDrag);
+}
 
 let featureOffset=0;
 setInterval(()=>{ featureOffset=(featureOffset+1)%featureButtons.length; featureButtons.forEach((btn,i)=>{ const order=(i-featureOffset+featureButtons.length)%featureButtons.length; const tops=[0,28,60,95,133,175], widths=[180,215,250,286,322,360], op=[.46,.55,.62,.70,.78,.88]; btn.style.top=`${tops[order]}px`; btn.style.width=`${widths[order]}px`; btn.style.opacity=op[order]; }); },1600);
@@ -154,8 +225,8 @@ function heroV2Build(index){
   const wrap=document.querySelector(".rail-wrap"),card=cards[index];if(!wrap||!card)return null;
   const wr=wrap.getBoundingClientRect(),cr=card.getBoundingClientRect(),d=heroV2Data[index]||heroV2Data[0];
   const stage=document.createElement("div");stage.className="hero-v2-stage";stage.dataset.state="grid";
-  const cx=(window.innerWidth/2)-wr.left,cy=cr.top-wr.top+cr.height/2;
-  stage.style.setProperty("--hx",cx+"px");stage.style.setProperty("--hy",cy+"px");
+  const cy=cr.top-wr.top+cr.height/2;
+  stage.style.setProperty("--hy",cy+"px");
   stage.style.setProperty("--hw",cr.width+"px");stage.style.setProperty("--hh",cr.height+"px");
   stage.style.setProperty("--ha",d.a);stage.style.setProperty("--hb",d.b);
   stage.innerHTML=`
@@ -174,8 +245,8 @@ function heroV2Build(index){
     </div>`;
   wrap.appendChild(stage);card.classList.add("hero-v2-source");return stage;
 }
-const heroV2States=["grid","card","pills","metric","expand","strip","search","formats","pills","final"];
-const heroV2Times=[1750,1850,1900,1750,1550,1450,2100,2200,1850,2600];
+const heroV2States=["seed","card","pills","metric","expand","strip","search","formats","pills","final"];
+const heroV2Times=[900,1550,1750,1650,1500,1350,1900,2050,1700,2400];
 function heroV2Play(index=activeIndex){
   const token=++heroV2Token,stage=heroV2Build(index);if(!stage)return;
   let s=0;
@@ -187,9 +258,4 @@ function heroV2Play(index=activeIndex){
   };
   advance();
 }
-const heroV2BaseSetActive=setActive;
-setActive=function(index){
-  heroV2Token++;heroV2Clear();heroV2BaseSetActive(index);
-  setTimeout(()=>heroV2Play(activeIndex),220);
-};
-requestAnimationFrame(()=>heroV2Play(activeIndex));
+requestAnimationFrame(()=>setActive(activeIndex,true));
