@@ -13,11 +13,29 @@ async function audit(name,width,height){
   await page.goto("http://127.0.0.1:4173/index.html",{waitUntil:"networkidle"});
   await page.waitForTimeout(1800);
 
-  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
-  if(overflow>3) errors.push("horizontal-overflow: "+overflow);
+  const metrics=await page.evaluate(()=>({
+    overflow:document.documentElement.scrollWidth-window.innerWidth,
+    scrollHeight:document.documentElement.scrollHeight,
+    viewportHeight:innerHeight,
+    brokenImages:[...document.images].filter(img=>img.complete && img.naturalWidth===0).map(img=>img.getAttribute("src"))
+  }));
+  if(metrics.overflow>3) errors.push("horizontal-overflow: "+metrics.overflow);
+  if(metrics.brokenImages.length) errors.push("broken-images: "+metrics.brokenImages.join(", "));
+  const screenCount=metrics.scrollHeight/metrics.viewportHeight;
+  if(width>1100 && screenCount>8.2) errors.push("page-too-long: "+screenCount.toFixed(2)+" screens");
+  if(width<=1100 && screenCount>13) errors.push("mobile-page-too-long: "+screenCount.toFixed(2)+" screens");
 
   const hero=page.locator(".v3-hero");
   if(await hero.count()) await hero.screenshot({path:`${out}/${name}-hero.png`});
+  if(width<=1100){
+    const centerDelta=await page.evaluate(()=>{
+      const active=document.querySelector(".card-rail .show-card.active");
+      if(!active) return 999;
+      const r=active.getBoundingClientRect();
+      return Math.abs((r.left+r.width/2)-innerWidth/2);
+    });
+    if(centerDelta>18) errors.push("mobile-active-not-centered: "+centerDelta.toFixed(1));
+  }
 
   if(width>1100){
     await page.evaluate(()=>{
@@ -50,6 +68,13 @@ async function audit(name,width,height){
 
   await page.locator("#contact").scrollIntoViewIfNeeded();
   await page.waitForTimeout(450);
+  const contactVisible=await page.evaluate(()=>{
+    const h=document.querySelector("#contact h2");
+    if(!h) return false;
+    const r=h.getBoundingClientRect(),cs=getComputedStyle(h);
+    return r.width>1&&r.height>1&&Number(cs.opacity)>.2&&cs.visibility!=="hidden";
+  });
+  if(!contactVisible) errors.push("contact-heading-hidden");
   await page.locator("#contact").screenshot({path:`${out}/${name}-contact.png`});
 
   const rectChecks=await page.evaluate(()=>{
