@@ -16,7 +16,7 @@ function setActive(index){
   activeIndex = Math.max(0, Math.min(cards.length - 1, index));
   cards.forEach((card,i)=>card.classList.toggle("active", i===activeIndex));
   if(window.innerWidth > 1100){
-    const card = cards[activeIndex], cardCenter = card.offsetLeft + card.offsetWidth/2, viewportCenter = window.innerWidth * .63;
+    const card = cards[activeIndex], cardCenter = card.offsetLeft + card.offsetWidth/2, viewportCenter = window.innerWidth/2;
     const matrix = getComputedStyle(rail).transform, currentX = matrix === "none" ? 0 : new DOMMatrixReadOnly(matrix).m41;
     const base = rail.getBoundingClientRect().left - currentX;
     rail.style.transform = `translateX(${viewportCenter - (base + cardCenter)}px)`;
