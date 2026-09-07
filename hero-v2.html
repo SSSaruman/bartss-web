@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./hero-v2.css?v=loop-content-art-9" />
+  <link rel="stylesheet" href="./hero-v2.css?v=approved-glass-10" />
 </head>
 <body>
   <div class="background" aria-hidden="true">
@@ -85,6 +85,16 @@
             <div class="visual visual-finance"><img class="hero-card-art" src="./hero-assets/finance.svg" alt="" aria-hidden="true"></div>
             <div class="card-copy"><h2>AiFinance</h2><p>AI FOR GROWTH</p><small>INTELLIGENCE IN ACTION</small></div>
             <button class="round-arrow" aria-label="AiFinance">→</button>
+          </article>
+          <article class="show-card" data-index="5" id="proposal">
+            <div class="card-top"><span class="index">06</span><span class="tag">BARTSS LAB</span></div>
+            <div class="visual visual-proposal">
+              <div class="proposal-visual" aria-hidden="true">
+                <span></span><span></span><span></span><i></i>
+              </div>
+            </div>
+            <div class="card-copy"><h2>Proposal System</h2><p>SALES EXPERIENCE</p><small>FROM CONVERSATION TO APPROVAL</small></div>
+            <button class="round-arrow" aria-label="Proposal System">→</button>
           </article>
         </div>
         <div class="feature-stack" id="featureStack" aria-label="Active product features">
@@ -442,6 +452,32 @@
     </section>
   </main>
 
-  <script src="./hero-v2.js?v=loop-content-art-9"></script>
+  <script src="./hero-v2.js?v=approved-glass-10"></script>
+
+  <aside class="bartss-cookie" id="bartssCookie" aria-label="Cookie preferences">
+    <div class="utility-head"><span>◉ BARTSS</span><button type="button" data-close-cookie>×</button></div>
+    <h3>Cookie Preferences</h3>
+    <p>We use cookies to understand usage and improve the BARTSS experience.</p>
+    <div class="cookie-actions">
+      <button class="cookie-primary" type="button" data-close-cookie>Accept all</button>
+      <button class="cookie-secondary" type="button" id="cookieCustomize">Customize</button>
+    </div>
+    <div class="cookie-detail" id="cookieDetail" hidden>
+      <label><span>Analytics</span><input type="checkbox" checked></label>
+      <label><span>Functional</span><input type="checkbox" checked></label>
+      <label><span>Necessary</span><strong>Always active</strong></label>
+    </div>
+  </aside>
+
+  <aside class="bartss-chat" id="bartssChat" aria-label="Talk to BARTSS">
+    <button class="chat-launcher" id="chatLauncher" type="button" aria-expanded="false">✦</button>
+    <div class="chat-panel" id="chatPanel">
+      <div class="utility-head"><span>◉ BARTSS</span><button id="chatClose" type="button">−</button></div>
+      <div class="chat-intro"><i>✦</i><div><h3>Talk to BARTSS</h3><p>Got a project in mind?<br>We typically reply within a few hours.</p></div></div>
+      <div class="chat-input"><span>Type a message…</span><button type="button">↗</button></div>
+      <div class="chat-chips"><button>Start a project</button><button>Our services</button><button>Pricing</button></div>
+    </div>
+  </aside>
+
 </body>
 </html>
