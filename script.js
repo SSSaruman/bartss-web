@@ -430,3 +430,47 @@ rail?.addEventListener("scroll",()=>{
 },{passive:true});
 
 window.addEventListener("bartss:lang",()=>updateFeatureStack(activeIndex));
+
+
+// --- Art direction motion pass: reveal + lightweight parallax ---
+const motionItems = [
+  ...document.querySelectorAll(".package-card"),
+  ...document.querySelectorAll(".case-card"),
+  ...document.querySelectorAll(".process-grid article"),
+  ...document.querySelectorAll(".system-card"),
+  ...document.querySelectorAll(".fit-card")
+];
+motionItems.forEach(el=>el.classList.add("motion-item"));
+const motionObserver = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("motion-in");
+      motionObserver.unobserve(entry.target);
+    }
+  });
+},{threshold:.12,rootMargin:"0px 0px -5% 0px"});
+motionItems.forEach(el=>motionObserver.observe(el));
+
+const parallaxTargets = [
+  ...document.querySelectorAll(".case-art"),
+  ...document.querySelectorAll(".system-visual")
+];
+let artMotionFrame=0;
+function updateArtMotion(){
+  artMotionFrame=0;
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const vh=innerHeight;
+  parallaxTargets.forEach((el,i)=>{
+    const r=el.getBoundingClientRect();
+    if(r.bottom<0 || r.top>vh) return;
+    const progress=((r.top+r.height/2)-vh/2)/vh;
+    const amp=i<3?18:10;
+    el.style.setProperty("--parallax-y",`${(-progress*amp).toFixed(2)}px`);
+  });
+}
+window.addEventListener("scroll",()=>{
+  if(artMotionFrame) return;
+  artMotionFrame=requestAnimationFrame(updateArtMotion);
+},{passive:true});
+window.addEventListener("resize",updateArtMotion,{passive:true});
+updateArtMotion();
