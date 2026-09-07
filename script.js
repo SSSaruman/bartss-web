@@ -96,65 +96,20 @@ function snapNearest(){
 function stopInertia(){if(railInertia)cancelAnimationFrame(railInertia);railInertia=0;}
 
 loopCards.forEach(card=>card.addEventListener("click",()=>{
-  if(railDragging)return;
   const next=Number(card.dataset.logical);
   heroV2Reset();
   setActive(next);
-  setTimeout(()=>heroV2Play(next),820);
+  setTimeout(()=>heroV2Play(next),900);
 }));
 
+// Hero selection is click-only. Drag and wheel navigation are intentionally disabled
+// so the rail stays spatially stable and the selected card can always center cleanly.
 if(heroRailWrap){
   heroRailWrap.addEventListener("pointerdown",e=>{
     if(innerWidth<=1100||e.button!==0)return;
-    stopInertia(); heroV2Reset();
-    railDragging=true;dragMoved=false;
-    dragStartX=lastDragX=e.clientX;lastDragT=performance.now();
-    dragStartRailX=getRailX();railX=dragStartRailX;railVelocity=0;
-    heroRailWrap.classList.add("is-dragging");
-    rail.style.transition="none";
-    heroRailWrap.setPointerCapture(e.pointerId);
+    railDragging=false;
   });
-  heroRailWrap.addEventListener("pointermove",e=>{
-    if(!railDragging)return;
-    const now=performance.now(),dt=Math.max(8,now-lastDragT);
-    const dx=e.clientX-dragStartX;
-    if(Math.abs(dx)>3)dragMoved=true;
-    const raw=dragStartRailX+dx;
-    railX=normalizeNearCenter(raw);
-    if(Math.abs(railX-raw)>.5)dragStartRailX=railX-dx;
-    rail.style.transform="translate3d("+railX+"px,0,0)";
-    const instant=(e.clientX-lastDragX)/dt*16.67;
-    railVelocity=railVelocity*.7+instant*.3;
-    lastDragX=e.clientX;lastDragT=now;
-    markActive(nearestCard());
-  });
-  const finish=e=>{
-    if(!railDragging)return;
-    railDragging=false;heroRailWrap.classList.remove("is-dragging");
-    try{heroRailWrap.releasePointerCapture(e.pointerId)}catch{}
-    if(!dragMoved){rail.style.transition="";snapNearest();return;}
-    let v=Math.max(-38,Math.min(38,railVelocity*1.32));
-    const glide=()=>{
-      v*=.938;
-      railX=normalizeNearCenter(railX+v);
-      rail.style.transform="translate3d("+railX+"px,0,0)";
-      markActive(nearestCard());
-      if(Math.abs(v)>.28)railInertia=requestAnimationFrame(glide);
-      else{railInertia=0;snapNearest();}
-    };
-    railInertia=requestAnimationFrame(glide);
-  };
-  heroRailWrap.addEventListener("pointerup",finish);
-  heroRailWrap.addEventListener("pointercancel",finish);
 }
-window.addEventListener("wheel",e=>{
-  if(innerWidth<=1100||document.body.classList.contains("menu-open"))return;
-  const r=heroRailWrap.getBoundingClientRect();
-  if(r.bottom<0||r.top>innerHeight||Math.abs(e.deltaY)<18||wheelLock)return;
-  wheelLock=true;heroV2Reset(true);
-  setActive(activeIndex+(e.deltaY>0?1:-1));
-  setTimeout(()=>wheelLock=false,620);
-},{passive:true});
 window.addEventListener("resize",()=>{refreshSetWidth();canonicalize(activeIndex,false);});
 requestAnimationFrame(()=>{refreshSetWidth();canonicalize(activeIndex,false);});
 let featureOffset=0;
