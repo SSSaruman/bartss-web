@@ -1618,3 +1618,31 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
     filter:none!important;
   }
 }
+
+
+/* HERO V2 — stable selection: rail never moves during the product animation */
+@media(min-width:1101px){
+  .show-card.hero-v2-slot{
+    flex-basis:310px!important;
+    width:310px!important;
+  }
+  .rail-wrap.hero-v2-playing .card-rail{
+    transition:none!important;
+  }
+  .rail-wrap.hero-v2-playing .show-card{
+    transition:
+      transform .72s cubic-bezier(.18,.82,.18,1),
+      opacity .46s ease,
+      filter .46s ease!important;
+  }
+  .rail-wrap.hero-v2-playing .show-card.hero-v2-neighbor-left{
+    transform:translateX(-118px) scale(.96)!important;
+  }
+  .rail-wrap.hero-v2-playing .show-card.hero-v2-neighbor-right{
+    transform:translateX(118px) scale(.96)!important;
+  }
+  .rail-wrap.hero-v2-playing .show-card.hero-v2-neighbor-left.active,
+  .rail-wrap.hero-v2-playing .show-card.hero-v2-neighbor-right.active{
+    transform:translateX(0) scale(1.12)!important;
+  }
+}
