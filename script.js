@@ -38,7 +38,7 @@ function circularDistance(index,active){
 
 function heroStep(){
   const w=heroRailWrap?.clientWidth||innerWidth;
-  return Math.max(300,Math.min(390,w*.215));
+  return Math.max(340,Math.min(455,w*.245));
 }
 
 function applyHeroLayout({animate=true}={}){
@@ -48,7 +48,7 @@ function applyHeroLayout({animate=true}={}){
     const i=Number(card.dataset.logical);
     const d=circularDistance(i,activeIndex);
     const abs=Math.abs(d);
-    const push=heroBusy && d!==0 ? (d<0?-150:150) : (abs===1 ? (d<0?-24:24) : 0);
+    const push=heroBusy && d!==0 ? (d<0?-170:170) : (abs===1 ? (d<0?-44:44) : 0);
     const x=d*step+push;
     const scale=d===0?1.15:(abs===1?.985:.94);
     const opacity=d===0?1:(abs===1?.82:.56);
