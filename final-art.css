@@ -195,3 +195,49 @@ body{background:var(--v3-paper);overflow-x:hidden}
 @media(prefers-reduced-motion:reduce){
   .v3-main *{scroll-behavior:auto!important;animation:none!important;transition-duration:.01ms!important}
 }
+
+/* FINAL SAFETY PASS: content is always readable even if motion JS is interrupted */
+.v3-main .motion-item,
+.v3-main .motion-item:not(.motion-in){
+  opacity:1!important;
+  transform:none!important;
+}
+.v3-section-head h2,
+.v3-trust-statement h2,
+.v3-fit h2,
+.v3-contact h2{
+  clip-path:none!important;
+  opacity:1!important;
+  transform:none!important;
+}
+
+/* Keep the supplied menu composition intact, but prevent tiles from drawing beneath controls on small screens */
+@media(max-width:700px){
+  .menu-panel{overflow:hidden}
+  .menu-panel:after{
+    content:"";
+    position:absolute;
+    z-index:7;
+    right:0;top:0;bottom:0;
+    width:64px;
+    pointer-events:none;
+    background:linear-gradient(90deg,rgba(17,23,30,0),rgba(17,23,30,.98) 28%);
+    border-radius:0 26px 26px 0;
+  }
+  .menu-controls{z-index:9}
+  .menu-rail{
+    grid-template-columns:repeat(7,116px)!important;
+    gap:9px!important;
+    padding:12px 68px 12px 12px!important;
+    scroll-padding-right:68px;
+  }
+  .menu-tile{
+    min-width:116px!important;
+    min-height:116px!important;
+    aspect-ratio:1/1!important;
+    font-size:12px!important;
+  }
+  .menu-icon{font-size:25px!important}
+  .menu-x{width:38px!important;height:38px!important}
+  .menu-lang{width:38px!important;gap:10px!important}
+}
