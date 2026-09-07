@@ -105,7 +105,7 @@ loopCards.forEach(card=>card.addEventListener("click",()=>{
 if(heroRailWrap){
   heroRailWrap.addEventListener("pointerdown",e=>{
     if(innerWidth<=1100||e.button!==0)return;
-    stopInertia(); heroV2Reset(false);
+    stopInertia(); heroV2Reset();
     railDragging=true;dragMoved=false;
     dragStartX=lastDragX=e.clientX;lastDragT=performance.now();
     dragStartRailX=getRailX();railX=dragStartRailX;railVelocity=0;
@@ -276,11 +276,22 @@ let heroV2Token=0,heroV2Timer=null,heroV2Running=false,heroV2AutoTimer=null;
 function hvWait(ms,token){
   return new Promise(resolve=>heroV2Timer=setTimeout(()=>resolve(token===heroV2Token),ms));
 }
+function heroV2RestoreSources(){
+  loopCards.forEach(c=>{
+    c.classList.remove("hero-v2-source");
+    if(c.dataset.hv2Hidden==="1"){
+      c.style.removeProperty("opacity");
+      c.style.removeProperty("visibility");
+      c.style.removeProperty("pointer-events");
+      c.dataset.hv2Hidden="0";
+    }
+  });
+}
 function heroV2Reset(){
   heroV2Token++;
   clearTimeout(heroV2Timer);clearTimeout(heroV2AutoTimer);
   heroV2Running=false;
-  loopCards.forEach(c=>c.classList.remove("hero-v2-source"));
+  heroV2RestoreSources();
   document.querySelector(".hero-v2-stage")?.remove();
 }
 function heroV2Build(index){
@@ -314,11 +325,17 @@ function heroV2Build(index){
         '<div class="hv2-result-photo"><img src="'+d.art+'" alt=""></div>'+
         '<div class="hv2-result-copy"><small>'+d.eyebrow+'</small><b>'+d.resultTitle+'</b><span>'+d.resultSub+'</span></div>'+
       '</div>'+
-      '<div class="hv2-impact"><small>'+d.value+'</small><div class="hv2-impact-chart"></div><b>'+d.metric+'</b></div>'+
+      '<div class="hv2-impact"><small>'+d.value+'</small><svg class="hv2-impact-chart" viewBox="0 0 100 40" aria-hidden="true"><path class="hv2-impact-grid" d="M0 34H100 M0 20H100 M0 6H100"/><path class="hv2-impact-line" d="M2 32 C15 28 20 25 29 27 S44 19 53 20 S69 10 77 13 S91 6 98 3"/></svg><b>'+d.metric+'</b></div>'+
     '</div>';
 
   loopCards.forEach(c=>{
-    if(Number(c.dataset.logical)===index) c.classList.add("hero-v2-source");
+    if(Number(c.dataset.logical)===index){
+      c.classList.add("hero-v2-source");
+      c.dataset.hv2Hidden="1";
+      c.style.setProperty("opacity","0","important");
+      c.style.setProperty("visibility","hidden","important");
+      c.style.setProperty("pointer-events","none","important");
+    }
   });
   heroRailWrap.appendChild(stage);
   return stage;
@@ -355,13 +372,51 @@ async function heroV2Play(index=activeIndex){
   stage.dataset.phase="resultGrow";
   if(!await hvWait(1150,token))return;
 
-  // 7. Value/impact graph appears bottom-right, then final card stays stable.
+  // 7. Value/impact graph draws in, then number counts to the result.
   stage.dataset.phase="impact";
-  if(!await hvWait(1700,token))return;
+  const impactBox=stage.querySelector(".hv2-impact");
+  const impactNumber=impactBox?.querySelector("b");
+  const impactLine=impactBox?.querySelector(".hv2-impact-line");
+  if(impactLine){
+    impactLine.style.strokeDasharray="160";
+    impactLine.style.strokeDashoffset="160";
+    requestAnimationFrame(()=>impactLine.style.strokeDashoffset="0");
+  }
+  if(impactNumber){
+    const raw=d.metric;
+    const numeric=parseFloat(String(raw).replace(/[^0-9.]/g,""));
+    const prefix=String(raw).trim().startsWith("+")?"+":"";
+    const suffix=String(raw).includes("%")?"%":(String(raw).includes("×")?"×":"");
+    if(Number.isFinite(numeric)){
+      const started=performance.now();
+      const duration=1250;
+      const tick=now=>{
+        if(token!==heroV2Token||!impactNumber.isConnected)return;
+        const p=Math.min(1,(now-started)/duration);
+        const eased=1-Math.pow(1-p,3);
+        const value=numeric*eased;
+        impactNumber.textContent=prefix+(numeric%1?value.toFixed(1):Math.round(value))+suffix;
+        if(p<1)requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+  }
+  if(!await hvWait(1750,token))return;
   stage.dataset.phase="final";
   heroV2Running=false;
+  await hvWait(1150,token);
+  if(token!==heroV2Token)return;
+  const source=cardAt(CENTER_SET,index);
+  if(source){
+    source.style.setProperty("opacity","1","important");
+    source.style.setProperty("visibility","visible","important");
+    source.style.setProperty("pointer-events","auto","important");
+    source.classList.remove("hero-v2-source");
+    source.dataset.hv2Hidden="0";
+  }
+  stage.classList.add("final-handoff");
+  setTimeout(()=>stage.remove(),520);
 
-  // Reference-like continuation: hold, then advance only while the hero remains hovered.
   heroV2AutoTimer=setTimeout(()=>{
     if(heroRailWrap.matches(":hover")&&!railDragging){
       const next=(index+1)%baseCount;
@@ -369,7 +424,7 @@ async function heroV2Play(index=activeIndex){
       setActive(next);
       setTimeout(()=>heroV2Play(next),850);
     }
-  },2600);
+  },2200);
 }
 
 heroRailWrap?.addEventListener("mouseenter",()=>{
