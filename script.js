@@ -50,6 +50,13 @@ function rebuildHeroLoop(){
     rail.style.transform="";
     railX=0; loopSpan=0;
     cards.forEach((card,i)=>card.classList.toggle("active",i===activeIndex));
+    requestAnimationFrame(()=>{
+      const card=cards[activeIndex];
+      if(card && rail){
+        const left=card.offsetLeft-(rail.clientWidth-card.offsetWidth)/2;
+        rail.scrollTo({left:Math.max(0,left),behavior:"auto"});
+      }
+    });
     return;
   }
 
