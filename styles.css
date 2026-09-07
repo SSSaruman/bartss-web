@@ -877,3 +877,40 @@ body{background:#d7e7ee}
 /* global editorial consistency */
 .section-kicker{margin-bottom:36px}
 .reveal{transform:translateY(30px);transition-duration:.75s}
+
+/* --- LIVE PROJECT PREVIEWS --- */
+.live-preview{
+  position:relative;z-index:2;
+  width:88%;height:430px;
+  border-radius:22px;overflow:hidden;
+  background:#eef1ef;
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 30px 70px rgba(0,0,0,.18);
+  transform:rotate(-1.6deg)
+}
+.live-preview-dark{background:#0d1114}
+.live-preview-bar{
+  height:34px;padding:0 12px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(20,24,27,.94);color:white;
+  border-bottom:1px solid rgba(255,255,255,.08)
+}
+.live-preview-bar>span{display:flex;gap:5px}
+.live-preview-bar i{display:block;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.34)}
+.live-preview-bar b{font-size:7px;letter-spacing:.17em;font-weight:500;opacity:.58}
+.live-preview iframe{
+  width:160%;height:160%;
+  border:0;
+  transform:scale(.625);
+  transform-origin:top left;
+  pointer-events:none;
+  background:white
+}
+.case-b .live-preview{box-shadow:0 30px 70px rgba(40,48,54,.14)}
+@media(max-width:1000px){
+ .live-preview{width:92%;height:380px}
+}
+@media(max-width:650px){
+ .live-preview{width:100%;height:300px;transform:none}
+ .live-preview iframe{width:200%;height:200%;transform:scale(.5)}
+}
