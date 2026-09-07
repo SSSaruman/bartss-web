@@ -1,4 +1,4 @@
-name: Visual QA\n# v2 final-layout gate
+name: Visual QA\n# v3 final-layout gate
 on:
   push:
     branches: [sales-rebuild-v2]
