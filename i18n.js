@@ -1,0 +1,284 @@
+(() => {
+  const tr = {
+    "INDEPENDENT CREATIVE PARTNER":"BAĞIMSIZ YARATICI PARTNER",
+    "Menu":"Menü",
+    "ISTANBUL × REMOTE × SELECTIVE":"İSTANBUL × UZAKTAN × SEÇİCİ",
+    "Ways to":"Çalışma",
+    "work":"biçimleri",
+    "Proof &":"Kanıt &",
+    "Work":"İşler",
+    "Process":"Süreç",
+    "Why":"Neden",
+    "Systems":"Sistemler",
+    "Fit &":"Uyum &",
+    "Investment":"Yatırım",
+    "Start a":"Proje",
+    "project":"başlat",
+    "We turn complex businesses":"Karmaşık işletmeleri",
+    "into clear, valuable brands.":"net ve değerli markalara dönüştürüyoruz.",
+    "BARTSS is a multidisciplinary creative partner for ambitious companies that need sharper positioning, stronger digital experiences and a brand system that can grow with the business.":"BARTSS; daha keskin konumlandırma, daha güçlü dijital deneyimler ve işletmeyle birlikte büyüyebilen bir marka sistemi isteyen iddialı şirketler için multidisipliner yaratıcı partnerdir.",
+    "Find the right engagement":"Doğru çalışma modelini bul",
+    "BRAND TRANSFORMATION":"MARKA DÖNÜŞÜMÜ",
+    "DIGITAL EXPERIENCE":"DİJİTAL DENEYİM",
+    "CREATIVE PARTNER":"YARATICI PARTNER",
+    "Be harder to confuse.":"Karıştırılması zor bir marka olun.",
+    "FOR BUSINESSES THAT HAVE OUTGROWN THEIR BRAND":"MARKASINI AŞMIŞ İŞLETMELER İÇİN",
+    "POSITIONING · IDENTITY · ROLLOUT":"KONUMLANDIRMA · KİMLİK · YAYILIM",
+    "Explain value faster.":"Değeri daha hızlı anlatın.",
+    "FOR WEBSITES AND PRODUCTS THAT NEED TO CONVERT":"DÖNÜŞÜM ÜRETMESİ GEREKEN WEB VE ÜRÜNLER İÇİN",
+    "UX · INTERACTION · CONVERSION":"UX · ETKİLEŞİM · DÖNÜŞÜM",
+    "CREATIVE SYSTEM":"YARATICI SİSTEM",
+    "Produce without the chaos.":"Kaos olmadan üretin.",
+    "AI-ASSISTED CREATIVE PRODUCTION":"YAPAY ZEKA DESTEKLİ YARATICI ÜRETİM",
+    "WORKFLOW · AUTOMATION · QC":"İŞ AKIŞI · OTOMASYON · QC",
+    "ATTENTION SYSTEM":"DİKKAT SİSTEMİ",
+    "Make attention useful.":"Dikkati işe yarar hale getirin.",
+    "FOR LAUNCHES, CAMPAIGNS AND COMPLEX STORIES":"LANSman, KAMPANYA VE KARMAŞIK HİKAYELER İÇİN",
+    "MOTION · 3D · FILM":"MOTION · 3D · FİLM",
+    "BARTSS SYSTEMS":"BARTSS SİSTEMLERİ",
+    "Build what the business needs.":"İşletmenin gerçekten ihtiyacı olanı kurun.",
+    "WHEN OFF-THE-SHELF TOOLS ARE NOT ENOUGH":"HAZIR ARAÇLAR YETMEDİĞİNDE",
+    "PRODUCT · AUTOMATION · OPERATING TOOLS":"ÜRÜN · OTOMASYON · OPERASYON ARAÇLARI",
+    "POSITIONING CLARITY":"KONUMLANDIRMA NETLİĞİ",
+    "SYSTEM, NOT ASSETS":"DOSYA DEĞİL, SİSTEM",
+    "BUILT TO EXTEND":"BÜYÜMEYE HAZIR",
+    "STRATEGY → EXPERIENCE → SYSTEM":"STRATEJİ → DENEYİM → SİSTEM",
+    "BUILT FOR":"DAHA İDDİALI",
+    "BOLDER BRANDS":"MARKALAR İÇİN",
+    "THE BUSINESS CASE FOR BARTSS":"BARTSS'İN İŞ DEĞERİ",
+    "Design is only useful":"Tasarım ancak bir şeyi",
+    "when it changes something.":"değiştirdiğinde değerlidir.",
+    "We work where brand perception, digital experience and commercial clarity meet. The goal is not more deliverables. It is a clearer offer, a stronger experience and a system your team can keep using.":"Marka algısı, dijital deneyim ve ticari netliğin kesiştiği yerde çalışıyoruz. Amaç daha fazla çıktı üretmek değil; daha net bir teklif, daha güçlü bir deneyim ve ekibinizin kullanmaya devam edebileceği bir sistem kurmak.",
+    "Clarify what the market should understand.":"Pazarın neyi anlaması gerektiğini netleştir.",
+    "Build the identity and experience around that idea.":"Kimliği ve deneyimi bu fikir etrafında kur.",
+    "Extend the system across the places customers actually meet the brand.":"Sistemi müşterinin markayla temas ettiği tüm noktalara yay.",
+    "HOW TO WORK WITH BARTSS":"BARTSS İLE NASIL ÇALIŞILIR",
+    "Three ways in.":"Üç giriş yolu.",
+    "One senior creative system.":"Tek senior yaratıcı sistem.",
+    "Choose the business situation that matches yours. Each engagement combines the disciplines required to solve the problem instead of selling disconnected design services.":"Size uyan iş durumunu seçin. Her çalışma modeli, birbirinden kopuk tasarım hizmetleri satmak yerine problemi çözmek için gereken disiplinleri bir araya getirir.",
+    "When the business has outgrown the way it looks, sounds or sells itself.":"İşletme; görünümünü, anlatımını veya satış biçimini aştığında.",
+    "Positioning & narrative":"Konumlandırma & anlatı",
+    "Visual identity system":"Görsel kimlik sistemi",
+    "Core brand applications":"Temel marka uygulamaları",
+    "Launch & rollout system":"Lansman & yayılım sistemi",
+    "Project engagement":"Proje bazlı çalışma",
+    "Discuss transformation →":"Dönüşümü konuşalım →",
+    "When the website or product needs to explain value faster and convert better.":"Web sitesi veya ürün değeri daha hızlı anlatmalı ve daha iyi dönüşüm üretmeliyse.",
+    "UX & content architecture":"UX & içerik mimarisi",
+    "Premium web / product design":"Premium web / ürün tasarımı",
+    "Motion interaction system":"Motion etkileşim sistemi",
+    "Conversion & lead flows":"Dönüşüm & lead akışları",
+    "Core engagement":"Ana çalışma modeli",
+    "Discuss digital experience →":"Dijital deneyimi konuşalım →",
+    "When you need senior creative capacity without building another internal department.":"Yeni bir iç ekip kurmadan senior yaratıcı kapasiteye ihtiyaç duyduğunuzda.",
+    "Ongoing creative direction":"Sürekli yaratıcı yönlendirme",
+    "Campaigns, motion & content":"Kampanya, motion & içerik",
+    "Web, product & brand extensions":"Web, ürün & marka genişletmeleri",
+    "Priority production capacity":"Öncelikli üretim kapasitesi",
+    "Ongoing partnership":"Sürekli partnerlik",
+    "Discuss partnership →":"Partnerliği konuşalım →",
+    "03 / PROOF, NOT DECORATION":"03 / DEKOR DEĞİL, KANIT",
+    "Real problems.":"Gerçek problemler.",
+    "Real systems built around them.":"Etrafında kurulmuş gerçek sistemler.",
+    "These are not placeholder case studies. They show how BARTSS turns a business constraint into a clearer customer journey, a usable product or a repeatable operating system.":"Bunlar yer tutucu case study'ler değil. BARTSS'in bir iş kısıtını nasıl daha net müşteri yolculuğuna, kullanılabilir ürüne veya tekrarlanabilir operasyon sistemine dönüştürdüğünü gösteriyor.",
+    "PROBLEM":"PROBLEM",
+    "INTERVENTION":"MÜDAHALE",
+    "BUSINESS CHANGE":"İŞ ETKİSİ",
+    "From a single “request sample” button":"Tek bir “numune talep et” butonundan",
+    "to a B2B lead journey.":"B2B lead yolculuğuna.",
+    "Architects and buyers could be interested in multiple products, but the old interaction treated sampling like a single email action.":"Mimarlar ve alıcılar birden fazla ürünle ilgilenebiliyordu; eski etkileşim ise numune talebini tek bir e-posta aksiyonu gibi ele alıyordu.",
+    "We redesigned sampling as a persistent multi-select flow with basket logic, customer context and lead visibility for the Asiatic team.":"Numune akışını; kalıcı çoklu seçim, sepet mantığı, müşteri bağlamı ve Asiatic ekibi için lead görünürlüğü ile yeniden tasarladık.",
+    "Product interest becomes structured first-party intent instead of disappearing inside an unqualified email.":"Ürün ilgisi, niteliksiz bir e-postada kaybolmak yerine yapılandırılmış birinci taraf niyet verisine dönüşüyor.",
+    "See the experience →":"Deneyimi gör →",
+    "From manual AI prompting":"Manuel AI promptlamadan",
+    "to a controlled production pipeline.":"kontrollü üretim pipeline'ına.",
+    "AI image and video production broke down across prompts, character consistency, queue handling and manual quality checks.":"AI görsel ve video üretimi; promptlar, karakter tutarlılığı, kuyruk yönetimi ve manuel kalite kontrolleri arasında parçalanıyordu.",
+    "AutoLAB connects storyboard, prompt generation, production dispatch, technical QC and consistency QC into one production path.":"AutoLAB storyboard, prompt üretimi, production dispatch, teknik QC ve tutarlılık QC'yi tek bir üretim yolunda birleştiriyor.",
+    "The work becomes auditable and repeatable: each asset moves through the same state logic instead of depending on memory and manual coordination.":"Üretim denetlenebilir ve tekrarlanabilir hale geliyor; her asset hafızaya ve manuel koordinasyona değil aynı state mantığına göre ilerliyor.",
+    "Explore AutoLAB →":"AutoLAB'i incele →",
+    "From static PDF proposals":"Statik PDF tekliflerden",
+    "to a configurable sales experience.":"yapılandırılabilir satış deneyimine.",
+    "Complex creative offers are difficult to understand when scope, optional services, pricing and approval all live inside a linear document.":"Kapsam, opsiyonel hizmetler, fiyatlama ve onay tek bir doğrusal belgede yaşadığında karmaşık yaratıcı teklifleri anlamak zorlaşıyor.",
+    "We turned the proposal into an interactive system where buyers can understand the offer, configure scope and move toward approval without losing context.":"Teklifi; müşterinin kapsamı anlayabildiği, yapılandırabildiği ve bağlamı kaybetmeden onaya ilerleyebildiği etkileşimli bir sisteme dönüştürdük.",
+    "The sales process becomes easier to follow and easier to operate, with proposal state and buyer intent visible instead of buried in email threads.":"Teklif durumu ve müşteri niyeti e-posta zincirlerinde kaybolmak yerine görünür hale geliyor; satış süreci daha kolay takip edilip yönetiliyor.",
+    "Open the offer system →":"Teklif sistemini aç →",
+    "VISUAL EVIDENCE / CRAFT":"GÖRSEL KANIT / CRAFT",
+    "The system still has":"Sistem yine de",
+    "to feel exceptional.":"istisnai hissettirmeli.",
+    "Commercial clarity comes first, but craft is part of the value. These interactive pieces show how BARTSS uses motion, interface and visual language to make the strategy tangible.":"Ticari netlik önce gelir; fakat craft da değerin parçasıdır. Bu etkileşimli parçalar BARTSS'in stratejiyi somutlaştırmak için motion, arayüz ve görsel dili nasıl kullandığını gösterir.",
+    "CAPABILITIES / USED WHEN NEEDED":"YETKİNLİKLER / GEREKTİĞİNDE",
+    "Disciplines are tools.":"Disiplinler araçtır.",
+    "The outcome chooses the mix.":"Karışımı sonuç belirler.",
+    "Branding, web, motion, 3D, campaigns, AI and print are not separate products here. They are capabilities combined around the business problem.":"Branding, web, motion, 3D, kampanya, AI ve basılı işler burada ayrı ürünler değildir. İş problemine göre bir araya getirilen yetkinliklerdir.",
+    "Branding":"Markalama",
+    "Identity · systems · rebrands":"Kimlik · sistemler · rebrand",
+    "Web & Product":"Web & Ürün",
+    "Sites · UI · product experience":"Siteler · UI · ürün deneyimi",
+    "Motion Design":"Motion Tasarım",
+    "Explainers · launch films · UI motion":"Explainer · lansman filmleri · UI motion",
+    "3D & Films":"3D & Filmler",
+    "Renders · visual stories · worlds":"Render · görsel hikâyeler · dünyalar",
+    "Campaigns":"Kampanyalar",
+    "Content · ads · social systems":"İçerik · reklam · sosyal sistemler",
+    "AI Systems":"AI Sistemleri",
+    "Agents · automation · custom tools":"Ajanlar · otomasyon · özel araçlar",
+    "Print & Packaging":"Basılı İşler & Ambalaj",
+    "Packaging · decks · physical brand":"Ambalaj · sunum · fiziksel marka",
+    "04 / HOW THE WORK MOVES":"04 / İŞ NASIL İLERLER",
+    "Less agency theatre.":"Daha az ajans tiyatrosu.",
+    "More visible decisions.":"Daha görünür kararlar.",
+    "The work moves through clear checkpoints so strategy, design and production do not turn into one endless revision loop.":"Strateji, tasarım ve üretimin sonsuz revizyon döngüsüne dönüşmemesi için iş net kontrol noktalarından ilerler.",
+    "Frame the problem":"Problemi çerçevele",
+    "Build the direction":"Yönü oluştur",
+    "Produce the system":"Sistemi üret",
+    "Launch and extend":"Yayınla ve genişlet",
+    "05 / LOWER THE RISK":"05 / RİSKİ AZALT",
+    "Know what you are buying.":"Ne satın aldığınızı bilin.",
+    "Know where the project stands.":"Projenin nerede olduğunu bilin.",
+    "One creative direction":"Tek yaratıcı yön",
+    "Milestone approvals":"Aşama onayları",
+    "Scope visibility":"Kapsam görünürlüğü",
+    "Senior-led work":"Senior liderliğinde çalışma",
+    "BARTSS SYSTEMS / PRODUCTS":"BARTSS SİSTEMLERİ / ÜRÜNLER",
+    "We don’t only design.":"Sadece tasarlamıyoruz.",
+    "We build things you can buy.":"Satın alabileceğiniz sistemler kuruyoruz.",
+    "Explore product ↗":"Ürünü incele ↗",
+    "06 / IS BARTSS THE RIGHT FIT?":"06 / BARTSS DOĞRU EŞLEŞME Mİ?",
+    "Not every project":"Her iş",
+    "should become a project.":"projeye dönüşmemeli.",
+    "BARTSS works best when the problem is commercially meaningful, the decision makers are involved and the company is ready to build a system rather than buy isolated assets.":"BARTSS; problem ticari olarak anlamlı olduğunda, karar vericiler sürece dahil olduğunda ve şirket tekil çıktılar almak yerine sistem kurmaya hazır olduğunda en iyi sonucu üretir.",
+    "GOOD FIT":"DOĞRU EŞLEŞME",
+    "You are likely a fit if…":"Muhtemelen doğru eşleşmeyiz eğer…",
+    "PROBABLY NOT A FIT":"MUHTEMELEN UYGUN DEĞİL",
+    "We are probably not the right partner if…":"Muhtemelen doğru partner değiliz eğer…",
+    "PROJECT INVESTMENT":"PROJE YATIRIMI",
+    "Designed for serious transformation work.":"Ciddi dönüşüm işleri için tasarlandı.",
+    "Focused engagement":"Odaklı çalışma",
+    "Typically starts around ₺150K+":"Genellikle ₺150K+ seviyesinden başlar",
+    "Multi-discipline transformation":"Çok disiplinli dönüşüm",
+    "Often ₺250K–₺600K+":"Çoğunlukla ₺250K–₺600K+",
+    "Ongoing creative partnership":"Sürekli yaratıcı partnerlik",
+    "Custom monthly scope":"Özel aylık kapsam",
+    "06 / START WITH THE BUSINESS PROBLEM":"06 / İŞ PROBLEMİYLE BAŞLA",
+    "What needs to":"Sırada neyin",
+    "change next?":"değişmesi gerekiyor?",
+    "Start with your project":"Projenizle başlayın",
+    "Review the proof first":"Önce işleri inceleyin",
+    "PROJECT FIT / 01":"PROJE UYUMU / 01",
+    "Start with the problem,":"Teslimlerle değil,",
+    "not the deliverables.":"problemle başlayın.",
+    "This is a short qualification step. It helps determine the right engagement before a full proposal is built.":"Bu kısa bir ön değerlendirme adımıdır. Tam teklif hazırlanmadan önce doğru çalışma modelini belirlemeye yardımcı olur.",
+    "What needs to change?":"Neyin değişmesi gerekiyor?",
+    "Closest engagement":"En yakın çalışma modeli",
+    "Select":"Seç",
+    "Brand Transformation":"Marka Dönüşümü",
+    "Digital Experience":"Dijital Deneyim",
+    "Creative Partner":"Yaratıcı Partner",
+    "Custom / Not sure yet":"Özel / Henüz emin değilim",
+    "Indicative investment":"Yaklaşık yatırım",
+    "Ongoing monthly partnership":"Sürekli aylık partnerlik",
+    "Your name":"Adınız",
+    "Email":"E-posta",
+    "Company / brand":"Şirket / marka",
+    "Your role":"Rolünüz",
+    "Phone":"Telefon",
+    "optional":"opsiyonel",
+    "Company website":"Şirket web sitesi",
+    "privacy notice":"gizlilik bildirimi",
+    "Your project brief is saved as a lead before you continue into scope.":"Kapsama geçmeden önce proje brief'iniz lead olarak kaydedilir.",
+    "Create project lead":"Proje lead'i oluştur",
+    "← Back to BARTSS":"← BARTSS'e dön",
+    "Benefits":"Faydalar",
+    "YOUR PROJECT / QUALIFIED BRIEF":"PROJENİZ / NİTELİKLİ BRIEF",
+    "Edit brief ↗":"Brief'i düzenle ↗",
+    "COMPANY":"ŞİRKET",
+    "ROLE":"ROL",
+    "ENGAGEMENT":"ÇALIŞMA MODELİ",
+    "INVESTMENT":"YATIRIM",
+    "WHAT NEEDS TO CHANGE":"NEYİN DEĞİŞMESİ GEREKİYOR",
+    "Next step":"Sonraki adım",
+    "Translate this business problem into the right scope.":"Bu iş problemini doğru kapsama dönüştür.",
+    "INTERACTIVE PROPOSAL & SALES SYSTEM":"ETKİLEŞİMLİ TEKLİF & SATIŞ SİSTEMİ",
+    "A proposal experience that turns complex services into a guided buying journey — helping clients choose, understand and approve the right scope.":"Karmaşık hizmetleri yönlendirilmiş bir satın alma yolculuğuna dönüştüren teklif deneyimi; müşterinin doğru kapsamı seçmesini, anlamasını ve onaylamasını kolaylaştırır.",
+    "Build project scope →":"Proje kapsamını oluştur →",
+    "See why it matters":"Neden önemli olduğunu gör",
+    "Scope → understand → approve":"Kapsam → anla → onayla",
+    "WHY IT EXISTS":"NEDEN VAR",
+    "A product built around the problem.":"Problemin etrafında kurulmuş bir ürün.",
+    "Sell the value, not a PDF":"PDF değil, değeri sat",
+    "Make scope understandable":"Kapsamı anlaşılır yap",
+    "Track buying intent":"Satın alma niyetini izle",
+    "PROJECT SCOPE / NEXT STEP":"PROJE KAPSAMI / SONRAKİ ADIM",
+    "Start from the engagement.":"Çalışma modelinden başla.",
+    "Then add only what the problem needs.":"Sonra yalnızca problemin gerektirdiklerini ekle.",
+    "This is not a price configurator. It is a scope logic layer that keeps the proposal tied to the business problem.":"Bu bir fiyat konfigüratörü değil. Teklifi iş problemine bağlı tutan bir kapsam mantığı katmanıdır.",
+    "Use this direction":"Bu yönü kullan",
+    "SELECTED DIRECTION":"SEÇİLEN YÖN",
+    "No direction selected yet.":"Henüz yön seçilmedi.",
+    "Send project to BARTSS →":"Projeyi BARTSS'e gönder →",
+    "HOW IT WORKS":"NASIL ÇALIŞIR",
+    "Simple on the surface.":"Yüzeyde basit.",
+    "Structured underneath.":"Altında yapılandırılmış.",
+    "Choose the need":"İhtiyacı seç",
+    "Configure services":"Hizmetleri yapılandır",
+    "Review proposal":"Teklifi incele",
+    "Approve & follow up":"Onayla & takip et",
+    "Ready to turn the problem":"Problemi",
+    "into a project scope?":"proje kapsamına dönüştürmeye hazır mısınız?",
+    "Build the scope →":"Kapsamı oluştur →"
+  };
+
+  const originalText = new WeakMap();
+  const originalAttrs = new WeakMap();
+
+  function norm(v){ return String(v ?? "").replace(/\u00a0/g," ").replace(/\s+/g," ").trim(); }
+  function translateText(v, lang){
+    const key=norm(v);
+    return lang==="tr" && tr[key] ? tr[key] : v;
+  }
+  function processTextNode(node, lang){
+    if(!originalText.has(node)) originalText.set(node,node.nodeValue);
+    const source=originalText.get(node);
+    const trimmed=norm(source);
+    if(!trimmed) return;
+    const translated=translateText(trimmed,lang);
+    if(translated===trimmed){
+      node.nodeValue=source;
+      return;
+    }
+    const lead=(source.match(/^\s*/)||[""])[0], tail=(source.match(/\s*$/)||[""])[0];
+    node.nodeValue=lead+translated+tail;
+  }
+  function processAttrs(el,lang){
+    ["placeholder","aria-label","title"].forEach(attr=>{
+      if(!el.hasAttribute(attr)) return;
+      let map=originalAttrs.get(el);
+      if(!map){ map={}; originalAttrs.set(el,map); }
+      if(!(attr in map)) map[attr]=el.getAttribute(attr);
+      const src=map[attr];
+      el.setAttribute(attr,translateText(src,lang));
+    });
+  }
+  function apply(lang){
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-lang]").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));
+    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+    let n; while((n=walker.nextNode())){
+      const parent=n.parentElement;
+      if(!parent || ["SCRIPT","STYLE","NOSCRIPT"].includes(parent.tagName)) continue;
+      processTextNode(n,lang);
+    }
+    document.querySelectorAll("[placeholder],[aria-label],[title]").forEach(el=>processAttrs(el,lang));
+    localStorage.setItem("bartssLang",lang);
+    window.dispatchEvent(new CustomEvent("bartss:lang",{detail:{lang}}));
+  }
+
+  const preferred=localStorage.getItem("bartssLang") || (navigator.language?.toLowerCase().startsWith("tr") ? "tr" : "en");
+  document.addEventListener("click",e=>{
+    const btn=e.target.closest("[data-lang]");
+    if(btn) apply(btn.dataset.lang);
+  });
+  window.BARTSSI18N={apply,translate:(text)=>translateText(text,document.documentElement.lang)};
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",()=>apply(preferred),{once:true});
+  else apply(preferred);
+})();
