@@ -12,6 +12,15 @@ if ($user === '' || $pass === '') {
 
 $givenUser = $_SERVER['PHP_AUTH_USER'] ?? '';
 $givenPass = $_SERVER['PHP_AUTH_PW'] ?? '';
+if ($givenUser === '' && $givenPass === '') {
+    $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? '';
+    if (stripos($auth, 'Basic ') === 0) {
+        $decoded = base64_decode(substr($auth, 6), true);
+        if (is_string($decoded) && str_contains($decoded, ':')) {
+            [$givenUser, $givenPass] = explode(':', $decoded, 2);
+        }
+    }
+}
 
 if (!hash_equals($user, $givenUser) || !hash_equals($pass, $givenPass)) {
     header('WWW-Authenticate: Basic realm="BARTSS Leads"');
@@ -20,7 +29,8 @@ if (!hash_equals($user, $givenUser) || !hash_equals($pass, $givenPass)) {
     exit;
 }
 
-$leadFile = dirname(__DIR__) . '/storage/leads.jsonl';
+$storageDir = getenv('BARTSS_STORAGE_DIR') ?: (dirname(__DIR__) . '/storage');
+$leadFile = rtrim($storageDir, '/\\') . '/leads.jsonl';
 $leads = [];
 
 if (is_file($leadFile)) {
