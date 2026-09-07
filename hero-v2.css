@@ -1456,3 +1456,87 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
 .hv2-main-card,.hv2-building,.hv2-build-copy,.hv2-pin-grid,.hv2-result-card,.hv2-impact{
   transition-timing-function:cubic-bezier(.16,.76,.18,1)!important;
 }
+
+
+/* === HERO V2 readability + true source removal === */
+.rail-wrap.hero-v2-playing .show-card.hero-v2-source,
+.rail-wrap.hero-v2-playing .show-card[data-hv2-hidden="1"]{
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+  transform:scale(.92)!important;
+}
+.hero-v2-stage[data-phase="building"] .hv2-main-card,
+.hero-v2-stage[data-phase="build"] .hv2-main-card,
+.hero-v2-stage[data-phase="collapse"] .hv2-main-card,
+.hero-v2-stage[data-phase="resultSeed"] .hv2-main-card,
+.hero-v2-stage[data-phase="resultGrow"] .hv2-main-card,
+.hero-v2-stage[data-phase="impact"] .hv2-main-card,
+.hero-v2-stage[data-phase="final"] .hv2-main-card{
+  opacity:0!important;
+  visibility:hidden!important;
+  filter:none!important;
+}
+
+/* readable build content */
+.hv2-build-copy{
+  width:205px!important;
+  gap:10px!important;
+}
+.hv2-build-copy>span{
+  min-height:46px!important;
+  padding:10px 12px!important;
+  border-radius:13px!important;
+  grid-template-columns:10px 1fr!important;
+}
+.hv2-build-copy>span b{
+  font-size:10px!important;
+  line-height:1.15!important;
+  letter-spacing:-.01em!important;
+}
+.hv2-build-copy>span em{
+  font-size:8px!important;
+  line-height:1.25!important;
+  opacity:.68!important;
+  margin-top:3px!important;
+}
+.hv2-build-copy>span i{
+  width:7px!important;
+  height:7px!important;
+}
+.hv2-building{
+  width:138px!important;
+  height:42px!important;
+}
+.hv2-building b{
+  font-size:9.5px!important;
+}
+.hv2-pin-grid{
+  left:calc(50% + 115px)!important;
+  width:295px!important;
+  height:255px!important;
+}
+.hv2-pin-grid>i b{
+  font-size:8px!important;
+  bottom:19px!important;
+}
+.hv2-pin-grid>i em{
+  font-size:6.5px!important;
+  bottom:7px!important;
+}
+.hv2-result-copy small{
+  font-size:7px!important;
+}
+.hv2-result-copy b{
+  font-size:25px!important;
+}
+.hv2-result-copy span{
+  font-size:8px!important;
+  line-height:1.3!important;
+}
+.hv2-impact small{
+  font-size:8px!important;
+}
+.hv2-impact b{
+  font-size:28px!important;
+}
