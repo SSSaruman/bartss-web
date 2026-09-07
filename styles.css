@@ -1836,3 +1836,107 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
 .hv2-building b{font-size:10px!important}
 .hv2-result-copy b{font-size:24px!important;line-height:1.05!important}
 .hv2-result-copy span{font-size:8px!important}
+
+
+/* === HERO V2 deterministic carousel + story engine === */
+@media(min-width:1101px){
+  .rail-wrap{overflow:visible!important;cursor:default!important}
+  .card-rail{
+    gap:62px!important;
+    width:max-content!important;
+    overflow:visible!important;
+    will-change:transform;
+  }
+  .show-card{
+    flex:0 0 310px!important;
+    width:310px!important;
+    height:310px!important;
+    cursor:pointer!important;
+    transition:
+      transform .82s cubic-bezier(.16,1,.3,1),
+      opacity .48s cubic-bezier(.22,.61,.36,1),
+      filter .48s cubic-bezier(.22,.61,.36,1)!important;
+  }
+  .show-card.active{
+    transform:scale(1.15)!important;
+    opacity:1!important;
+    z-index:12!important;
+  }
+  .show-card.hero-idle-left{
+    transform:translateX(-28px) scale(.985)!important;
+    opacity:.82!important;
+  }
+  .show-card.hero-idle-right{
+    transform:translateX(28px) scale(.985)!important;
+    opacity:.82!important;
+  }
+  .rail-wrap.hero-v2-playing .show-card.active{
+    opacity:0!important;
+    visibility:hidden!important;
+  }
+  .rail-wrap.hero-v2-playing .show-card.hero-v2-neighbor-left{
+    transform:translateX(-96px) scale(.97)!important;
+    opacity:.72!important;
+  }
+  .rail-wrap.hero-v2-playing .show-card.hero-v2-neighbor-right{
+    transform:translateX(96px) scale(.97)!important;
+    opacity:.72!important;
+  }
+  .rail-wrap::after{
+    content:"SELECT A CARD  ·  CLICK TO SEE HOW IT WORKS"!important;
+  }
+
+  /* one-time intro glide */
+  .rail-wrap.hero-intro:not(.hero-intro-done) .show-card{
+    opacity:0!important;
+    transform:translateX(72px) scale(.95)!important;
+  }
+  .rail-wrap.hero-intro.hero-intro-done .show-card{
+    transition:
+      transform .82s cubic-bezier(.16,1,.3,1),
+      opacity .72s cubic-bezier(.22,.61,.36,1)!important;
+  }
+}
+
+/* Story canvas: one centered layer, never tied to a neighboring card. */
+.hero-v2-stage{
+  position:absolute!important;
+  left:50%!important;
+  top:0!important;
+  width:100vw!important;
+  height:100%!important;
+  transform:translateX(-50%)!important;
+  z-index:40!important;
+  pointer-events:none!important;
+  opacity:1;
+  transition:opacity .48s ease!important;
+}
+.hero-v2-stage.final-handoff{opacity:0!important}
+.hv2-exact-scene{
+  position:absolute!important;
+  left:50%!important;
+  top:var(--hy)!important;
+  width:640px!important;
+  height:450px!important;
+  transform:translate(-50%,-50%)!important;
+}
+.hv2-main-card,.hv2-building,.hv2-build-copy,.hv2-pin-grid,.hv2-result-card,.hv2-impact{
+  transition:
+    opacity .56s cubic-bezier(.22,.61,.36,1),
+    transform .94s cubic-bezier(.16,1,.3,1),
+    width .94s cubic-bezier(.16,1,.3,1),
+    height .94s cubic-bezier(.16,1,.3,1),
+    filter .58s cubic-bezier(.22,.61,.36,1)!important;
+}
+.hv2-build-copy{width:205px!important;gap:10px!important}
+.hv2-build-copy>span{min-height:46px!important;padding:10px 12px!important}
+.hv2-build-copy>span b{font-size:11px!important}
+.hv2-build-copy>span em{font-size:8.5px!important}
+.hv2-pin-grid{width:295px!important;height:255px!important}
+.hv2-pin-grid>i b{font-size:8.5px!important}
+.hv2-pin-grid>i em{font-size:6.8px!important}
+.hv2-building b{font-size:10px!important}
+.hv2-result-copy b{font-size:24px!important;line-height:1.05!important}
+.hv2-result-copy span{font-size:8px!important}
+.hv2-impact small{font-size:8px!important}
+.hv2-impact b{font-size:28px!important}
