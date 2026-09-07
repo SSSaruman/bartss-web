@@ -1188,3 +1188,59 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
 .hero-v2-stage[data-phase="final"] .hv2-output{opacity:1;width:365px;height:365px;transform:translate(-50%,-50%) scale(1)}.hero-v2-stage[data-phase="final"] .hv2-output-copy b{font-size:29px}.hero-v2-stage[data-phase="final"] .hv2-benefits{opacity:0}
 .hero-v2-stage[data-phase="reset"]{opacity:0;transition:opacity .46s ease}.hero-v2-stage[data-phase="reset"] .hv2-output{width:310px!important;height:310px!important;transform:translate(-50%,-50%) scale(.94)!important}.hero-v2-stage[data-phase="reset"] .hv2-context,.hero-v2-stage[data-phase="reset"] .hv2-assets,.hero-v2-stage[data-phase="reset"] .hv2-benefits,.hero-v2-stage[data-phase="reset"] .hv2-metric,.hero-v2-stage[data-phase="reset"] .hv2-strategy,.hero-v2-stage[data-phase="reset"] .hv2-formats{opacity:0!important}
 .bartss-cookie,.chat-panel{background:linear-gradient(145deg,rgba(247,252,255,.78),rgba(218,235,243,.58))!important;border:1px solid rgba(255,255,255,.88)!important;box-shadow:inset 0 1px rgba(255,255,255,.98),0 22px 58px rgba(22,36,43,.14)!important;backdrop-filter:blur(30px) saturate(145%)!important;-webkit-backdrop-filter:blur(30px) saturate(145%)!important}
+
+
+/* Timeline fidelity fix: one visual source only during motion */
+.show-card.hero-v2-source{
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+.hero-v2-stage{
+  opacity:1;
+  transition:opacity .44s ease;
+}
+.hero-v2-stage.resetting{
+  opacity:0!important;
+}
+.hv2-context,.hv2-assets,.hv2-output,.hv2-benefits,.hv2-metric,.hv2-strategy,.hv2-formats{
+  transition:
+    opacity .58s cubic-bezier(.22,.65,.18,1),
+    transform .82s cubic-bezier(.18,.82,.18,1),
+    width .86s cubic-bezier(.18,.82,.18,1),
+    height .86s cubic-bezier(.18,.82,.18,1),
+    filter .58s ease!important;
+}
+.hv2-output{
+  will-change:transform,width,height,opacity;
+}
+.hv2-photo img{
+  will-change:transform,filter,opacity;
+}
+.hero-v2-stage[data-phase="context"] .hv2-output,
+.hero-v2-stage[data-phase="skeleton"] .hv2-output,
+.hero-v2-stage[data-phase="assets"] .hv2-output{
+  opacity:0!important;
+}
+.hero-v2-stage[data-phase="seed"] .hv2-output{
+  opacity:1!important;
+  width:155px!important;
+  height:185px!important;
+  transform:translate(-50%,-50%) scale(.92)!important;
+}
+.hero-v2-stage[data-phase="grow"] .hv2-output{
+  width:335px!important;
+  height:335px!important;
+}
+.hero-v2-stage[data-phase="benefits"] .hv2-output{
+  width:345px!important;
+  height:345px!important;
+}
+.hero-v2-stage[data-phase="metric"] .hv2-output{
+  width:355px!important;
+  height:355px!important;
+}
+.hero-v2-stage[data-phase="final"] .hv2-output{
+  width:365px!important;
+  height:365px!important;
+}
