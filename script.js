@@ -17,13 +17,12 @@ function setActive(index){
   cards.forEach((card,i)=>card.classList.toggle("active", i===activeIndex));
   if(window.innerWidth > 1100){
     const card = cards[activeIndex];
-    const matrix = getComputedStyle(rail).transform;
-    const currentX = matrix === "none" ? 0 : new DOMMatrixReadOnly(matrix).m41;
-    const rect = card.getBoundingClientRect();
-    const cardCenterNow = rect.left + rect.width/2;
+    const wrap = document.querySelector(".rail-wrap");
+    const wrapRect = wrap.getBoundingClientRect();
+    const cardCenterInRail = card.offsetLeft + card.offsetWidth/2;
     const viewportCenter = window.innerWidth/2;
-    const nextX = currentX + (viewportCenter - cardCenterNow);
-    rail.style.transform = `translate3d(${nextX}px,0,0)`;
+    const exactX = viewportCenter - wrapRect.left - cardCenterInRail;
+    rail.style.transform = `translate3d(${exactX}px,0,0)`;
   }
 }
 cards.forEach((card,i)=> card.addEventListener("click",()=>setActive(i)));
@@ -176,7 +175,7 @@ function heroV2Build(index){
   wrap.appendChild(stage);card.classList.add("hero-v2-source");return stage;
 }
 const heroV2States=["grid","card","pills","metric","expand","strip","search","formats","pills","final"];
-const heroV2Times=[1350,1450,1450,1350,1150,1050,1700,1750,1400,2200];
+const heroV2Times=[1750,1850,1900,1750,1550,1450,2100,2200,1850,2600];
 function heroV2Play(index=activeIndex){
   const token=++heroV2Token,stage=heroV2Build(index);if(!stage)return;
   let s=0;
