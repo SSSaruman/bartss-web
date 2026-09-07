@@ -13,73 +13,124 @@ document.addEventListener("pointerdown", e => { if(!document.body.classList.cont
 
 let activeIndex = 2;
 let railX = 0;
+const baseCards = cards;
+const baseCount = baseCards.length;
+
+// Infinite visual rail: [clone set] [real set] [clone set].
+const beforeFrag=document.createDocumentFragment();
+baseCards.forEach((card,i)=>{
+  const clone=card.cloneNode(true);
+  clone.removeAttribute("id");
+  clone.dataset.clone="before";
+  clone.dataset.logical=String(i);
+  beforeFrag.appendChild(clone);
+});
+rail.insertBefore(beforeFrag,rail.firstChild);
+const afterFrag=document.createDocumentFragment();
+baseCards.forEach((card,i)=>{
+  const clone=card.cloneNode(true);
+  clone.removeAttribute("id");
+  clone.dataset.clone="after";
+  clone.dataset.logical=String(i);
+  afterFrag.appendChild(clone);
+});
+rail.appendChild(afterFrag);
+
+const loopCards=[...rail.querySelectorAll(".show-card")];
+loopCards.forEach((card,i)=>{
+  if(card.dataset.logical==null) card.dataset.logical=String((i-baseCount+baseCount)%baseCount);
+});
+
 function getRailX(){
   const m=getComputedStyle(rail).transform;
   return m==="none"?0:new DOMMatrixReadOnly(m).m41;
 }
+function centerXForCard(card){
+  const wrap=document.querySelector(".rail-wrap").getBoundingClientRect();
+  return window.innerWidth/2-wrap.left-(card.offsetLeft+card.offsetWidth/2);
+}
+function markActiveCopy(copyIndex){
+  loopCards.forEach((card,i)=>card.classList.toggle("active",i===copyIndex));
+}
 function centerActiveCard(immediate=false){
   if(window.innerWidth<=1100)return;
-  const card=cards[activeIndex];
-  const before=rail.style.transition;
-  if(immediate) rail.style.transition="none";
-  const correct=()=>{
-    const rect=card.getBoundingClientRect();
-    const delta=(window.innerWidth/2)-(rect.left+rect.width/2);
-    railX=getRailX()+delta;
-    rail.style.transform=`translate3d(${railX}px,0,0)`;
-  };
-  correct();
+  const targetIndex=baseCount+activeIndex;
+  const target=loopCards[targetIndex];
+  if(!target)return;
+  railX=centerXForCard(target);
+  const prev=rail.style.transition;
+  if(immediate)rail.style.transition="none";
+  rail.style.transform=`translate3d(${railX}px,0,0)`;
+  markActiveCopy(targetIndex);
   if(immediate){
     rail.offsetHeight;
-    rail.style.transition=before;
-    requestAnimationFrame(correct);
-  }else{
-    setTimeout(correct,1080);
+    rail.style.transition=prev;
   }
 }
 function setActive(index,immediate=false){
-  activeIndex = Math.max(0, Math.min(cards.length - 1, index));
-  cards.forEach((card,i)=>card.classList.toggle("active", i===activeIndex));
+  activeIndex=((index%baseCount)+baseCount)%baseCount;
   requestAnimationFrame(()=>centerActiveCard(immediate));
 }
-cards.forEach((card,i)=>card.addEventListener("click",()=>setActive(i)));
-let wheelLock = false;
-window.addEventListener("wheel", e => {
-  if(window.innerWidth <= 1100 || document.body.classList.contains("menu-open")) return;
-  const rect = rail.getBoundingClientRect(); if(rect.bottom < 0 || rect.top > window.innerHeight || Math.abs(e.deltaY)<18 || wheelLock) return;
-  wheelLock=true; setActive(activeIndex + (e.deltaY>0?1:-1)); setTimeout(()=>wheelLock=false,650);
-},{passive:true});
-
-// Drag / swipe rail — reference-style tactile inertia.
-const heroRailWrap=document.querySelector(".rail-wrap");
-let railDragging=false,dragStartX=0,dragStartRailX=0,lastDragX=0,lastDragT=0,railVelocity=0,railInertia=0;
-function nearestCardToCenter(){
-  let best=activeIndex,bestDist=Infinity;
-  cards.forEach((card,i)=>{
+function nearestLoopCard(){
+  let best=baseCount+activeIndex,bestDist=Infinity;
+  loopCards.forEach((card,i)=>{
     const r=card.getBoundingClientRect();
     const d=Math.abs((r.left+r.width/2)-window.innerWidth/2);
     if(d<bestDist){bestDist=d;best=i;}
   });
   return best;
 }
-function stopRailInertia(){ if(railInertia) cancelAnimationFrame(railInertia); railInertia=0; }
-function clampRailX(x){
-  if(window.innerWidth<=1100)return x;
-  const wrap=document.querySelector(".rail-wrap").getBoundingClientRect();
-  const first=cards[0],last=cards[cards.length-1];
-  const min=window.innerWidth/2-wrap.left-(last.offsetLeft+last.offsetWidth/2);
-  const max=window.innerWidth/2-wrap.left-(first.offsetLeft+first.offsetWidth/2);
-  return Math.max(min-120,Math.min(max+120,x));
+function snapToLoopCard(copyIndex){
+  const target=loopCards[copyIndex];
+  if(!target)return;
+  activeIndex=Number(target.dataset.logical);
+  markActiveCopy(copyIndex);
+  railX=centerXForCard(target);
+  rail.style.transition="transform .78s cubic-bezier(.18,.82,.18,1)";
+  rail.style.transform=`translate3d(${railX}px,0,0)`;
+  setTimeout(()=>{
+    const canonical=baseCount+activeIndex;
+    if(copyIndex!==canonical){
+      rail.style.transition="none";
+      railX=centerXForCard(loopCards[canonical]);
+      rail.style.transform=`translate3d(${railX}px,0,0)`;
+      markActiveCopy(canonical);
+      rail.offsetHeight;
+      rail.style.transition="";
+    }
+  },820);
 }
+loopCards.forEach(card=>card.addEventListener("click",()=>{
+  if(card.dataset.clone){
+    activeIndex=Number(card.dataset.logical);
+    setActive(activeIndex);
+  }else setActive(Number(card.dataset.index));
+}));
+
+let wheelLock=false;
+window.addEventListener("wheel",e=>{
+  if(window.innerWidth<=1100||document.body.classList.contains("menu-open"))return;
+  const rect=rail.getBoundingClientRect();
+  if(rect.bottom<0||rect.top>window.innerHeight||Math.abs(e.deltaY)<18||wheelLock)return;
+  wheelLock=true;
+  heroV2Reset(true);
+  setActive(activeIndex+(e.deltaY>0?1:-1));
+  setTimeout(()=>wheelLock=false,620);
+},{passive:true});
+
+// Tactile drag: motion collapses first, rail follows pointer 1:1, inertia, snap, loop.
+const heroRailWrap=document.querySelector(".rail-wrap");
+let railDragging=false,dragStartX=0,dragStartRailX=0,lastDragX=0,lastDragT=0,railVelocity=0,railInertia=0,dragMoved=false;
+function stopRailInertia(){if(railInertia)cancelAnimationFrame(railInertia);railInertia=0;}
 if(heroRailWrap){
   heroRailWrap.addEventListener("pointerdown",e=>{
-    if(window.innerWidth<=1100 || e.button!==0)return;
+    if(window.innerWidth<=1100||e.button!==0)return;
     stopRailInertia();
     heroV2Reset(true);
-    railDragging=true;
+    railDragging=true;dragMoved=false;
     dragStartX=lastDragX=e.clientX;
     lastDragT=performance.now();
-    dragStartRailX=getRailX(); railX=dragStartRailX; railVelocity=0;
+    dragStartRailX=getRailX();railX=dragStartRailX;railVelocity=0;
     heroRailWrap.classList.add("is-dragging");
     rail.style.transition="none";
     heroRailWrap.setPointerCapture(e.pointerId);
@@ -88,38 +139,43 @@ if(heroRailWrap){
     if(!railDragging)return;
     const now=performance.now(),dt=Math.max(8,now-lastDragT);
     const dx=e.clientX-dragStartX;
-    railX=clampRailX(dragStartRailX+dx);
+    if(Math.abs(dx)>4)dragMoved=true;
+    railX=dragStartRailX+dx;
     rail.style.transform=`translate3d(${railX}px,0,0)`;
     const instant=(e.clientX-lastDragX)/dt*16.67;
-    railVelocity=railVelocity*.62+instant*.38;
+    railVelocity=railVelocity*.68+instant*.32;
     lastDragX=e.clientX;lastDragT=now;
+    markActiveCopy(nearestLoopCard());
   });
-  const finishDrag=e=>{
+  const finish=e=>{
     if(!railDragging)return;
     railDragging=false;
     heroRailWrap.classList.remove("is-dragging");
     try{heroRailWrap.releasePointerCapture(e.pointerId)}catch{}
-    let v=Math.max(-42,Math.min(42,railVelocity*1.28));
+    if(!dragMoved){
+      rail.style.transition="";
+      snapToLoopCard(nearestLoopCard());
+      return;
+    }
+    let v=Math.max(-34,Math.min(34,railVelocity*1.2));
     const glide=()=>{
-      v*=.935;
-      railX=clampRailX(railX+v);
+      v*=.93;
+      railX+=v;
       rail.style.transform=`translate3d(${railX}px,0,0)`;
-      if(Math.abs(v)>.38){
-        railInertia=requestAnimationFrame(glide);
-      }else{
+      markActiveCopy(nearestLoopCard());
+      if(Math.abs(v)>.32)railInertia=requestAnimationFrame(glide);
+      else{
         railInertia=0;
-        rail.style.transition="";
-        const idx=nearestCardToCenter();
-        setActive(idx);
+        snapToLoopCard(nearestLoopCard());
         setTimeout(()=>{
-          if(heroRailWrap.matches(":hover")&&!railDragging) heroV2Play(idx);
-        },520);
+          if(heroRailWrap.matches(":hover")&&!railDragging)heroV2Play(activeIndex);
+        },900);
       }
     };
     railInertia=requestAnimationFrame(glide);
   };
-  heroRailWrap.addEventListener("pointerup",finishDrag);
-  heroRailWrap.addEventListener("pointercancel",finishDrag);
+  heroRailWrap.addEventListener("pointerup",finish);
+  heroRailWrap.addEventListener("pointercancel",finish);
 }
 let featureOffset=0;
 setInterval(()=>{ featureOffset=(featureOffset+1)%featureButtons.length; featureButtons.forEach((btn,i)=>{ const order=(i-featureOffset+featureButtons.length)%featureButtons.length; const tops=[0,28,60,95,133,175], widths=[180,215,250,286,322,360], op=[.46,.55,.62,.70,.78,.88]; btn.style.top=`${tops[order]}px`; btn.style.width=`${widths[order]}px`; btn.style.opacity=op[order]; }); },1600);
@@ -220,119 +276,93 @@ window.addEventListener("scroll",updateTabletExperience,{passive:true});
 updateTabletExperience();
 
 
-// HERO V2: frame-timed motion engine rebuilt from the supplied 43.93s reference.
-// Reference cadence used: 1.7s collapse, 2.4s bar, 3.0s status pill,
-// 3.4–4.5s skeleton/assets grid, 4.8–6.2s small card -> normal card,
-// 6.3–7.8s pills, 8.0–10.2s metric, then final hold.
+// HERO V2: benefit-led motion choreography based on the supplied reference.
 const heroV2Data=[
- {title:"Brand Identity",eyebrow:"BARTSS / BRAND",art:"https://www.creativeboom.com/upload/articles/fe/fea31cd3d79ab166330e81690b54a00a3c9dc995_944.jpg",desc:"Identity built to be remembered.",a:"#b9d8e8",b:"#718b9a",pills:["Positioning","Identity system","Launch","Consistency"],metric:"92",metricLabel:"Recognition score"},
- {title:"Web & Product",eyebrow:"BARTSS / WEB",art:"https://cdn.mockupnest.com/wp-content/uploads/edd/2024/02/02-Dark-Macbook-Pro-Mockup.jpg",desc:"Digital products with real impact.",a:"#b8d5e6",b:"#708d9f",pills:["UX flow","Interface","Motion","Conversion"],metric:"38",metricLabel:"Friction removed"},
- {title:"AutoLAB",eyebrow:"AUTOLAB / AI",art:"https://cdn.dribbble.com/userupload/47183298/file/f3c6aca11ceb80a0534a5ed615f9ad1a.png",desc:"Idea to approved visual.",a:"#b7d54e",b:"#708649",pills:["Character Lock","Style Lock","Prompt Engine","QC passed"],metric:"94",metricLabel:"QC pass rate"},
- {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",art:"https://images.unsplash.com/photo-1777646346045-df4bd1114148?auto=format&fit=crop&fm=jpg&q=80&w=1200",desc:"Movement with depth and intent.",a:"#bdd9e8",b:"#718d9f",pills:["Story","3D","UI motion","Delivery"],metric:"24",metricLabel:"Format variants"},
- {title:"AiFinance",eyebrow:"AIFINANCE / AI",art:"https://pngmagic.com/webp_images/stock-market-data-background-for-posters_T1Q4.webp",desc:"Context into a next move.",a:"#dce879",b:"#70884e",pills:["Context","Signals","Risk","Action"],metric:"650",metricLabel:"Qualified signal"}
+ {title:"Brand Identity",eyebrow:"BARTSS / BRAND",art:"https://s.tmimgcdn.com/scr/800x500/189000/modelo-de-logotipo-de-luxo-3d-com-gravacao-em-relevo-e-papel-preto_189032-original.jpg",desc:"A recognisable system, not a logo file.",a:"#b9d8e8",b:"#708b9b",prompt:"Make the brand impossible to confuse",status:"Building recognition system…",steps:["Sharper positioning","One visual language","Faster approvals","Consistent launch"],pills:["More recognition","Less brand drift","Faster rollout","Reusable system"],metric:"LOCKED",metricLabel:"Brand system"},
+ {title:"Web & Product",eyebrow:"BARTSS / WEB",art:"https://cdn.prod.website-files.com/64d4be623fb4a054b3fa4619/65ec420f38f81cb76925c3f5_65a55222f26b2bf8ef59f239_snagshout_cover_2x_compressed%2520in%2520figma.webp",desc:"A clearer path from interest to action.",a:"#bed9e8",b:"#718d9f",prompt:"Turn attention into action",status:"Removing experience friction…",steps:["Clear UX flow","Responsive system","Motion feedback","Conversion path"],pills:["Easier to understand","Faster to use","Reusable UI","Conversion-ready"],metric:"LIVE",metricLabel:"Experience system"},
+ {title:"AutoLAB",eyebrow:"AUTOLAB / AI",art:"https://edit.comfyonline.app/ed45ecb5-f2c1-4d09-bb24-e7e29d1b44ed.png",desc:"From idea to approved visual with fewer handoffs.",a:"#bfd85d",b:"#70864c",prompt:"Go from idea to approved asset",status:"Automating production…",steps:["Storyboard context","Character consistency","Prompt automation","QC before delivery"],pills:["Fewer manual handoffs","Consistent characters","Faster variants","QC built in"],metric:"ON",metricLabel:"Quality gate"},
+ {title:"Motion & 3D",eyebrow:"BARTSS / MOTION",art:"https://images.unsplash.com/photo-1760355813251-54c9d122f9d3?auto=format&fit=crop&w=1200&q=85",desc:"A motion language that scales across formats.",a:"#bdd9e8",b:"#718d9f",prompt:"Make the idea impossible to ignore",status:"Building motion language…",steps:["Story rhythm","3D depth","UI motion","Format adaptation"],pills:["More attention","Stronger recall","Reusable motion","Multi-format output"],metric:"READY",metricLabel:"Motion system"},
+ {title:"AiFinance",eyebrow:"AIFINANCE / AI",art:"https://ai.openspace.finance/assets/app-dashboard-screenshot-D1DWbNKy.jpg",desc:"Less noise. Clearer decisions.",a:"#dce879",b:"#70884e",prompt:"Turn signals into next moves",status:"Connecting decision context…",steps:["Context first","Meaningful signals","Risk visibility","Action tracking"],pills:["Less noise","Clear priorities","Faster decisions","Traceable actions"],metric:"LIVE",metricLabel:"Decision context"}
 ];
 
 const heroStaticArts=heroV2Data.map(x=>x.art);
-cards.forEach((card,i)=>{
+loopCards.forEach(card=>{
+  const logical=Number(card.dataset.logical ?? card.dataset.index ?? 0);
   const img=card.querySelector(".hero-card-art");
-  if(img){ img.src=heroStaticArts[i]; img.loading="eager"; img.decoding="async"; }
+  if(img){img.src=heroStaticArts[logical];img.loading="eager";img.decoding="async";}
 });
 
 let heroV2Token=0,heroV2Timer=null,heroV2Running=false;
 const wait=(ms,token)=>new Promise(resolve=>{
-  heroV2Timer=setTimeout(()=>{ if(token===heroV2Token) resolve(true); else resolve(false); },ms);
+  heroV2Timer=setTimeout(()=>resolve(token===heroV2Token),ms);
 });
 function heroV2Reset(animate=true){
   heroV2Token++;
   clearTimeout(heroV2Timer);
   heroV2Running=false;
   const stage=document.querySelector(".hero-v2-stage");
-  cards.forEach(c=>c.classList.remove("hero-v2-source"));
+  loopCards.forEach(c=>c.classList.remove("hero-v2-source"));
   if(!stage)return;
   if(animate){
     stage.classList.add("resetting");
     stage.dataset.phase="reset";
-    setTimeout(()=>stage.remove(),520);
+    setTimeout(()=>stage.remove(),560);
   }else stage.remove();
 }
 function heroV2Build(index){
   heroV2Reset(false);
   if(innerWidth<=1100)return null;
-  const wrap=document.querySelector(".rail-wrap"),card=cards[index],d=heroV2Data[index];
+  const wrap=document.querySelector(".rail-wrap");
+  const card=loopCards[baseCount+index];
+  const d=heroV2Data[index];
   if(!wrap||!card||!d)return null;
   const wr=wrap.getBoundingClientRect(),cr=card.getBoundingClientRect();
   const stage=document.createElement("div");
-  stage.className="hero-v2-stage";
-  stage.dataset.phase="idle";
+  stage.className="hero-v2-stage";stage.dataset.phase="idle";
   stage.style.setProperty("--hy",(cr.top-wr.top+cr.height/2)+"px");
-  stage.style.setProperty("--ha",d.a); stage.style.setProperty("--hb",d.b);
+  stage.style.setProperty("--ha",d.a);stage.style.setProperty("--hb",d.b);
   stage.innerHTML=`
-    <div class="hv2-ref-scene">
-      <div class="hv2-card">
-        <div class="hv2-photo"><img src="${d.art}" alt="" aria-hidden="true"></div>
-        <div class="hv2-card-top"><span>${String(index+1).padStart(2,"0")}</span><em>BARTSS LAB</em></div>
-        <div class="hv2-card-copy"><small>${d.eyebrow}</small><b>${d.title}</b><i>${d.desc}</i></div>
-      </div>
-      <div class="hv2-prompt"><span>✦</span><b>Build ${d.title}</b><i>→</i></div>
-      <div class="hv2-status">● Building…</div>
-      <div class="hv2-assets">${Array.from({length:8},(_,n)=>`<i style="--n:${n}"><span></span></i>`).join("")}</div>
-      <div class="hv2-pills">${d.pills.map((p,n)=>`<span style="--n:${n}"><i></i>${p}</span>`).join("")}</div>
-      <div class="hv2-metric"><small>${d.metricLabel}</small><div class="hv2-chart"></div><b data-value="${d.metric}">0</b></div>
-    </div>`;
+   <div class="hv2-ref-scene">
+    <div class="hv2-card">
+      <div class="hv2-photo"><img src="${d.art}" alt="" aria-hidden="true"></div>
+      <div class="hv2-glass-wash"></div>
+      <div class="hv2-card-top"><span>${String(index+1).padStart(2,"0")}</span><em>BARTSS LAB</em></div>
+      <div class="hv2-card-copy"><small>${d.eyebrow}</small><b>${d.title}</b><i>${d.desc}</i></div>
+    </div>
+    <div class="hv2-prompt"><span>✦</span><b>${d.prompt}</b><i>→</i></div>
+    <div class="hv2-status">● ${d.status}</div>
+    <div class="hv2-assets">${d.steps.map((x,n)=>`<i style="--n:${n}"><span>${x}</span></i>`).join("")}</div>
+    <div class="hv2-pills">${d.pills.map((x,n)=>`<span style="--n:${n}"><i></i>${x}</span>`).join("")}</div>
+    <div class="hv2-metric"><small>${d.metricLabel}</small><div class="hv2-chart"></div><b>${d.metric}</b></div>
+   </div>`;
   wrap.appendChild(stage);
-  card.classList.add("hero-v2-source");
+  loopCards[baseCount+index].classList.add("hero-v2-source");
   return stage;
 }
-function countMetric(el,target,token,duration=1150){
-  const start=performance.now(),num=Number(target)||0;
-  const tick=now=>{
-    if(token!==heroV2Token||!el.isConnected)return;
-    const p=Math.min(1,(now-start)/duration);
-    const eased=1-Math.pow(1-p,3);
-    el.textContent=Math.round(num*eased);
-    if(p<1)requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
-}
 async function heroV2Play(index=activeIndex){
-  if(innerWidth<=1100||railDragging)return;
-  const token=++heroV2Token;
+  if(innerWidth<=1100||railDragging||heroV2Running)return;
   heroV2Running=true;
-  const stage=heroV2Build(index); if(!stage)return;
-  // build() increments reset token, so take ownership after build.
-  const runToken=++heroV2Token;
+  const stage=heroV2Build(index);if(!stage){heroV2Running=false;return;}
+  const token=++heroV2Token;
   stage.dataset.phase="idle";
-  if(!await wait(420,runToken))return;
-
-  stage.dataset.phase="collapse";              // ref ~1.7–2.4
-  if(!await wait(760,runToken))return;
-  stage.dataset.phase="prompt";                // ref ~2.4–3.0
-  if(!await wait(620,runToken))return;
-  stage.dataset.phase="status";                // ref ~3.0–3.4
-  if(!await wait(430,runToken))return;
-  stage.dataset.phase="skeleton";              // ref ~3.4–4.1
-  if(!await wait(720,runToken))return;
-  stage.dataset.phase="assets";                // ref ~4.1–4.8
-  if(!await wait(760,runToken))return;
-  stage.dataset.phase="seed";                  // ref ~4.8–5.3
-  if(!await wait(560,runToken))return;
-  stage.dataset.phase="grow";                  // ref ~5.3–6.3
-  if(!await wait(1000,runToken))return;
-  stage.dataset.phase="pills";                 // ref ~6.3–7.9
-  if(!await wait(1500,runToken))return;
-  stage.dataset.phase="metric";                // ref ~8.0–10.2
-  countMetric(stage.querySelector(".hv2-metric b"),heroV2Data[index].metric,runToken,1250);
-  if(!await wait(1750,runToken))return;
-  stage.dataset.phase="final";
-  stage.dataset.complete="true";
-  heroV2Running=false;                         // stays fixed, no loop
+  if(!await wait(520,token))return;
+  stage.dataset.phase="collapse"; if(!await wait(850,token))return;
+  stage.dataset.phase="prompt"; if(!await wait(720,token))return;
+  stage.dataset.phase="status"; if(!await wait(520,token))return;
+  stage.dataset.phase="skeleton"; if(!await wait(900,token))return;
+  stage.dataset.phase="assets"; if(!await wait(1050,token))return;
+  stage.dataset.phase="seed"; if(!await wait(650,token))return;
+  stage.dataset.phase="grow"; if(!await wait(1200,token))return;
+  stage.dataset.phase="pills"; if(!await wait(1700,token))return;
+  stage.dataset.phase="metric"; if(!await wait(1800,token))return;
+  stage.dataset.phase="final";stage.dataset.complete="true";heroV2Running=false;
 }
 if(heroRailWrap){
   heroRailWrap.addEventListener("mouseenter",()=>{
     if(innerWidth<=1100||railDragging)return;
     const existing=document.querySelector(".hero-v2-stage");
-    if(existing?.dataset.complete==="true")return;
-    if(!heroV2Running) setTimeout(()=>{if(heroRailWrap.matches(":hover")&&!railDragging)heroV2Play(activeIndex)},180);
+    if(existing?.dataset.complete==="true"||heroV2Running)return;
+    setTimeout(()=>{if(heroRailWrap.matches(":hover")&&!railDragging)heroV2Play(activeIndex)},180);
   });
 }
 requestAnimationFrame(()=>setActive(activeIndex,true));
