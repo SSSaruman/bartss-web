@@ -477,3 +477,13 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
  .trust-list>div{border-right:0;border-bottom:1px solid rgba(255,255,255,.12);padding:26px 0}
  .trust-list b{margin-top:30px}
 }
+
+/* Hero offer proof stack */
+.feature-stack button b{font-size:8px;letter-spacing:.16em;opacity:.42;font-weight:500;margin-right:10px}
+.feature-stack button span{white-space:nowrap}
+.show-card .tag{max-width:62%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.show-card .card-copy h2{max-width:92%}
+@media(max-width:650px){
+  .show-card .tag{max-width:58%}
+  .feature-stack button{font-size:8px}
+}
