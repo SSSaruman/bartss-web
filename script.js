@@ -3,7 +3,235 @@ const menuPanel = document.getElementById("menuPanel");
 const menuClose = document.getElementById("menuClose");
 const cards = [...document.querySelectorAll(".show-card")];
 const rail = document.getElementById("cardRail");
+const railWrap = rail?.parentElement;
 const featureButtons = [...document.querySelectorAll(".feature-stack button")];
+const siteTop = document.querySelector(".site-top");
+
+let activeIndex = 2;
+let loopCards = [];
+let railX = 0;
+let loopSpan = 0;
+let dragActive = false;
+let dragMoved = false;
+let dragStartX = 0;
+let lastPointerX = 0;
+let lastPointerT = 0;
+let velocityX = 0;
+let inertiaRaf = 0;
+let settleTimer = 0;
+
+function applyRailX(x, animate=false){
+  railX = x;
+  if(!rail) return;
+  rail.classList.toggle("rail-animate", animate);
+  rail.style.transform = `translate3d(${railX}px,0,0)`;
+}
+
+function cleanClone(card, setName){
+  const clone = card.cloneNode(true);
+  clone.removeAttribute("id");
+  clone.dataset.clone = "1";
+  clone.dataset.loopSet = setName;
+  clone.classList.remove("active","activating");
+  clone.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));
+  return clone;
+}
+
+function rebuildHeroLoop(){
+  if(!rail) return;
+  cancelAnimationFrame(inertiaRaf);
+  clearTimeout(settleTimer);
+  rail.querySelectorAll('[data-clone="1"]').forEach(el=>el.remove());
+  cards.forEach(card=>card.dataset.loopSet="middle");
+
+  if(window.innerWidth <= 1100){
+    loopCards=[...cards];
+    rail.classList.remove("loop-ready","is-dragging","rail-animate");
+    rail.style.transform="";
+    railX=0; loopSpan=0;
+    cards.forEach((card,i)=>card.classList.toggle("active",i===activeIndex));
+    return;
+  }
+
+  const before=document.createDocumentFragment();
+  const after=document.createDocumentFragment();
+  cards.forEach(card=>before.appendChild(cleanClone(card,"before")));
+  cards.forEach(card=>after.appendChild(cleanClone(card,"after")));
+  rail.insertBefore(before,rail.firstChild);
+  rail.appendChild(after);
+  loopCards=[...rail.querySelectorAll(".show-card")];
+
+  requestAnimationFrame(()=>{
+    const middleFirst=rail.querySelector('[data-loop-set="middle"][data-index="0"]');
+    const afterFirst=rail.querySelector('[data-loop-set="after"][data-index="0"]');
+    loopSpan=(afterFirst?.offsetLeft||0)-(middleFirst?.offsetLeft||0);
+    centerLogical(activeIndex,false);
+    rail.classList.add("loop-ready","ready");
+  });
+}
+
+function targetXFor(card){
+  if(!card || !railWrap) return railX;
+  const wrapLeft=railWrap.getBoundingClientRect().left;
+  return window.innerWidth/2 - (wrapLeft + card.offsetLeft + card.offsetWidth/2);
+}
+
+function visibleCardForLogical(index){
+  const candidates=loopCards.filter(card=>Number(card.dataset.index)===index);
+  if(!candidates.length) return cards[index];
+  const center=window.innerWidth/2;
+  return candidates.reduce((best,card)=>{
+    const r=card.getBoundingClientRect();
+    const d=Math.abs((r.left+r.width/2)-center);
+    return !best || d<best.d ? {card,d} : best;
+  },null)?.card;
+}
+
+function markActive(card,index,pulse=false){
+  activeIndex=((index%cards.length)+cards.length)%cards.length;
+  loopCards.forEach(el=>el.classList.remove("active","activating"));
+  if(card){
+    card.classList.add("active");
+    if(pulse){
+      card.classList.remove("activating");
+      void card.offsetWidth;
+      card.classList.add("activating");
+      setTimeout(()=>card.classList.remove("activating"),720);
+    }
+  }
+  updateFeatureStack(activeIndex);
+}
+
+function normalizeToMiddle(index){
+  if(window.innerWidth<=1100 || !rail) return;
+  const middle=rail.querySelector(`[data-loop-set="middle"][data-index="${index}"]`);
+  if(!middle) return;
+  rail.classList.remove("rail-animate");
+  applyRailX(targetXFor(middle),false);
+  markActive(middle,index,false);
+}
+
+function centerCard(card,animate=true,pulse=false){
+  if(!card) return;
+  const index=Number(card.dataset.index);
+  markActive(card,index,pulse);
+  applyRailX(targetXFor(card),animate);
+  clearTimeout(settleTimer);
+  settleTimer=setTimeout(()=>normalizeToMiddle(index),animate?760:0);
+}
+
+function centerLogical(index,animate=true,pulse=false){
+  activeIndex=((index%cards.length)+cards.length)%cards.length;
+  if(window.innerWidth<=1100){
+    const card=cards[activeIndex];
+    cards.forEach((el,i)=>el.classList.toggle("active",i===activeIndex));
+    updateFeatureStack(activeIndex);
+    if(animate) card?.scrollIntoView({behavior:"smooth",block:"nearest",inline:"center"});
+    return;
+  }
+  const target=visibleCardForLogical(activeIndex) || rail?.querySelector(`[data-loop-set="middle"][data-index="${activeIndex}"]`);
+  centerCard(target,animate,pulse);
+}
+
+function wrapRailDuringFreeMove(){
+  if(!loopSpan || window.innerWidth<=1100) return;
+  const middleRef=rail.querySelector('[data-loop-set="middle"][data-index="2"]');
+  if(!middleRef) return;
+  const anchor=targetXFor(middleRef);
+  if(railX < anchor-loopSpan*.58) railX += loopSpan;
+  else if(railX > anchor+loopSpan*.58) railX -= loopSpan;
+}
+
+function snapNearest(pulse=false){
+  if(window.innerWidth<=1100 || !loopCards.length) return;
+  const center=window.innerWidth/2;
+  let nearest=null, best=Infinity;
+  loopCards.forEach(card=>{
+    const r=card.getBoundingClientRect();
+    const d=Math.abs((r.left+r.width/2)-center);
+    if(d<best){best=d;nearest=card;}
+  });
+  centerCard(nearest,true,pulse);
+}
+
+function stopInertia(){
+  if(inertiaRaf) cancelAnimationFrame(inertiaRaf);
+  inertiaRaf=0;
+}
+
+function startInertia(){
+  stopInertia();
+  let prev=performance.now();
+  const tick=(now)=>{
+    const dt=Math.min(32,now-prev); prev=now;
+    railX += velocityX*dt;
+    velocityX *= Math.pow(.91,dt/16.67);
+    wrapRailDuringFreeMove();
+    applyRailX(railX,false);
+    if(Math.abs(velocityX)>.018){
+      inertiaRaf=requestAnimationFrame(tick);
+    }else{
+      inertiaRaf=0;
+      snapNearest(false);
+    }
+  };
+  inertiaRaf=requestAnimationFrame(tick);
+}
+
+rail?.addEventListener("pointerdown",e=>{
+  if(window.innerWidth<=1100 || e.button!==0) return;
+  stopInertia();
+  clearTimeout(settleTimer);
+  dragActive=true; dragMoved=false;
+  dragStartX=e.clientX; lastPointerX=e.clientX; lastPointerT=performance.now(); velocityX=0;
+  rail.classList.add("is-dragging");
+  rail.classList.remove("rail-animate");
+  rail.setPointerCapture?.(e.pointerId);
+});
+
+rail?.addEventListener("pointermove",e=>{
+  if(!dragActive || window.innerWidth<=1100) return;
+  const now=performance.now();
+  const dx=e.clientX-lastPointerX;
+  const dt=Math.max(1,now-lastPointerT);
+  if(Math.abs(e.clientX-dragStartX)>6) dragMoved=true;
+  railX+=dx;
+  velocityX=dx/dt;
+  lastPointerX=e.clientX; lastPointerT=now;
+  wrapRailDuringFreeMove();
+  applyRailX(railX,false);
+  e.preventDefault();
+});
+
+function endRailDrag(e){
+  if(!dragActive) return;
+  dragActive=false;
+  rail?.classList.remove("is-dragging");
+  try{rail?.releasePointerCapture?.(e.pointerId);}catch(_){}
+  if(dragMoved){
+    if(Math.abs(velocityX)>.08) startInertia();
+    else snapNearest(false);
+  }
+}
+rail?.addEventListener("pointerup",endRailDrag);
+rail?.addEventListener("pointercancel",endRailDrag);
+
+rail?.addEventListener("click",e=>{
+  const card=e.target.closest(".show-card");
+  if(!card) return;
+  if(dragMoved){
+    e.preventDefault();
+    e.stopPropagation();
+    dragMoved=false;
+    return;
+  }
+  if(window.innerWidth<=1100){
+    centerLogical(Number(card.dataset.index),true,true);
+    return;
+  }
+  stopInertia();
+  centerCard(card,true,true);
+});
 
 function openMenu(){ document.body.classList.add("menu-open"); menuPanel.classList.add("open"); menuPanel.setAttribute("aria-hidden","false"); menuTrigger.setAttribute("aria-expanded","true"); }
 function closeMenu(){ document.body.classList.remove("menu-open"); menuPanel.classList.remove("open"); menuPanel.setAttribute("aria-hidden","true"); menuTrigger.setAttribute("aria-expanded","false"); }
@@ -12,30 +240,11 @@ document.addEventListener("keydown", e => e.key === "Escape" && closeMenu());
 document.addEventListener("pointerdown", e => { if(!document.body.classList.contains("menu-open")) return; if(menuPanel.contains(e.target) || menuTrigger.contains(e.target)) return; closeMenu(); });
 menuPanel.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMenu));
 
-let activeIndex = 2;
-function setActive(index){
-  activeIndex = Math.max(0, Math.min(cards.length - 1, index));
-  cards.forEach((card,i)=>card.classList.toggle("active", i===activeIndex));
-  updateFeatureStack(activeIndex);
-  if(window.innerWidth > 1100){
-    const card = cards[activeIndex], cardCenter = card.offsetLeft + card.offsetWidth/2, viewportCenter = window.innerWidth/2;
-    const matrix = getComputedStyle(rail).transform, currentX = matrix === "none" ? 0 : new DOMMatrixReadOnly(matrix).m41;
-    const base = rail.getBoundingClientRect().left - currentX;
-    rail.style.transform = `translateX(${viewportCenter - (base + cardCenter)}px)`;
-  }
+function updateStickyMenu(){
+  siteTop?.classList.toggle("is-scrolled",window.scrollY>42);
 }
-cards.forEach((card,i)=> card.addEventListener("click",()=>{
-  setActive(i);
-  if(window.innerWidth <= 1100){
-    card.scrollIntoView({behavior:"smooth",block:"nearest",inline:"center"});
-  }
-}));
-let wheelLock = false;
-window.addEventListener("wheel", e => {
-  if(window.innerWidth <= 1100 || document.body.classList.contains("menu-open")) return;
-  const rect = rail.getBoundingClientRect(); if(rect.bottom < 0 || rect.top > window.innerHeight || Math.abs(e.deltaY)<18 || wheelLock) return;
-  wheelLock=true; setActive(activeIndex + (e.deltaY>0?1:-1)); setTimeout(()=>wheelLock=false,650);
-},{passive:true});
+window.addEventListener("scroll",updateStickyMenu,{passive:true});
+updateStickyMenu();
 
 const featureSets = [
   ["POSITIONING CLARITY","SYSTEM, NOT ASSETS","BUILT TO EXTEND"],
@@ -57,11 +266,14 @@ function updateFeatureStack(index){
 
 const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting) entry.target.classList.add("in-view")}),{threshold:.12});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
-window.addEventListener("resize",()=>setActive(activeIndex));
+let heroResizeTimer=0;
+window.addEventListener("resize",()=>{
+  clearTimeout(heroResizeTimer);
+  heroResizeTimer=setTimeout(rebuildHeroLoop,120);
+});
 async function initHeroRail(){
   try{ if(document.fonts?.ready) await document.fonts.ready; }catch(e){}
-  setActive(2);
-  requestAnimationFrame(()=>rail?.classList.add("ready"));
+  rebuildHeroLoop();
 }
 window.addEventListener("load",initHeroRail,{once:true});
 requestAnimationFrame(()=>{ if(document.readyState==="complete") initHeroRail(); });
@@ -212,6 +424,7 @@ rail?.addEventListener("scroll",()=>{
     if(nearest !== activeIndex){
       activeIndex = nearest;
       cards.forEach((card,i)=>card.classList.toggle("active",i===activeIndex));
+      updateFeatureStack(activeIndex);
     }
   });
 },{passive:true});
