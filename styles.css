@@ -1174,3 +1174,105 @@ body{background:#d7e7ee}
     top:auto;
   }
 }
+
+/* --- MENU REFERENCE MATCH: 7 tiles + right control rail --- */
+.menu-panel{
+  width:min(1380px,calc(100vw - 28px));
+}
+.menu-rail{
+  padding:18px 86px 18px 18px;
+  border-radius:30px;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:12px;
+  min-height:310px;
+}
+.menu-tile{
+  aspect-ratio:auto;
+  min-height:245px;
+  border-radius:24px;
+  gap:16px;
+  font-size:14px;
+  line-height:1.08;
+  background:rgba(255,255,255,.012);
+  border-color:rgba(255,255,255,.08);
+}
+.menu-icon{
+  font-size:34px;
+  line-height:1;
+}
+.menu-controls{
+  position:absolute;
+  top:18px;
+  right:16px;
+  bottom:18px;
+  width:54px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  z-index:8;
+}
+.menu-x{
+  position:static;
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.018);
+  color:#fff;
+  font-size:22px;
+}
+.menu-lang{
+  position:static;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width:48px;
+  padding:10px 0;
+  margin:0;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.015);
+  gap:12px;
+  box-shadow:none;
+  backdrop-filter:none;
+}
+.menu-lang button{
+  appearance:none;
+  border:0;
+  margin:0;
+  padding:0;
+  background:transparent;
+  color:rgba(255,255,255,.18);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.04em;
+  line-height:1;
+  cursor:pointer;
+}
+.menu-lang button.active{
+  color:#fff;
+  background:transparent;
+}
+@media(max-width:1100px){
+  .menu-panel{width:calc(100vw - 16px)}
+  .menu-rail{
+    padding:14px 72px 14px 14px;
+    grid-template-columns:repeat(7,132px);
+    min-height:230px;
+    overflow-x:auto;
+  }
+  .menu-tile{
+    min-width:132px;
+    min-height:190px;
+  }
+  .menu-controls{
+    top:14px;
+    right:12px;
+    bottom:14px;
+    width:48px;
+  }
+  .menu-x{width:42px;height:42px}
+  .menu-lang{width:42px}
+}
