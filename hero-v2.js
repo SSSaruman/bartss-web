@@ -57,16 +57,21 @@ function canonicalCenter(){
   markIdleActive(card);
 }
 function rotateToCenter(card){
-  const arr=liveCards();
-  let idx=arr.indexOf(card);
+  let idx=liveCards().indexOf(card);
   if(idx<0)return;
+
+  // If the clicked card is to the right of center, move items from
+  // the front to the end. This shifts the clicked card left by one.
   while(idx>CENTER_POS){
-    rail.insertBefore(rail.lastElementChild,rail.firstElementChild);
-    idx--;
-  }
-  while(idx<CENTER_POS){
     rail.appendChild(rail.firstElementChild);
-    idx++;
+    idx=liveCards().indexOf(card);
+  }
+
+  // If the clicked card is to the left of center, move items from
+  // the end to the front. This shifts the clicked card right by one.
+  while(idx<CENTER_POS){
+    rail.insertBefore(rail.lastElementChild,rail.firstElementChild);
+    idx=liveCards().indexOf(card);
   }
 }
 function normalizeAfterShift(card){
