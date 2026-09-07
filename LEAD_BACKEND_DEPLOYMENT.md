@@ -14,6 +14,7 @@ Set these in the hosting control panel/server configuration. Do **not** commit t
 - `BARTSS_ADMIN_USER` — username for `/admin/leads.php`
 - `BARTSS_ADMIN_PASSWORD` — long unique password for `/admin/leads.php`
 - `BARTSS_LEAD_EMAIL` — notification recipient; defaults to `hello@bartss.com`
+- `BARTSS_STORAGE_DIR` — recommended absolute path **outside public_html** for runtime lead data. If omitted, the protected repository `storage/` directory is used.
 
 If the admin credentials are not set, the lead inbox intentionally returns HTTP 503 instead of becoming public.
 
@@ -28,7 +29,8 @@ If the admin credentials are not set, the lead inbox intentionally returns HTTP 
 
 ## Before launch
 - Replace the placeholder legal-entity/contact wording in `privacy.html`.
-- Verify `storage/` is writable and directly requesting `/storage/leads.jsonl` returns 403.
+- Prefer setting `BARTSS_STORAGE_DIR` to a writable directory outside the public web root.
+- If the repository `storage/` fallback is used, verify it is writable and directly requesting `/storage/leads.jsonl` returns 403.
 - Verify mail delivery or configure SMTP at hosting level.
 - Set admin credentials.
 - Run a real form submission and confirm it appears in the admin inbox.
