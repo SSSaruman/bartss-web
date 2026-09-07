@@ -25,7 +25,7 @@
     <div class="scope-selection" id="scopeSelection">
       <span>SELECTED DIRECTION</span>
       <b id="scopeSelected">No direction selected yet.</b>
-      <a href="mailto:hello@bartss.com?subject=BARTSS%20Project%20Scope" id="scopeContinue">Continue with BARTSS →</a>
+      <button type="button" id="scopeContinue">Send project to BARTSS →</button>
     </div>
   </section>
   <section class="how"><span class="eyebrow">HOW IT WORKS</span><div class="section-head"><h2>Simple on the surface.<br>Structured underneath.</h2><p>The experience stays easy for the user while the system carries the complexity.</p></div><div class="steps"><article class="step"><span>01</span><b>Choose the need</b><p>Define the right starting point.</p></article><article class="step"><span>02</span><b>Configure services</b><p>Turn the requirement into a structured system.</p></article><article class="step"><span>03</span><b>Review proposal</b><p>Let the workflow do the repetitive work.</p></article><article class="step"><span>04</span><b>Approve & follow up</b><p>Keep output clear, reviewable and actionable.</p></article></div></section><section class="cta-final" id="contact"><h2>Want BARTSS Offers<br>for your business?</h2><a href="mailto:hello@bartss.com">Talk to BARTSS →</a></section></main><script>
@@ -44,15 +44,7 @@
     document.querySelectorAll("[data-scope]").forEach(card => {
       card.classList.toggle("selected", card.dataset.scope === brief.engagement);
     });
-    const initialSubject = encodeURIComponent("BARTSS Project Scope — " + (brief.engagement || "Project"));
-    const initialBody = encodeURIComponent(
-      "Company: " + (brief.company || "") + "\n" +
-      "Role: " + (brief.role || "") + "\n" +
-      "Engagement: " + (brief.engagement || "") + "\n" +
-      "Investment: " + (brief.budget || "") + "\n\n" +
-      "What needs to change:\n" + (brief.problem || "")
-    );
-    document.getElementById("scopeContinue").href = "mailto:hello@bartss.com?subject=" + initialSubject + "&body=" + initialBody;
+
   }
   document.querySelectorAll("[data-scope] button").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -64,15 +56,55 @@
         brief.engagement = selected;
         sessionStorage.setItem("bartssProjectBrief", JSON.stringify(brief));
       }
-      const subject = encodeURIComponent("BARTSS Project Scope — " + selected);
-      const body = encodeURIComponent(
-        "Company: " + (brief?.company || "") + "\n" +
-        "Role: " + (brief?.role || "") + "\n" +
-        "Engagement: " + selected + "\n" +
-        "Investment: " + (brief?.budget || "") + "\n\n" +
-        "What needs to change:\n" + (brief?.problem || "")
-      );
-      document.getElementById("scopeContinue").href = "mailto:hello@bartss.com?subject=" + subject + "&body=" + body;
+      if (brief?.lead_id && brief?.update_token) {
+        fetch("./api/leads.php",{
+          method:"POST",
+          headers:{"Content-Type":"application/json","Accept":"application/json"},
+          body:JSON.stringify({
+            action:"update_scope",
+            lead_id:brief.lead_id,
+            update_token:brief.update_token,
+            selected_scope:selected
+          })
+        }).catch(()=>{});
+      }
     });
+  });
+  const scopeContinue = document.getElementById("scopeContinue");
+  scopeContinue?.addEventListener("click", async () => {
+    if (!brief?.lead_id || !brief?.update_token) {
+      window.location.href = "./index.html#contact";
+      return;
+    }
+    const selected = document.getElementById("scopeSelected").textContent.trim();
+    if (!selected || selected === "No direction selected yet.") return;
+    const original = scopeContinue.textContent;
+    scopeContinue.disabled = true;
+    scopeContinue.textContent = "Sending…";
+    try {
+      const res = await fetch("./api/leads.php",{
+        method:"POST",
+        headers:{"Content-Type":"application/json","Accept":"application/json"},
+        body:JSON.stringify({
+          action:"qualify",
+          lead_id:brief.lead_id,
+          update_token:brief.update_token,
+          selected_scope:selected,
+          company:brief.company || "",
+          email:brief.email || ""
+        })
+      });
+      const payload = await res.json().catch(()=>({ok:false}));
+      if(!res.ok || !payload.ok) throw new Error("submit_failed");
+      scopeContinue.textContent = "Project sent ✓";
+      const next = document.createElement("div");
+      next.className = "scope-success";
+      next.innerHTML = "<small>LEAD ID</small><b>"+brief.lead_id+"</b><p>BARTSS has received your project context. The next step is a fit / scope conversation.</p>";
+      document.getElementById("scopeSelection").after(next);
+    } catch(e) {
+      scopeContinue.disabled = false;
+      scopeContinue.textContent = original;
+      alert("Project could not be sent. Please try again.");
+    }
   });
   </script></body></html>
