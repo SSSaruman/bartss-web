@@ -587,12 +587,23 @@
           </label>
         </div>
         <div class="brief-two">
-          <label><span>Company / brand</span><input name="company" required placeholder="Company name"></label>
+          <label><span>Your name</span><input name="name" required autocomplete="name" placeholder="Full name"></label>
+          <label><span>Email</span><input name="email" type="email" required autocomplete="email" placeholder="name@company.com"></label>
+        </div>
+        <div class="brief-two">
+          <label><span>Company / brand</span><input name="company" required autocomplete="organization" placeholder="Company name"></label>
           <label><span>Your role</span><input name="role" required placeholder="Founder, Marketing Lead, Product Lead…"></label>
         </div>
+        <div class="brief-two">
+          <label><span>Phone <em>optional</em></span><input name="phone" autocomplete="tel" placeholder="+90 …"></label>
+          <label><span>Company website <em>optional</em></span><input name="company_site" inputmode="url" placeholder="company.com"></label>
+        </div>
+        <label class="brief-honeypot" aria-hidden="true"><span>Fax</span><input name="company_fax" tabindex="-1" autocomplete="off"></label>
+        <label class="brief-consent"><input type="checkbox" name="consent" value="1" required><span>I have read the <a href="./privacy.html" target="_blank" rel="noopener">privacy notice</a> and consent to BARTSS processing this information to respond to my project request.</span></label>
+        <div class="brief-error" id="briefError" role="alert" hidden></div>
         <div class="brief-submit-row">
-          <span>This version prepares the scope locally and continues into the BARTSS Offer System.</span>
-          <button type="submit">Continue to project scope <b>→</b></button>
+          <span>Your project brief is saved as a lead before you continue into scope.</span>
+          <button type="submit" id="briefSubmit">Create project lead <b>→</b></button>
         </div>
       </form>
     </section>
