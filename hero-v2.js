@@ -20,15 +20,21 @@ function getRailX(){
 function centerActiveCard(immediate=false){
   if(window.innerWidth<=1100)return;
   const card=cards[activeIndex];
-  const before=getComputedStyle(rail).transition;
+  const before=rail.style.transition;
   if(immediate) rail.style.transition="none";
-  const rect=card.getBoundingClientRect();
-  const delta=(window.innerWidth/2)-(rect.left+rect.width/2);
-  railX=getRailX()+delta;
-  rail.style.transform=`translate3d(${railX}px,0,0)`;
+  const correct=()=>{
+    const rect=card.getBoundingClientRect();
+    const delta=(window.innerWidth/2)-(rect.left+rect.width/2);
+    railX=getRailX()+delta;
+    rail.style.transform=`translate3d(${railX}px,0,0)`;
+  };
+  correct();
   if(immediate){
     rail.offsetHeight;
     rail.style.transition=before;
+    requestAnimationFrame(correct);
+  }else{
+    setTimeout(correct,1080);
   }
 }
 function setActive(index,immediate=false){
@@ -36,26 +42,7 @@ function setActive(index,immediate=false){
   cards.forEach((card,i)=>card.classList.toggle("active", i===activeIndex));
   requestAnimationFrame(()=>centerActiveCard(immediate));
 }
-cards.forEach((card,i)=>{
-  let hoverStartTimer=null;
-  card.addEventListener("mouseenter",()=>{
-    if(window.innerWidth<=1100 || railDragging)return;
-    clearTimeout(hoverStartTimer);
-    setActive(i);
-    heroV2Token++;
-    heroV2Clear();
-    hoverStartTimer=setTimeout(()=>{
-      if(card.matches(":hover")) heroV2Play(i);
-    },220);
-  });
-  card.addEventListener("mouseleave",()=>{
-    clearTimeout(hoverStartTimer);
-    if(window.innerWidth<=1100)return;
-    heroV2Token++;
-    heroV2Clear();
-  });
-  card.addEventListener("click",()=>setActive(i));
-});
+cards.forEach((card,i)=>card.addEventListener("click",()=>setActive(i)));
 let wheelLock = false;
 window.addEventListener("wheel", e => {
   if(window.innerWidth <= 1100 || document.body.classList.contains("menu-open")) return;
@@ -99,13 +86,18 @@ if(heroRailWrap){
     try{heroRailWrap.releasePointerCapture(e.pointerId)}catch{}
     let v=railVelocity;
     const glide=()=>{
-      v*=.92;
+      v*=.945;
       railX+=v;
       rail.style.transform=`translate3d(${railX}px,0,0)`;
       if(Math.abs(v)>.45) railInertia=requestAnimationFrame(glide);
       else{
         const idx=nearestCardToCenter();
         setActive(idx);
+        if(heroRailWrap.matches(":hover")){
+          heroV2Token++;
+          heroV2Clear();
+          setTimeout(()=>heroV2Play(idx),260);
+        }
       }
     };
     railInertia=requestAnimationFrame(glide);
@@ -256,7 +248,7 @@ function heroV2Build(index){
   wrap.appendChild(stage);card.classList.add("hero-v2-source");return stage;
 }
 const heroV2States=["seed","card","pills","metric","expand","strip","search","formats","pills","final"];
-const heroV2Times=[900,1550,1750,1650,1500,1350,1900,2050,1700,2400];
+const heroV2Times=[1100,1750,1950,1800,1650,1500,2100,2250,1850,2600];
 function heroV2Play(index=activeIndex){
   const token=++heroV2Token,stage=heroV2Build(index);if(!stage)return;
   let s=0;
@@ -264,8 +256,26 @@ function heroV2Play(index=activeIndex){
     if(token!==heroV2Token||!stage.isConnected)return;
     stage.dataset.state=heroV2States[s++];
     if(s<heroV2States.length)heroV2Timer=setTimeout(advance,heroV2Times[s-1]);
-    else heroV2Timer=setTimeout(()=>{if(token!==heroV2Token)return;heroV2Clear();heroV2Timer=setTimeout(()=>heroV2Play(activeIndex),650)},heroV2Times.at(-1));
+    else{
+      stage.dataset.state="final";
+      stage.dataset.complete="true";
+      heroV2Timer=null;
+    }
   };
   advance();
 }
+if(heroRailWrap){
+  heroRailWrap.addEventListener("mouseenter",()=>{
+    if(window.innerWidth<=1100 || railDragging)return;
+    const existing=document.querySelector(".hero-v2-stage");
+    if(existing?.dataset.complete==="true")return;
+    heroV2Token++;
+    heroV2Clear();
+    setTimeout(()=>{
+      if(heroRailWrap.matches(":hover")&&!railDragging)heroV2Play(activeIndex);
+    },180);
+  });
+}
 requestAnimationFrame(()=>setActive(activeIndex,true));
+window.addEventListener("load",()=>setActive(activeIndex,true));
+if(document.fonts?.ready) document.fonts.ready.then(()=>setActive(activeIndex,true));
