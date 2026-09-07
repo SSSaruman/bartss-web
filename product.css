@@ -27,3 +27,9 @@
  .brief-summary-grid,.scope-grid{grid-template-columns:1fr}
  .brief-next{align-items:flex-start;flex-direction:column}
 }
+
+/* --- REAL LEAD HANDOFF --- */
+.scope-selection button{border:0;border-radius:999px;background:var(--accent,#a7a3f0);color:#111;padding:13px 17px;font:inherit;font-size:10px;cursor:pointer}
+.scope-selection button:disabled{opacity:.6;cursor:wait}
+.scope-success{margin-top:12px;border-radius:20px;padding:20px;background:#dce879;color:#111}
+.scope-success small{display:block;font-size:7px;letter-spacing:.18em;opacity:.5}.scope-success b{display:block;font-size:18px;margin:6px 0}.scope-success p{font-size:11px;line-height:1.5;margin:0;opacity:.65}
