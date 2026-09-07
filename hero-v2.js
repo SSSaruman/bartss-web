@@ -103,17 +103,32 @@ function snapNearest(){
 }
 function stopInertia(){if(railInertia)cancelAnimationFrame(railInertia);railInertia=0;}
 
-loopCards.forEach(card=>card.addEventListener("click",()=>{
+function focusPhysicalCard(card,{play=true}={}){
+  if(!card)return;
   const next=Number(card.dataset.logical);
   if(next===activeIndex && document.querySelector(".hero-v2-stage")) return;
+
   heroV2Reset();
-  rail.style.transition="transform .72s cubic-bezier(.18,.82,.18,1)";
-  setActive(next);
+  activeIndex=next;
+
+  // Animate directly to the exact card the user clicked.
+  // Never jump to the canonical clone first.
+  const targetX=centerXForCard(card);
+  markActive(card);
+  rail.style.transition="transform .74s cubic-bezier(.16,1,.3,1)";
+  railX=targetX;
+  rail.style.transform="translate3d("+railX+"px,0,0)";
+
   setTimeout(()=>{
+    // Rebase silently to the center-set twin AFTER the visible move is complete.
+    // Because the repeated sets are identical, this is visually lossless.
     canonicalize(next,false);
-    heroV2Play(next);
-  },760);
-}));
+    applyIdleFocus(cardAt(CENTER_SET,next));
+    if(play) setTimeout(()=>heroV2Play(next),120);
+  },780);
+}
+
+loopCards.forEach(card=>card.addEventListener("click",()=>focusPhysicalCard(card,{play:true})));
 
 // Hero selection is click-only. Drag and wheel navigation are intentionally disabled
 // so the rail stays spatially stable and the selected card can always center cleanly.
@@ -432,8 +447,10 @@ async function heroV2Play(index=activeIndex){
   // Any user click cancels this timer through heroV2Reset().
   heroV2AutoTimer=setTimeout(()=>{
     if(document.querySelector(".hero-v2-stage") || heroV2Running) return;
-    const next=(index+1)%baseCount;
-    setActive(next);
+    const current=cardAt(CENTER_SET,index);
+    const currentIdx=loopCards.indexOf(current);
+    const nextCard=loopCards[currentIdx+1] || cardAt(CENTER_SET,(index+1)%baseCount);
+    focusPhysicalCard(nextCard,{play:false});
   },2600);
 }
 
