@@ -1565,3 +1565,35 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
     opacity:0!important;
   }
 }
+
+
+/* HERO V2 — calmer interaction: click to play, drag to browse */
+@media(min-width:1101px){
+  .card-rail{gap:62px!important}
+  .show-card{
+    flex-basis:310px!important;
+    width:310px!important;
+  }
+  .show-card.hero-v2-slot{
+    flex-basis:calc(310px + var(--hv2-slot-extra,240px))!important;
+    width:calc(310px + var(--hv2-slot-extra,240px))!important;
+  }
+  .show-card:not(.hero-v2-source):hover{
+    transform:scale(1.035)!important;
+  }
+  .show-card.active:not(.hero-v2-source):hover{
+    transform:scale(1.12)!important;
+  }
+  .rail-wrap::after{
+    content:"DRAG TO BROWSE  ·  CLICK A CARD TO SEE HOW IT WORKS"!important;
+    bottom:58px!important;
+    font-size:7.5px!important;
+    letter-spacing:.2em!important;
+  }
+}
+
+/* Bring the active motion composition slightly closer to the viewer */
+.hv2-exact-scene{
+  transform:translate(-50%,-50%) scale(1.045)!important;
+  transform-origin:center center!important;
+}
