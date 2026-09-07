@@ -148,7 +148,7 @@
     "should become a project.":"projeye dönüşmemeli.",
     "BARTSS works best when the problem is commercially meaningful, the decision makers are involved and the company is ready to build a system rather than buy isolated assets.":"BARTSS; problem ticari olarak anlamlı olduğunda, karar vericiler sürece dahil olduğunda ve şirket tekil çıktılar almak yerine sistem kurmaya hazır olduğunda en iyi sonucu üretir.",
     "GOOD FIT":"DOĞRU EŞLEŞME",
-    "You are likely a fit if…":"Muhtemelen doğru eşleşmeyiz değil; şu durumlarda iyi bir eşleşmeyiz:",
+    "You are likely a fit if…":"Şu durumlarda iyi bir eşleşme olabiliriz:",
     "PROBABLY NOT A FIT":"MUHTEMELEN UYGUN DEĞİL",
     "We are probably not the right partner if…":"Muhtemelen doğru partner değiliz, eğer…",
     "PROJECT INVESTMENT":"PROJE YATIRIMI",
