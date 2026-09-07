@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AutoLAB UI Preview</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#0d1114;color:#edf0ec}
+.shell{min-height:100vh;background:radial-gradient(circle at 70% 20%,#26342e 0,#151b1f 35%,#0c1013 76%);padding:22px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.brand{font-size:13px;font-weight:700;letter-spacing:.08em}.project{font-size:9px;letter-spacing:.14em;color:#8d9892}
+.head{display:flex;justify-content:space-between;align-items:end;margin-bottom:18px}.head h1{font-size:30px;font-weight:400;letter-spacing:-.045em;margin:0}.head p{font-size:10px;color:#929c96;margin:5px 0 0}
+.status{font-size:8px;padding:7px 10px;border:1px solid #3d4a43;border-radius:999px;color:#b4c1b8}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.sect{border:1px solid #26302b;border-radius:16px;background:rgba(255,255,255,.025);padding:14px;min-height:235px}
+.sect h2{font-size:12px;font-weight:500;margin:0 0 14px}.note{font-size:8px;line-height:1.45;color:#85918a;margin:0 0 12px}
+.btn{display:inline-block;background:#dce879;color:#111;border-radius:999px;padding:8px 11px;font-size:8px;font-weight:600;margin-bottom:10px}
+.counters{display:flex;flex-wrap:wrap;gap:5px}.counter{font-size:7px;border:1px solid #303a35;border-radius:999px;padding:5px 7px;color:#9da7a1}
+.prompt{margin-top:12px;padding:9px;border-radius:10px;background:#11171a;border:1px solid #222c27}.prompt b{font-size:7px;color:#dce879}.prompt p{font-size:7px;line-height:1.4;color:#87928b;margin:5px 0 0}
+.jobs{display:grid;gap:7px;margin-top:10px}.job{display:grid;grid-template-columns:1fr auto;gap:8px;padding:8px 0;border-top:1px solid #26302b}.job b{font-size:8px}.job span{font-size:7px}.ok{color:#dce879}.warn{color:#d9bd70}.run{color:#9cc8e3}
+.footer{display:flex;gap:8px;margin-top:14px}.secondary{font-size:7px;border:1px solid #303a35;border-radius:999px;padding:6px 8px;color:#8e9992}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.sect{min-height:0}}
+</style>
+</head><body><div class="shell">
+<div class="top"><div class="brand">AutoLAB</div><div class="project">PROJECT / VISUAL PRODUCTION</div></div>
+<div class="head"><div><h1>Storyboard ve üretim</h1><p>Tek üretim yolu · canlı durum · teknik + tutarlılık QC</p></div><span class="status">Flow bağlı</span></div>
+<div class="grid">
+<section class="sect"><h2>1 — Storyboard</h2><p class="note">Zaman ekseni ve kilitli visual bible üzerinden çekimler oluşturulur.</p><span class="btn">Storyboard oluştur</span><div class="counters"><span class="counter">18 çekim</span><span class="counter">64.2 sn toplam</span><span class="counter">11 karakterli</span><span class="counter">7 mekânlı</span></div></section>
+<section class="sect"><h2>2 — İstemler</h2><p class="note">İstem; bible + stil + storyboard çekiminden deterministik olarak birleştirilir.</p><span class="btn">İstemleri kur</span><div class="counters"><span class="counter">18 istem</span><span class="counter">11 karakterli</span></div><div class="prompt"><b>SHOT_08</b><p>Locked character anchor · medium shot · consistent environment · cinematic motion...</p></div></section>
+<section class="sect"><h2>3 — Üretim</h2><p class="note">Bir kare ancak teknik ve tutarlılık denetiminden geçince onaylandı sayılır.</p><span class="btn">Kuyruğa ekle ve üret</span><div class="jobs"><div class="job"><b>Sahne 08</b><span class="ok">ONAYLANDI</span></div><div class="job"><b>Sahne 09</b><span class="run">ÇALIŞIYOR</span></div><div class="job"><b>Sahne 10</b><span class="warn">UYARILI</span></div></div><div class="footer"><span class="secondary">Duraklat</span><span class="secondary">QC tekrar</span></div></section>
+</div></div></body></html>
