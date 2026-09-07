@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$storageDir = dirname(__DIR__) . '/storage';
+$storageDir = getenv('BARTSS_STORAGE_DIR') ?: (dirname(__DIR__) . '/storage');
 $leadFile = $storageDir . '/leads.jsonl';
 $rateFile = $storageDir . '/rate.json';
 
@@ -31,7 +31,7 @@ if (!is_array($data)) {
 function clean($value, int $max = 500): string {
     $v = trim((string)($value ?? ''));
     $v = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $v) ?? '';
-    return mb_substr($v, 0, $max);
+    return function_exists('mb_substr') ? mb_substr($v, 0, $max) : substr($v, 0, $max);
 }
 
 function clientIp(): string {
@@ -98,7 +98,7 @@ function notifyBartss(array $lead, string $stage): void {
         if (isset($lead[$key]) && $lead[$key] !== '') $body .= strtoupper($key) . ': ' . $lead[$key] . "\n";
     }
     $headers = "Content-Type: text/plain; charset=UTF-8\r\n";
-    $headers .= "From: BARTSS Website <no-reply@" . ($_SERVER['HTTP_HOST'] ?? 'bartss.com') . ">\r\n";
+    $headers .= "From: BARTSS Website <no-reply@bartss.com>\r\n";
     if (!empty($lead['email']) && filter_var($lead['email'], FILTER_VALIDATE_EMAIL)) {
         $headers .= "Reply-To: " . $lead['email'] . "\r\n";
     }
@@ -141,7 +141,7 @@ if ($action === 'create') {
 
     if ($lead['name'] === '' || !filter_var($lead['email'], FILTER_VALIDATE_EMAIL) || $lead['company'] === '' ||
         $lead['role'] === '' || $lead['engagement'] === '' || $lead['budget'] === '' ||
-        mb_strlen($lead['problem']) < 20 || !$lead['consent']) {
+        (function_exists('mb_strlen') ? mb_strlen($lead['problem']) : strlen($lead['problem'])) < 20 || !$lead['consent']) {
         http_response_code(422);
         echo json_encode(['ok' => false, 'error' => 'validation_failed']);
         exit;
