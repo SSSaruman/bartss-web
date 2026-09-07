@@ -1126,3 +1126,51 @@ body{background:#d7e7ee}
     width:calc(100vw - 36px);
   }
 }
+
+/* --- MENU LANGUAGE: inline, no extra block --- */
+.menu-lang{
+  position:absolute;
+  right:20px;
+  bottom:18px;
+  top:auto;
+  z-index:6;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  padding:0;
+  margin:0;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  backdrop-filter:none;
+  color:rgba(255,255,255,.45);
+  font-size:10px;
+  letter-spacing:.14em;
+}
+.menu-lang button{
+  appearance:none;
+  border:0;
+  padding:0;
+  margin:0;
+  background:transparent;
+  color:rgba(255,255,255,.46);
+  font-size:10px;
+  letter-spacing:.14em;
+  line-height:1;
+  cursor:pointer;
+}
+.menu-lang button.active{
+  background:transparent;
+  color:#fff;
+}
+.menu-lang span{
+  opacity:.28;
+}
+@media(max-width:1100px){
+  .menu-lang{
+    right:16px;
+    bottom:16px;
+    top:auto;
+  }
+}
