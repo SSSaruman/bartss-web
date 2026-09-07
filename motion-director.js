@@ -51,7 +51,7 @@
   updateProgress();
 
   // Headline reveal observer — large statements behave like scenes, not static headings.
-  const headings=[...document.querySelectorAll(".work-head h2,.motion-copy h2,.process-head h2,.systems-head h2,.contact-section h2")];
+  const headings=[...document.querySelectorAll(".v3-section-head h2,.v3-trust-statement h2,.v3-fit h2,.v3-contact h2")];
   if(reduce){
     headings.forEach(h=>h.classList.add("motion-heading-in"));
   }else{
