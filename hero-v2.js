@@ -98,27 +98,27 @@ function snapNearest(){
 }
 function stopInertia(){if(railInertia)cancelAnimationFrame(railInertia);railInertia=0;}
 
+let heroSelectionToken=0;
 function focusPhysicalCard(card,{play=true}={}){
   if(!card)return;
+  const token=++heroSelectionToken;
   const next=Number(card.dataset.logical);
-  if(next===activeIndex && document.querySelector(".hero-v2-stage")) return;
 
   heroV2Reset();
   activeIndex=next;
+  const target=cardAt(CENTER_SET,next);
+  const targetX=centerXForCard(target);
 
-  // Animate directly to the exact card the user clicked.
-  // Never jump to the canonical clone first.
-  const targetX=centerXForCard(card);
-  markActive(card);
-  rail.style.transition="transform .74s cubic-bezier(.16,1,.3,1)";
+  markActive(target);
+  rail.style.transition="transform .82s cubic-bezier(.16,1,.3,1)";
   railX=targetX;
   rail.style.transform="translate3d("+railX+"px,0,0)";
 
   setTimeout(()=>{
-    // Single physical set: no hidden rebase and therefore no second sweep.
-    applyIdleFocus(card);
-    if(play) setTimeout(()=>heroV2Play(next),120);
-  },780);
+    if(token!==heroSelectionToken)return;
+    applyIdleFocus(target);
+    if(play) heroV2Play(next);
+  },860);
 }
 
 loopCards.forEach(card=>card.addEventListener("click",()=>focusPhysicalCard(card,{play:true})));
@@ -289,7 +289,7 @@ function heroV2Build(index){
   heroV2Reset();
   if(innerWidth<=1100)return null;
   const d=heroV2Data[index];
-  const active=nearestCard() || cardAt(CENTER_SET,index);
+  const active=cardAt(CENTER_SET,index);
   if(!d||!active)return null;
   const wrap=heroRailWrap.getBoundingClientRect(),cr=active.getBoundingClientRect();
   const stage=document.createElement("div");
@@ -320,7 +320,7 @@ function heroV2Build(index){
       '<div class="hv2-impact"><small>'+d.value+'</small><svg class="hv2-impact-chart" viewBox="0 0 100 40" aria-hidden="true"><path class="hv2-impact-grid" d="M0 34H100 M0 20H100 M0 6H100"/><path class="hv2-impact-line" d="M2 32 C15 28 20 25 29 27 S44 19 53 20 S69 10 77 13 S91 6 98 3"/></svg><b>'+d.metric+'</b></div>'+
     '</div>';
 
-  const visibleActive=nearestCard() || active;
+  const visibleActive=active;
   loopCards.forEach(c=>{
     if(Number(c.dataset.logical)===index || c===visibleActive){
       c.classList.add("hero-v2-source");
@@ -342,8 +342,8 @@ function heroV2Build(index){
   const visibleIndex=loopCards.indexOf(visibleActive);
   loopCards.forEach((c,i)=>{
     c.classList.remove("hero-v2-neighbor-left","hero-v2-neighbor-right");
-    if(i===visibleIndex-1 || i===visibleIndex-2) c.classList.add("hero-v2-neighbor-left");
-    if(i===visibleIndex+1 || i===visibleIndex+2) c.classList.add("hero-v2-neighbor-right");
+    if(i===visibleIndex-1) c.classList.add("hero-v2-neighbor-left");
+    if(i===visibleIndex+1) c.classList.add("hero-v2-neighbor-right");
   });
 
   heroRailWrap.appendChild(stage);
@@ -416,35 +416,26 @@ async function heroV2Play(index=activeIndex){
   heroV2Running=false;
   await hvWait(1150,token);
   if(token!==heroV2Token)return;
-  const source=nearestCard() || cardAt(CENTER_SET,index);
+  const source=cardAt(CENTER_SET,index);
   loopCards.forEach(c=>c.classList.remove("hero-v2-neighbor-left","hero-v2-neighbor-right"));
-  setTimeout(()=>{
-    if(source){
-      source.style.setProperty("opacity","1","important");
-      source.style.setProperty("visibility","visible","important");
-      source.style.setProperty("pointer-events","auto","important");
-      source.classList.remove("hero-v2-source","hero-v2-slot");
-      source.style.removeProperty("--hv2-slot-extra");
-      source.dataset.hv2Hidden="0";
-    }
-  },260);
+  if(source){
+    source.style.setProperty("opacity","1","important");
+    source.style.setProperty("visibility","visible","important");
+    source.style.setProperty("pointer-events","auto","important");
+    source.classList.remove("hero-v2-source","hero-v2-slot");
+    source.style.removeProperty("--hv2-slot-extra");
+    source.dataset.hv2Hidden="0";
+  }
   stage.classList.add("final-handoff");
   heroRailWrap?.classList.remove("hero-v2-playing");
   setTimeout(()=>{
     stage.remove();
-    canonicalize(index,false);
-    applyIdleFocus(cardAt(CENTER_SET,index));
+    applyIdleFocus(source);
   },520);
 
   // Hold the completed card briefly, then bring the adjacent card to center.
   // Any user click cancels this timer through heroV2Reset().
-  heroV2AutoTimer=setTimeout(()=>{
-    if(document.querySelector(".hero-v2-stage") || heroV2Running) return;
-    const current=cardAt(CENTER_SET,index);
-    const currentIdx=loopCards.indexOf(current);
-    const nextCard=loopCards[currentIdx+1];
-    if(nextCard) focusPhysicalCard(nextCard,{play:false});
-  },2600);
+  clearTimeout(heroV2AutoTimer);
 }
 
 // Motion is intentionally click-triggered. Hover remains a lightweight visual cue only.
