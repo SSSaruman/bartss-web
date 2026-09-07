@@ -37,12 +37,22 @@ function setActive(index,immediate=false){
   requestAnimationFrame(()=>centerActiveCard(immediate));
 }
 cards.forEach((card,i)=>{
+  let hoverStartTimer=null;
   card.addEventListener("mouseenter",()=>{
-    if(window.innerWidth<=1100)return;
+    if(window.innerWidth<=1100 || railDragging)return;
+    clearTimeout(hoverStartTimer);
     setActive(i);
     heroV2Token++;
     heroV2Clear();
-    setTimeout(()=>heroV2Play(i),380);
+    hoverStartTimer=setTimeout(()=>{
+      if(card.matches(":hover")) heroV2Play(i);
+    },220);
+  });
+  card.addEventListener("mouseleave",()=>{
+    clearTimeout(hoverStartTimer);
+    if(window.innerWidth<=1100)return;
+    heroV2Token++;
+    heroV2Clear();
   });
   card.addEventListener("click",()=>setActive(i));
 });
