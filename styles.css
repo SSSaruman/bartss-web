@@ -1069,3 +1069,60 @@ body{background:#d7e7ee}
   .show-card.activating{animation:mobileCardFocus .55s var(--ease)}
   @keyframes mobileCardFocus{50%{transform:scale(.97)}}
 }
+
+/* --- MENU CLEANUP: no outer glass, language inside menu --- */
+.top-right{display:contents}
+.site-top.is-scrolled{
+  width:min(1480px,calc(100vw - 120px));
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  backdrop-filter:none;
+}
+.site-top.is-scrolled .micro{
+  opacity:.5;
+  pointer-events:auto;
+}
+.site-top.is-scrolled .micro-right{
+  display:block;
+}
+.site-top.is-scrolled .menu-trigger{
+  height:50px;
+  min-width:286px;
+  box-shadow:0 10px 28px rgba(0,0,0,.12);
+}
+.menu-lang{
+  position:absolute;
+  right:18px;
+  top:58px;
+  z-index:6;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.1);
+}
+.menu-lang button{
+  color:rgba(255,255,255,.55);
+}
+.menu-lang button.active{
+  background:#fff;
+  color:#111;
+}
+@media(max-width:1100px){
+  .site-top.is-scrolled{
+    width:calc(100vw - 36px);
+    padding:0;
+  }
+  .site-top.is-scrolled .menu-trigger{
+    min-width:230px;
+  }
+  .menu-lang{
+    right:14px;
+    top:54px;
+  }
+}
+@media(max-width:700px){
+  .site-top.is-scrolled{
+    width:calc(100vw - 36px);
+  }
+}
