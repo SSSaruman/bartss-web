@@ -124,9 +124,19 @@ function centerCard(card,animate=true,pulse=false){
   if(!card) return;
   const index=Number(card.dataset.index);
   markActive(card,index,pulse);
+  // Active width participates in layout, so measure after the class change.
+  void card.offsetWidth;
   applyRailX(targetXFor(card),animate);
   clearTimeout(settleTimer);
-  settleTimer=setTimeout(()=>normalizeToMiddle(index),animate?760:0);
+  if(animate){
+    // Recenter while width interpolation pushes siblings, then normalize invisibly.
+    settleTimer=setTimeout(()=>{
+      applyRailX(targetXFor(card),true);
+      settleTimer=setTimeout(()=>normalizeToMiddle(index),360);
+    },280);
+  }else{
+    normalizeToMiddle(index);
+  }
 }
 
 function centerLogical(index,animate=true,pulse=false){

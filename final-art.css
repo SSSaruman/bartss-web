@@ -63,13 +63,13 @@ body{background:var(--v3-paper);overflow-x:hidden}
   background:rgba(255,255,255,.08);
   box-shadow:0 20px 48px rgba(41,54,60,.1);
   backdrop-filter:blur(8px);
-  transform:scale(.9);
+  transform:none;
   opacity:.48;
-  transition:transform .7s var(--v3-ease),opacity .45s ease,box-shadow .55s ease,filter .4s ease;
+  transition:width .72s var(--v3-ease),opacity .45s ease,box-shadow .55s ease,filter .4s ease;
   cursor:grab;
-  will-change:transform,opacity;
+  will-change:width,opacity;
 }
-.v3-hero .show-card.active{transform:scale(1.12);opacity:1;z-index:8;box-shadow:0 34px 90px rgba(42,55,60,.18)}
+.v3-hero .show-card.active{width:352px;opacity:1;z-index:8;box-shadow:0 34px 90px rgba(42,55,60,.18)}
 .v3-hero .card-top{position:absolute;z-index:4;top:16px;left:16px;right:16px;display:flex;align-items:center;justify-content:space-between;color:#fff}
 .v3-hero .index{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;font-size:9px;background:rgba(20,26,29,.1);border:1px solid rgba(255,255,255,.22)}
 .v3-hero .tag{padding:8px 11px;border-radius:999px;font-size:8px;letter-spacing:.12em;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.05)}
@@ -567,5 +567,23 @@ body{background:var(--v3-paper);overflow-x:hidden}
     width:100%!important;
     max-width:100%!important;
     overflow-wrap:anywhere;
+  }
+}
+
+
+/* HERO INTERACTION: active card expands in layout and pushes siblings instead of overlapping them. */
+@media(min-width:1101px){
+  .v3-hero .card-rail{gap:132px}
+}
+@media(max-width:1100px){
+  .v3-hero .show-card,
+  .v3-hero .show-card.active{
+    width:260px!important;
+  }
+}
+@media(max-width:700px){
+  .v3-hero .show-card,
+  .v3-hero .show-card.active{
+    width:252px!important;
   }
 }

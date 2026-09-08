@@ -51,6 +51,33 @@ async function audit(name,width,height){
     await page.waitForTimeout(850);
     const active=await page.evaluate(()=>document.querySelector('.card-rail .show-card.active')?.dataset.index||null);
     if(active!=="4") errors.push("hero-active-mismatch: expected 4 got "+active);
+
+    const heroLayout=await page.evaluate(()=>{
+      const activeEl=document.querySelector('.card-rail .show-card.active');
+      if(!activeEl) return null;
+      const all=[...document.querySelectorAll('.card-rail .show-card')];
+      const ar=activeEl.getBoundingClientRect();
+      const base=all.find(el=>el!==activeEl && el.dataset.index!==activeEl.dataset.index);
+      const br=base?.getBoundingClientRect();
+      const ordered=all
+        .map(el=>({el,r:el.getBoundingClientRect()}))
+        .filter(x=>x.r.right>0 && x.r.left<innerWidth)
+        .sort((a,b)=>a.r.left-b.r.left);
+      const pos=ordered.findIndex(x=>x.el===activeEl);
+      const left=pos>0?ordered[pos-1].r:null;
+      const right=pos>=0&&pos<ordered.length-1?ordered[pos+1].r:null;
+      return {
+        activeWidth:ar.width,
+        baseWidth:br?.width||0,
+        leftGap:left?ar.left-left.right:999,
+        rightGap:right?right.left-ar.right:999
+      };
+    });
+    if(!heroLayout) errors.push("hero-layout-missing");
+    else{
+      if(heroLayout.activeWidth < heroLayout.baseWidth*1.12) errors.push("hero-active-not-larger: "+heroLayout.activeWidth.toFixed(1)+" vs "+heroLayout.baseWidth.toFixed(1));
+      if(heroLayout.leftGap < 18 || heroLayout.rightGap < 18) errors.push("hero-card-overlap: "+heroLayout.leftGap.toFixed(1)+"/"+heroLayout.rightGap.toFixed(1));
+    }
   }
 
   await page.locator("#menuTrigger").click();
