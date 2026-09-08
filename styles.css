@@ -605,7 +605,7 @@ body.brief-open{overflow:hidden}
   .hero-copy h1{font-size:clamp(39px,12vw,46px);line-height:.96}
   .hero-intro{padding-top:0}
   .cta{width:100%;justify-content:space-between}
-  .card-rail{gap:16px;padding-inline:26px;scroll-padding-inline:26px}
+  .card-rail{gap:16px;padding-inline:57px;scroll-padding-inline:57px}
   .show-card,.show-card.active{width:min(78vw,286px)}
   .rail-wrap{min-height:315px}
   .hero-footer{gap:20px;align-items:flex-start;flex-direction:column}
