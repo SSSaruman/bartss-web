@@ -53,8 +53,10 @@ function rebuildHeroLoop(){
     requestAnimationFrame(()=>{
       const card=cards[activeIndex];
       if(card && rail){
-        const left=card.offsetLeft-(rail.clientWidth-card.offsetWidth)/2;
-        rail.scrollTo({left:Math.max(0,left),behavior:"auto"});
+        const rr=rail.getBoundingClientRect();
+        const cr=card.getBoundingClientRect();
+        const delta=(cr.left+cr.width/2)-(rr.left+rr.width/2);
+        rail.scrollTo({left:Math.max(0,rail.scrollLeft+delta),behavior:"auto"});
       }
     });
     return;
