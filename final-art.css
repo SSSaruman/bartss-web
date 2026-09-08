@@ -169,7 +169,7 @@ body{background:var(--v3-paper);overflow-x:hidden}
   .v3-section-head{grid-template-columns:1fr;gap:20px}
   .v3-hero{width:calc(100vw - 36px);grid-template-columns:1fr;min-height:auto}
   .v3-hero .hero-copy{padding-top:34px}.v3-hero .hero-intro{padding-top:20px}
-  .v3-hero .rail-wrap{min-height:340px}.v3-hero .card-rail{gap:24px;padding:8px 42px 18px;overflow-x:auto;width:calc(100vw + 36px);margin-left:-18px}
+  .v3-hero .rail-wrap{min-height:340px}.v3-hero .card-rail{gap:24px;padding:8px 83px 18px;overflow-x:auto;width:calc(100vw + 36px);margin-left:-18px}
   .v3-hero .show-card,.v3-hero .show-card.active{width:260px;transform:none;opacity:1}.v3-hero .feature-stack{display:none}
   .v3-capabilities,.v3-process,.v3-systems,.v3-fit{width:calc(100vw - 36px)}
   .v3-capability-list .package-card{grid-template-columns:50px 220px 1fr}.v3-capability-list .package-card a{grid-column:2/-1;justify-self:start}
