@@ -116,8 +116,9 @@ function normalizeToMiddle(index){
   const middle=rail.querySelector(`[data-loop-set="middle"][data-index="${index}"]`);
   if(!middle) return;
   rail.classList.remove("rail-animate");
-  applyRailX(targetXFor(middle),false);
   markActive(middle,index,false);
+  void middle.offsetWidth;
+  applyRailX(targetXFor(middle),false);
 }
 
 function centerCard(card,animate=true,pulse=false){
@@ -129,13 +130,9 @@ function centerCard(card,animate=true,pulse=false){
   applyRailX(targetXFor(card),animate);
   clearTimeout(settleTimer);
   if(animate){
-    // Recenter while width interpolation pushes siblings, then normalize invisibly.
-    settleTimer=setTimeout(()=>{
-      applyRailX(targetXFor(card),true);
-      settleTimer=setTimeout(()=>normalizeToMiddle(index),360);
-    },280);
-  }else{
-    normalizeToMiddle(index);
+    // Recenter once while width interpolation pushes siblings.
+    // Keep this exact DOM card active; clone swapping is visually perceptible.
+    settleTimer=setTimeout(()=>applyRailX(targetXFor(card),true),280);
   }
 }
 

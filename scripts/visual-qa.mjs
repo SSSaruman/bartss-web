@@ -46,11 +46,25 @@ async function audit(name,width,height){
         const d=Math.abs((r.left+r.width/2)-center);
         return !best||d<best.d?{card,d}:best;
       },null)?.card;
-      target?.click();
+      if(target){
+        target.dataset.qaClicked="1";
+        target.click();
+      }
     });
-    await page.waitForTimeout(850);
-    const active=await page.evaluate(()=>document.querySelector('.card-rail .show-card.active')?.dataset.index||null);
+    const activeTimeline=[];
+    for(let i=0;i<7;i++){
+      await page.waitForTimeout(120);
+      activeTimeline.push(await page.evaluate(()=>document.querySelector('.card-rail .show-card.active')?.dataset.index||null));
+    }
+    const active=activeTimeline[activeTimeline.length-1];
     if(active!=="4") errors.push("hero-active-mismatch: expected 4 got "+active);
+    if(activeTimeline.some(v=>v!=="4")) errors.push("hero-active-changed-during-focus: "+activeTimeline.join(","));
+
+    const exactClickedStayedActive=await page.evaluate(()=>{
+      const clicked=document.querySelector('.card-rail .show-card[data-qa-clicked="1"]');
+      return !!clicked && clicked.classList.contains("active");
+    });
+    if(!exactClickedStayedActive) errors.push("hero-clicked-dom-card-replaced");
 
     const heroLayout=await page.evaluate(()=>{
       const activeEl=document.querySelector('.card-rail .show-card.active');
