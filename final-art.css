@@ -490,3 +490,66 @@ body{background:var(--v3-paper);overflow-x:hidden}
   .v3-systems .finance-radar{width:122px;height:122px}
   .v3-systems .coach-stack{width:74%;padding:20px}
 }
+
+
+/* =========================================================
+   CONVERSION QA PASS — problem-first sales architecture
+   ========================================================= */
+
+/* Evidence must be readable, not decorative microcopy. */
+.v3-work .v3-case .case-info>div span{
+  color:rgba(255,255,255,.62)!important;
+}
+.v3-work .v3-case .case-info>div p,
+.v3-work .v3-case .case-info>p{
+  color:rgba(255,255,255,.78)!important;
+}
+
+/* Labs is supporting proof, not a second homepage. */
+@media(min-width:1101px){
+  .v3-systems .systems-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    column-gap:36px!important;
+  }
+  .v3-systems .system-card{
+    grid-template-columns:130px minmax(0,1fr) auto!important;
+    grid-template-areas:
+      "meta meta meta"
+      "visual copy link"!important;
+    gap:12px 18px!important;
+    padding:18px 0!important;
+  }
+  .v3-systems .system-card-top{grid-area:meta!important;padding:0!important}
+  .v3-systems .system-visual{grid-area:visual!important;min-height:122px!important;height:122px!important}
+  .v3-systems .system-copy{grid-area:copy!important;padding:0!important}
+  .v3-systems .system-copy h3{font-size:clamp(28px,2.4vw,40px)!important}
+  .v3-systems .system-link{grid-area:link!important;align-self:end!important}
+}
+
+/* The first contact asks only for the problem and a reply channel. */
+.brief-optional{
+  margin-top:4px;
+  border-top:1px solid rgba(17,20,24,.12);
+  border-bottom:1px solid rgba(17,20,24,.12);
+}
+.brief-optional summary{
+  cursor:pointer;
+  list-style:none;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 0;
+  font-size:11px;
+  letter-spacing:.04em;
+}
+.brief-optional summary::-webkit-details-marker{display:none}
+.brief-optional summary:after{content:"+";font-size:18px;font-weight:300}
+.brief-optional[open] summary:after{content:"−"}
+.brief-optional summary em{
+  margin-left:auto;
+  margin-right:14px;
+  font-style:normal;
+  opacity:.45;
+  font-size:9px;
+}
+.brief-optional[open]{padding-bottom:8px}

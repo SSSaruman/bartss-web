@@ -139,8 +139,7 @@ if ($action === 'create') {
         'user_agent' => clean($_SERVER['HTTP_USER_AGENT'] ?? '', 300),
     ];
 
-    if ($lead['name'] === '' || !filter_var($lead['email'], FILTER_VALIDATE_EMAIL) || $lead['company'] === '' ||
-        $lead['role'] === '' || $lead['engagement'] === '' || $lead['budget'] === '' ||
+    if (!filter_var($lead['email'], FILTER_VALIDATE_EMAIL) ||
         (function_exists('mb_strlen') ? mb_strlen($lead['problem']) : strlen($lead['problem'])) < 20 || !$lead['consent']) {
         http_response_code(422);
         echo json_encode(['ok' => false, 'error' => 'validation_failed']);

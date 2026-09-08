@@ -68,7 +68,7 @@
 
     <section class="rail-wrap" aria-label="BARTSS services and products">
       <div class="card-rail" id="cardRail">
-        <article class="show-card" data-index="0" id="brand">
+        <article class="show-card active" data-index="0" id="brand">
           <div class="card-top"><span class="index">01</span><span class="tag">BRAND TRANSFORMATION</span></div>
           <div class="visual visual-brand"><img class="hero-card-art" src="./hero-assets/brand.svg" alt="" aria-hidden="true"></div>
           <div class="card-copy"><h2>Be harder to confuse.</h2><p>FOR BUSINESSES THAT HAVE OUTGROWN THEIR BRAND</p><small>POSITIONING · IDENTITY · ROLLOUT</small></div>
@@ -80,7 +80,7 @@
           <div class="card-copy"><h2>Explain value faster.</h2><p>FOR WEBSITES AND PRODUCTS THAT NEED TO CONVERT</p><small>UX · INTERACTION · CONVERSION</small></div>
           <button class="round-arrow" aria-label="Web & Product">→</button>
         </article>
-        <article class="show-card active" data-index="2" id="ai">
+        <article class="show-card" data-index="2" id="ai">
           <div class="card-top"><span class="index">03</span><span class="tag">CREATIVE SYSTEM</span></div>
           <div class="visual visual-autolab"><img class="hero-card-art" src="./hero-assets/autolab.svg" alt="" aria-hidden="true"></div>
           <div class="card-copy"><h2>Produce without the chaos.</h2><p>AI-ASSISTED CREATIVE PRODUCTION</p><small>WORKFLOW · AUTOMATION · QC</small></div>
@@ -234,50 +234,54 @@
       <button class="brief-close" id="briefClose" type="button" aria-label="Close project brief">×</button>
       <span class="brief-kicker">PROJECT FIT / 01</span>
       <h2 id="briefTitle">Start with the problem,<br>not the deliverables.</h2>
-      <p class="brief-intro">This is a short qualification step. It helps determine the right engagement before a full proposal is built.</p>
+      <p class="brief-intro">Tell us the problem and where we can reply. Everything else is optional.</p>
       <form class="brief-form" id="briefForm">
         <label>
           <span>What needs to change?</span>
           <textarea name="problem" required placeholder="Example: Our business has grown, but the brand and website still make us look smaller and harder to understand."></textarea>
         </label>
-        <div class="brief-two">
-          <label><span>Closest engagement</span>
-            <select name="engagement" required>
-              <option value="">Select</option>
-              <option>Brand Transformation</option>
-              <option>Digital Experience</option>
-              <option>Creative Partner</option>
-              <option>Custom / Not sure yet</option>
-            </select>
-          </label>
-          <label><span>Indicative investment</span>
-            <select name="budget" required>
-              <option value="">Select</option>
-              <option>₺150K–₺250K</option>
-              <option>₺250K–₺600K</option>
-              <option>₺600K+</option>
-              <option>Ongoing monthly partnership</option>
-            </select>
-          </label>
-        </div>
-        <div class="brief-two">
-          <label><span>Your name</span><input name="name" required autocomplete="name" placeholder="Full name"></label>
-          <label><span>Email</span><input name="email" type="email" required autocomplete="email" placeholder="name@company.com"></label>
-        </div>
-        <div class="brief-two">
-          <label><span>Company / brand</span><input name="company" required autocomplete="organization" placeholder="Company name"></label>
-          <label><span>Your role</span><input name="role" required placeholder="Founder, Marketing Lead, Product Lead…"></label>
-        </div>
-        <div class="brief-two">
-          <label><span>Phone <em>optional</em></span><input name="phone" autocomplete="tel" placeholder="+90 …"></label>
+        <label>
+          <span>Email</span>
+          <input name="email" type="email" required autocomplete="email" placeholder="name@company.com">
+        </label>
+        <details class="brief-optional">
+          <summary>More project context <em>optional</em></summary>
+          <div class="brief-two">
+            <label><span>Closest engagement</span>
+              <select name="engagement">
+                <option value="">Select</option>
+                <option>Brand Transformation</option>
+                <option>Digital Experience</option>
+                <option>Creative Partner</option>
+                <option>Custom / Not sure yet</option>
+              </select>
+            </label>
+            <label><span>Indicative investment</span>
+              <select name="budget">
+                <option value="">Select</option>
+                <option>₺150K–₺250K</option>
+                <option>₺250K–₺600K</option>
+                <option>₺600K+</option>
+                <option>Ongoing monthly partnership</option>
+              </select>
+            </label>
+          </div>
+          <div class="brief-two">
+            <label><span>Your name</span><input name="name" autocomplete="name" placeholder="Full name"></label>
+            <label><span>Company / brand</span><input name="company" autocomplete="organization" placeholder="Company name"></label>
+          </div>
+          <div class="brief-two">
+            <label><span>Your role</span><input name="role" placeholder="Founder, Marketing Lead, Product Lead…"></label>
+            <label><span>Phone <em>optional</em></span><input name="phone" autocomplete="tel" placeholder="+90 …"></label>
+          </div>
           <label><span>Company website <em>optional</em></span><input name="company_site" inputmode="url" placeholder="company.com"></label>
-        </div>
+        </details>
         <label class="brief-honeypot" aria-hidden="true"><span>Fax</span><input name="company_fax" tabindex="-1" autocomplete="off"></label>
         <label class="brief-consent"><input type="checkbox" name="consent" value="1" required><span>I have read the <a href="./privacy.html" target="_blank" rel="noopener">privacy notice</a> and consent to BARTSS processing this information to respond to my project request.</span></label>
         <div class="brief-error" id="briefError" role="alert" hidden></div>
         <div class="brief-submit-row">
-          <span>Your project brief is saved as a lead before you continue into scope.</span>
-          <button type="submit" id="briefSubmit">Create project lead <b>→</b></button>
+          <span>We will use this to understand the problem before discussing scope.</span>
+          <button type="submit" id="briefSubmit">Send the problem <b>→</b></button>
         </div>
       </form>
     </section>

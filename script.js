@@ -7,7 +7,7 @@ const railWrap = rail?.parentElement;
 const featureButtons = [...document.querySelectorAll(".feature-stack button")];
 const siteTop = document.querySelector(".site-top");
 
-let activeIndex = 2;
+let activeIndex = 0;
 let loopCards = [];
 let railX = 0;
 let loopSpan = 0;
