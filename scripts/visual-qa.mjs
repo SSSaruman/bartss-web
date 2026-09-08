@@ -92,6 +92,39 @@ async function audit(name,width,height){
       if(heroLayout.activeWidth < heroLayout.baseWidth*1.12) errors.push("hero-active-not-larger: "+heroLayout.activeWidth.toFixed(1)+" vs "+heroLayout.baseWidth.toFixed(1));
       if(heroLayout.leftGap < 18 || heroLayout.rightGap < 18) errors.push("hero-card-overlap: "+heroLayout.leftGap.toFixed(1)+"/"+heroLayout.rightGap.toFixed(1));
     }
+
+    // Drag contract: rail moves horizontally, page does not jump vertically,
+    // and snap finishes with exactly one centered active card.
+    const beforeDrag=await page.evaluate(()=>({
+      y:scrollY,
+      rail:document.querySelector(".card-rail")?.getBoundingClientRect().left||0
+    }));
+    const railBox=await page.locator(".card-rail").boundingBox();
+    if(railBox){
+      const sx=railBox.x+railBox.width/2, sy=railBox.y+Math.min(120,railBox.height/2);
+      await page.mouse.move(sx,sy);
+      await page.mouse.down();
+      await page.mouse.move(sx-180,sy,{steps:8});
+      await page.mouse.up();
+      await page.waitForTimeout(1100);
+      const afterDrag=await page.evaluate(()=> {
+        const rail=document.querySelector(".card-rail");
+        const active=[...document.querySelectorAll(".card-rail .show-card.active")];
+        const a=active[0]?.getBoundingClientRect();
+        return {
+          y:scrollY,
+          rail:rail?.getBoundingClientRect().left||0,
+          activeCount:active.length,
+          centerDelta:a?Math.abs((a.left+a.width/2)-innerWidth/2):999
+        };
+      });
+      if(Math.abs(afterDrag.y-beforeDrag.y)>2) errors.push("hero-drag-vertical-page-jump: "+(afterDrag.y-beforeDrag.y).toFixed(1));
+      if(Math.abs(afterDrag.rail-beforeDrag.rail)<30) errors.push("hero-drag-did-not-move-rail");
+      if(afterDrag.activeCount!==1) errors.push("hero-drag-active-count: "+afterDrag.activeCount);
+      if(afterDrag.centerDelta>24) errors.push("hero-drag-snap-not-centered: "+afterDrag.centerDelta.toFixed(1));
+    }else{
+      errors.push("hero-rail-box-missing");
+    }
   }
 
   await page.locator("#menuTrigger").click();
