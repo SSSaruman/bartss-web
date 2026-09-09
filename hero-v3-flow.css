@@ -280,3 +280,185 @@ body{
     transition:none!important;
   }
 }
+
+
+/* =========================================================
+   V3 FLOW / SNAP + 15% COMPACTION
+   ========================================================= */
+html{
+  scroll-behavior:smooth;
+  scroll-snap-type:y proximity;
+  scroll-padding-top:18px;
+}
+body{
+  scroll-snap-type:y proximity;
+}
+main > section{
+  scroll-snap-align:start;
+  scroll-snap-stop:normal;
+}
+
+/* Keep long sticky storytelling sections scrollable internally. */
+.immersive-work,
+.tablet-experience{
+  scroll-snap-align:start;
+}
+
+/* ~15% smaller overall section density */
+.solution-section,
+.project-gallery,
+.motion-manifesto,
+.systems-hub,
+.packages-section,
+.work-section{
+  width:min(1360px,calc(100vw - 48px))!important;
+  padding:78px 48px 88px!important;
+  margin:22px auto!important;
+  border-radius:30px!important;
+}
+
+.immersive-work,
+.tablet-experience{
+  width:calc(100vw - 24px)!important;
+  margin:22px auto!important;
+  border-radius:32px!important;
+}
+.immersive-sticky,
+.tablet-sticky{
+  border-radius:32px!important;
+}
+
+/* headings */
+.solution-head h2,
+.gallery-head h2,
+.motion-copy h2,
+.systems-head h2,
+.packages-head h2,
+.work-head h2,
+.transform-head h2{
+  font-size:clamp(46px,5.1vw,82px)!important;
+}
+.solution-head p,
+.gallery-head p,
+.motion-copy p,
+.systems-head p,
+.packages-head p,
+.work-head p,
+.transform-head p{
+  font-size:15px!important;
+  line-height:1.45!important;
+}
+.section-kicker{
+  font-size:8.5px!important;
+  margin-bottom:22px!important;
+}
+
+/* cards and grids */
+.need-grid,
+.project-grid,
+.systems-grid,
+.package-grid,
+.case-stack{
+  gap:15px!important;
+}
+.need-grid{margin-top:44px!important}
+.project-grid{margin-top:50px!important}
+.motion-rail{margin-top:50px!important}
+
+.need-card{
+  min-height:264px!important;
+  padding:20px!important;
+  border-radius:22px!important;
+}
+.need-card b{
+  font-size:23px!important;
+}
+.need-card small{
+  font-size:9.5px!important;
+}
+
+.project-tile{
+  min-height:476px!important;
+  border-radius:24px!important;
+  padding:24px!important;
+}
+.project-tile:nth-child(3){
+  min-height:528px!important;
+}
+.project-name b{
+  font-size:29px!important;
+}
+
+.system-card{
+  min-height:520px!important;
+  border-radius:24px!important;
+  padding:24px!important;
+}
+.system-visual{
+  height:272px!important;
+}
+.system-copy h3{
+  font-size:clamp(30px,2.7vw,44px)!important;
+}
+
+.package-card{
+  border-radius:24px!important;
+}
+
+.case-card{
+  min-height:612px!important;
+  border-radius:26px!important;
+  padding:27px!important;
+}
+.case-info h3{
+  font-size:39px!important;
+}
+
+.motion-rail article{
+  width:238px!important;
+  border-radius:21px!important;
+  padding:20px!important;
+}
+.motion-rail b{
+  font-size:25px!important;
+}
+
+/* sticky feature scenes ~15% tighter */
+.tablet-copy{
+  max-width:350px!important;
+}
+.tablet-copy h2,
+.immersive-title h2{
+  font-size:clamp(41px,4.25vw,66px)!important;
+}
+.tablet-copy p,
+.immersive-title p{
+  font-size:12px!important;
+}
+.tablet-device{
+  width:min(748px,52vw)!important;
+}
+.phone-wrap{
+  width:min(332px,24vw)!important;
+}
+
+@media(max-width:1100px){
+  html{scroll-snap-type:y proximity}
+  .solution-section,
+  .project-gallery,
+  .motion-manifesto,
+  .systems-hub,
+  .packages-section,
+  .work-section{
+    width:calc(100vw - 20px)!important;
+    padding:60px 18px 70px!important;
+    margin:10px auto!important;
+    border-radius:24px!important;
+  }
+  .immersive-work,
+  .tablet-experience{
+    width:calc(100vw - 12px)!important;
+    margin:10px auto!important;
+    border-radius:24px!important;
+  }
+}
