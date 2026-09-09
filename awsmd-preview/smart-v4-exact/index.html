@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AWSMD Exact V4 Motion Test</title>
+<link rel="stylesheet" href="../../hero-v4-base.css">
+<link rel="stylesheet" href="../../hero-v4-immersive.css">
+<link rel="stylesheet" href="../../hero-v4-motion.css">
+<style>
+html,body{margin:0;background:#0b0e10;overflow-x:hidden}
+#immersiveWork{margin:0!important}
+#immersiveWork .immersive-title{
+  color:#fff!important;
+}
+#immersiveWork .mosaic-card{
+  padding:0!important;
+  background:#111!important;
+}
+#immersiveWork .mosaic-card img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  display:block!important;
+}
+#immersiveWork .phone-wrap{
+  width:min(430px,29vw)!important;
+}
+#immersiveWork .phone-wrap .phone,
+#immersiveWork .phone-wrap .phone-screen{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+#immersiveWork .phone-wrap .phone-notch,
+#immersiveWork .phone-wrap .phone-scene{
+  display:none!important;
+}
+#immersiveWork .phone-wrap img{
+  width:100%!important;
+  display:block!important;
+  filter:drop-shadow(0 48px 90px rgba(0,0,0,.5));
+}
+#immersiveWork .hand-overlay{
+  position:absolute!important;
+  z-index:13!important;
+  left:50%!important;
+  top:50%!important;
+  width:min(760px,54vw)!important;
+  transform:
+    translate3d(-8%,calc(-34% + var(--phone-y,0px)),0)
+    scale(var(--phone-scale,1))!important;
+  opacity:var(--phone-opacity,1)!important;
+  pointer-events:none!important;
+  will-change:transform,opacity;
+}
+#immersiveWork .hand-overlay img{
+  width:100%!important;
+  display:block!important;
+  filter:drop-shadow(0 40px 80px rgba(0,0,0,.35));
+}
+#immersiveWork .immersive-title h2{
+  color:#fff!important;
+}
+</style>
+</head>
+<body>
+
+<section class="immersive-work" id="immersiveWork" data-motion="immersive-v4">
+  <div class="immersive-sticky">
+    <div class="immersive-title">
+      <span>SMART DEVELOPMENT / AWSMD</span>
+      <h2>See the work.<br>Feel the system.</h2>
+      <p>Scroll through the exact BARTSS V4 immersive motion system, using AWSMD visuals.</p>
+    </div>
+
+    <div class="mosaic-layer mosaic-back v4-dense-wall" data-parallax="0.26" aria-hidden="true">
+      <div class="mosaic-card m1 visual-tile"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-1.a20752cf.jpg%3Fq%3D95%26fm%3Dwebp&w=3840" alt=""></div>
+      <div class="mosaic-card m2 visual-tile"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-2.8514041a.jpg%3Fq%3D95%26fm%3Dwebp&w=3840" alt=""></div>
+      <div class="mosaic-card m3 visual-tile"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-3.d005e2e1.jpg%3Fq%3D95%26fm%3Dwebp&w=3840" alt=""></div>
+      <div class="mosaic-card m4 visual-tile"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-4.9ed6c77e.jpg%3Fq%3D95%26fm%3Dwebp&w=3840" alt=""></div>
+      <div class="mosaic-card m5 visual-tile"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen2-1.63042a32.jpg%3Fq%3D95%26fm%3Dwebp&w=3840" alt=""></div>
+      <div class="mosaic-card m6 visual-tile"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen2-2.7428647f.jpg%3Fq%3D95%26fm%3Dwebp&w=3840" alt=""></div>
+    </div>
+
+    <div class="phone-wrap" aria-label="Animated AWSMD mobile product preview">
+      <div class="phone-shadow"></div>
+      <div class="phone">
+        <div class="phone-screen">
+          <img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fphone-01.9afcffea.png%3Fq%3D90%26fm%3Dwebp&w=3840" alt="">
+        </div>
+      </div>
+    </div>
+
+    <div class="hand-overlay" aria-hidden="true">
+      <img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fhand.509eef57.png%3Fq%3D90%26fm%3Dwebp&w=3840" alt="">
+    </div>
+
+    <div class="scroll-note"><span>SCROLL TO MOVE THE SYSTEM</span><i></i></div>
+  </div>
+</section>
+
+<script src="../../hero-v4-motion.js"></script>
+<script>
+(() => {
+  // Hand follows the exact phone variables emitted by hero-v4-motion.js.
+  const section=document.getElementById('immersiveWork');
+  const device=section?.querySelector('.phone-wrap');
+  const hand=section?.querySelector('.hand-overlay');
+  if(!device||!hand)return;
+  const sync=()=>{
+    const cs=getComputedStyle(device);
+    hand.style.setProperty('--phone-y',cs.getPropertyValue('--phone-y')||'0px');
+    hand.style.setProperty('--phone-scale',cs.getPropertyValue('--phone-scale')||'1');
+    hand.style.setProperty('--phone-opacity',cs.getPropertyValue('--phone-opacity')||'1');
+    requestAnimationFrame(sync);
+  };
+  requestAnimationFrame(sync);
+})();
+</script>
+</body>
+</html>
