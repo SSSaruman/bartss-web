@@ -1,0 +1,4 @@
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
+document.querySelectorAll('.section-label,.service-card,.about-head,.numbers,.smart-left,.project,.case-list article,.reviews-layout').forEach(el=>{el.classList.add('reveal');obs.observe(el)});
+const stage=document.querySelector('.smart-stage');
+window.addEventListener('scroll',()=>{if(!stage)return;const r=stage.getBoundingClientRect();const p=Math.max(-1,Math.min(1,(innerHeight/2-r.top)/innerHeight));document.querySelectorAll('.wall img').forEach((el,i)=>el.style.transform=`translateY(${p*(i%2?24:-24)}px)`);document.querySelector('.pm1').style.transform=`translateY(${p*22}px) rotate(-10deg)`;document.querySelector('.pm2').style.transform=`translateY(${p*-18}px) rotate(9deg)`;},{passive:true});
