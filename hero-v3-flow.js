@@ -3,7 +3,6 @@
   const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const sections=[
     ".solution-section",
-    ".immersive-work",
     ".tablet-experience",
     ".project-gallery",
     ".motion-manifesto",
