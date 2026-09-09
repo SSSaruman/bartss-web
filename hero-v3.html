@@ -398,6 +398,7 @@
   <link rel="stylesheet" href="./hero-v3-flow.css?v=motion-system-01" />
   <link rel="stylesheet" href="./hero-v3-immersive.css?v=immersive-v4" />
   <link rel="stylesheet" href="./hero-v3-stage.css?v=stage-v1" />
+  <link rel="stylesheet" href="./hero-v3-projects.css?v=projects-v1" />
 </head>
 <body>
   <div class="background" aria-hidden="true">
@@ -670,30 +671,61 @@
       </div>
     </section>
 
-    <section class="project-gallery reveal" id="projects">
-      <div class="section-kicker">01 / SELECTED WORK</div>
-      <div class="gallery-head">
-        <h2>Projects you can<br>almost touch.</h2>
-        <p>Move over a project. The interface answers back. No static thumbnails — every piece should feel like a live object.</p>
+    <section class="project-gallery solution-gallery" id="projects" data-motion="solution-gallery">
+      <div class="solution-gallery-head">
+        <div>
+          <span class="section-kicker">01 / SELECTED WORK</span>
+          <h2>See what changed,<br>not just what we made.</h2>
+        </div>
+        <p>Each project is shown as a decision chain: the problem, the intervention and the outcome. The visual is evidence, not decoration.</p>
       </div>
-      <div class="project-grid">
-        <a class="project-tile project-violet" href="#" data-project="BARTSS / Brand System">
-          <div class="project-meta"><span>BRAND SYSTEM</span><span>2026</span></div>
-          <div class="project-object project-lock"><div>↗</div></div>
-          <div class="project-name"><b>Building clarity<br>from complexity.</b><small>Identity · Strategy · Motion</small></div>
-          <span class="liquid-cursor">See Project <i>→</i></span>
+
+      <div class="solution-flow" aria-label="Problem to outcome">
+        <span><b>01</b> PROBLEM</span>
+        <i>→</i>
+        <span><b>02</b> BARTSS INTERVENTION</span>
+        <i>→</i>
+        <span><b>03</b> OUTCOME</span>
+      </div>
+
+      <div class="solution-project-grid">
+        <a class="solution-project project-violet" href="#" data-project="BARTSS / Brand System">
+          <div class="solution-project-top"><span>BRAND SYSTEM</span><em>01</em></div>
+          <div class="solution-project-visual">
+            <div class="project-object project-lock"><div>↗</div></div>
+          </div>
+          <div class="solution-project-chain">
+            <div><span>PROBLEM</span><p>Too many capabilities, not enough clarity.</p></div>
+            <div><span>INTERVENTION</span><p>Positioning, identity and motion rebuilt as one system.</p></div>
+            <div><span>OUTCOME</span><p>A clearer offer with fewer competing messages.</p></div>
+          </div>
+          <div class="solution-project-foot"><strong>Building clarity from complexity.</strong><span>See project →</span></div>
         </a>
-        <a class="project-tile project-ice" href="#" data-project="AutoLAB / AI Product">
-          <div class="project-meta"><span>AI PRODUCT</span><span>2026</span></div>
-          <div class="project-object project-cube"><div>AI</div></div>
-          <div class="project-name"><b>From an idea<br>to production.</b><small>Product · UX · Automation</small></div>
-          <span class="liquid-cursor">See Project <i>→</i></span>
+
+        <a class="solution-project project-ice" href="#" data-project="AutoLAB / AI Product">
+          <div class="solution-project-top"><span>AI PRODUCT</span><em>02</em></div>
+          <div class="solution-project-visual">
+            <div class="project-object project-cube"><div>AI</div></div>
+          </div>
+          <div class="solution-project-chain">
+            <div><span>PROBLEM</span><p>Production depended on too many manual handoffs.</p></div>
+            <div><span>INTERVENTION</span><p>Storyboard, automation and QC connected into one flow.</p></div>
+            <div><span>OUTCOME</span><p>A controlled path from idea to approved output.</p></div>
+          </div>
+          <div class="solution-project-foot"><strong>From idea to production.</strong><span>See system →</span></div>
         </a>
-        <a class="project-tile project-gold" href="#" data-project="Campaign / Motion">
-          <div class="project-meta"><span>CAMPAIGN + MOTION</span><span>2026</span></div>
-          <div class="project-object project-orb"><div></div></div>
-          <div class="project-name"><b>Make attention<br>worth something.</b><small>Campaign · Film · 3D</small></div>
-          <span class="liquid-cursor">See Project <i>→</i></span>
+
+        <a class="solution-project project-gold" href="#" data-project="Campaign / Motion">
+          <div class="solution-project-top"><span>CAMPAIGN + MOTION</span><em>03</em></div>
+          <div class="solution-project-visual">
+            <div class="project-object project-orb"><div></div></div>
+          </div>
+          <div class="solution-project-chain">
+            <div><span>PROBLEM</span><p>Attention existed, but the message did not stick.</p></div>
+            <div><span>INTERVENTION</span><p>Campaign idea, motion and 3D built around one narrative.</p></div>
+            <div><span>OUTCOME</span><p>A more memorable visual system for the launch.</p></div>
+          </div>
+          <div class="solution-project-foot"><strong>Make attention worth something.</strong><span>See project →</span></div>
         </a>
       </div>
     </section>
@@ -1081,5 +1113,6 @@
   <script src="./hero-v3-flow.js?v=motion-system-01"></script>
   <script src="./hero-v3-immersive.js?v=immersive-v4"></script>
   <script src="./hero-v3-stage.js?v=stage-v1"></script>
+  <script src="./hero-v3-projects.js?v=projects-v1"></script>
 </body>
 </html>
