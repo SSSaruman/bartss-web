@@ -23,65 +23,69 @@ document.addEventListener("pointerdown",e=>{
   closeMenu();
 });
 
-// HERO V4 — one stage, no carousel, no cloned cards.
+// HERO V4 — transformation motion, no carousel.
 (() => {
   const stage=document.getElementById("v4Stage");
   if(!stage)return;
 
-  const coreWord=document.getElementById("v4CoreWord");
   const status=document.getElementById("v4StageStatus");
   const index=document.getElementById("v4StageIndex");
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const states=[
-    {word:"CLARIFY",status:"Clarifying the signal"},
-    {word:"CONVERT",status:"Removing decision friction"},
-    {word:"AUTOMATE",status:"Connecting the workflow"}
+  const phases=[
+    {key:"broken",label:"Something isn’t working."},
+    {key:"system",label:"BARTSS reorganises the system."},
+    {key:"outcome",label:"The outcome becomes visible."}
   ];
+
   let active=0;
   let timer=null;
   let raf=0;
   let tx=0,ty=0,cx=0,cy=0;
 
-  function applyState(i){
-    active=(i+states.length)%states.length;
-    stage.dataset.state=String(active);
-    if(coreWord)coreWord.textContent=states[active].word;
-    if(status)status.textContent=states[active].status;
+  function applyPhase(i){
+    active=(i+phases.length)%phases.length;
+    const phase=phases[active];
+    stage.dataset.phase=phase.key;
+    if(status)status.textContent=phase.label;
     if(index)index.textContent=String(active+1).padStart(2,"0")+" / 03";
   }
 
   function schedule(){
     clearTimeout(timer);
+    const duration=active===0?3300:(active===1?3600:4100);
     timer=setTimeout(()=>{
-      applyState(active+1);
+      applyPhase(active+1);
       schedule();
-    },3600);
+    },duration);
   }
 
   function depthLoop(){
     raf=0;
-    cx+=(tx-cx)*.10;
-    cy+=(ty-cy)*.10;
+    cx+=(tx-cx)*.09;
+    cy+=(ty-cy)*.09;
     stage.style.setProperty("--mx",cx.toFixed(2)+"px");
     stage.style.setProperty("--my",cy.toFixed(2)+"px");
-    if(Math.abs(tx-cx)>.05||Math.abs(ty-cy)>.05)raf=requestAnimationFrame(depthLoop);
+    if(Math.abs(tx-cx)>.05||Math.abs(ty-cy)>.05){
+      raf=requestAnimationFrame(depthLoop);
+    }
   }
 
   stage.addEventListener("pointermove",e=>{
     if(reduce)return;
     const r=stage.getBoundingClientRect();
-    tx=((e.clientX-r.left)/r.width-.5)*18;
-    ty=((e.clientY-r.top)/r.height-.5)*14;
+    tx=((e.clientX-r.left)/r.width-.5)*16;
+    ty=((e.clientY-r.top)/r.height-.5)*12;
     if(!raf)raf=requestAnimationFrame(depthLoop);
   },{passive:true});
+
   stage.addEventListener("pointerleave",()=>{
     tx=0;ty=0;
     if(!raf)raf=requestAnimationFrame(depthLoop);
   },{passive:true});
 
+  applyPhase(0);
   if(!reduce)schedule();
-  applyState(0);
 })();
 
 const solutionMap={
