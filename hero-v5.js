@@ -48,4 +48,28 @@
   addEventListener('scroll',update,{passive:true});
   addEventListener('resize',update);
   update();
+
+  const serviceRows=[...document.querySelectorAll('.service-row')];
+  const serviceScenes=[...document.querySelectorAll('.service-scene')];
+  if(serviceRows.length&&serviceScenes.length){
+    let serviceActive=0;
+    const activateService=(idx)=>{
+      serviceActive=idx;
+      serviceRows.forEach((el,i)=>el.classList.toggle('active',i===idx));
+      serviceScenes.forEach((el,i)=>el.classList.toggle('active',i===idx));
+    };
+    serviceRows.forEach((row,i)=>row.addEventListener('pointerenter',()=>activateService(i)));
+    const io=new IntersectionObserver((entries)=>{
+      let best=null;
+      entries.forEach(entry=>{
+        if(entry.isIntersecting&&(!best||entry.intersectionRatio>best.intersectionRatio))best=entry;
+      });
+      if(best){
+        const idx=Number(best.target.dataset.service);
+        if(Number.isFinite(idx)&&idx!==serviceActive)activateService(idx);
+      }
+    },{rootMargin:'-35% 0px -35% 0px',threshold:[0,.25,.5,.75,1]});
+    serviceRows.forEach(row=>io.observe(row));
+    activateService(0);
+  }
 })();
