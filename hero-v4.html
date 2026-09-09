@@ -896,44 +896,164 @@
 
 <script>
 (() => {
-  const copy = {
+  const keyed = {
     en: {
       menu_brand:"Brand<br>Identity", menu_web:"Web &<br>Product", menu_motion:"Motion & 3D",
       menu_ai:"AI Systems", menu_products:"Labs", menu_process:"Process", menu_about:"About",
-      hero_p1:"Your brand looks generic.", hero_p2:"Your website doesn’t sell.", hero_p3:"Your production is too manual.",
-      hero_fix:"We fix the system behind all three.",
-      hero_desc:"Strategy, identity, web, motion and AI systems designed around measurable business outcomes.",
-      hero_cta:"Tell us what’s not working",
       solution_title:"What are you<br>trying to change?",
       solution_desc:"Don’t browse a list of services. Start with the problem. BARTSS shapes the right mix of strategy, design, motion and technology around the outcome you need.",
       need_brand:"I need a stronger brand.", need_product:"I need a better digital product.",
       need_attention:"I need more attention.", need_ai:"I need AI to remove the repetitive work.",
-      stack_label:"YOUR LIKELY BARTSS STACK", stack_default:"Brand Strategy + Identity + Launch System",
-      solution_cta:"See how we change it"
+      stack_label:"YOUR LIKELY BARTSS STACK", solution_cta:"See how we change it"
     },
     tr: {
       menu_brand:"Marka<br>Kimliği", menu_web:"Web &<br>Ürün", menu_motion:"Motion & 3D",
       menu_ai:"AI Sistemleri", menu_products:"Labs", menu_process:"Süreç", menu_about:"Hakkımızda",
-      hero_p1:"Markanız jenerik görünüyor.", hero_p2:"Web siteniz satışa dönüştürmüyor.", hero_p3:"Üretim süreciniz fazla manuel.",
-      hero_fix:"Üçünün arkasındaki sistemi biz değiştiriyoruz.",
-      hero_desc:"Ölçülebilir iş sonuçlarına odaklanan strateji, marka kimliği, web, motion ve AI sistemleri.",
-      hero_cta:"Neyin çalışmadığını bize gösterin",
       solution_title:"Neyi<br>değiştirmek istiyorsunuz?",
       solution_desc:"Hizmet listesinde kaybolmayın. Problemden başlayın. BARTSS ihtiyaç duyduğunuz sonuca göre strateji, tasarım, motion ve teknolojiyi doğru kombinasyonda kurar.",
       need_brand:"Daha güçlü bir markaya ihtiyacım var.", need_product:"Daha iyi bir dijital ürüne ihtiyacım var.",
       need_attention:"Daha fazla dikkat çekmem gerekiyor.", need_ai:"Tekrarlayan işleri AI ile kaldırmak istiyorum.",
-      stack_label:"OLASI BARTSS ÇÖZÜM YAPINIZ", stack_default:"Marka Stratejisi + Kimlik + Lansman Sistemi",
-      solution_cta:"Nasıl değiştirdiğimizi görün"
+      stack_label:"OLASI BARTSS ÇÖZÜM YAPINIZ", solution_cta:"Nasıl değiştirdiğimizi görün"
     }
   };
 
+  const tr = {
+    "BARTSS / BUSINESS CHANGE SYSTEMS":"BARTSS / İŞ DÖNÜŞÜM SİSTEMLERİ",
+    "Your brand looks generic.":"Markanız jenerik görünüyor.",
+    "Your website doesn’t sell.":"Web siteniz satışa dönüştürmüyor.",
+    "Your production is too manual.":"Üretim süreciniz fazla manuel.",
+    "We change what isn’t working.":"Çalışmayan şeyi değiştiriyoruz.",
+    "Strategy, identity, product, motion and AI — assembled around the business problem, not a shopping list of services.":"Strateji, kimlik, ürün, motion ve AI — hizmet listesine göre değil, iş probleminize göre bir araya gelir.",
+    "Tell us what’s not working":"Neyin çalışmadığını bize gösterin",
+    "See how we change it":"Nasıl değiştirdiğimizi görün",
+    "PROBLEM → BARTSS → OUTCOME":"PROBLEM → BARTSS → SONUÇ",
+    "BARTSS / LIVE SYSTEM":"BARTSS / CANLI SİSTEM",
+    "PERCEPTION":"ALGI","CONVERSION":"DÖNÜŞÜM","ATTENTION":"DİKKAT","EFFICIENCY":"VERİMLİLİK",
+    "Generic":"Jenerik","Same signals as everyone else.":"Herkesle aynı sinyaller.",
+    "Friction":"Sürtünme","Too many steps before action.":"Aksiyondan önce çok fazla adım.",
+    "Manual":"Manuel","Too many repetitive handoffs.":"Çok fazla tekrarlayan el değişimi.",
+    "What is the actual offer?":"Gerçek teklif tam olarak ne?","TOOLS":"ARAÇLAR","Disconnected":"Kopuk",
+    "STRATEGY":"STRATEJİ","IDENTITY":"KİMLİK","PRODUCT":"ÜRÜN","MOTION":"MOTION",
+    "CHANGE":"DEĞİŞTİR","THE SYSTEM":"SİSTEMİ","Strategy × Creative × Technology":"Strateji × Yaratıcılık × Teknoloji",
+    "BRAND / PERCEPTION":"MARKA / ALGI","Be unmistakable.":"Karıştırılamaz olun.",
+    "Strategy · Identity · Motion":"Strateji · Kimlik · Motion",
+    "DIGITAL / CONVERSION":"DİJİTAL / DÖNÜŞÜM","Turn visits into decisions.":"Ziyaretleri karara dönüştürün.",
+    "UX · Content · Web":"UX · İçerik · Web",
+    "PRODUCTION / EFFICIENCY":"ÜRETİM / VERİMLİLİK","Remove repetitive work.":"Tekrarlayan işi kaldırın.",
+    "Workflow · AI · Automation":"İş akışı · AI · Otomasyon",
+    "ONE SYSTEM":"TEK SİSTEM","Work better. Look clearer. Sell smarter.":"Daha iyi çalışın. Daha net görünün. Daha akıllı satın.",
+    "Something isn’t working.":"Bir şey olması gerektiği gibi çalışmıyor.",
+    "BRAND → PERCEPTION":"MARKA → ALGI","WEB / PRODUCT → CONVERSION":"WEB / ÜRÜN → DÖNÜŞÜM",
+    "MOTION → ATTENTION":"MOTION → DİKKAT","AI → EFFICIENCY":"AI → VERİMLİLİK",
+    "Positioning · identity · campaigns":"Konumlandırma · kimlik · kampanyalar",
+    "Web · UX · product systems":"Web · UX · ürün sistemleri",
+    "Motion · content · launch":"Motion · içerik · lansman",
+    "Automation · agents · custom systems":"Otomasyon · ajanlar · özel sistemler",
+    "Brand Strategy + Identity + Motion + Web":"Marka Stratejisi + Kimlik + Motion + Web",
+    "02 / FROM FRICTION TO MOMENTUM":"02 / SÜRTÜNMEDEN İVMEYE",
+    "We don’t decorate":"Problemleri süslemiyoruz",
+    "problems. We change them.":"onları değiştiriyoruz.",
+    "Drag the control. The visual language changes with the business state: fragmented to focused, generic to ownable, manual to scalable.":"Kontrolü sürükleyin. Görsel dil iş durumuyla birlikte değişir: parçalıdan odağa, jenerikten sahiplenilebilir olana, manuelden ölçeklenebilire.",
+    "BEFORE":"ÖNCE","AFTER BARTSS":"BARTSS SONRASI",
+    "Slow":"Yavaş","Invisible":"Görünmez","Too many pieces.":"Çok fazla parça.","No clear system.":"Net bir sistem yok.",
+    "Brand, product and operations moving in different directions.":"Marka, ürün ve operasyon farklı yönlere gidiyor.",
+    "One idea.":"Tek fikir.","One system. More growth.":"Tek sistem. Daha fazla büyüme.",
+    "Strategy, experience, content and automation working as one.":"Strateji, deneyim, içerik ve otomasyon tek yapı gibi çalışıyor.",
+    "03 / PROOF — SELECTED TRANSFORMATIONS":"03 / KANIT — SEÇİLMİŞ DÖNÜŞÜMLER",
+    "Show the problem.":"Problemi göster.","Show what changed.":"Neyin değiştiğini göster.",
+    "No invented performance numbers. Each case separates the starting condition, the intervention, the resulting state and the business impact we can honestly support.":"Uydurma performans rakamı yok. Her vaka başlangıç durumunu, müdahaleyi, ortaya çıkan hali ve dürüstçe destekleyebildiğimiz iş etkisini ayrı gösterir.",
+    "PROJECT":"PROJE","WHAT CHANGED":"NE DEĞİŞTİ","AFTER":"SONRA","BUSINESS IMPACT":"İŞ ETKİSİ",
+    "MEASURED RESULT":"ÖLÇÜLMÜŞ SONUÇ","Not published — no number invented.":"Yayınlanmadı — sayı uydurulmadı.",
+    "Not published — outcome stated without a fabricated percentage.":"Yayınlanmadı — sonuç uydurma yüzde olmadan ifade edildi.",
+    "Not published — proof is the working system, not an invented metric.":"Yayınlanmadı — kanıt uydurma metrik değil, çalışan sistemdir.",
+    "05 / CAPABILITY IN MOTION":"05 / HAREKET HALİNDE YETENEK",
+    "Complex work":"Karmaşık işler","looks simple here.":"burada basit görünür.",
+    "Brand, product, motion and AI stop behaving like separate services when they are designed as one system.":"Marka, ürün, motion ve AI tek sistem olarak tasarlandığında ayrı hizmetler gibi davranmayı bırakır.",
+    "See the proof":"Kanıtı görün",
+    "DESIGN / MOTION / SYSTEMS":"TASARIM / MOTION / SİSTEMLER",
+    "See the work.":"İşi görün.","Feel the system.":"Sistemi hissedin.",
+    "Scroll through a living wall of products, interfaces and campaigns. The phone stays in focus while the world around it keeps moving.":"Ürünler, arayüzler ve kampanyalardan oluşan yaşayan duvarda ilerleyin. Telefon odakta kalırken çevresindeki dünya hareket etmeye devam eder.",
+    "SCROLL TO MOVE THE SYSTEM":"SİSTEMİ HAREKET ETTİRMEK İÇİN SCROLL",
+    "WEB / PRODUCT EXPERIENCE":"WEB / ÜRÜN DENEYİMİ",
+    "A website shouldn’t":"Bir web sitesi sadece","just look premium.":"premium görünmemeli.",
+    "It should move the visitor toward a decision. Scroll the page inside the tablet: discover, understand, compare and act.":"Ziyaretçiyi bir karara doğru taşımalı. Tablet içindeki sayfayı kaydırın: keşfet, anla, karşılaştır ve harekete geç.",
+    "DISCOVER":"KEŞFET","UNDERSTAND":"ANLA","COMPARE":"KARŞILAŞTIR","ACT":"HAREKETE GEÇ",
+    "Positioning":"Konumlandırma","Task-led flow":"Görev odaklı akış","Responsive feedback":"Tepkisel geri bildirim",
+    "Conversion layer":"Dönüşüm katmanı","Adaptive content":"Uyarlanabilir içerik",
+    "Distinct enough":"Yeterince farklı","to be remembered.":"hatırlanmak için.",
+    "Positioning, identity and motion built as one recognisable system.":"Konumlandırma, kimlik ve motion tek tanınabilir sistem olarak kuruldu.",
+    "Understand the offer →":"Teklifi anlayın →",
+    "UNDERSTAND / REMOVE FRICTION":"ANLA / SÜRTÜNMEYİ KALDIR",
+    "Production Overview":"Üretim Genel Görünümü","New run +":"Yeni üretim +",
+    "visible production state":"görünür üretim durumu","working review state":"çalışan inceleme durumu","connected path":"bağlı akış",
+    "Opening hook":"Açılış hook'u","Approved":"Onaylandı","Context scene":"Bağlam sahnesi","Key reveal":"Ana açılım","Generating":"Üretiliyor",
+    "COMPARE / MAKE THE CHOICE EASIER":"KARŞILAŞTIR / SEÇİMİ KOLAYLAŞTIR",
+    "Clear hierarchy":"Net hiyerarşi","Recognisable system":"Tanınabilir sistem",
+    "ACT / QUALIFIED NEXT STEP":"HAREKETE GEÇ / NİTELİKLİ SONRAKİ ADIM",
+    "From interest":"İlgiden","to qualified enquiry.":"nitelikli talebe.",
+    "Product discovery, sample selection and follow-up designed as one conversion journey.":"Ürün keşfi, numune seçimi ve takip tek dönüşüm yolculuğu olarak tasarlandı.",
+    "Request samples →":"Numune talep et →","Sample basket":"Numune sepeti","Request →":"Talep et →",
+    "SCROLL / PAGE INSIDE DEVICE":"SCROLL / SAYFA CİHAZIN İÇİNDE",
+    "BARTSS LABS":"BARTSS LABS","We build our own systems":"Kendi sistemlerimizi kuruyoruz","to solve beyond the surface.":"yüzeyin ötesindeki problemleri çözmek için.",
+    "WHY LABS EXISTS":"LABS NEDEN VAR",
+    "Brand, product and motion change what people see. BARTSS Labs changes what happens behind the interface — the workflow, logic and automation that make the experience possible.":"Marka, ürün ve motion insanların gördüğünü değiştirir. BARTSS Labs arayüzün arkasında olanı — deneyimi mümkün kılan iş akışı, mantık ve otomasyonu — değiştirir.",
+    "See the system ↗":"Sistemi görün ↗",
+    "07 / PROCESS":"07 / SÜREÇ","Diagnose first.":"Önce teşhis.","Build second.":"Sonra inşa.",
+    "We do not start with a preset deliverable. We identify what is blocking the business, design the right intervention, build the system and measure what changed.":"Hazır bir teslimat paketiyle başlamayız. İşi neyin engellediğini bulur, doğru müdahaleyi tasarlar, sistemi kurar ve neyin değiştiğini ölçeriz.",
+    "Diagnose":"Teşhis","Find the friction, weak signal or manual bottleneck before prescribing a solution.":"Çözüm önermeden önce sürtünmeyi, zayıf sinyali veya manuel darboğazı bulun.",
+    "Design":"Tasarla","Shape the strategy, experience and motion language around the outcome that matters.":"Stratejiyi, deneyimi ve motion dilini önemli sonucun etrafında şekillendirin.",
+    "Build":"Kur","Connect brand, product, motion and technology into one working system.":"Marka, ürün, motion ve teknolojiyi tek çalışan sistemde bağlayın.",
+    "Measure":"Ölç","Check whether the change improved clarity, conversion, attention or efficiency.":"Değişikliğin netlik, dönüşüm, dikkat veya verimliliği iyileştirip iyileştirmediğini kontrol edin.",
+    "NO PRESET SERVICE STACK":"HAZIR HİZMET PAKETİ YOK","Problem → intervention → evidence":"Problem → müdahale → kanıt",
+    "07 / THE PEOPLE BEHIND THE SYSTEM":"09 / SİSTEMİN ARKASINDAKİ İNSANLAR",
+    "Different skills.":"Farklı yetenekler.","One direction.":"Tek yön.",
+    "Each BARTSS profile is a moving map of what that person actually brings to the work — craft, systems thinking and the outcomes they own.":"Her BARTSS profili, o kişinin işe gerçekten ne kattığını — zanaat, sistem düşüncesi ve sahip olduğu sonuçları — hareketli bir harita olarak gösterir.",
+    "Creative Systems":"Yaratıcı Sistemler","Designer":"Tasarımcı","ROLE":"ROL","SKILL":"YETENEK","FOCUS":"ODAK","OUTCOME":"SONUÇ",
+    "Motion systems":"Motion sistemleri","Turn complexity into something people can understand.":"Karmaşıklığı insanların anlayabileceği bir şeye dönüştür.",
+    "Identity systems":"Kimlik sistemleri","3D direction":"3D yönlendirme","AI workflows":"AI iş akışları","See selected work":"Seçilmiş işleri gör",
+    "10 / LET’S CHANGE WHAT ISN’T WORKING":"10 / ÇALIŞMAYANI DEĞİŞTİRELİM",
+    "We don’t decorate businesses.":"İşletmeleri süslemiyoruz.","We change how they work,":"Nasıl çalıştıklarını,","look and sell.":"göründüklerini ve sattıklarını değiştiriyoruz.",
+    "Show us what’s not working":"Neyin çalışmadığını bize gösterin",
+    "Perception":"Algı","Conversion":"Dönüşüm","Attention":"Dikkat","Efficiency":"Verimlilik",
+    "UX · Content · Interaction":"UX · İçerik · Etkileşim","Campaign · 3D · Behaviour":"Kampanya · 3D · Davranış","Workflow · Automation · Systems":"İş akışı · Otomasyon · Sistemler",
+    "Problems":"Problemler","Proof":"Kanıt","Team":"Ekip",
+    "Cookie Preferences":"Çerez Tercihleri","We use cookies to understand usage and improve the BARTSS experience.":"Kullanımı anlamak ve BARTSS deneyimini iyileştirmek için çerez kullanıyoruz.",
+    "Accept all":"Tümünü kabul et","Customize":"Özelleştir","Analytics":"Analitik","Functional":"İşlevsel","Necessary":"Gerekli","Always active":"Her zaman aktif",
+    "Talk to BARTSS":"BARTSS ile konuş","Got a project in mind?":"Aklınızda bir proje mı var?","We typically reply within a few hours.":"Genellikle birkaç saat içinde yanıtlarız.",
+    "Type a message…":"Mesaj yazın…","Start a project":"Proje başlat","Our services":"Hizmetlerimiz","Pricing":"Fiyatlandırma"
+  };
+
+  const originalText = new WeakMap();
+
+  function translateTextNodes(lang){
+    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+    let node;
+    while(node=walker.nextNode()){
+      const parent=node.parentElement;
+      if(!parent||parent.closest("script,style,noscript,[data-i18n]"))continue;
+      const raw=node.nodeValue;
+      const trimmed=raw.replace(/\s+/g," ").trim();
+      if(!trimmed)continue;
+      if(!originalText.has(node))originalText.set(node,raw);
+      if(lang==="en"){
+        node.nodeValue=originalText.get(node);
+      }else if(tr[trimmed]){
+        const lead=raw.match(/^\s*/)?.[0]||"";
+        const tail=raw.match(/\s*$/)?.[0]||"";
+        node.nodeValue=lead+tr[trimmed]+tail;
+      }
+    }
+  }
+
   function applyLang(lang){
-    const dict=copy[lang]||copy.en;
+    const dict=keyed[lang]||keyed.en;
     document.documentElement.lang=lang;
+    document.documentElement.dataset.lang=lang;
     document.querySelectorAll("[data-i18n]").forEach(el=>{
       const key=el.dataset.i18n;
-      if(dict[key]!==undefined) el.innerHTML=dict[key];
+      if(dict[key]!==undefined)el.innerHTML=dict[key];
     });
+    translateTextNodes(lang);
     document.querySelectorAll(".lang-btn").forEach(btn=>{
       const active=btn.dataset.lang===lang;
       btn.classList.toggle("active",active);
@@ -942,6 +1062,7 @@
     try{localStorage.setItem("bartss-lang",lang)}catch(e){}
   }
 
+  window.bartssApplyLanguage=applyLang;
   document.querySelectorAll(".lang-btn").forEach(btn=>{
     btn.addEventListener("click",e=>{
       e.stopPropagation();
