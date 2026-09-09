@@ -1,0 +1,35 @@
+# BARTSS
+
+BARTSS is a creative studio focused on changing how businesses work, look and sell.
+
+## Core capabilities
+- Brand strategy and identity
+- Web and digital product design
+- UX and conversion systems
+- Motion design and 3D
+- AI workflow design and automation
+- Creative systems and production workflows
+
+## How BARTSS works
+BARTSS starts with the business problem rather than a preset service package:
+1. Diagnose
+2. Design
+3. Build
+4. Measure
+
+## Main outcomes
+- Brand -> clearer perception and differentiation
+- Web / Product -> better decision flow and conversion
+- Motion -> stronger attention and message retention
+- AI -> lower manual workload and more connected workflows
+
+## Products / Labs
+BARTSS Labs demonstrates internal technology and system-building capability, including AutoLAB and other experimental workflow products.
+
+## Location and service area
+Based in Istanbul, Türkiye. Works with clients internationally.
+
+## Languages
+English and Turkish.
+
+Official website: https://bartss.com/
