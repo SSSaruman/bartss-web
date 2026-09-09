@@ -79,3 +79,78 @@
     requestAnimationFrame(animateRail);
   }
 })();
+
+
+// Reference-style section choreography: section first, then internal blocks.
+(() => {
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const selectors=[
+    ".solution-section",
+    ".project-gallery",
+    ".motion-manifesto",
+    ".systems-hub",
+    ".packages-section",
+    ".transformation",
+    ".work-section",
+    ".bartss-footer"
+  ];
+
+  const sections=selectors.map(s=>document.querySelector(s)).filter(Boolean);
+
+  const blockSelectors=[
+    ".section-kicker",
+    ".solution-head > *",
+    ".need-card",
+    ".solution-output",
+    ".gallery-head > *",
+    ".project-tile",
+    ".motion-copy > *",
+    ".motion-rail article",
+    ".systems-head > *",
+    ".system-card",
+    ".packages-head > *",
+    ".package-card",
+    ".transform-head > *",
+    ".compare-stage",
+    ".work-head > *",
+    ".proof-legend",
+    ".proof-case",
+    ".footer-intro > *",
+    ".footer-main > *",
+    ".footer-panel",
+    ".footer-bottom"
+  ];
+
+  sections.forEach(section=>{
+    section.classList.add("ref-section");
+    let order=0;
+
+    blockSelectors.forEach(sel=>{
+      section.querySelectorAll(sel).forEach(el=>{
+        if(el.closest(".immersive-work,.tablet-experience")) return;
+        if(el.classList.contains("ref-block")) return;
+        el.classList.add("ref-block");
+        if(el.matches(".project-tile,.system-card,.package-card,.proof-case,.footer-panel,.compare-stage")){
+          el.classList.add("ref-visual");
+        }
+        el.style.setProperty("--ref-delay",Math.min(order,8)*78+"ms");
+        order++;
+      });
+    });
+  });
+
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting) return;
+      const section=entry.target;
+      section.classList.add("ref-section-in");
+      requestAnimationFrame(()=>{
+        section.querySelectorAll(".ref-block").forEach(el=>el.classList.add("ref-block-in"));
+      });
+      observer.unobserve(section);
+    });
+  },{threshold:.16,rootMargin:"0px 0px -10% 0px"});
+
+  sections.forEach(section=>observer.observe(section));
+})();
