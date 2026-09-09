@@ -273,6 +273,7 @@ function sceneEnvelope(globalP,index,count){
 }
 function updateImmersive(){
   if(!immersive) return;
+  if(immersive.dataset.motion==="immersive-v4") return;
   if(immersiveTransitionRaf) return;
   immersiveTransitionRaf=requestAnimationFrame(()=>{
     immersiveTransitionRaf=0;
