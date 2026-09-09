@@ -551,3 +551,87 @@ body.menu-open .menu-trigger{opacity:0;pointer-events:none;transform:scale(.94)}
   .bartss-chat{right:12px;bottom:12px}
   .chat-panel{right:0;width:min(340px,calc(100vw - 24px))}
 }
+
+/* FINAL SITE SHELL — floating cookie + right utility dock */
+.bartss-cookie-shell{
+  position:fixed;
+  left:20px;
+  bottom:20px;
+  z-index:420;
+  font-family:Inter,system-ui,sans-serif;
+}
+.cookie-launcher{
+  width:52px;height:52px;
+  border:1px solid rgba(255,255,255,.72);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,.64);
+  color:#111418;
+  backdrop-filter:blur(24px) saturate(160%);
+  -webkit-backdrop-filter:blur(24px) saturate(160%);
+  box-shadow:0 18px 50px rgba(17,24,28,.14),inset 0 1px 0 rgba(255,255,255,.9);
+  cursor:pointer;
+  transition:transform .42s cubic-bezier(.16,1,.3,1),background .3s ease;
+}
+.cookie-launcher:hover{transform:translateY(-4px) rotate(-6deg);background:rgba(255,255,255,.84)}
+.cookie-launcher svg{
+  width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;
+}
+.bartss-cookie-shell .bartss-cookie{
+  position:absolute!important;
+  left:0!important;
+  bottom:66px!important;
+  width:min(390px,calc(100vw - 40px))!important;
+  opacity:0;
+  transform:translateY(16px) scale(.96);
+  visibility:hidden;
+  pointer-events:none;
+}
+.bartss-cookie-shell.open .bartss-cookie{
+  opacity:1;
+  transform:none;
+  visibility:visible;
+  pointer-events:auto;
+}
+.bartss-utility-dock{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:430;
+  display:flex;
+  align-items:flex-end;
+  gap:10px;
+  font-family:Inter,system-ui,sans-serif;
+}
+.social-dock{
+  display:flex;
+  gap:6px;
+  padding:6px;
+  border-radius:999px;
+  background:rgba(255,255,255,.54);
+  border:1px solid rgba(255,255,255,.72);
+  backdrop-filter:blur(24px) saturate(160%);
+  -webkit-backdrop-filter:blur(24px) saturate(160%);
+  box-shadow:0 18px 50px rgba(17,24,28,.12);
+}
+.social-icon{
+  width:40px;height:40px;border:0;border-radius:50%;
+  display:grid;place-items:center;
+  background:transparent;color:#111418;cursor:pointer;
+  transition:background .28s ease,transform .38s cubic-bezier(.16,1,.3,1);
+}
+.social-icon span{font-size:9px;font-weight:700;letter-spacing:-.02em}
+.social-icon:hover{background:#11161a;color:#fff;transform:translateY(-3px)}
+.bartss-utility-dock .bartss-chat{
+  position:relative!important;
+  right:auto!important;
+  bottom:auto!important;
+  z-index:auto!important;
+}
+.bartss-utility-dock .chat-panel{right:0;bottom:70px}
+@media(max-width:700px){
+  .bartss-cookie-shell{left:10px;bottom:10px}
+  .bartss-utility-dock{right:10px;bottom:10px}
+  .social-dock{display:none}
+}
