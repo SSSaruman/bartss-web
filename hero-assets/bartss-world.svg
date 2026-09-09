@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1080" fill="none">
+<defs>
+  <linearGradient id="g1" x1="140" y1="80" x2="760" y2="980" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#D8FF42"/>
+    <stop offset=".42" stop-color="#F26A2E"/>
+    <stop offset="1" stop-color="#3157FF"/>
+  </linearGradient>
+  <linearGradient id="g2" x1="680" y1="180" x2="250" y2="830" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#F7F4EE"/>
+    <stop offset="1" stop-color="#A6A39C"/>
+  </linearGradient>
+  <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="28" stdDeviation="34" flood-opacity=".18"/>
+  </filter>
+</defs>
+<rect width="900" height="1080" rx="56" fill="#111416"/>
+<g opacity=".22" stroke="#F7F4EE">
+  <path d="M100 180H800M100 360H800M100 540H800M100 720H800M100 900H800"/>
+  <path d="M180 100V980M360 100V980M540 100V980M720 100V980"/>
+</g>
+<g filter="url(#shadow)">
+  <path d="M294 247C365 168 521 154 617 219C714 285 745 443 677 531C627 596 619 654 650 742C682 834 608 918 498 932C366 949 236 870 226 744C218 644 279 586 259 505C238 418 218 331 294 247Z" fill="url(#g1)"/>
+  <path d="M337 298C398 240 505 239 566 280C637 328 650 420 599 480C551 537 513 579 528 656C545 742 495 802 422 810C342 819 274 759 278 677C282 596 326 563 307 497C289 432 283 350 337 298Z" fill="#111416"/>
+  <path d="M372 331C418 294 489 296 526 325C578 365 581 426 544 465C508 503 472 539 478 596C485 657 451 702 403 708C351 714 311 672 317 619C324 558 357 536 342 485C330 442 330 366 372 331Z" fill="url(#g2)"/>
+</g>
+<g>
+  <rect x="118" y="138" width="238" height="150" rx="8" fill="#F7F4EE"/>
+  <text x="138" y="178" font-family="Arial,Helvetica,sans-serif" font-size="18" fill="#111416">BRAND SYSTEM / 01</text>
+  <text x="138" y="244" font-family="Arial,Helvetica,sans-serif" font-size="64" font-weight="700" fill="#111416">BA</text>
+  <circle cx="317" cy="245" r="16" fill="#111416"/>
+</g>
+<g transform="rotate(8 704 340)">
+  <rect x="622" y="214" width="170" height="250" fill="#D8FF42"/>
+  <text x="642" y="252" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#111416">CAMPAIGN</text>
+  <text x="642" y="425" font-family="Arial,Helvetica,sans-serif" font-size="62" font-weight="700" fill="#111416">01</text>
+</g>
+<g transform="rotate(-7 178 715)">
+  <rect x="86" y="610" width="196" height="268" rx="10" fill="#F26A2E"/>
+  <path d="M118 656H250M118 691H225M118 726H246" stroke="#111416" stroke-width="10"/>
+  <circle cx="184" cy="807" r="48" fill="#111416"/>
+</g>
+<g>
+  <rect x="603" y="706" width="194" height="122" rx="61" fill="#3157FF"/>
+  <text x="634" y="776" font-family="Arial,Helvetica,sans-serif" font-size="24" fill="#F7F4EE">MOTION / 3D</text>
+</g>
+<g>
+  <rect x="560" y="865" width="240" height="92" rx="10" fill="#F7F4EE"/>
+  <text x="586" y="904" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#111416">AI SYSTEMS</text>
+  <path d="M588 929H772" stroke="#111416" stroke-width="2"/>
+  <circle cx="616" cy="929" r="7" fill="#111416"/>
+  <circle cx="681" cy="929" r="7" fill="#111416"/>
+  <circle cx="746" cy="929" r="7" fill="#111416"/>
+</g>
+</svg>
