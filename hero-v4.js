@@ -152,3 +152,42 @@ function sceneEnvelope(globalP,index,count){
   const visibility=Math.max(0,Math.min(1,1-dist));
   return visibility*visibility*(3-2*visibility);
 }
+
+
+/* V4 utility shell */
+(() => {
+  const cookie=document.getElementById("bartssCookie");
+  const customize=document.getElementById("cookieCustomize");
+  const detail=document.getElementById("cookieDetail");
+  const cookieClose=[...document.querySelectorAll("[data-close-cookie]")];
+
+  let accepted=false;
+  try{accepted=localStorage.getItem("bartss-cookie-dismissed")==="1"}catch(e){}
+  if(cookie&&accepted)cookie.classList.add("is-dismissed");
+
+  cookieClose.forEach(btn=>btn.addEventListener("click",()=>{
+    cookie?.classList.add("is-dismissed");
+    try{localStorage.setItem("bartss-cookie-dismissed","1")}catch(e){}
+  }));
+
+  customize?.addEventListener("click",()=>{
+    if(!detail)return;
+    detail.hidden=!detail.hidden;
+    customize.setAttribute("aria-expanded",detail.hidden?"false":"true");
+  });
+
+  const chat=document.getElementById("bartssChat");
+  const launcher=document.getElementById("chatLauncher");
+  const panel=document.getElementById("chatPanel");
+  const close=document.getElementById("chatClose");
+
+  function setChat(open){
+    chat?.classList.toggle("open",open);
+    launcher?.setAttribute("aria-expanded",open?"true":"false");
+    panel?.setAttribute("aria-hidden",open?"false":"true");
+  }
+  launcher?.addEventListener("click",()=>setChat(!chat?.classList.contains("open")));
+  close?.addEventListener("click",()=>setChat(false));
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")setChat(false)});
+  setChat(false);
+})();
