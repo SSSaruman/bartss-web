@@ -1230,3 +1230,49 @@ main > section:not(.immersive-work):not(.tablet-experience),
     transition:none!important;
   }
 }
+
+
+/* =========================================================
+   ITEM 6 — BARTSS LABS / TECHNOLOGY PROOF
+   Labs are supporting proof, not a competing service menu.
+   ========================================================= */
+.labs-bridge{
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:28px;
+  align-items:start;
+  margin:-28px 0 46px;
+  padding:18px 0 22px;
+  border-top:1px solid rgba(17,20,24,.11);
+  border-bottom:1px solid rgba(17,20,24,.11);
+}
+.labs-bridge span{
+  padding-top:2px;
+  font-size:8px;
+  letter-spacing:.18em;
+  color:rgba(17,20,24,.48);
+}
+.labs-bridge p{
+  max-width:760px;
+  margin:0;
+  font-size:14px;
+  line-height:1.5;
+  color:rgba(17,20,24,.66);
+}
+.system-card-top em{
+  font-size:7px!important;
+  letter-spacing:.12em!important;
+  background:rgba(255,255,255,.16);
+  backdrop-filter:blur(8px);
+}
+.system-link{
+  font-size:9px!important;
+  letter-spacing:.08em;
+}
+@media(max-width:800px){
+  .labs-bridge{
+    grid-template-columns:1fr;
+    gap:10px;
+    margin-top:-16px;
+  }
+}
