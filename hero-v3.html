@@ -362,6 +362,38 @@
     left:50vw!important;
   }
 }
+/* item 4 — problem choice builds the service stack, not a service menu */
+.solution-output{
+  align-items:flex-end!important;
+  gap:28px;
+}
+.solution-stack-copy{
+  min-width:0;
+  flex:1;
+}
+.solution-stack-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:14px;
+}
+.solution-stack-chips span{
+  display:inline-flex;
+  align-items:center;
+  min-height:30px;
+  padding:0 11px;
+  border-radius:999px;
+  border:1px solid rgba(17,20,24,.12);
+  background:rgba(255,255,255,.42);
+  font-size:9px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(17,20,24,.68);
+  backdrop-filter:blur(10px);
+}
+@media(max-width:700px){
+  .solution-output{align-items:flex-start!important}
+}
 </style>
 </head>
 <body>
@@ -476,7 +508,13 @@
         <button class="need-card" data-solution="automation"><span>04</span><b data-i18n="need_ai">I need AI to remove the repetitive work.</b><small>Automation · agents · custom systems</small><i>↗</i></button>
       </div>
       <div class="solution-output" id="solutionOutput">
-        <div><span class="output-label" data-i18n="stack_label">YOUR LIKELY BARTSS STACK</span><h3 id="solutionTitle" data-i18n="stack_default">Brand Strategy + Identity + Launch System</h3></div>
+        <div class="solution-stack-copy">
+          <span class="output-label" data-i18n="stack_label">YOUR LIKELY BARTSS STACK</span>
+          <h3 id="solutionTitle">Brand Strategy + Identity + Motion + Web</h3>
+          <div class="solution-stack-chips" id="solutionStackChips" aria-live="polite">
+            <span>Strategy</span><span>Identity</span><span>Motion</span><span>Web</span>
+          </div>
+        </div>
         <a href="#transformation"><span data-i18n="solution_cta">See how we change it</span> <span>→</span></a>
       </div>
     </section>
