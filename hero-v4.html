@@ -5,6 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BARTSS V4 — We change what isn’t working</title>
   <meta name="description" content="BARTSS creative studio — brand, web, motion and AI systems." />
+  <link rel="canonical" href="https://bartss.com/" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+  <meta name="author" content="BARTSS" />
+  <meta name="keywords" content="BARTSS, creative studio, brand strategy, brand identity, web design, product design, motion design, 3D design, AI automation, Istanbul creative studio" />
+  <meta name="theme-color" content="#0f1316" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="BARTSS" />
+  <meta property="og:title" content="BARTSS — We change how businesses work, look and sell." />
+  <meta property="og:description" content="Strategy, brand identity, web and product design, motion, 3D and AI systems assembled around measurable business problems." />
+  <meta property="og:url" content="https://bartss.com/" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="tr_TR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="BARTSS — Strategy, Design, Motion & AI Systems" />
+  <meta name="twitter:description" content="We identify what is not working and build the brand, product, motion and AI system around the outcome." />
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Organization",
+        "@id":"https://bartss.com/#organization",
+        "name":"BARTSS",
+        "url":"https://bartss.com/",
+        "description":"Creative studio building brand, digital product, motion, 3D and AI systems around business outcomes.",
+        "areaServed":"Worldwide",
+        "knowsAbout":["Brand Strategy","Brand Identity","Web Design","Product Design","UX","Motion Design","3D Design","AI Automation","Creative Systems"]
+      },
+      {
+        "@type":"ProfessionalService",
+        "@id":"https://bartss.com/#studio",
+        "name":"BARTSS",
+        "url":"https://bartss.com/",
+        "provider":{"@id":"https://bartss.com/#organization"},
+        "areaServed":["Istanbul","Türkiye","Worldwide"],
+        "serviceType":[
+          "Brand Strategy and Identity",
+          "Web and Product Design",
+          "Motion and 3D Design",
+          "AI Workflow and Automation Systems"
+        ]
+      },
+      {
+        "@type":"WebSite",
+        "@id":"https://bartss.com/#website",
+        "url":"https://bartss.com/",
+        "name":"BARTSS",
+        "publisher":{"@id":"https://bartss.com/#organization"},
+        "inLanguage":["en","tr"]
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -814,7 +867,7 @@
       </div>
     </section>
 
-    <footer class="bartss-footer v4-final-footer" id="contact">
+    <footer class="bartss-footer v4-final-footer" id="contact" role="contentinfo" data-final-scene="true">
       <div class="v4-footer-top">
         <span class="section-kicker">10 / LET’S CHANGE WHAT ISN’T WORKING</span>
         <div class="v4-footer-lang">EN / TR · ISTANBUL</div>
@@ -868,30 +921,44 @@
 
   <script src="./hero-v4.js?v=core-shell-02"></script>
 
-  <aside class="bartss-cookie" id="bartssCookie" aria-label="Cookie preferences">
-    <div class="utility-head"><span>◉ BARTSS</span><button type="button" data-close-cookie>×</button></div>
-    <h3>Cookie Preferences</h3>
-    <p>We use cookies to understand usage and improve the BARTSS experience.</p>
-    <div class="cookie-actions">
-      <button class="cookie-primary" type="button" data-close-cookie>Accept all</button>
-      <button class="cookie-secondary" type="button" id="cookieCustomize">Customize</button>
-    </div>
-    <div class="cookie-detail" id="cookieDetail" hidden>
-      <label><span>Analytics</span><input type="checkbox" checked></label>
-      <label><span>Functional</span><input type="checkbox" checked></label>
-      <label><span>Necessary</span><strong>Always active</strong></label>
+  <aside class="bartss-cookie-shell" id="bartssCookieShell" aria-label="Cookie preferences">
+    <button class="cookie-launcher" id="cookieLauncher" type="button" aria-expanded="false" aria-controls="bartssCookie" title="Cookie preferences">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.2A8.8 8.8 0 0 1 10.8 3.4 8.8 8.8 0 1 0 20.6 13.2Z"/><circle cx="8" cy="14.5" r="1"/><circle cx="11.5" cy="17.5" r="1"/><circle cx="6.7" cy="10.8" r="1"/></svg>
+    </button>
+    <div class="bartss-cookie" id="bartssCookie" aria-hidden="true">
+      <div class="utility-head"><span>◉ BARTSS</span><button type="button" id="cookieClose" aria-label="Close cookie preferences">×</button></div>
+      <h3>Cookie Preferences</h3>
+      <p>We use cookies to understand usage and improve the BARTSS experience.</p>
+      <div class="cookie-actions">
+        <button class="cookie-primary" type="button" data-close-cookie>Accept all</button>
+        <button class="cookie-secondary" type="button" id="cookieCustomize">Customize</button>
+      </div>
+      <div class="cookie-detail" id="cookieDetail" hidden>
+        <label><span>Analytics</span><input type="checkbox" checked></label>
+        <label><span>Functional</span><input type="checkbox" checked></label>
+        <label><span>Necessary</span><strong>Always active</strong></label>
+      </div>
     </div>
   </aside>
 
-  <aside class="bartss-chat" id="bartssChat" aria-label="Talk to BARTSS">
-    <button class="chat-launcher" id="chatLauncher" type="button" aria-expanded="false">✦</button>
-    <div class="chat-panel" id="chatPanel">
-      <div class="utility-head"><span>◉ BARTSS</span><button id="chatClose" type="button">−</button></div>
-      <div class="chat-intro"><i>✦</i><div><h3>Talk to BARTSS</h3><p>Got a project in mind?<br>We typically reply within a few hours.</p></div></div>
-      <div class="chat-input"><span>Type a message…</span><button type="button">↗</button></div>
-      <div class="chat-chips"><button>Start a project</button><button>Our services</button><button>Pricing</button></div>
+  <aside class="bartss-utility-dock" aria-label="Contact and social shortcuts">
+    <div class="social-dock" aria-label="Social channels">
+      <button type="button" class="social-icon" aria-label="Instagram" title="Instagram"><span>IG</span></button>
+      <button type="button" class="social-icon" aria-label="LinkedIn" title="LinkedIn"><span>in</span></button>
+      <button type="button" class="social-icon" aria-label="Behance" title="Behance"><span>Be</span></button>
     </div>
+    <aside class="bartss-chat" id="bartssChat" aria-label="Talk to BARTSS">
+      <button class="chat-launcher" id="chatLauncher" type="button" aria-expanded="false" aria-controls="chatPanel" title="Talk to BARTSS">✦</button>
+      <div class="chat-panel" id="chatPanel" aria-hidden="true">
+        <div class="utility-head"><span>◉ BARTSS</span><button id="chatClose" type="button">−</button></div>
+        <div class="chat-intro"><i>✦</i><div><h3>Talk to BARTSS</h3><p>Got a project in mind?<br>We typically reply within a few hours.</p></div></div>
+        <div class="chat-input"><span>Type a message…</span><button type="button">↗</button></div>
+        <div class="chat-chips"><button>Start a project</button><button>Our services</button><button>Pricing</button></div>
+      </div>
+    </aside>
   </aside>
+
+
 
 
 <script>
