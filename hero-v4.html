@@ -165,6 +165,7 @@
   <link rel="stylesheet" href="./hero-v4.css?v=hero-gate-01" />
   <link rel="stylesheet" href="./hero-v4-sections.css?v=final-shell-03" />
   <link rel="stylesheet" href="./hero-v4-demo.css?v=motion-a1" />
+  <link rel="stylesheet" href="./hero-v4-premium.css?v=premium-01" />
 </head>
 <body>
   <div class="background" aria-hidden="true">
@@ -373,12 +374,24 @@
       <div class="transform-stage" id="transformStage">
         <div class="before-layer">
           <div class="state-label">BEFORE</div>
+          <div class="premium-before-media" aria-hidden="true">
+            <figure class="pbm pbm-a"><img src="./hero-assets/brand.svg" alt=""></figure>
+            <figure class="pbm pbm-b"><img src="./hero-assets/web.svg" alt=""></figure>
+            <figure class="pbm pbm-c"><img src="./hero-assets/autolab.svg" alt=""></figure>
+          </div>
           <div class="mess"><span>Disconnected</span><span>Generic</span><span>Manual</span><span>Slow</span><span>Invisible</span></div>
           <div class="state-copy"><b>Too many pieces.<br>No clear system.</b><small>Brand, product and operations moving in different directions.</small></div>
         </div>
         <div class="after-layer" id="afterLayer">
           <div class="state-label">AFTER BARTSS</div>
-          <div class="system-orbit"><i></i><i></i><i></i><strong>B</strong></div>
+          <div class="premium-after-browser" aria-hidden="true">
+            <div class="pab-bar"><i></i><i></i><i></i><span>BARTSS / CONNECTED SYSTEM</span></div>
+            <div class="pab-screen">
+              <img src="./hero-assets/web.svg" alt="">
+              <div class="pab-float pab-brand"><img src="./hero-assets/brand.svg" alt=""></div>
+              <div class="pab-float pab-ai"><img src="./hero-assets/autolab.svg" alt=""></div>
+            </div>
+          </div>
           <div class="state-copy"><b>One idea.<br>One system. More growth.</b><small>Strategy, experience, content and automation working as one.</small></div>
         </div>
         <div class="drag-line" id="dragLine"><button id="dragHandle" aria-label="Before after slider">↔</button></div>
@@ -404,7 +417,7 @@
         <article class="case-card case-a proof-case">
           <div class="case-meta"><span>BARTSS / BRAND SYSTEM</span><span>01</span></div>
           <div class="case-art">
-            <div class="case-object">B</div>
+            <div class="case-media case-media-brand"><img src="./hero-assets/brand.svg" alt="BARTSS brand system visual"></div>
             <div class="case-evidence-badge">INTERNAL PROJECT</div>
           </div>
           <div class="case-info">
@@ -427,7 +440,7 @@
         <article class="case-card case-b proof-case">
           <div class="case-meta"><span>ASIATIC / PRODUCT DISCOVERY</span><span>02</span></div>
           <div class="case-art">
-            <div class="case-object">UI</div>
+            <div class="case-media case-media-web"><img src="./hero-assets/web.svg" alt="Digital product interface visual"></div>
             <div class="case-evidence-badge">PRODUCT + UX</div>
           </div>
           <div class="case-info">
@@ -450,7 +463,7 @@
         <article class="case-card case-c proof-case">
           <div class="case-meta"><span>AUTOLAB / AI PRODUCTION</span><span>03</span></div>
           <div class="case-art">
-            <div class="case-object">AI</div>
+            <div class="case-media case-media-ai"><img src="./hero-assets/autolab.svg" alt="AutoLAB production system visual"></div>
             <div class="case-evidence-badge">SYSTEM PRODUCT</div>
           </div>
           <div class="case-info">
@@ -715,7 +728,8 @@
       <div class="systems-grid">
         <a class="system-card system-autolab" href="./autolab.html">
           <div class="system-card-top"><span>01 / AI PRODUCTION</span><em>TECHNOLOGY PROOF</em></div>
-          <div class="system-visual">
+          <div class="system-visual premium-system-visual">
+            <img class="system-visual-media" src="./hero-assets/autolab.svg" alt="" aria-hidden="true">
             <div class="sys-window">
               <div class="sys-toolbar"><i></i><i></i><i></i></div>
               <div class="sys-flow"><b>IDEA</b><span>→</span><b>STORY</b><span>→</span><b>VISUAL</b><span>→</span><b>QC</b></div>
@@ -728,7 +742,8 @@
 
         <a class="system-card system-finance" href="./aifinance.html">
           <div class="system-card-top"><span>02 / FINANCIAL INTELLIGENCE</span><em>TECHNOLOGY PROOF</em></div>
-          <div class="system-visual">
+          <div class="system-visual premium-system-visual">
+            <img class="system-visual-media" src="./hero-assets/finance.svg" alt="" aria-hidden="true">
             <div class="finance-radar"><strong>LIVE</strong><span>Signal detected</span><div class="radar-lines"><i></i><i></i><i></i><i></i><i></i></div></div>
           </div>
           <div class="system-copy"><h3>AiFinance</h3><p>A decision layer for signals, portfolio context and financial workflows.</p><div><span>Signals</span><span>Analysis</span><span>Automation</span></div></div>
@@ -737,7 +752,8 @@
 
         <a class="system-card system-coach" href="./aicoach.html">
           <div class="system-card-top"><span>03 / PERSONAL OPERATING SYSTEM</span><em>TECHNOLOGY PROOF</em></div>
-          <div class="system-visual">
+          <div class="system-visual premium-system-visual">
+            <img class="system-visual-media" src="./hero-assets/web.svg" alt="" aria-hidden="true">
             <div class="coach-stack"><span>Today</span><b>3 things need your attention</b><i>Finish current task</i><i>Review project drift</i><i>Protect focus time</i></div>
           </div>
           <div class="system-copy"><h3>AiCoach</h3><p>A personal operating layer that turns activity into priorities and next actions.</p><div><span>Focus</span><span>Tracking</span><span>Recommendations</span></div></div>
@@ -746,7 +762,8 @@
 
         <a class="system-card system-offer" href="./offers.html">
           <div class="system-card-top"><span>04 / SALES EXPERIENCE</span><em>TECHNOLOGY PROOF</em></div>
-          <div class="system-visual">
+          <div class="system-visual premium-system-visual">
+            <img class="system-visual-media" src="./hero-assets/brand.svg" alt="" aria-hidden="true">
             <div class="offer-stage">
               <div class="offer-card oc1"><small>BRAND</small><b>Identity System</b><span>Selected ✓</span></div>
               <div class="offer-card oc2"><small>MOTION</small><b>Prototype</b><span>Add +</span></div>
@@ -1146,5 +1163,6 @@
   <script src="./hero-v4-demo.js?v=motion-a1"></script>
   <script src="./hero-v4-stage.js?v=isolated-a1"></script>
   <script src="./hero-v4-team.js?v=isolated-a1"></script>
+  <script src="./hero-v4-premium.js?v=premium-01"></script>
 </body>
 </html>
