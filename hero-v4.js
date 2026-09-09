@@ -153,34 +153,37 @@ function sceneEnvelope(globalP,index,count){
   return visibility*visibility*(3-2*visibility);
 }
 
-
-/* V4 utility shell */
+/* FINAL SITE SHELL — cookie + chat */
 (() => {
+  const cookieShell=document.getElementById("bartssCookieShell");
   const cookie=document.getElementById("bartssCookie");
+  const cookieLauncher=document.getElementById("cookieLauncher");
+  const cookieClose=document.getElementById("cookieClose");
   const customize=document.getElementById("cookieCustomize");
   const detail=document.getElementById("cookieDetail");
-  const cookieClose=[...document.querySelectorAll("[data-close-cookie]")];
+  const accept=document.querySelector("[data-close-cookie]");
 
-  let accepted=false;
-  try{accepted=localStorage.getItem("bartss-cookie-dismissed")==="1"}catch(e){}
-  if(cookie&&accepted)cookie.classList.add("is-dismissed");
-
-  cookieClose.forEach(btn=>btn.addEventListener("click",()=>{
-    cookie?.classList.add("is-dismissed");
+  function setCookie(open){
+    cookieShell?.classList.toggle("open",open);
+    cookieLauncher?.setAttribute("aria-expanded",open?"true":"false");
+    cookie?.setAttribute("aria-hidden",open?"false":"true");
+  }
+  cookieLauncher?.addEventListener("click",()=>setCookie(!cookieShell?.classList.contains("open")));
+  cookieClose?.addEventListener("click",()=>setCookie(false));
+  accept?.addEventListener("click",()=>{
+    setCookie(false);
     try{localStorage.setItem("bartss-cookie-dismissed","1")}catch(e){}
-  }));
-
+  });
   customize?.addEventListener("click",()=>{
     if(!detail)return;
     detail.hidden=!detail.hidden;
-    customize.setAttribute("aria-expanded",detail.hidden?"false":"true");
   });
+  setCookie(false);
 
   const chat=document.getElementById("bartssChat");
   const launcher=document.getElementById("chatLauncher");
   const panel=document.getElementById("chatPanel");
   const close=document.getElementById("chatClose");
-
   function setChat(open){
     chat?.classList.toggle("open",open);
     launcher?.setAttribute("aria-expanded",open?"true":"false");
@@ -188,6 +191,8 @@ function sceneEnvelope(globalP,index,count){
   }
   launcher?.addEventListener("click",()=>setChat(!chat?.classList.contains("open")));
   close?.addEventListener("click",()=>setChat(false));
-  document.addEventListener("keydown",e=>{if(e.key==="Escape")setChat(false)});
+  document.addEventListener("keydown",e=>{
+    if(e.key==="Escape"){setChat(false);setCookie(false)}
+  });
   setChat(false);
 })();
