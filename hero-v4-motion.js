@@ -145,10 +145,13 @@
       const center=phone.scenes.length===1?0:i/(phone.scenes.length-1);
       const delta=story-center;
       scene.classList.toggle('active',w>.025);
+      const child=clamp((w-.06)/.94);
       scene.style.setProperty('--scene-opacity',w.toFixed(3));
       scene.style.setProperty('--scene-y',(delta*-30).toFixed(2)+'px');
       scene.style.setProperty('--scene-scale',(.97+w*.03).toFixed(4));
       scene.style.setProperty('--scene-clip',((1-w)*12).toFixed(2)+'%');
+      scene.style.setProperty('--child-opacity',child.toFixed(3));
+      scene.style.setProperty('--child-y',((1-child)*12).toFixed(2)+'px');
     });
   }
 
@@ -157,7 +160,8 @@
     const p=sectionProgress(tablet.section);
     setHandoff(tablet.section,p);
 
-    const travel=Math.max(0,tablet.page.scrollHeight-tablet.screen.clientHeight);
+    const blockCount=Math.max(1,tablet.blocks.length);
+    const travel=Math.max(0,tablet.screen.clientHeight*(blockCount-1));
     tablet.page.style.setProperty('--page-y',(-travel*p).toFixed(2)+'px');
 
     const active=Math.min(tablet.steps.length-1,Math.floor(clamp(p*.9999)*tablet.steps.length));
