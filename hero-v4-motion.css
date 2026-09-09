@@ -149,3 +149,52 @@
     animation:none!important;
   }
 }
+
+
+/* =========================================================
+   REGRESSION FIX — PHONE INTERNAL SCENES + TABLET MASK
+   ========================================================= */
+
+/* Phone scene children are driven independently from the scene envelope. */
+#immersiveWork[data-motion-director] .phone-scene > *{
+  opacity:var(--child-opacity,0)!important;
+  transform:translate3d(0,var(--child-y,10px),0)!important;
+  will-change:transform,opacity;
+}
+
+/* Keep the tablet anchored at its original center while handoff motion runs. */
+#tabletExperience[data-motion-director] .tablet-device{
+  transform:
+    translate3d(-50%,calc(-50% + var(--handoff-out) * -18px),0)
+    scale(calc(1 - var(--handoff-out) * .035))!important;
+}
+
+/* Triple containment: frame -> screen -> page. Nothing can escape the glass. */
+#tabletExperience[data-motion-director] .tablet-frame{
+  overflow:hidden!important;
+  isolation:isolate;
+  contain:paint;
+}
+#tabletExperience[data-motion-director] .v4-tablet-screen{
+  position:relative!important;
+  overflow:hidden!important;
+  clip-path:inset(0 round 27px);
+  contain:strict;
+  isolation:isolate;
+}
+#tabletExperience[data-motion-director] .v4-tablet-page{
+  position:absolute!important;
+  inset:0 0 auto 0!important;
+  width:100%!important;
+  height:400%!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  backface-visibility:hidden;
+  transform:translate3d(0,var(--page-y,0px),0)!important;
+}
+#tabletExperience[data-motion-director] .v4-page-block{
+  width:100%!important;
+  height:25%!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+}
