@@ -224,6 +224,15 @@
     z-index:6;
   }
 }
+/* hero loop: viewport is the mask; wrapped cards teleport while invisible */
+@media(min-width:1101px){
+  .rail-wrap{overflow:clip!important}
+  .show-card.hero-teleport{
+    opacity:0!important;
+    pointer-events:none!important;
+    transition:none!important;
+  }
+}
 </style>
 </head>
 <body>
