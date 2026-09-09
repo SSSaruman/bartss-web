@@ -845,3 +845,135 @@ body::-webkit-scrollbar{
   .footer-showcase{grid-template-columns:1fr}
   .footer-panel{min-height:300px}
 }
+
+
+/* =========================================================
+   IMMERSIVE HARD RESTORE
+   Exact geometry from the original working phone section.
+   This section is intentionally exempt from the global flow system.
+   ========================================================= */
+.immersive-work{
+  width:100%!important;
+  height:300vh!important;
+  position:relative!important;
+  margin:130px 0 0!important;
+  border-radius:0!important;
+  overflow:visible!important;
+  border:0!important;
+  box-shadow:none!important;
+  background:#0d1114!important;
+  color:#fff!important;
+}
+.immersive-sticky{
+  position:sticky!important;
+  top:0!important;
+  height:100vh!important;
+  overflow:hidden!important;
+  border-radius:0!important;
+  background:radial-gradient(circle at 50% 45%,#20282c 0%,#0e1215 58%,#080b0d 100%)!important;
+}
+.immersive-title{
+  position:absolute!important;
+  z-index:8!important;
+  left:5.5vw!important;
+  top:8vh!important;
+  max-width:430px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:none!important;
+  backdrop-filter:none!important;
+}
+.immersive-title>span{
+  font-size:9px!important;
+  letter-spacing:.32em!important;
+  color:rgba(255,255,255,.45)!important;
+}
+.immersive-title h2{
+  font-size:clamp(48px,5vw,78px)!important;
+  line-height:.92!important;
+  letter-spacing:-.055em!important;
+  font-weight:400!important;
+  margin:20px 0!important;
+}
+.immersive-title p{
+  font-size:14px!important;
+  line-height:1.55!important;
+  color:rgba(255,255,255,.52)!important;
+  max-width:350px!important;
+}
+.mosaic-layer{
+  position:absolute!important;
+  inset:-24vh -8vw!important;
+  z-index:1!important;
+  will-change:transform!important;
+}
+.mosaic-card{
+  position:absolute!important;
+  border-radius:32px!important;
+  overflow:hidden!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  box-shadow:0 35px 80px rgba(0,0,0,.25)!important;
+}
+.m1{width:26vw!important;height:38vh!important;left:2%!important;right:auto!important;top:12%!important;bottom:auto!important}
+.m2{width:25vw!important;height:42vh!important;right:4%!important;left:auto!important;top:8%!important;bottom:auto!important}
+.m3{width:27vw!important;height:36vh!important;left:5%!important;right:auto!important;bottom:9%!important;top:auto!important}
+.m4{width:25vw!important;height:36vh!important;right:3%!important;left:auto!important;bottom:11%!important;top:auto!important}
+.m5{width:21vw!important;height:28vh!important;left:27%!important;right:auto!important;top:55%!important;bottom:auto!important}
+.m6{width:20vw!important;height:28vh!important;right:28%!important;left:auto!important;top:2%!important;bottom:auto!important;opacity:1!important}
+.fake-ui{
+  height:100%!important;
+  padding:28px!important;
+  border-radius:0!important;
+}
+.fake-ui b{
+  font-size:clamp(20px,2vw,34px)!important;
+  font-weight:400!important;
+  display:block!important;
+  margin-bottom:26px!important;
+}
+.fake-ui i{
+  display:block!important;
+  border-radius:20px!important;
+  height:23%!important;
+  margin:10px 0!important;
+}
+.phone-wrap{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  transform:translate(-50%,-49%)!important;
+  z-index:7!important;
+  width:min(390px,28vw)!important;
+  transition:none!important;
+}
+.phone{
+  box-shadow:0 45px 95px rgba(0,0,0,.52),inset 0 0 0 2px rgba(255,255,255,.22)!important;
+}
+.scroll-note{
+  position:absolute!important;
+  z-index:8!important;
+  bottom:34px!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+}
+
+@media(max-width:1000px){
+  .immersive-title{
+    left:24px!important;
+    top:5vh!important;
+    max-width:330px!important;
+  }
+  .immersive-title p{display:none!important}
+  .phone-wrap{width:310px!important}
+  .mosaic-card{opacity:.58!important}
+  .m1,.m3{left:-15%!important;width:50vw!important}
+  .m2,.m4{right:-15%!important;width:50vw!important}
+  .m5,.m6{display:none!important}
+}
+@media(max-width:650px){
+  .immersive-work{height:240vh!important}
+  .immersive-title h2{font-size:44px!important}
+  .phone-wrap{width:250px!important}
+  .mosaic-card{border-radius:20px!important}
+}
