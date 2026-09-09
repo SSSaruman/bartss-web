@@ -264,15 +264,43 @@ document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 const immersive = document.getElementById("immersiveWork");
 const mosaic = document.querySelector(".mosaic-back");
 const phoneScenes = [...document.querySelectorAll(".phone-scene")];
+let immersiveTransitionRaf=0;
+function sceneEnvelope(globalP,index,count){
+  const center=(index+.5)/count;
+  const dist=Math.abs(globalP-center)*count;
+  const visibility=Math.max(0,Math.min(1,1-dist));
+  return visibility*visibility*(3-2*visibility);
+}
 function updateImmersive(){
   if(!immersive) return;
-  const r = immersive.getBoundingClientRect();
-  const max = immersive.offsetHeight - innerHeight;
-  const passed = Math.max(0, Math.min(max, -r.top));
-  const p = max > 0 ? passed / max : 0;
-  if(mosaic) mosaic.style.transform = `translate3d(0,${(p * -42)}vh,0) scale(${1 + p*.06})`;
-  const scene = Math.min(phoneScenes.length - 1, Math.floor(p * phoneScenes.length));
-  phoneScenes.forEach((el,i)=>el.classList.toggle("active",i===scene));
+  if(immersiveTransitionRaf) return;
+  immersiveTransitionRaf=requestAnimationFrame(()=>{
+    immersiveTransitionRaf=0;
+    const r = immersive.getBoundingClientRect();
+    const max = immersive.offsetHeight - innerHeight;
+    const passed = Math.max(0, Math.min(max, -r.top));
+    const p = max > 0 ? passed / max : 0;
+
+    if(mosaic) mosaic.style.transform = `translate3d(0,${(p * -42)}vh,0) scale(${1 + p*.06})`;
+
+    const count=phoneScenes.length;
+    phoneScenes.forEach((el,i)=>{
+      const v=sceneEnvelope(p,i,count);
+      const local=(p*count)-i;
+      const y=(local-.5)*-34;
+      const scale=.975+v*.025;
+      const clip=(1-v)*12;
+      const child=Math.max(0,Math.min(1,(v-.12)/.88));
+
+      el.classList.toggle("active",v>.02);
+      el.style.setProperty("--scene-opacity",v.toFixed(3));
+      el.style.setProperty("--scene-y",y.toFixed(2)+"px");
+      el.style.setProperty("--scene-scale",scale.toFixed(4));
+      el.style.setProperty("--scene-clip",clip.toFixed(2)+"%");
+      el.style.setProperty("--child-opacity",child.toFixed(3));
+      el.style.setProperty("--child-y",((1-child)*12).toFixed(2)+"px");
+    });
+  });
 }
 window.addEventListener("scroll",updateImmersive,{passive:true});
 updateImmersive();
@@ -306,24 +334,52 @@ const tabletFloats = [...document.querySelectorAll(".tablet-float")];
 const tabletProgress = document.querySelector(".tablet-progress i");
 
 function setTabletScene(index){
-  tabletScenes.forEach((el,i)=>el.classList.toggle("active",i===index));
   tabletTabs.forEach((el,i)=>el.classList.toggle("active",i===index));
 }
+let tabletTransitionRaf=0;
 function updateTabletExperience(){
   if(!tabletExperience) return;
-  const r = tabletExperience.getBoundingClientRect();
-  const max = tabletExperience.offsetHeight - innerHeight;
-  const passed = Math.max(0,Math.min(max,-r.top));
-  const p = max>0 ? passed/max : 0;
-  const scene = Math.min(2,Math.floor(p*3));
-  setTabletScene(scene);
-  tabletFloats.forEach((el,i)=>{
-    const direction = i%2===0 ? -1 : 1;
-    el.style.transform = `translate3d(0,${direction * p * (45 + i*8)}px,0) rotate(${direction*p*2}deg)`;
+  if(tabletTransitionRaf) return;
+  tabletTransitionRaf=requestAnimationFrame(()=>{
+    tabletTransitionRaf=0;
+    const r = tabletExperience.getBoundingClientRect();
+    const max = tabletExperience.offsetHeight - innerHeight;
+    const passed = Math.max(0,Math.min(max,-r.top));
+    const p = max>0 ? passed/max : 0;
+    const count=tabletScenes.length;
+
+    let strongest=0, strongestV=-1;
+    tabletScenes.forEach((el,i)=>{
+      const v=sceneEnvelope(p,i,count);
+      const local=(p*count)-i;
+      const y=(local-.5)*-30;
+      const scale=.98+v*.02;
+      const clip=(1-v)*10;
+      const child=Math.max(0,Math.min(1,(v-.10)/.90));
+
+      if(v>strongestV){strongestV=v;strongest=i;}
+      el.classList.toggle("active",v>.02);
+      el.style.setProperty("--scene-opacity",v.toFixed(3));
+      el.style.setProperty("--scene-y",y.toFixed(2)+"px");
+      el.style.setProperty("--scene-scale",scale.toFixed(4));
+      el.style.setProperty("--scene-clip",clip.toFixed(2)+"%");
+      el.style.setProperty("--child-opacity",child.toFixed(3));
+      el.style.setProperty("--child-y",((1-child)*14).toFixed(2)+"px");
+    });
+    setTabletScene(strongest);
+
+    tabletFloats.forEach((el,i)=>{
+      const direction = i%2===0 ? -1 : 1;
+      el.style.transform = `translate3d(0,${direction * p * (32 + i*6)}px,0) rotate(${direction*p*1.2}deg)`;
+    });
+    if(tabletProgress) tabletProgress.style.transform = `scaleX(${Math.max(.08,p)})`;
   });
-  if(tabletProgress) tabletProgress.style.transform = `scaleX(${Math.max(.08,p)})`;
 }
-tabletTabs.forEach((btn,i)=>btn.addEventListener("click",()=>setTabletScene(i)));
+tabletTabs.forEach((btn,i)=>btn.addEventListener("click",()=>{
+  const target=(i+.5)/tabletScenes.length;
+  const top=tabletExperience.offsetTop + target*(tabletExperience.offsetHeight-innerHeight);
+  window.scrollTo({top,behavior:"smooth"});
+}));
 window.addEventListener("scroll",updateTabletExperience,{passive:true});
 updateTabletExperience();
 
