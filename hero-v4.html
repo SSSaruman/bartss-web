@@ -167,6 +167,7 @@
   <link rel="stylesheet" href="./hero-v4-demo.css?v=motion-a1" />
   <link rel="stylesheet" href="./hero-v4-premium.css?v=restore-01" />
   <link rel="stylesheet" href="./hero-v4-motion.css?v=restore-01" />
+  <link rel="stylesheet" href="./hero-v4-slider.css?v=slider-restore-01" />
 </head>
 <body>
   <div class="background" aria-hidden="true">
@@ -208,128 +209,69 @@
   </nav>
 
   <main>
-    <section class="hero-v4" id="heroV4" data-motion="problem-stage">
-      <div class="v4-hero-copy">
-        <span class="v4-eyebrow">BARTSS / BUSINESS CHANGE SYSTEMS</span>
+    <section class="hero-v4 hero-slider-v4" id="heroV4">
+      <section class="v4-slider-wrap" aria-label="BARTSS services and systems">
+        <div class="v4-card-rail" id="v4CardRail">
+          <article class="v4-show-card" data-index="0">
+            <div class="v4-card-top"><span>01</span><b>BRAND CLARITY</b></div>
+            <div class="v4-card-visual"><img src="./hero-assets/brand.svg" alt="" aria-hidden="true"></div>
+            <div class="v4-card-copy"><h2>Be unmistakable.</h2><p>WHEN THE BRAND LOOKS GENERIC</p><small>STRATEGY · IDENTITY · ROLLOUT</small></div>
+            <button class="v4-card-arrow" type="button" aria-label="Brand clarity">→</button>
+          </article>
 
-        <h1>
-          <span>Your brand looks generic.</span>
-          <span>Your website doesn’t sell.</span>
-          <span>Your production is too manual.</span>
-          <strong>We change what isn’t working.</strong>
-        </h1>
+          <article class="v4-show-card" data-index="1">
+            <div class="v4-card-top"><span>02</span><b>DIGITAL CONVERSION</b></div>
+            <div class="v4-card-visual"><img src="./hero-assets/web.svg" alt="" aria-hidden="true"></div>
+            <div class="v4-card-copy"><h2>Turn visits into action.</h2><p>WHEN DIGITAL EXPERIENCE DOESN'T CONVERT</p><small>UX · CONTENT · CONVERSION</small></div>
+            <button class="v4-card-arrow" type="button" aria-label="Digital conversion">→</button>
+          </article>
 
-        <div class="v4-hero-bottom">
+          <article class="v4-show-card active" data-index="2">
+            <div class="v4-card-top"><span>03</span><b>ATTENTION</b></div>
+            <div class="v4-card-visual"><img src="./hero-assets/motion.svg" alt="" aria-hidden="true"></div>
+            <div class="v4-card-copy"><h2>Make attention useful.</h2><p>WHEN PEOPLE DON'T NOTICE OR REMEMBER</p><small>MOTION · CAMPAIGN · 3D</small></div>
+            <button class="v4-card-arrow" type="button" aria-label="Attention">→</button>
+          </article>
+
+          <article class="v4-show-card" data-index="3">
+            <div class="v4-card-top"><span>04</span><b>EFFICIENCY</b></div>
+            <div class="v4-card-visual"><img src="./hero-assets/autolab.svg" alt="" aria-hidden="true"></div>
+            <div class="v4-card-copy"><h2>Remove repetitive work.</h2><p>WHEN PRODUCTION IS TOO MANUAL</p><small>WORKFLOW · AI · AUTOMATION</small></div>
+            <button class="v4-card-arrow" type="button" aria-label="Operational efficiency">→</button>
+          </article>
+
+          <article class="v4-show-card" data-index="4">
+            <div class="v4-card-top"><span>05</span><b>GROWTH SYSTEM</b></div>
+            <div class="v4-card-visual"><img src="./hero-assets/finance.svg" alt="" aria-hidden="true"></div>
+            <div class="v4-card-copy"><h2>Turn change into growth.</h2><p>WHEN THE PARTS WORK BUT NOT TOGETHER</p><small>STRATEGY · SYSTEMS · SCALE</small></div>
+            <button class="v4-card-arrow" type="button" aria-label="Growth system">→</button>
+          </article>
+        </div>
+
+        <div class="v4-feature-stack" id="v4FeatureStack" aria-label="Active features">
+          <button type="button">✦ <span>MOTION LANGUAGE</span></button>
+          <button type="button">◌ <span>CAMPAIGN SYSTEM</span></button>
+          <button type="button">✓ <span>3D DIRECTION</span></button>
+        </div>
+      </section>
+
+      <div class="v4-slider-message">
+        <div class="v4-slider-copy">
+          <span class="v4-eyebrow">BARTSS / BUSINESS CHANGE SYSTEMS</span>
+          <h1>
+            <span>Your brand looks generic.</span>
+            <span>Your website doesn't sell.</span>
+            <span>Your production is too manual.</span>
+            <strong>We change what isn't working.</strong>
+          </h1>
+        </div>
+
+        <div class="v4-slider-intro">
           <p>Strategy, identity, product, motion and AI — assembled around the business problem, not a shopping list of services.</p>
           <div class="v4-hero-actions">
-            <a class="v4-primary" href="#solution">Tell us what’s not working <i>→</i></a>
+            <a class="v4-primary" href="#solution">Tell us what's not working <i>→</i></a>
             <a class="v4-secondary" href="#transformation">See how we change it <i>↘</i></a>
           </div>
-        </div>
-      </div>
-
-      <div class="v4-stage v4-transform-stage" id="v4Stage" data-phase="broken" aria-label="BARTSS transformation motion system">
-        <div class="v4-stage-bg" aria-hidden="true">
-          <i class="v4-glow v4-glow-a"></i>
-          <i class="v4-glow v4-glow-b"></i>
-          <i class="v4-grid-line gl1"></i>
-          <i class="v4-grid-line gl2"></i>
-          <i class="v4-grid-line gl3"></i>
-        </div>
-
-        <div class="v4-stage-label">
-          <span>PROBLEM → BARTSS → OUTCOME</span>
-          <b id="v4StageIndex">01 / 03</b>
-        </div>
-
-        <div class="v4-media-canvas" aria-hidden="true">
-          <div class="v4-browser-shell">
-            <div class="v4-browser-bar"><i></i><i></i><i></i><span>BARTSS / LIVE SYSTEM</span></div>
-            <div class="v4-browser-viewport">
-              <div class="v4-browser-slide media-brand"><img src="./hero-assets/brand.svg" alt=""></div>
-              <div class="v4-browser-slide media-web"><img src="./hero-assets/web.svg" alt=""></div>
-              <div class="v4-browser-slide media-ai"><img src="./hero-assets/autolab.svg" alt=""></div>
-            </div>
-          </div>
-          <div class="v4-media-ribbon"><span>PERCEPTION</span><i></i><span>CONVERSION</span><i></i><span>ATTENTION</span><i></i><span>EFFICIENCY</span></div>
-        </div>
-
-        <div class="v4-broken-layer" aria-hidden="true">
-          <article class="v4-fragment f1">
-            <span>BRAND</span><b>Generic</b><small>Same signals as everyone else.</small>
-          </article>
-          <article class="v4-fragment f2">
-            <span>WEB</span><b>Friction</b><small>Too many steps before action.</small>
-          </article>
-          <article class="v4-fragment f3">
-            <span>PRODUCTION</span><b>Manual</b><small>Too many repetitive handoffs.</small>
-          </article>
-          <article class="v4-fragment f4"><i></i><i></i><i></i></article>
-          <article class="v4-fragment f5"><strong>?</strong><small>What is the actual offer?</small></article>
-          <article class="v4-fragment f6"><span>TOOLS</span><b>Disconnected</b></article>
-        </div>
-
-        <div class="v4-system-layer" aria-hidden="true">
-          <div class="v4-system-ring sr1"></div>
-          <div class="v4-system-ring sr2"></div>
-          <div class="v4-system-chip sc1"><span>STRATEGY</span></div>
-          <div class="v4-system-chip sc2"><span>IDENTITY</span></div>
-          <div class="v4-system-chip sc3"><span>PRODUCT</span></div>
-          <div class="v4-system-chip sc4"><span>MOTION</span></div>
-          <div class="v4-system-chip sc5"><span>AI</span></div>
-          <div class="v4-system-core-v2">
-            <small>BARTSS</small>
-            <strong>CHANGE<br>THE SYSTEM</strong>
-            <span>Strategy × Creative × Technology</span>
-          </div>
-          <div class="v4-pulse-route pr1"></div>
-          <div class="v4-pulse-route pr2"></div>
-          <div class="v4-pulse-route pr3"></div>
-        </div>
-
-        <div class="v4-outcome-layer">
-          <article class="v4-result-card rc-brand">
-            <div class="v4-result-art">
-              <img src="./hero-assets/brand.svg" alt="" aria-hidden="true">
-            </div>
-            <div class="v4-result-copy">
-              <small>BRAND / PERCEPTION</small>
-              <b>Be unmistakable.</b>
-              <span>Strategy · Identity · Motion</span>
-            </div>
-          </article>
-
-          <article class="v4-result-card rc-web">
-            <div class="v4-result-art">
-              <img src="./hero-assets/web.svg" alt="" aria-hidden="true">
-            </div>
-            <div class="v4-result-copy">
-              <small>DIGITAL / CONVERSION</small>
-              <b>Turn visits into decisions.</b>
-              <span>UX · Content · Web</span>
-            </div>
-          </article>
-
-          <article class="v4-result-card rc-ai">
-            <div class="v4-result-art">
-              <img src="./hero-assets/autolab.svg" alt="" aria-hidden="true">
-            </div>
-            <div class="v4-result-copy">
-              <small>PRODUCTION / EFFICIENCY</small>
-              <b>Remove repetitive work.</b>
-              <span>Workflow · AI · Automation</span>
-            </div>
-          </article>
-
-          <div class="v4-result-summary">
-            <span>ONE SYSTEM</span>
-            <b>Work better. Look clearer. Sell smarter.</b>
-          </div>
-        </div>
-
-        <div class="v4-stage-status">
-          <i></i>
-          <span id="v4StageStatus">Something isn’t working.</span>
         </div>
       </div>
 
@@ -1163,5 +1105,6 @@
   <script src="./hero-v4-team.js?v=isolated-a1"></script>
   <script src="./hero-v4-premium.js?v=restore-01"></script>
   <script src="./hero-v4-motion.js?v=restore-01"></script>
+  <script src="./hero-v4-slider.js?v=slider-restore-01"></script>
 </body>
 </html>
