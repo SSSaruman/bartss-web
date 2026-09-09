@@ -149,72 +149,12 @@ document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
 
 
-// Immersive sticky parallax + phone scenes
-const immersive = document.getElementById("immersiveWork");
-const mosaic = document.querySelector(".mosaic-back");
-const phoneScenes = [...document.querySelectorAll(".phone-scene")];
-let immersiveTransitionRaf=0;
 function sceneEnvelope(globalP,index,count){
   const center=(index+.5)/count;
   const dist=Math.abs(globalP-center)*count;
   const visibility=Math.max(0,Math.min(1,1-dist));
   return visibility*visibility*(3-2*visibility);
 }
-function updateImmersive(){
-  if(!immersive) return;
-  if(immersive.dataset.motion==="immersive-v4") return;
-  if(immersiveTransitionRaf) return;
-  immersiveTransitionRaf=requestAnimationFrame(()=>{
-    immersiveTransitionRaf=0;
-    const r = immersive.getBoundingClientRect();
-    const max = immersive.offsetHeight - innerHeight;
-    const passed = Math.max(0, Math.min(max, -r.top));
-    const p = max > 0 ? passed / max : 0;
-
-    if(mosaic) mosaic.style.transform = `translate3d(0,${(p * -42)}vh,0) scale(${1 + p*.06})`;
-
-    const count=phoneScenes.length;
-    phoneScenes.forEach((el,i)=>{
-      const v=sceneEnvelope(p,i,count);
-      const local=(p*count)-i;
-      const y=(local-.5)*-34;
-      const scale=.975+v*.025;
-      const clip=(1-v)*12;
-      const child=Math.max(0,Math.min(1,(v-.12)/.88));
-
-      el.classList.toggle("active",v>.02);
-      el.style.setProperty("--scene-opacity",v.toFixed(3));
-      el.style.setProperty("--scene-y",y.toFixed(2)+"px");
-      el.style.setProperty("--scene-scale",scale.toFixed(4));
-      el.style.setProperty("--scene-clip",clip.toFixed(2)+"%");
-      el.style.setProperty("--child-opacity",child.toFixed(3));
-      el.style.setProperty("--child-y",((1-child)*12).toFixed(2)+"px");
-    });
-  });
-}
-window.addEventListener("scroll",updateImmersive,{passive:true});
-updateImmersive();
-
-// Liquid glass hover cursor for projects
-document.querySelectorAll(".project-tile").forEach(tile=>{
-  const bubble = tile.querySelector(".liquid-cursor");
-  let tx=0,ty=0,cx=0,cy=0,raf=0;
-  const loop=()=>{ cx += (tx-cx)*.18; cy += (ty-cy)*.18; bubble.style.left=`${cx}px`; bubble.style.top=`${cy}px`; raf=requestAnimationFrame(loop); };
-  tile.addEventListener("mouseenter",e=>{ const r=tile.getBoundingClientRect(); tx=e.clientX-r.left;ty=e.clientY-r.top;cx=tx;cy=ty; if(!raf) loop(); });
-  tile.addEventListener("mousemove",e=>{ const r=tile.getBoundingClientRect(); tx=e.clientX-r.left;ty=e.clientY-r.top; });
-  tile.addEventListener("mouseleave",()=>{ cancelAnimationFrame(raf); raf=0; });
-});
-
-// Subtle cursor-reactive project object depth
-document.querySelectorAll(".project-tile").forEach(tile=>{
-  const obj=tile.querySelector(".project-object");
-  tile.addEventListener("mousemove",e=>{
-    const r=tile.getBoundingClientRect(), nx=(e.clientX-r.left)/r.width-.5, ny=(e.clientY-r.top)/r.height-.5;
-    if(obj && !obj.classList.contains("project-lock")) obj.style.translate=`${nx*12}px ${ny*10}px`;
-  });
-  tile.addEventListener("mouseleave",()=>{ if(obj) obj.style.translate="0 0"; });
-});
-
 
 // Tablet web/product experience
 const tabletExperience = document.getElementById("tabletExperience");
