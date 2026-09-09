@@ -200,15 +200,48 @@ function updateFeatureStack(index){
 }
 
 const solutionMap={
-  brand:"Brand Strategy + Identity + Launch System",
-  product:"UX Strategy + Product Design + Motion Prototype",
-  attention:"Campaign Concept + Motion + Content System",
-  automation:"AI Workflow + Custom Agents + Automation Layer"
+  brand:{
+    title:"Brand Strategy + Identity + Motion + Web",
+    chips:["Strategy","Identity","Motion","Web"]
+  },
+  product:{
+    title:"UX + Content Architecture + Web + Motion + Conversion System",
+    chips:["UX","Content architecture","Web","Motion","Conversion system"]
+  },
+  attention:{
+    title:"Campaign Strategy + Motion + 3D + Content System",
+    chips:["Campaign strategy","Motion","3D","Content system"]
+  },
+  automation:{
+    title:"Workflow Analysis + AI + Automation + Custom Systems",
+    chips:["Workflow analysis","AI","Automation","Custom systems"]
+  }
 };
 document.querySelectorAll(".need-card").forEach(btn=>btn.addEventListener("click",()=>{
-  document.querySelectorAll(".need-card").forEach(x=>x.classList.remove("active")); btn.classList.add("active");
-  const title=document.getElementById("solutionTitle"); title.animate([{opacity:.2,transform:"translateY(8px)"},{opacity:1,transform:"none"}],{duration:350,easing:"cubic-bezier(.22,1,.36,1)"});
-  title.textContent=solutionMap[btn.dataset.solution];
+  document.querySelectorAll(".need-card").forEach(x=>x.classList.remove("active"));
+  btn.classList.add("active");
+
+  const config=solutionMap[btn.dataset.solution]||solutionMap.brand;
+  const title=document.getElementById("solutionTitle");
+  const chips=document.getElementById("solutionStackChips");
+
+  title.animate(
+    [{opacity:.2,transform:"translateY(8px)"},{opacity:1,transform:"none"}],
+    {duration:350,easing:"cubic-bezier(.22,1,.36,1)"}
+  );
+  title.textContent=config.title;
+
+  if(chips){
+    chips.animate(
+      [{opacity:.2,transform:"translateY(6px)"},{opacity:1,transform:"none"}],
+      {duration:320,easing:"cubic-bezier(.22,1,.36,1)"}
+    );
+    chips.replaceChildren(...config.chips.map(label=>{
+      const span=document.createElement("span");
+      span.textContent=label;
+      return span;
+    }));
+  }
 }));
 
 const stage=document.getElementById("transformStage"), after=document.getElementById("afterLayer"), line=document.getElementById("dragLine");
