@@ -57,31 +57,8 @@
   sections.forEach(section=>sectionObserver.observe(section));
 
   // Smooth reference-like depth: media moves less than the page.
-  const parallaxTargets=[
-    ...document.querySelectorAll(".project-object"),
-    ...document.querySelectorAll(".system-visual > *")
-  ];
-  parallaxTargets.forEach(el=>el.classList.add("flow-parallax"));
-
-  let ticking=false;
-  function updateParallax(){
-    ticking=false;
-    const vh=innerHeight;
-    parallaxTargets.forEach(el=>{
-      const r=el.getBoundingClientRect();
-      if(r.bottom<0||r.top>vh)return;
-      const center=r.top+r.height/2;
-      const p=(center-vh/2)/vh;
-      el.style.setProperty("--flow-parallax-y",(p*-18).toFixed(2)+"px");
-    });
-  }
-  addEventListener("scroll",()=>{
-    if(ticking)return;
-    ticking=true;
-    requestAnimationFrame(updateParallax);
-  },{passive:true});
-  addEventListener("resize",updateParallax,{passive:true});
-  updateParallax();
+  // Global parallax removed: fewer scroll-bound writes keeps the page smooth.
+  const parallaxTargets=[];
 
   // The supplied reference uses calm, consistent card reveals instead of each
   // section inventing a different entrance. Pause the old marquee animation.
@@ -102,52 +79,4 @@
     }
     requestAnimationFrame(animateRail);
   }
-})();
-
-
-// Section settle: after wheel/trackpad motion ends, glide to the nearest main panel.
-// Tall sticky storytelling sections keep their internal scroll range.
-(() => {
-  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-  const snapSections=[...document.querySelectorAll("main > section")];
-  let settleTimer=null;
-  let snapping=false;
-
-  function insideLongStory(){
-    const y=window.scrollY + innerHeight*0.5;
-    return [document.querySelector(".immersive-work"),document.querySelector(".tablet-experience")]
-      .filter(Boolean)
-      .some(section=>{
-        const top=section.offsetTop;
-        const bottom=top+section.offsetHeight;
-        return y>top+innerHeight*.35 && y<bottom-innerHeight*.35;
-      });
-  }
-
-  function settleToNearest(){
-    if(snapping || insideLongStory()) return;
-    const current=window.scrollY;
-    let best=null;
-    for(const section of snapSections){
-      const top=section.offsetTop;
-      const d=Math.abs(top-current);
-      if(!best || d<best.d) best={section,d};
-    }
-    if(!best || best.d<18) return;
-    snapping=true;
-    best.section.scrollIntoView({behavior:"smooth",block:"start"});
-    setTimeout(()=>snapping=false,700);
-  }
-
-  addEventListener("wheel",()=>{
-    if(snapping)return;
-    clearTimeout(settleTimer);
-    settleTimer=setTimeout(settleToNearest,140);
-  },{passive:true});
-
-  addEventListener("touchend",()=>{
-    clearTimeout(settleTimer);
-    settleTimer=setTimeout(settleToNearest,180);
-  },{passive:true});
 })();
