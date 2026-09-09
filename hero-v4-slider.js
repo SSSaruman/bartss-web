@@ -39,7 +39,10 @@
     });
   }
 
+  const heroRoot=document.getElementById('heroV4');
+
   function layout(animate=true){
+    heroRoot?.setAttribute('data-active',String(activeIndex));
     const gap=step();
     cards.forEach((card,i)=>{
       const d=circularDistance(i,activeIndex);
