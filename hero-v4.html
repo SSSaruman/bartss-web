@@ -401,6 +401,7 @@
   <link rel="stylesheet" href="./hero-v3-team.css?v=team-v1" />
   <link rel="stylesheet" href="./hero-v4.css?v=hero-gate-01" />
   <link rel="stylesheet" href="./hero-v4-sections.css?v=architecture-a1" />
+  <link rel="stylesheet" href="./hero-v4-demo.css?v=motion-a1" />
 </head>
 <body>
   <div class="background" aria-hidden="true">
@@ -765,13 +766,19 @@
           <p>Scroll through a living wall of products, interfaces and campaigns. The phone stays in focus while the world around it keeps moving.</p>
         </div>
 
-        <div class="mosaic-layer mosaic-back" data-parallax="0.26" aria-hidden="true">
-          <div class="mosaic-card m1"><div class="fake-ui purple"><b>Health Overview</b><i></i><i></i><i></i></div></div>
-          <div class="mosaic-card m2"><div class="fake-ui dark"><b>Your goals</b><i></i><i></i><i></i></div></div>
-          <div class="mosaic-card m3"><div class="fake-ui cream"><b>Balance</b><i></i><i></i><i></i></div></div>
-          <div class="mosaic-card m4"><div class="fake-ui white"><b>Share smarter</b><i></i><i></i><i></i></div></div>
-          <div class="mosaic-card m5"><div class="fake-ui lime"><b>AI Workflows</b><i></i><i></i><i></i></div></div>
-          <div class="mosaic-card m6"><div class="fake-ui blue"><b>Launch System</b><i></i><i></i><i></i></div></div>
+        <div class="mosaic-layer mosaic-back v4-dense-wall" data-parallax="0.26" aria-hidden="true">
+          <div class="mosaic-card m1 visual-tile"><img src="./hero-assets/brand.svg" alt=""><span>BRAND SYSTEM</span></div>
+          <div class="mosaic-card m2"><div class="fake-ui dark"><b>Conversion map</b><i></i><i></i><i></i></div></div>
+          <div class="mosaic-card m3 visual-tile"><img src="./hero-assets/web.svg" alt=""><span>DIGITAL PRODUCT</span></div>
+          <div class="mosaic-card m4"><div class="fake-ui white"><b>Decision flow</b><i></i><i></i><i></i></div></div>
+          <div class="mosaic-card m5 visual-tile"><img src="./hero-assets/autolab.svg" alt=""><span>AI PRODUCTION</span></div>
+          <div class="mosaic-card m6"><div class="fake-ui blue"><b>Launch system</b><i></i><i></i><i></i></div></div>
+          <div class="mosaic-card m7 visual-tile"><img src="./hero-assets/motion.svg" alt=""><span>MOTION LANGUAGE</span></div>
+          <div class="mosaic-card m8"><div class="fake-ui cream"><b>Product discovery</b><i></i><i></i><i></i></div></div>
+          <div class="mosaic-card m9 visual-tile"><img src="./hero-assets/finance.svg" alt=""><span>SIGNAL SYSTEM</span></div>
+          <div class="mosaic-card m10"><div class="fake-ui lime"><b>Workflow states</b><i></i><i></i><i></i></div></div>
+          <div class="mosaic-card m11"><div class="fake-ui purple"><b>Identity rollout</b><i></i><i></i><i></i></div></div>
+          <div class="mosaic-card m12"><div class="fake-ui dark"><b>Qualified action</b><i></i><i></i><i></i></div></div>
         </div>
 
         <div class="phone-wrap" aria-label="Animated mobile product preview">
@@ -814,20 +821,18 @@
       </div>
     </section>
 
-    <section class="tablet-experience" id="tabletExperience">
+    <section class="tablet-experience v4-tablet-experience" id="tabletExperience" data-motion="continuous-page">
       <div class="tablet-sticky">
         <div class="tablet-copy">
           <span>WEB / PRODUCT EXPERIENCE</span>
-          <h2>Not a mockup.<br>A living interface.</h2>
-          <p>Scroll changes the website inside the tablet. Each state demonstrates a different kind of BARTSS thinking: brand experience, product UX and conversion systems.</p>
-          <div class="tablet-tabs" aria-label="Tablet scene progress">
-            <button class="active" data-tablet-tab="0">Brand Site</button>
-            <button data-tablet-tab="1">Product UX</button>
-            <button data-tablet-tab="2">Conversion</button>
+          <h2>A website shouldn’t<br>just look premium.</h2>
+          <p>It should move the visitor toward a decision. Scroll the page inside the tablet: discover, understand, compare and act.</p>
+          <div class="v4-decision-steps" aria-label="Decision journey">
+            <span class="active">DISCOVER</span><span>UNDERSTAND</span><span>COMPARE</span><span>ACT</span>
           </div>
         </div>
 
-        <div class="tablet-world" aria-hidden="true">
+        <div class="tablet-world v4-floating-world" aria-hidden="true">
           <div class="tablet-float tf1"><span>STRATEGY</span><b>Positioning</b></div>
           <div class="tablet-float tf2"><span>UX</span><b>Task-led flow</b></div>
           <div class="tablet-float tf3"><span>MOTION</span><b>Responsive feedback</b></div>
@@ -838,68 +843,83 @@
         <div class="tablet-device">
           <div class="tablet-frame">
             <div class="tablet-camera"></div>
-            <div class="tablet-screen">
-              <section class="tablet-scene active" data-tablet-scene="0">
-                <div class="web-topbar">
-                  <div class="web-brand">BARTSS / BRAND</div>
-                  <div class="web-links"><span>Work</span><span>Studio</span><span>Contact</span></div>
-                </div>
-                <div class="brand-web-hero">
-                  <div class="brand-web-copy">
-                    <span>MAKE THE BRAND IMPOSSIBLE TO CONFUSE.</span>
-                    <h3>Distinct enough<br>to be remembered.</h3>
-                    <p>Positioning, identity and motion built as one recognisable system.</p>
-                    <button>View identity →</button>
+            <div class="tablet-screen v4-tablet-screen">
+              <div class="v4-tablet-page" id="v4TabletPage">
+                <section class="v4-page-block page-discover" data-step="0">
+                  <div class="web-topbar">
+                    <div class="web-brand">BARTSS / BRAND</div>
+                    <div class="web-links"><span>Work</span><span>Studio</span><span>Contact</span></div>
                   </div>
-                  <div class="brand-web-art">
-                    <div class="brand-shape bs1"></div><div class="brand-shape bs2"></div><div class="brand-shape bs3"></div>
-                    <strong>B</strong>
+                  <div class="brand-web-hero">
+                    <div class="brand-web-copy v4-random-box">
+                      <span>DISCOVER / MAKE THE SIGNAL CLEAR</span>
+                      <h3>Distinct enough<br>to be remembered.</h3>
+                      <p>Positioning, identity and motion built as one recognisable system.</p>
+                      <button>Understand the offer →</button>
+                    </div>
+                    <div class="brand-web-art v4-random-box">
+                      <img src="./hero-assets/brand.svg" alt="">
+                    </div>
                   </div>
-                </div>
-                <div class="web-marquee"><span>STRATEGY</span><span>IDENTITY</span><span>MOTION</span><span>CAMPAIGN</span></div>
-              </section>
+                  <div class="web-marquee"><span>STRATEGY</span><span>IDENTITY</span><span>MOTION</span><span>CAMPAIGN</span></div>
+                </section>
 
-              <section class="tablet-scene" data-tablet-scene="1">
-                <div class="product-shell">
-                  <aside>
-                    <strong>AutoLAB</strong>
-                    <span class="active">Overview</span><span>Storyboard</span><span>Production</span><span>QC</span>
-                  </aside>
-                  <div class="product-main">
-                    <div class="product-head"><div><small>PROJECT / EPISODE 12</small><h3>Production Overview</h3></div><button>New run +</button></div>
-                    <div class="product-stats"><article><small>SCENES</small><b>18</b><em>16 ready</em></article><article><small>QC PASS</small><b>94%</b><em>+8% this week</em></article><article><small>TIME SAVED</small><b>6.4h</b><em>per episode</em></article></div>
-                    <div class="product-board">
-                      <div class="board-card"><span>01</span><i></i><b>Opening hook</b><small>Approved</small></div>
-                      <div class="board-card"><span>02</span><i></i><b>Context scene</b><small>Approved</small></div>
-                      <div class="board-card processing"><span>03</span><i></i><b>Key reveal</b><small>Generating</small></div>
+                <section class="v4-page-block page-understand" data-step="1">
+                  <div class="v4-page-kicker">UNDERSTAND / REMOVE FRICTION</div>
+                  <div class="product-shell">
+                    <aside class="v4-random-box">
+                      <strong>AutoLAB</strong>
+                      <span class="active">Overview</span><span>Storyboard</span><span>Production</span><span>QC</span>
+                    </aside>
+                    <div class="product-main">
+                      <div class="product-head v4-random-box"><div><small>PROJECT / EPISODE 12</small><h3>Production Overview</h3></div><button>New run +</button></div>
+                      <div class="product-stats">
+                        <article class="v4-random-box"><small>SCENES</small><b>18</b><em>16 ready</em></article>
+                        <article class="v4-random-box"><small>QC PASS</small><b>94%</b><em>working state</em></article>
+                        <article class="v4-random-box"><small>FLOW</small><b>1</b><em>connected path</em></article>
+                      </div>
+                      <div class="product-board v4-random-box">
+                        <div class="board-card"><span>01</span><i></i><b>Opening hook</b><small>Approved</small></div>
+                        <div class="board-card"><span>02</span><i></i><b>Context scene</b><small>Approved</small></div>
+                        <div class="board-card processing"><span>03</span><i></i><b>Key reveal</b><small>Generating</small></div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </section>
+                </section>
 
-              <section class="tablet-scene" data-tablet-scene="2">
-                <div class="conversion-site">
-                  <div class="conversion-nav"><b>ASIATIC</b><span>Collections</span><span>Projects</span><span>About</span><button>Request Samples</button></div>
-                  <div class="conversion-grid">
-                    <div class="conversion-copy">
-                      <span>FOR ARCHITECTS & DESIGNERS</span>
-                      <h3>From interest<br>to qualified lead.</h3>
-                      <p>Product discovery, sample selection and follow-up designed as one conversion journey.</p>
-                      <button>Build my flow →</button>
-                    </div>
-                    <div class="sample-builder">
-                      <div class="sample-card"><i></i><b>Loop / Sand</b><span>Added ✓</span></div>
-                      <div class="sample-card"><i></i><b>Grid / Stone</b><span>Add sample +</span></div>
-                      <div class="sample-drawer"><span>Sample basket</span><b>2 selected</b><button>Request →</button></div>
+                <section class="v4-page-block page-compare" data-step="2">
+                  <div class="v4-page-kicker">COMPARE / MAKE THE CHOICE EASIER</div>
+                  <div class="v4-compare-grid">
+                    <article class="v4-random-box"><img src="./hero-assets/web.svg" alt=""><span>OPTION A</span><b>Clear hierarchy</b></article>
+                    <article class="v4-random-box"><img src="./hero-assets/motion.svg" alt=""><span>OPTION B</span><b>Responsive feedback</b></article>
+                    <article class="v4-random-box"><img src="./hero-assets/brand.svg" alt=""><span>OPTION C</span><b>Recognisable system</b></article>
+                  </div>
+                </section>
+
+                <section class="v4-page-block page-act" data-step="3">
+                  <div class="conversion-site">
+                    <div class="conversion-nav"><b>ASIATIC</b><span>Collections</span><span>Projects</span><span>About</span><button>Request Samples</button></div>
+                    <div class="conversion-grid">
+                      <div class="conversion-copy v4-random-box">
+                        <span>ACT / QUALIFIED NEXT STEP</span>
+                        <h3>From interest<br>to qualified enquiry.</h3>
+                        <p>Product discovery, sample selection and follow-up designed as one conversion journey.</p>
+                        <button>Request samples →</button>
+                      </div>
+                      <div class="sample-builder v4-random-box">
+                        <div class="sample-card"><i></i><b>Loop / Sand</b><span>Added ✓</span></div>
+                        <div class="sample-card"><i></i><b>Grid / Stone</b><span>Add sample +</span></div>
+                        <div class="sample-drawer"><span>Sample basket</span><b>2 selected</b><button>Request →</button></div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </section>
+                </section>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="tablet-progress"><i></i><span>SCROLL</span></div>
+        <div class="tablet-progress"><i></i><span>SCROLL / PAGE INSIDE DEVICE</span></div>
       </div>
     </section>
 
@@ -1191,6 +1211,7 @@
 })();
 </script>
   <script src="./hero-v3-immersive.js?v=immersive-v4"></script>
+  <script src="./hero-v4-demo.js?v=motion-a1"></script>
   <script src="./hero-v3-stage.js?v=stage-v1"></script>
   <script src="./hero-v3-team.js?v=team-v1"></script>
 </body>
