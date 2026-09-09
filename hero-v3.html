@@ -348,6 +348,20 @@
     transform:translateX(calc(-50% + var(--hero-x,0px))) scale(1.08)!important;
   }
 }
+/* full-bleed five-card rail: no empty side gutters */
+@media(min-width:1101px){
+  .hero{overflow:visible!important}
+  .rail-wrap{
+    width:100vw!important;
+    max-width:none!important;
+    margin-left:calc(50% - 50vw)!important;
+    margin-right:calc(50% - 50vw)!important;
+    overflow:clip!important;
+  }
+  .card-rail{
+    left:50vw!important;
+  }
+}
 </style>
 </head>
 <body>
