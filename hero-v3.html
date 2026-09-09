@@ -329,6 +329,25 @@
     margin-top:14px;
   }
 }
+/* five-card centered slider */
+@media(min-width:1101px){
+  .rail-wrap{
+    overflow:clip!important;
+  }
+  .card-rail{
+    left:50%!important;
+    top:22px!important;
+    width:0!important;
+    height:390px!important;
+  }
+  .show-card{
+    width:360px!important;
+    height:360px!important;
+  }
+  .show-card.active{
+    transform:translateX(calc(-50% + var(--hero-x,0px))) scale(1.08)!important;
+  }
+}
 </style>
 </head>
 <body>
@@ -398,6 +417,12 @@
             <div class="visual visual-autolab"><img class="hero-card-art" src="./hero-assets/autolab.svg" alt="" aria-hidden="true"></div>
             <div class="card-copy"><h2>Remove repetitive work.</h2><p>WHEN PRODUCTION IS TOO MANUAL</p><small>WORKFLOW · AI · AUTOMATION</small></div>
             <button class="round-arrow" aria-label="Operational efficiency">→</button>
+          </article>
+          <article class="show-card" data-index="4" id="growth">
+            <div class="card-top"><span class="index">05</span><span class="tag">GROWTH SYSTEM</span></div>
+            <div class="visual visual-finance"><img class="hero-card-art" src="./hero-assets/finance.svg" alt="" aria-hidden="true"></div>
+            <div class="card-copy"><h2>Turn change into growth.</h2><p>WHEN THE PARTS WORK BUT NOT TOGETHER</p><small>STRATEGY · SYSTEMS · SCALE</small></div>
+            <button class="round-arrow" aria-label="Growth system">→</button>
           </article>
         </div>
         <div class="feature-stack" id="featureStack" aria-label="Active product features">
