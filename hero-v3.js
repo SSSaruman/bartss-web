@@ -19,10 +19,12 @@ const baseCards = cards.map((c,i)=>{
   return clone;
 });
 const baseCount=baseCards.length;
+let activeVirtual = baseCount*2 + activeIndex;
 const heroRailWrap=document.querySelector(".rail-wrap");
 let heroBusy=false;
 let heroNavToken=0;
 let heroSequenceTimer=null;
+let heroNormalizeTimer=null;
 let heroAutoplayTimer=null;
 let heroUserPauseTimer=null;
 
@@ -35,7 +37,7 @@ function startHeroAutoplay(){
   if(innerWidth<=1100 || document.hidden)return;
   heroAutoplayTimer=setInterval(()=>{
     if(heroBusy || document.body.classList.contains("menu-open"))return;
-    selectHero(activeIndex+1,{play:false,sequence:false});
+    selectHero(activeVirtual+1,{play:false,sequence:false});
   },3200);
 }
 function pauseHeroAutoplay(ms=6500){
@@ -44,17 +46,21 @@ function pauseHeroAutoplay(ms=6500){
   heroUserPauseTimer=setTimeout(startHeroAutoplay,ms);
 }
 
-rail.replaceChildren(...baseCards);
+// Five physical copies = real continuous rail. The middle set is the working set.
+const loopCards=[];
+for(let set=0;set<5;set++){
+  baseCards.forEach((base,i)=>{
+    const clone=base.cloneNode(true);
+    clone.dataset.logical=String(i);
+    clone.dataset.virtual=String(set*baseCount+i);
+    clone.dataset.loopSet=String(set);
+    loopCards.push(clone);
+  });
+}
+rail.replaceChildren(...loopCards);
 
 function liveCards(){ return [...rail.querySelectorAll(".show-card")]; }
 function clearHeroSequence(){ clearTimeout(heroSequenceTimer); heroSequenceTimer=null; }
-
-function circularDistance(index,active){
-  let d=index-active;
-  while(d>baseCount/2)d-=baseCount;
-  while(d<-baseCount/2)d+=baseCount;
-  return d;
-}
 
 function heroStep(){
   const w=innerWidth;
@@ -68,37 +74,13 @@ function applyHeroLayout({animate=true}={}){
   const cardsNow=liveCards();
 
   cardsNow.forEach(card=>{
-    const i=Number(card.dataset.logical);
-    const d=circularDistance(i,activeIndex);
+    const virtual=Number(card.dataset.virtual);
+    const d=virtual-activeVirtual;
     const abs=Math.abs(d);
     const push=heroBusy && d!==0 ? (d<0?-115:115) : 0;
     const x=d*step+push;
     const scale=d===0?1.08:(abs===1?.94:.88);
-    const opacity=d===0?1:(abs===1?.80:.62);
-
-    const prev=Number(card.dataset.heroDistance ?? d);
-    const wraps=Math.abs(prev-d) > (baseCount/2-.5);
-
-    if(wraps){
-      // LOOP RULE: never animate a card across the back of the carousel.
-      // Hide it, teleport it to the opposite edge, then reveal it there.
-      card.classList.add("hero-teleport");
-      card.style.transition="none";
-      card.style.setProperty("--hero-opacity","0");
-      card.dataset.heroDistance=String(d);
-      card.style.setProperty("--hero-x",x+"px");
-      card.style.setProperty("--hero-scale",String(scale));
-      card.style.zIndex=String(30-abs);
-      card.classList.toggle("active",d===0);
-      void card.offsetWidth;
-
-      requestAnimationFrame(()=>requestAnimationFrame(()=>{
-        card.classList.remove("hero-teleport");
-        card.style.removeProperty("transition");
-        card.style.setProperty("--hero-opacity",String(opacity));
-      }));
-      return;
-    }
+    const opacity=abs>3?0:(d===0?1:(abs===1?.80:.62));
 
     card.classList.remove("hero-teleport");
     card.style.removeProperty("transition");
@@ -107,18 +89,37 @@ function applyHeroLayout({animate=true}={}){
     card.style.setProperty("--hero-x",x+"px");
     card.style.setProperty("--hero-scale",String(scale));
     card.style.setProperty("--hero-opacity",String(opacity));
-    card.style.zIndex=String(30-abs);
+    card.style.zIndex=String(Math.max(1,30-abs));
     card.classList.toggle("active",d===0);
+    card.style.pointerEvents=abs<=2?"auto":"none";
   });
 }
 
-function selectHero(index,{play=true,sequence=false}={}){
+function normalizeHeroRail(){
+  const logical=((activeVirtual%baseCount)+baseCount)%baseCount;
+  const middleVirtual=baseCount*2+logical;
+  if(activeVirtual===middleVirtual)return;
+  activeVirtual=middleVirtual;
+  activeIndex=logical;
+  applyHeroLayout({animate:false});
+}
+
+function selectHero(virtualIndex,{play=true,sequence=false}={}){
   clearHeroSequence();
+  clearTimeout(heroNormalizeTimer);
   const token=++heroNavToken;
   heroV2Reset();
-  activeIndex=((index%baseCount)+baseCount)%baseCount;
+
+  activeVirtual=virtualIndex;
+  activeIndex=((activeVirtual%baseCount)+baseCount)%baseCount;
   updateFeatureStack(activeIndex);
   applyHeroLayout({animate:true});
+
+  // After the visible slide completes, silently return to the identical middle copy.
+  heroNormalizeTimer=setTimeout(()=>{
+    if(token!==heroNavToken || heroBusy)return;
+    normalizeHeroRail();
+  },900);
 
   if(play){
     heroSequenceTimer=setTimeout(()=>{
@@ -133,7 +134,7 @@ rail.addEventListener("click",e=>{
   if(!card)return;
   e.preventDefault();
   pauseHeroAutoplay(9000);
-  selectHero(Number(card.dataset.logical),{play:true,sequence:true});
+  selectHero(Number(card.dataset.virtual),{play:true,sequence:true});
 });
 
 let heroSwipeStartX=null;
@@ -156,7 +157,7 @@ heroRailWrap?.addEventListener("pointerup",e=>{
   heroSwipeStartX=null;
   if(Math.abs(dx)<55)return;
   pauseHeroAutoplay();
-  const next=activeIndex+(dx<0?1:-1);
+  const next=activeVirtual+(dx<0?1:-1);
   selectHero(next,{play:false,sequence:false});
 });
 
@@ -164,7 +165,7 @@ heroRailWrap?.addEventListener("wheel",e=>{
   if(innerWidth<=1100||heroBusy||Math.abs(e.deltaX)<=Math.abs(e.deltaY))return;
   e.preventDefault();
   pauseHeroAutoplay();
-  const next=activeIndex+(e.deltaX>0?1:-1);
+  const next=activeVirtual+(e.deltaX>0?1:-1);
   selectHero(next,{play:false,sequence:false});
 },{passive:false});
 
@@ -173,7 +174,7 @@ window.addEventListener("resize",()=>applyHeroLayout({animate:false}));
 requestAnimationFrame(()=>{
   heroRailWrap?.classList.add("hero-intro");
   updateFeatureStack(activeIndex);
-  liveCards().forEach((card,i)=>card.style.setProperty("--intro-delay",(Math.abs(i-activeIndex)*65)+"ms"));
+  liveCards().forEach(card=>card.style.setProperty("--intro-delay",(Math.min(4,Math.abs(Number(card.dataset.virtual)-activeVirtual))*65)+"ms"));
   applyHeroLayout({animate:false});
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
     heroRailWrap?.classList.add("hero-intro-done");
@@ -330,7 +331,7 @@ function heroV2Reset(){
 }
 
 function heroV2Build(index){
-  const source=liveCards().find(c=>Number(c.dataset.logical)===index);
+  const source=liveCards().find(c=>c.classList.contains("active"));
   const d=heroV2Data[index];
   if(!source||!d||innerWidth<=1100)return null;
 
@@ -443,10 +444,12 @@ async function heroV2Play(index,{sequence=false}={}){
     stage.remove();
 
     if(sequence){
-      activeIndex=(index+1)%baseCount;
+      activeVirtual+=1;
+      activeIndex=((activeVirtual%baseCount)+baseCount)%baseCount;
       updateFeatureStack(activeIndex);
       applyHeroLayout({animate:true});
       heroSequenceTimer=setTimeout(()=>{
+        normalizeHeroRail();
         if(token===heroV2Token)heroV2Play(activeIndex,{sequence:true});
       },2100);
     }
