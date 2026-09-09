@@ -463,69 +463,96 @@
         </div>
       </div>
 
-      <div class="v4-stage" id="v4Stage" data-state="0" aria-label="BARTSS problem to outcome motion system">
+      <div class="v4-stage v4-transform-stage" id="v4Stage" data-phase="broken" aria-label="BARTSS transformation motion system">
         <div class="v4-stage-bg" aria-hidden="true">
           <i class="v4-glow v4-glow-a"></i>
           <i class="v4-glow v4-glow-b"></i>
-          <i class="v4-grid-ring r1"></i>
-          <i class="v4-grid-ring r2"></i>
-          <i class="v4-grid-ring r3"></i>
+          <i class="v4-grid-line gl1"></i>
+          <i class="v4-grid-line gl2"></i>
+          <i class="v4-grid-line gl3"></i>
         </div>
 
         <div class="v4-stage-label">
-          <span>PROBLEM → SYSTEM → OUTCOME</span>
+          <span>PROBLEM → BARTSS → OUTCOME</span>
           <b id="v4StageIndex">01 / 03</b>
         </div>
 
-        <article class="v4-problem-node p-brand" data-v4-node="0">
-          <small>01 / BRAND</small>
-          <b>Looks generic</b>
-          <span>Low differentiation</span>
-        </article>
-        <article class="v4-problem-node p-digital" data-v4-node="1">
-          <small>02 / DIGITAL</small>
-          <b>Doesn’t convert</b>
-          <span>Friction before action</span>
-        </article>
-        <article class="v4-problem-node p-production" data-v4-node="2">
-          <small>03 / PRODUCTION</small>
-          <b>Too manual</b>
-          <span>Repetitive handoffs</span>
-        </article>
+        <div class="v4-broken-layer" aria-hidden="true">
+          <article class="v4-fragment f1">
+            <span>BRAND</span><b>Generic</b><small>Same signals as everyone else.</small>
+          </article>
+          <article class="v4-fragment f2">
+            <span>WEB</span><b>Friction</b><small>Too many steps before action.</small>
+          </article>
+          <article class="v4-fragment f3">
+            <span>PRODUCTION</span><b>Manual</b><small>Too many repetitive handoffs.</small>
+          </article>
+          <article class="v4-fragment f4"><i></i><i></i><i></i></article>
+          <article class="v4-fragment f5"><strong>?</strong><small>What is the actual offer?</small></article>
+          <article class="v4-fragment f6"><span>TOOLS</span><b>Disconnected</b></article>
+        </div>
 
-        <div class="v4-system-core">
-          <div class="v4-core-orbit orbit-a"></div>
-          <div class="v4-core-orbit orbit-b"></div>
-          <div class="v4-core-face">
-            <span>BARTSS</span>
-            <b id="v4CoreWord">CLARIFY</b>
-            <small>STRATEGY × CREATIVE × TECHNOLOGY</small>
+        <div class="v4-system-layer" aria-hidden="true">
+          <div class="v4-system-ring sr1"></div>
+          <div class="v4-system-ring sr2"></div>
+          <div class="v4-system-chip sc1"><span>STRATEGY</span></div>
+          <div class="v4-system-chip sc2"><span>IDENTITY</span></div>
+          <div class="v4-system-chip sc3"><span>PRODUCT</span></div>
+          <div class="v4-system-chip sc4"><span>MOTION</span></div>
+          <div class="v4-system-chip sc5"><span>AI</span></div>
+          <div class="v4-system-core-v2">
+            <small>BARTSS</small>
+            <strong>CHANGE<br>THE SYSTEM</strong>
+            <span>Strategy × Creative × Technology</span>
+          </div>
+          <div class="v4-pulse-route pr1"></div>
+          <div class="v4-pulse-route pr2"></div>
+          <div class="v4-pulse-route pr3"></div>
+        </div>
+
+        <div class="v4-outcome-layer">
+          <article class="v4-result-card rc-brand">
+            <div class="v4-result-art">
+              <img src="./hero-assets/brand.svg" alt="" aria-hidden="true">
+            </div>
+            <div class="v4-result-copy">
+              <small>BRAND / PERCEPTION</small>
+              <b>Be unmistakable.</b>
+              <span>Strategy · Identity · Motion</span>
+            </div>
+          </article>
+
+          <article class="v4-result-card rc-web">
+            <div class="v4-result-art">
+              <img src="./hero-assets/web.svg" alt="" aria-hidden="true">
+            </div>
+            <div class="v4-result-copy">
+              <small>DIGITAL / CONVERSION</small>
+              <b>Turn visits into decisions.</b>
+              <span>UX · Content · Web</span>
+            </div>
+          </article>
+
+          <article class="v4-result-card rc-ai">
+            <div class="v4-result-art">
+              <img src="./hero-assets/autolab.svg" alt="" aria-hidden="true">
+            </div>
+            <div class="v4-result-copy">
+              <small>PRODUCTION / EFFICIENCY</small>
+              <b>Remove repetitive work.</b>
+              <span>Workflow · AI · Automation</span>
+            </div>
+          </article>
+
+          <div class="v4-result-summary">
+            <span>ONE SYSTEM</span>
+            <b>Work better. Look clearer. Sell smarter.</b>
           </div>
         </div>
 
-        <div class="v4-route route-brand" aria-hidden="true"><i></i></div>
-        <div class="v4-route route-digital" aria-hidden="true"><i></i></div>
-        <div class="v4-route route-production" aria-hidden="true"><i></i></div>
-
-        <article class="v4-outcome o-brand" data-v4-outcome="0">
-          <small>OUTCOME / PERCEPTION</small>
-          <b>Be unmistakable.</b>
-          <span>Strategy · Identity · Motion</span>
-        </article>
-        <article class="v4-outcome o-digital" data-v4-outcome="1">
-          <small>OUTCOME / CONVERSION</small>
-          <b>Turn visits into decisions.</b>
-          <span>UX · Content · Web</span>
-        </article>
-        <article class="v4-outcome o-production" data-v4-outcome="2">
-          <small>OUTCOME / EFFICIENCY</small>
-          <b>Remove repetitive work.</b>
-          <span>Workflow · AI · Automation</span>
-        </article>
-
         <div class="v4-stage-status">
           <i></i>
-          <span id="v4StageStatus">Clarifying the signal</span>
+          <span id="v4StageStatus">Something isn’t working.</span>
         </div>
       </div>
 
