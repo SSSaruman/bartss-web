@@ -44,6 +44,7 @@ function heroStep(){
 function applyHeroLayout({animate=true}={}){
   const step=heroStep();
   const cardsNow=liveCards();
+
   cardsNow.forEach(card=>{
     const i=Number(card.dataset.logical);
     const d=circularDistance(i,activeIndex);
@@ -53,30 +54,39 @@ function applyHeroLayout({animate=true}={}){
     const scale=d===0?1.15:(abs===1?.985:.94);
     const opacity=d===0?1:(abs===1?.82:.56);
 
-    // A wrap card teleports only while nearly invisible, preventing a long sweep across the viewport.
-    const prev=parseFloat(card.dataset.heroDistance ?? d);
-    const wraps=Math.abs(prev-d)>baseCount/2-0.5;
+    const prev=Number(card.dataset.heroDistance ?? d);
+    const wraps=Math.abs(prev-d) > (baseCount/2-.5);
+
     if(wraps){
+      // LOOP RULE: never animate a card across the back of the carousel.
+      // Hide it, teleport it to the opposite edge, then reveal it there.
       card.classList.add("hero-teleport");
-      card.style.transitionDuration="0s";
-    }else{
-      card.classList.remove("hero-teleport");
-      card.style.transitionDuration=animate?".82s":"0s";
+      card.style.transition="none";
+      card.style.setProperty("--hero-opacity","0");
+      card.dataset.heroDistance=String(d);
+      card.style.setProperty("--hero-x",x+"px");
+      card.style.setProperty("--hero-scale",String(scale));
+      card.style.zIndex=String(30-abs);
+      card.classList.toggle("active",d===0);
+      void card.offsetWidth;
+
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        card.classList.remove("hero-teleport");
+        card.style.removeProperty("transition");
+        card.style.setProperty("--hero-opacity",String(opacity));
+      }));
+      return;
     }
 
+    card.classList.remove("hero-teleport");
+    card.style.removeProperty("transition");
+    card.style.transitionDuration=animate?".82s":"0s";
     card.dataset.heroDistance=String(d);
     card.style.setProperty("--hero-x",x+"px");
     card.style.setProperty("--hero-scale",String(scale));
     card.style.setProperty("--hero-opacity",String(opacity));
     card.style.zIndex=String(30-abs);
     card.classList.toggle("active",d===0);
-
-    if(wraps){
-      requestAnimationFrame(()=>{
-        card.classList.remove("hero-teleport");
-        card.style.transitionDuration=".82s";
-      });
-    }
   });
 }
 
@@ -102,6 +112,36 @@ rail.addEventListener("click",e=>{
   e.preventDefault();
   selectHero(Number(card.dataset.logical),{play:true,sequence:true});
 });
+
+let heroSwipeStartX=null;
+let heroSwipeMoved=false;
+
+heroRailWrap?.addEventListener("pointerdown",e=>{
+  if(heroBusy)return;
+  heroSwipeStartX=e.clientX;
+  heroSwipeMoved=false;
+});
+
+heroRailWrap?.addEventListener("pointermove",e=>{
+  if(heroSwipeStartX===null)return;
+  if(Math.abs(e.clientX-heroSwipeStartX)>10) heroSwipeMoved=true;
+});
+
+heroRailWrap?.addEventListener("pointerup",e=>{
+  if(heroSwipeStartX===null||heroBusy){heroSwipeStartX=null;return;}
+  const dx=e.clientX-heroSwipeStartX;
+  heroSwipeStartX=null;
+  if(Math.abs(dx)<55)return;
+  const next=activeIndex+(dx<0?1:-1);
+  selectHero(next,{play:false,sequence:false});
+});
+
+heroRailWrap?.addEventListener("wheel",e=>{
+  if(innerWidth<=1100||heroBusy||Math.abs(e.deltaX)<=Math.abs(e.deltaY))return;
+  e.preventDefault();
+  const next=activeIndex+(e.deltaX>0?1:-1);
+  selectHero(next,{play:false,sequence:false});
+},{passive:false});
 
 window.addEventListener("resize",()=>applyHeroLayout({animate:false}));
 
