@@ -163,6 +163,67 @@
   .rail-wrap{min-height:318px}
   .hero-footer{margin-top:12px}
 }
+/* menu control rail — dedicated X + language column */
+.menu-panel{
+  width:min(1235px,calc(100vw - 54px));
+}
+.menu-rail{
+  grid-template-columns:repeat(7,minmax(128px,1fr)) 82px;
+  gap:12px;
+  padding-right:14px;
+}
+.menu-controls{
+  min-width:82px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 0 2px;
+  border-left:1px solid rgba(255,255,255,.10);
+}
+.menu-controls .menu-x{
+  position:static;
+  flex:0 0 auto;
+  width:40px;
+  height:40px;
+  margin-top:2px;
+}
+.menu-lang{
+  width:52px;
+  padding:7px 0;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.025);
+  display:grid;
+  gap:2px;
+}
+.lang-btn{
+  width:100%;
+  height:38px;
+  border:0;
+  background:transparent;
+  color:rgba(255,255,255,.28);
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.06em;
+  cursor:pointer;
+  transition:color .25s ease,transform .25s var(--ease);
+}
+.lang-btn:hover{color:rgba(255,255,255,.72)}
+.lang-btn.active{color:#fff;transform:scale(1.05)}
+@media(max-width:1100px){
+  .menu-panel{width:calc(100vw - 20px)}
+  .menu-rail{
+    grid-template-columns:repeat(7,140px) 82px;
+    overflow-x:auto;
+  }
+  .menu-controls{
+    position:sticky;
+    right:0;
+    background:linear-gradient(180deg,rgba(17,23,30,.99),rgba(17,23,30,.96));
+    z-index:6;
+  }
+}
 </style>
 </head>
 <body>
@@ -187,25 +248,31 @@
 
   <nav class="menu-panel" id="menuPanel" aria-hidden="true">
     <div class="menu-rail">
-      <a class="menu-tile" href="#brand"><span class="menu-icon">◇</span><span>Brand<br>Identity</span></a>
-      <a class="menu-tile" href="#web"><span class="menu-icon">▱</span><span>Web &<br>Product</span></a>
-      <a class="menu-tile" href="#motion"><span class="menu-icon">◯</span><span>Motion & 3D</span></a>
-      <a class="menu-tile" href="#ai"><span class="menu-icon">✦</span><span>AI Systems</span></a>
-      <a class="menu-tile" href="#products"><span class="menu-icon">⬡</span><span>Products</span></a>
-      <a class="menu-tile" href="#process"><span class="menu-icon">≋</span><span>Process</span></a>
-      <a class="menu-tile" href="#about"><span class="menu-icon">◔</span><span>About</span></a>
-      <button class="menu-x" id="menuClose" aria-label="Menüyü kapat">×</button>
+      <a class="menu-tile" href="#brand"><span class="menu-icon">◇</span><span data-i18n="menu_brand">Brand<br>Identity</span></a>
+      <a class="menu-tile" href="#web"><span class="menu-icon">▱</span><span data-i18n="menu_web">Web &<br>Product</span></a>
+      <a class="menu-tile" href="#motion"><span class="menu-icon">◯</span><span data-i18n="menu_motion">Motion & 3D</span></a>
+      <a class="menu-tile" href="#ai"><span class="menu-icon">✦</span><span data-i18n="menu_ai">AI Systems</span></a>
+      <a class="menu-tile" href="#products"><span class="menu-icon">⬡</span><span data-i18n="menu_products">Products</span></a>
+      <a class="menu-tile" href="#process"><span class="menu-icon">≋</span><span data-i18n="menu_process">Process</span></a>
+      <a class="menu-tile" href="#about"><span class="menu-icon">◔</span><span data-i18n="menu_about">About</span></a>
+      <div class="menu-controls" aria-label="Menu controls">
+        <button class="menu-x" id="menuClose" aria-label="Menüyü kapat">×</button>
+        <div class="menu-lang" role="group" aria-label="Language">
+          <button type="button" class="lang-btn active" data-lang="en">EN</button>
+          <button type="button" class="lang-btn" data-lang="tr">TR</button>
+        </div>
+      </div>
     </div>
   </nav>
 
   <main>
     <section class="hero">
       <section class="hero-copy">
-        <h1 class="v3-problem-head"><span>Your brand looks generic.</span><span>Your website doesn’t sell.</span><span>Your production is too manual.</span><em>We fix the system behind all three.</em></h1>
+        <h1 class="v3-problem-head"><span data-i18n="hero_p1">Your brand looks generic.</span><span data-i18n="hero_p2">Your website doesn’t sell.</span><span data-i18n="hero_p3">Your production is too manual.</span><em data-i18n="hero_fix">We fix the system behind all three.</em></h1>
       </section>
       <section class="hero-intro">
-        <p>Strategy, identity, web, motion and AI systems designed around measurable business outcomes.</p>
-        <a class="cta" href="#solution">Tell us what’s not working <span>→</span></a>
+        <p data-i18n="hero_desc">Strategy, identity, web, motion and AI systems designed around measurable business outcomes.</p>
+        <a class="cta" href="#solution"><span data-i18n="hero_cta">Tell us what’s not working</span> <span>→</span></a>
         <div class="discipline-list"><span>STRATEGY</span><span>CREATIVE</span><span>TECHNOLOGY</span><span>REAL GROWTH</span></div>
       </section>
 
@@ -268,18 +335,18 @@
 <section class="solution-section reveal" id="solution">
       <div class="section-kicker">01 / FIND THE RIGHT WAY IN</div>
       <div class="solution-head">
-        <h2>What are you<br>trying to change?</h2>
-        <p>Don’t browse a list of services. Start with the problem. BARTSS shapes the right mix of strategy, design, motion and technology around the outcome you need.</p>
+        <h2 data-i18n="solution_title">What are you<br>trying to change?</h2>
+        <p data-i18n="solution_desc">Don’t browse a list of services. Start with the problem. BARTSS shapes the right mix of strategy, design, motion and technology around the outcome you need.</p>
       </div>
       <div class="need-grid" id="needGrid">
-        <button class="need-card active" data-solution="brand"><span>01</span><b>I need a stronger brand.</b><small>Positioning · identity · campaigns</small><i>↗</i></button>
-        <button class="need-card" data-solution="product"><span>02</span><b>I need a better digital product.</b><small>Web · UX · product systems</small><i>↗</i></button>
-        <button class="need-card" data-solution="attention"><span>03</span><b>I need more attention.</b><small>Motion · content · launch</small><i>↗</i></button>
-        <button class="need-card" data-solution="automation"><span>04</span><b>I need AI to remove the repetitive work.</b><small>Automation · agents · custom systems</small><i>↗</i></button>
+        <button class="need-card active" data-solution="brand"><span>01</span><b data-i18n="need_brand">I need a stronger brand.</b><small>Positioning · identity · campaigns</small><i>↗</i></button>
+        <button class="need-card" data-solution="product"><span>02</span><b data-i18n="need_product">I need a better digital product.</b><small>Web · UX · product systems</small><i>↗</i></button>
+        <button class="need-card" data-solution="attention"><span>03</span><b data-i18n="need_attention">I need more attention.</b><small>Motion · content · launch</small><i>↗</i></button>
+        <button class="need-card" data-solution="automation"><span>04</span><b data-i18n="need_ai">I need AI to remove the repetitive work.</b><small>Automation · agents · custom systems</small><i>↗</i></button>
       </div>
       <div class="solution-output" id="solutionOutput">
-        <div><span class="output-label">YOUR LIKELY BARTSS STACK</span><h3 id="solutionTitle">Brand Strategy + Identity + Launch System</h3></div>
-        <a href="#transformation">See how we change it <span>→</span></a>
+        <div><span class="output-label" data-i18n="stack_label">YOUR LIKELY BARTSS STACK</span><h3 id="solutionTitle" data-i18n="stack_default">Brand Strategy + Identity + Launch System</h3></div>
+        <a href="#transformation"><span data-i18n="solution_cta">See how we change it</span> <span>→</span></a>
       </div>
     </section>
 
@@ -636,6 +703,68 @@
       <div class="chat-chips"><button>Start a project</button><button>Our services</button><button>Pricing</button></div>
     </div>
   </aside>
+
+
+<script>
+(() => {
+  const copy = {
+    en: {
+      menu_brand:"Brand<br>Identity", menu_web:"Web &<br>Product", menu_motion:"Motion & 3D",
+      menu_ai:"AI Systems", menu_products:"Products", menu_process:"Process", menu_about:"About",
+      hero_p1:"Your brand looks generic.", hero_p2:"Your website doesn’t sell.", hero_p3:"Your production is too manual.",
+      hero_fix:"We fix the system behind all three.",
+      hero_desc:"Strategy, identity, web, motion and AI systems designed around measurable business outcomes.",
+      hero_cta:"Tell us what’s not working",
+      solution_title:"What are you<br>trying to change?",
+      solution_desc:"Don’t browse a list of services. Start with the problem. BARTSS shapes the right mix of strategy, design, motion and technology around the outcome you need.",
+      need_brand:"I need a stronger brand.", need_product:"I need a better digital product.",
+      need_attention:"I need more attention.", need_ai:"I need AI to remove the repetitive work.",
+      stack_label:"YOUR LIKELY BARTSS STACK", stack_default:"Brand Strategy + Identity + Launch System",
+      solution_cta:"See how we change it"
+    },
+    tr: {
+      menu_brand:"Marka<br>Kimliği", menu_web:"Web &<br>Ürün", menu_motion:"Motion & 3D",
+      menu_ai:"AI Sistemleri", menu_products:"Ürünler", menu_process:"Süreç", menu_about:"Hakkımızda",
+      hero_p1:"Markanız jenerik görünüyor.", hero_p2:"Web siteniz satışa dönüştürmüyor.", hero_p3:"Üretim süreciniz fazla manuel.",
+      hero_fix:"Üçünün arkasındaki sistemi biz değiştiriyoruz.",
+      hero_desc:"Ölçülebilir iş sonuçlarına odaklanan strateji, marka kimliği, web, motion ve AI sistemleri.",
+      hero_cta:"Neyin çalışmadığını bize gösterin",
+      solution_title:"Neyi<br>değiştirmek istiyorsunuz?",
+      solution_desc:"Hizmet listesinde kaybolmayın. Problemden başlayın. BARTSS ihtiyaç duyduğunuz sonuca göre strateji, tasarım, motion ve teknolojiyi doğru kombinasyonda kurar.",
+      need_brand:"Daha güçlü bir markaya ihtiyacım var.", need_product:"Daha iyi bir dijital ürüne ihtiyacım var.",
+      need_attention:"Daha fazla dikkat çekmem gerekiyor.", need_ai:"Tekrarlayan işleri AI ile kaldırmak istiyorum.",
+      stack_label:"OLASI BARTSS ÇÖZÜM YAPINIZ", stack_default:"Marka Stratejisi + Kimlik + Lansman Sistemi",
+      solution_cta:"Nasıl değiştirdiğimizi görün"
+    }
+  };
+
+  function applyLang(lang){
+    const dict=copy[lang]||copy.en;
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-i18n]").forEach(el=>{
+      const key=el.dataset.i18n;
+      if(dict[key]!==undefined) el.innerHTML=dict[key];
+    });
+    document.querySelectorAll(".lang-btn").forEach(btn=>{
+      const active=btn.dataset.lang===lang;
+      btn.classList.toggle("active",active);
+      btn.setAttribute("aria-pressed",active?"true":"false");
+    });
+    try{localStorage.setItem("bartss-lang",lang)}catch(e){}
+  }
+
+  document.querySelectorAll(".lang-btn").forEach(btn=>{
+    btn.addEventListener("click",e=>{
+      e.stopPropagation();
+      applyLang(btn.dataset.lang);
+    });
+  });
+
+  let saved="en";
+  try{saved=localStorage.getItem("bartss-lang")||"en"}catch(e){}
+  applyLang(saved);
+})();
+</script>
 
 </body>
 </html>
