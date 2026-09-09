@@ -1,0 +1,166 @@
+/* BARTSS V4 — demonstration motion layer */
+
+/* PHONE: denser living wall behind an independent foreground phone */
+#immersiveWork[data-motion="immersive-v4"] .v4-dense-wall{
+  width:122vw!important;
+  height:285vh!important;
+  left:50%!important;
+  top:50%!important;
+  transform-origin:center;
+}
+#immersiveWork .v4-dense-wall .mosaic-card{
+  width:22vw!important;
+  min-width:260px;
+  height:34vh!important;
+  min-height:280px;
+  border-radius:24px!important;
+  overflow:hidden;
+  box-shadow:0 24px 70px rgba(0,0,0,.22);
+}
+#immersiveWork .visual-tile{
+  background:#eef0ed;
+  display:grid;
+  grid-template-rows:1fr auto;
+}
+#immersiveWork .visual-tile img{
+  width:100%;height:100%;object-fit:cover;min-height:0;
+}
+#immersiveWork .visual-tile span{
+  padding:12px 14px;
+  color:#111418;
+  font-size:7px;
+  letter-spacing:.14em;
+}
+#immersiveWork .v4-dense-wall .m1{left:3%;top:3%}
+#immersiveWork .v4-dense-wall .m2{left:28%;top:0}
+#immersiveWork .v4-dense-wall .m3{right:25%;top:5%}
+#immersiveWork .v4-dense-wall .m4{right:1%;top:1%}
+#immersiveWork .v4-dense-wall .m5{left:7%;top:25%}
+#immersiveWork .v4-dense-wall .m6{left:33%;top:22%}
+#immersiveWork .v4-dense-wall .m7{right:21%;top:27%}
+#immersiveWork .v4-dense-wall .m8{right:0;top:23%}
+#immersiveWork .v4-dense-wall .m9{left:1%;top:49%}
+#immersiveWork .v4-dense-wall .m10{left:27%;top:52%}
+#immersiveWork .v4-dense-wall .m11{right:26%;top:48%}
+#immersiveWork .v4-dense-wall .m12{right:3%;top:54%}
+
+/* TABLET: the device stays fixed; one long page moves inside its masked viewport */
+#tabletExperience[data-motion="continuous-page"]{
+  height:360vh!important;
+}
+#tabletExperience[data-motion="continuous-page"] .tablet-sticky{
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow:hidden;
+}
+#tabletExperience .v4-tablet-screen{
+  overflow:hidden!important;
+  position:relative;
+}
+#tabletExperience .v4-tablet-page{
+  position:absolute;
+  left:0;right:0;top:0;
+  height:400%;
+  will-change:transform;
+  transform:translate3d(0,var(--page-y,0px),0);
+}
+#tabletExperience .v4-page-block{
+  position:relative!important;
+  inset:auto!important;
+  width:100%;
+  height:25%;
+  min-height:0;
+  opacity:1!important;
+  transform:none!important;
+  clip-path:none!important;
+  overflow:hidden;
+  padding:0;
+}
+#tabletExperience .v4-page-kicker{
+  padding:22px 24px 10px;
+  font-size:7px;
+  letter-spacing:.15em;
+  opacity:.44;
+}
+#tabletExperience .v4-floating-world .tablet-float{
+  transform:none!important;
+  animation:v4FloatA 6.8s ease-in-out infinite;
+  will-change:transform;
+}
+#tabletExperience .v4-floating-world .tf2{animation-name:v4FloatB;animation-duration:7.4s;animation-delay:-1.2s}
+#tabletExperience .v4-floating-world .tf3{animation-duration:6.2s;animation-delay:-2.4s}
+#tabletExperience .v4-floating-world .tf4{animation-name:v4FloatB;animation-duration:8s;animation-delay:-3.1s}
+#tabletExperience .v4-floating-world .tf5{animation-duration:7.1s;animation-delay:-1.8s}
+@keyframes v4FloatA{50%{transform:translate3d(10px,-9px,0) rotate(.7deg)}}
+@keyframes v4FloatB{50%{transform:translate3d(-9px,10px,0) rotate(-.7deg)}}
+
+#tabletExperience .v4-decision-steps{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:20px;
+}
+#tabletExperience .v4-decision-steps span{
+  padding:7px 9px;
+  border-radius:999px;
+  border:1px solid rgba(17,20,24,.12);
+  font-size:6.5px;
+  letter-spacing:.12em;
+  opacity:.38;
+  transition:opacity .35s ease,background .35s ease,color .35s ease,transform .45s cubic-bezier(.16,1,.3,1);
+}
+#tabletExperience .v4-decision-steps span.active{
+  opacity:1;
+  background:#151a1d;
+  color:#fff;
+  transform:translateY(-2px);
+}
+#tabletExperience .v4-random-box{
+  --box-delay:0ms;
+  opacity:.2;
+  transform:translateY(20px) scale(.985);
+  transition:
+    opacity .48s ease var(--box-delay),
+    transform .7s cubic-bezier(.16,1,.3,1) var(--box-delay);
+}
+#tabletExperience .v4-random-box.v4-box-live{
+  opacity:1;
+  transform:none;
+}
+#tabletExperience .brand-web-art img{
+  width:100%;height:100%;object-fit:cover;
+}
+#tabletExperience .v4-compare-grid{
+  height:calc(100% - 42px);
+  padding:12px 22px 22px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+#tabletExperience .v4-compare-grid article{
+  min-height:0;
+  border-radius:16px;
+  overflow:hidden;
+  background:#eef0ed;
+  display:grid;
+  grid-template-rows:1fr auto auto;
+}
+#tabletExperience .v4-compare-grid img{
+  width:100%;height:100%;object-fit:cover;min-height:0;
+}
+#tabletExperience .v4-compare-grid span{
+  padding:8px 10px 2px;font-size:6px;letter-spacing:.14em;opacity:.42;
+}
+#tabletExperience .v4-compare-grid b{
+  padding:0 10px 10px;font-size:12px;font-weight:500;
+}
+@media(max-width:800px){
+  #immersiveWork .v4-dense-wall .mosaic-card{min-width:180px}
+  #tabletExperience .v4-compare-grid{grid-template-columns:1fr 1fr}
+  #tabletExperience .v4-compare-grid article:last-child{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  #tabletExperience .v4-floating-world .tablet-float{animation:none!important}
+  #tabletExperience .v4-random-box{opacity:1!important;transform:none!important}
+}
