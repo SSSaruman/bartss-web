@@ -366,3 +366,266 @@
   }
   .v4-core-orbit,.v4-route i{animation:none!important}
 }
+
+
+/* =========================================================
+   V4 HERO GATE 01 / TRANSFORMATION STAGE
+   Broken fragments -> Bartss system -> visual outcomes
+   ========================================================= */
+.v4-transform-stage{
+  isolation:isolate;
+}
+.v4-transform-stage .v4-stage-bg{
+  transform:translate3d(calc(var(--mx)*.12),calc(var(--my)*.12),0)!important;
+}
+.v4-grid-line{
+  position:absolute;
+  left:-12%;
+  width:124%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(17,20,24,.08),transparent);
+  transform-origin:center;
+}
+.gl1{top:28%;rotate:-6deg}
+.gl2{top:52%;rotate:4deg}
+.gl3{top:74%;rotate:-3deg}
+
+/* BROKEN — deliberately fragmented composition */
+.v4-broken-layer,
+.v4-system-layer,
+.v4-outcome-layer{
+  position:absolute;
+  inset:0;
+}
+.v4-broken-layer{z-index:6}
+.v4-fragment{
+  position:absolute;
+  min-width:145px;
+  padding:13px 14px;
+  border-radius:16px;
+  border:1px solid rgba(17,20,24,.09);
+  background:rgba(255,255,255,.52);
+  backdrop-filter:blur(12px);
+  box-shadow:0 16px 38px rgba(30,40,38,.08);
+  transform-origin:center;
+  transition:
+    opacity .58s ease,
+    transform 1s cubic-bezier(.16,1,.3,1),
+    filter .7s ease;
+  will-change:transform,opacity;
+}
+.v4-fragment span,
+.v4-fragment small{
+  display:block;
+  font-size:6.5px;
+  letter-spacing:.12em;
+  opacity:.42;
+}
+.v4-fragment b{
+  display:block;
+  margin:5px 0;
+  font-size:17px;
+  font-weight:500;
+  letter-spacing:-.035em;
+}
+.f1{left:7%;top:17%;rotate:-7deg}
+.f2{right:7%;top:14%;rotate:6deg}
+.f3{left:4%;bottom:15%;rotate:4deg}
+.f4{right:8%;bottom:12%;width:165px;display:flex;gap:8px}
+.f4 i{display:block;flex:1;height:54px;border-radius:9px;background:rgba(17,20,24,.08)}
+.f5{left:38%;top:10%;min-width:155px;rotate:-2deg}
+.f5 strong{font-size:32px;font-weight:400}
+.f6{right:31%;bottom:8%;rotate:3deg}
+
+.v4-stage[data-phase="broken"] .v4-broken-layer .v4-fragment{
+  opacity:1;
+  filter:none;
+}
+.v4-stage[data-phase="system"] .v4-broken-layer .v4-fragment{
+  opacity:.12;
+  filter:blur(1px);
+}
+.v4-stage[data-phase="system"] .f1{transform:translate(210px,145px) scale(.55) rotate(0)}
+.v4-stage[data-phase="system"] .f2{transform:translate(-210px,150px) scale(.55) rotate(0)}
+.v4-stage[data-phase="system"] .f3{transform:translate(230px,-145px) scale(.55) rotate(0)}
+.v4-stage[data-phase="system"] .f4{transform:translate(-210px,-130px) scale(.55) rotate(0)}
+.v4-stage[data-phase="system"] .f5{transform:translate(35px,165px) scale(.5)}
+.v4-stage[data-phase="system"] .f6{transform:translate(-80px,-140px) scale(.5)}
+.v4-stage[data-phase="outcome"] .v4-broken-layer .v4-fragment{
+  opacity:0;
+  transform:scale(.35);
+  filter:blur(4px);
+}
+
+/* SYSTEM — pieces become one machine */
+.v4-system-layer{
+  z-index:10;
+  opacity:0;
+  transform:scale(.76) rotate(-6deg);
+  transition:
+    opacity .6s ease,
+    transform 1.05s cubic-bezier(.16,1,.3,1);
+  pointer-events:none;
+}
+.v4-stage[data-phase="system"] .v4-system-layer{
+  opacity:1;
+  transform:scale(1) rotate(0);
+}
+.v4-stage[data-phase="outcome"] .v4-system-layer{
+  opacity:0;
+  transform:scale(1.25);
+}
+.v4-system-core-v2{
+  position:absolute;
+  left:50%;top:50%;
+  width:min(250px,31%);
+  aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  border-radius:34%;
+  display:grid;
+  align-content:center;
+  justify-items:center;
+  text-align:center;
+  gap:7px;
+  color:#fff;
+  background:
+    radial-gradient(circle at 28% 18%,rgba(255,255,255,.18),transparent 24%),
+    linear-gradient(145deg,#11171b,#26352d);
+  box-shadow:
+    0 30px 70px rgba(20,28,25,.27),
+    inset 0 1px 0 rgba(255,255,255,.16);
+}
+.v4-system-core-v2 small{font-size:7px;letter-spacing:.18em;opacity:.44}
+.v4-system-core-v2 strong{font-size:clamp(25px,2.25vw,38px);line-height:.86;font-weight:400;letter-spacing:-.055em}
+.v4-system-core-v2 span{max-width:120px;font-size:6px;line-height:1.35;letter-spacing:.10em;opacity:.42}
+.v4-system-ring{
+  position:absolute;
+  left:50%;top:50%;
+  aspect-ratio:1;
+  border:1px solid rgba(17,20,24,.13);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+}
+.sr1{width:46%;animation:v4SystemSpin 18s linear infinite}
+.sr2{width:65%;opacity:.5;animation:v4SystemSpin 26s linear infinite reverse}
+.v4-system-chip{
+  position:absolute;
+  height:32px;
+  padding:0 11px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(255,255,255,.78);
+  box-shadow:0 12px 30px rgba(28,37,34,.08);
+  backdrop-filter:blur(14px);
+  font-size:6.5px;
+  letter-spacing:.12em;
+  transform:scale(.7);
+  opacity:0;
+  transition:
+    opacity .45s ease var(--sd,0ms),
+    transform .75s cubic-bezier(.16,1,.3,1) var(--sd,0ms);
+}
+.sc1{left:13%;top:28%;--sd:100ms}
+.sc2{right:12%;top:25%;--sd:170ms}
+.sc3{left:9%;bottom:28%;--sd:240ms}
+.sc4{right:9%;bottom:26%;--sd:310ms}
+.sc5{left:50%;bottom:9%;translate:-50% 0;--sd:380ms}
+.v4-stage[data-phase="system"] .v4-system-chip{
+  opacity:1;
+  transform:scale(1);
+}
+.v4-pulse-route{
+  position:absolute;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(17,20,24,.26),transparent);
+  opacity:0;
+}
+.pr1{left:20%;right:20%;top:50%}
+.pr2{top:22%;bottom:22%;left:50%;width:1px;height:auto}
+.pr3{left:26%;right:26%;top:36%;rotate:-24deg}
+.v4-stage[data-phase="system"] .v4-pulse-route{
+  opacity:.8;
+  animation:v4RoutePulse 1.5s ease-in-out infinite;
+}
+
+/* OUTCOME — real Bartss assets become the final visual proof */
+.v4-outcome-layer{
+  z-index:12;
+  pointer-events:none;
+}
+.v4-result-card{
+  position:absolute;
+  width:min(245px,30%);
+  aspect-ratio:.76;
+  border-radius:18px;
+  overflow:hidden;
+  background:rgba(255,255,255,.90);
+  border:1px solid rgba(255,255,255,.82);
+  box-shadow:0 24px 58px rgba(26,36,33,.14);
+  opacity:0;
+  transform:translateY(54px) scale(.78);
+  transition:
+    opacity .62s ease var(--rd,0ms),
+    transform 1s cubic-bezier(.16,1,.3,1) var(--rd,0ms);
+  will-change:transform,opacity;
+}
+.rc-brand{left:5%;top:18%;--rd:80ms;rotate:-4deg}
+.rc-web{left:50%;top:11%;translate:-50% 0;--rd:180ms;z-index:3}
+.rc-ai{right:5%;top:20%;--rd:280ms;rotate:4deg}
+.v4-stage[data-phase="outcome"] .v4-result-card{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+.v4-result-art{
+  height:70%;
+  overflow:hidden;
+  background:linear-gradient(145deg,#e8eee9,#cad8d1);
+}
+.rc-brand .v4-result-art{background:linear-gradient(145deg,#efd0b8,#cddfe2)}
+.rc-web .v4-result-art{background:linear-gradient(145deg,#dce8f8,#b5c1ec)}
+.rc-ai .v4-result-art{background:linear-gradient(145deg,#e5ec9a,#89a580)}
+.v4-result-art img{
+  width:100%;height:100%;object-fit:cover;transform:scale(1.04);
+}
+.v4-result-copy{padding:11px 12px}
+.v4-result-copy small{display:block;font-size:6px;letter-spacing:.12em;opacity:.42}
+.v4-result-copy b{display:block;margin:4px 0;font-size:14px;line-height:1;font-weight:500;letter-spacing:-.035em}
+.v4-result-copy span{display:block;font-size:7px;opacity:.45}
+.v4-result-summary{
+  position:absolute;
+  left:50%;bottom:7%;
+  transform:translate(-50%,22px);
+  width:min(360px,55%);
+  padding:11px 15px;
+  border-radius:16px;
+  text-align:center;
+  background:rgba(17,22,26,.78);
+  color:#fff;
+  backdrop-filter:blur(16px);
+  opacity:0;
+  transition:
+    opacity .55s ease .42s,
+    transform .8s cubic-bezier(.16,1,.3,1) .42s;
+}
+.v4-stage[data-phase="outcome"] .v4-result-summary{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+.v4-result-summary span{display:block;font-size:6px;letter-spacing:.16em;opacity:.44}
+.v4-result-summary b{display:block;margin-top:3px;font-size:12px;font-weight:400}
+
+@keyframes v4SystemSpin{to{rotate:360deg}}
+@keyframes v4RoutePulse{50%{opacity:.25;filter:brightness(1.5)}}
+
+@media(max-width:700px){
+  .v4-fragment{min-width:120px;padding:9px}
+  .f5,.f6{display:none}
+  .v4-system-core-v2{width:165px}
+  .sr1{width:58%}.sr2{width:76%}
+  .v4-result-card{width:32%}
+  .v4-result-copy span{display:none}
+  .v4-result-copy b{font-size:11px}
+}
