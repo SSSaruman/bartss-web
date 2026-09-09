@@ -1096,3 +1096,137 @@ main > section:not(.immersive-work):not(.tablet-experience),
     transition:none!important;
   }
 }
+
+
+/* =========================================================
+   MOTION-GRAPHIC LAYERING PASS
+   Background / section content / card internals animate independently.
+   ========================================================= */
+
+/* Standard sections become transparent stages; their backgrounds live on ::before. */
+.solution-section.ref-section,
+.project-gallery.ref-section,
+.motion-manifesto.ref-section,
+.systems-hub.ref-section,
+.packages-section.ref-section,
+.transformation.ref-section,
+.work-section.ref-section,
+.bartss-footer.ref-section{
+  position:relative!important;
+  isolation:isolate;
+  background:transparent!important;
+  box-shadow:none!important;
+  border-color:transparent!important;
+  opacity:1!important;
+  transform:none!important;
+}
+
+.solution-section.ref-section{--ref-bg:linear-gradient(145deg,#f7f8f4 0%,#eef2ea 100%)}
+.project-gallery.ref-section{--ref-bg:linear-gradient(145deg,#f6f6f3 0%,#ecefea 100%)}
+.motion-manifesto.ref-section{--ref-bg:linear-gradient(145deg,#f3f4ef 0%,#e7edd7 100%)}
+.systems-hub.ref-section{--ref-bg:linear-gradient(145deg,#f8f8f4 0%,#e8efeb 100%)}
+.packages-section.ref-section{--ref-bg:linear-gradient(145deg,#f7f7f3 0%,#eee8dc 100%)}
+.transformation.ref-section{--ref-bg:linear-gradient(145deg,#13181c 0%,#20282d 100%)}
+.work-section.ref-section{--ref-bg:linear-gradient(145deg,#f6f6f2 0%,#e9ece6 100%)}
+.bartss-footer.ref-section{--ref-bg:linear-gradient(145deg,#fafaf7 0%,#f0f1ed 100%)}
+
+/* Background plate enters first, independently from content. */
+.ref-section::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  border-radius:inherit;
+  background:var(--ref-bg,#f5f5f1);
+  border:1px solid rgba(17,20,24,.07);
+  box-shadow:0 28px 80px rgba(23,31,36,.09);
+  opacity:0;
+  transform:translate3d(0,92px,0) scale(.965);
+  transform-origin:center 65%;
+  transition:
+    opacity .52s ease,
+    transform 1.08s cubic-bezier(.16,1,.3,1);
+}
+
+/* A separate motion-graphic sweep line follows the background. */
+.ref-section::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  left:5%;
+  right:5%;
+  top:18px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(17,20,24,.28),transparent);
+  opacity:0;
+  transform:scaleX(.12) translate3d(0,10px,0);
+  transform-origin:left center;
+  transition:
+    opacity .45s ease .18s,
+    transform .95s cubic-bezier(.16,1,.3,1) .18s;
+}
+.transformation.ref-section::after{
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);
+}
+
+.ref-section.ref-bg-in::before{
+  opacity:1;
+  transform:none;
+}
+.ref-section.ref-bg-in::after{
+  opacity:.8;
+  transform:scaleX(1) translate3d(0,0,0);
+}
+
+/* Section-level copy no longer moves as one slab; it waits for the background. */
+.ref-section .ref-block{
+  transition-delay:calc(220ms + var(--ref-delay,0ms))!important;
+}
+
+/* Card shell / visual / text are independent micro-layers. */
+.ref-card{
+  position:relative;
+}
+.ref-part{
+  opacity:0;
+  translate:0 22px;
+  scale:.985;
+  transition:
+    opacity .52s ease var(--part-delay,0ms),
+    translate .78s cubic-bezier(.16,1,.3,1) var(--part-delay,0ms),
+    scale .78s cubic-bezier(.16,1,.3,1) var(--part-delay,0ms);
+}
+.ref-card.ref-card-in .ref-part{
+  opacity:1;
+  translate:0 0;
+  scale:1;
+}
+
+/* Visuals travel slightly further than text for a motion-graphic depth cue. */
+.ref-part.ref-part-visual{
+  translate:0 34px;
+  scale:.96;
+}
+.ref-card.ref-card-in .ref-part.ref-part-visual{
+  translate:0 0;
+  scale:1;
+}
+
+/* Preserve performance: only animate compositor-friendly properties. */
+.ref-section::before,
+.ref-section::after,
+.ref-part{
+  will-change:transform,opacity;
+}
+
+@media(prefers-reduced-motion:reduce){
+  .ref-section::before,
+  .ref-section::after,
+  .ref-part{
+    opacity:1!important;
+    transform:none!important;
+    translate:none!important;
+    scale:1!important;
+    transition:none!important;
+  }
+}
