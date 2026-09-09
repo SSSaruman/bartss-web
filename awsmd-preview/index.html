@@ -22,12 +22,25 @@ radial-gradient(circle at 30% 72%,#f08394 0 12%,transparent 13%)}
 .services{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.service{background:#e1ded6;min-height:650px;padding:10px;display:flex;flex-direction:column}.media{height:330px;position:relative;overflow:hidden;background:#d1d0cb}.phoneA,.phoneB{position:absolute;height:120%;top:-7%;object-fit:contain}.phoneA{left:-8%;transform:rotate(-10deg)}.phoneB{right:-8%;transform:rotate(10deg)}.designMedia{display:grid;grid-template-columns:1fr 1fr}.designMedia div{display:grid;place-items:center;font-size:36px;font-weight:800}.designMedia div:nth-child(1){background:#f1d749}.designMedia div:nth-child(2){background:#866bff;color:#fff}.designMedia div:nth-child(3){background:#ff9167}.designMedia div:nth-child(4){background:#efeee9}.codeMedia{background:#151515;color:#fff;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:20px}.codeMedia strong{grid-column:1/-1;font-size:68px;display:grid;place-items:center}.codeMedia span{border:1px solid #555;border-radius:999px;display:grid;place-items:center}
 .service h3{font-size:40px;line-height:.95;letter-spacing:-.045em;margin:24px 0 12px}.service p{font-size:14px;line-height:1.35}.tech{margin-top:auto;border-top:1px solid #aaa;padding-top:12px;font-size:10px}
 .dark{background:#111;color:#f3f1ea}.dark .intro{border-color:#555}.aboutHead,.portfolioHead{display:flex;justify-content:space-between;align-items:flex-end}.big{font-size:clamp(74px,10vw,170px);line-height:.8;letter-spacing:-.07em;margin:0}.big em{font-family:Georgia,serif;font-weight:400}.circle{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;text-align:center;background:#f1dc43;color:#111;font-size:12px}.aboutCopy{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;padding-left:15%;margin:80px 0}.aboutCopy p{font-size:22px;line-height:1.25;color:#c7c4bc}.nums{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #555;border-bottom:1px solid #555}.nums div{padding:30px 12px;border-right:1px solid #555}.nums strong{display:block;font-size:56px}.nums span{font-size:11px;color:#999}.logos{padding-top:40px;font-size:32px;font-weight:800;white-space:nowrap;overflow:hidden}
-.smart{height:360vh;background:var(--lime);position:relative;overflow:hidden}.smartInner{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:59% 41%;overflow:hidden;background:var(--lime)}.smartCopy{position:relative;z-index:3;padding:28px 22px 76px;display:flex;flex-direction:column;min-width:0;will-change:transform,opacity}.smartCopy:before{content:"AWSMD";position:absolute;left:22px;top:24px;font-weight:900;font-size:22px;letter-spacing:-1px;color:#3326ff}.smartCopy:after{content:"About Us     Cases     Reviews     Contact Us";position:absolute;right:54px;top:28px;font-weight:700;font-size:11px;white-space:pre;color:#2b20ff}.smartCopy h2{font-size:clamp(82px,8.4vw,150px);line-height:.73;letter-spacing:-.075em;margin:48px 0 0;max-width:100%;font-weight:900}.smartCopy p{font-size:19px;line-height:1.18;max-width:430px;margin-top:auto}.smartStage{position:relative;overflow:hidden;background:#a58ae7;min-width:0;isolation:isolate}.screenRail{position:absolute;z-index:2;left:-7%;top:-18vh;width:114%;height:250vh;will-change:transform;transform-origin:center center;pointer-events:none}.scr{position:absolute;object-fit:cover;border-radius:28px;box-shadow:0 28px 70px rgba(0,0,0,.18);will-change:transform,opacity}.s1{left:0;top:6vh;width:28%;height:47vh}.s2{right:2%;top:18vh;width:27%;height:50vh}.s3{left:3%;top:72vh;width:30%;height:44vh}.s4{right:0;top:86vh;width:28%;height:46vh}.s5{left:24%;top:132vh;width:24%;height:38vh}.s6{right:24%;top:166vh;width:24%;height:40vh}.ph{position:absolute;z-index:4;width:min(30%,340px);max-height:78%;object-fit:contain;filter:drop-shadow(0 18px 32px rgba(0,0,0,.34));will-change:transform,opacity}.ph1{left:16%;top:18%;transform:translate3d(0,0,0) rotate(-9deg)}.ph2{right:11%;top:12%;transform:translate3d(0,0,0) rotate(8deg)}.hand{position:absolute;z-index:5;width:min(68%,720px);max-height:88%;object-fit:contain;right:-8%;bottom:-7%;pointer-events:none;will-change:transform,opacity}
+.smart{height:360vh;position:relative;background:var(--lime);overflow:visible}
+.smartInner{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--lime)}
+.smartCopy{position:absolute;z-index:1;inset:0 auto 0 0;width:59vw;height:100vh;padding:28px 22px 76px;display:flex;flex-direction:column;background:var(--lime);will-change:opacity,transform}
+.smartCopy:before{content:"AWSMD";position:absolute;left:22px;top:24px;font-weight:900;font-size:22px;letter-spacing:-1px;color:#3326ff}
+.smartCopy:after{content:"About Us     Cases     Reviews     Contact Us";position:absolute;right:54px;top:28px;font-weight:700;font-size:11px;white-space:pre;color:#2b20ff}
+.smartCopy h2{font-size:clamp(82px,8.4vw,150px);line-height:.73;letter-spacing:-.075em;margin:48px 0 0;max-width:100%;font-weight:900}
+.smartCopy p{font-size:19px;line-height:1.18;max-width:430px;margin-top:auto}
+.smartStage{position:absolute;z-index:2;top:0;right:0;bottom:0;left:59vw;width:auto;height:100vh;overflow:hidden;background:#a58ae7;isolation:isolate;will-change:left}
+.screenRail{position:absolute;z-index:2;left:-7vw;top:-18vh;width:114vw;height:250vh;will-change:transform;transform-origin:center center;pointer-events:none}
+.scr{position:absolute;object-fit:cover;border-radius:28px;box-shadow:0 28px 70px rgba(0,0,0,.18);will-change:transform,opacity}
+.s1{left:0;top:6vh;width:28vw;height:47vh}.s2{right:2vw;top:18vh;width:27vw;height:50vh}.s3{left:3vw;top:72vh;width:30vw;height:44vh}.s4{right:0;top:86vh;width:28vw;height:46vh}.s5{left:24vw;top:132vh;width:24vw;height:38vh}.s6{right:24vw;top:166vh;width:24vw;height:40vh}
+.ph{position:absolute;z-index:4;width:min(28vw,340px);max-height:78vh;object-fit:contain;filter:drop-shadow(0 18px 32px rgba(0,0,0,.34));will-change:transform,opacity}
+.ph1{left:22%;top:18%;transform:rotate(-9deg)}.ph2{right:17%;top:12%;transform:rotate(8deg)}
+.hand{position:absolute;z-index:5;width:min(56vw,720px);max-height:88vh;object-fit:contain;right:-4vw;bottom:-7vh;pointer-events:none;will-change:transform,opacity}
 .portfolioIntro{display:grid;grid-template-columns:58% 42%;min-height:390px;margin-bottom:10px}.portfolioIntroLeft{padding:0 34px}.portfolioIntroLeft .sectionNo{font-size:15px;color:#777}.portfolioIntroLeft .dot{display:block;width:10px;height:10px;border-radius:50%;background:#5248ff;margin:48px 0 28px 68px}.portfolioIntroLeft p{font-size:24px;line-height:1.35;color:#999;max-width:380px}.portfolioIntroRight{padding:0 36px 0 0}.portfolioIntroRight h2{font-size:clamp(58px,5.5vw,105px);line-height:.9;letter-spacing:-.055em;margin:0;font-weight:400}.portfolioIntroRight a{display:inline-block;margin-top:48px;font-size:15px}.projects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 30px 80px}.project{position:relative;background:#dedbd2;padding:10px 10px 0;min-height:620px;border-radius:34px;overflow:hidden;display:flex;flex-direction:column}.project.wide,.project.med{grid-column:auto}.project small{font-size:10px;text-transform:uppercase;margin:2px 4px 10px}.project img{width:100%;height:520px;display:block;object-fit:cover;margin:0;flex:none;border-radius:26px 26px 0 0}.project b{height:88px;margin:0;background:#fff;border-radius:0 0 26px 26px;display:flex;align-items:center;padding:0 38px;font-size:21px;letter-spacing:-.02em}.project:after{content:"↗";position:absolute;right:28px;bottom:18px;width:52px;height:52px;border-radius:50%;background:#ddd;display:grid;place-items:center;font-size:22px}
 .cases h2{font-size:clamp(78px,10vw,170px);letter-spacing:-.07em;margin:20px 0 55px}.case{display:grid;grid-template-columns:70px 1.2fr 1fr;gap:28px;border-top:1px solid #555;padding:26px 0}.case:last-child{border-bottom:1px solid #555}.case h3{font-size:28px;margin:0}.case p{font-size:14px;line-height:1.4;margin:0;color:#aaa}
 .reviews{background:var(--coral)}.reviewGrid{display:grid;grid-template-columns:1.2fr .8fr;gap:8px}.feature,.stack article{background:var(--bg)}.feature{min-height:520px;padding:34px;display:flex;flex-direction:column}.feature blockquote{font-size:35px;line-height:1.12;margin:auto 0}.stack{display:grid;gap:8px}.stack article{padding:26px}.stack p{font-size:22px;line-height:1.2}
 footer{padding:90px 28px 28px;background:#111;color:#f3f1ea}footer h2{font-size:clamp(120px,18vw,310px);line-height:.72;letter-spacing:-.08em;margin:35px 0 60px}footer h2 em{font-family:Georgia,serif}.footerGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-top:1px solid #555;margin-top:75px;padding-top:25px}.footerGrid p{font-size:12px;color:#999;line-height:1.5}.bottom{border-top:1px solid #555;margin-top:55px;padding-top:15px;display:flex;justify-content:space-between;font-size:10px}
-@media(max-width:900px){.floatingControls{right:12px;top:12px}.langBtn{display:none}.hero{grid-template-columns:1fr}.services,.aboutCopy,.reviewGrid{grid-template-columns:1fr}.intro{grid-template-columns:1fr}.nums{grid-template-columns:1fr 1fr}.projects{grid-template-columns:1fr;padding:0 12px 50px}.project img{height:360px}.portfolioIntro{grid-template-columns:1fr;min-height:auto;gap:50px;padding-bottom:60px}.portfolioIntroLeft,.portfolioIntroRight{padding:0 18px}.portfolioIntroRight h2{font-size:58px}.smart{height:auto}.smartInner{position:relative;height:auto;display:grid;grid-template-columns:1fr}.smartCopy{min-height:620px}.smartCopy:after{display:none}.smartStage{min-height:760px}.case{grid-template-columns:50px 1fr}.case p{grid-column:2}.footerGrid{grid-template-columns:1fr}}
+@media(max-width:900px){.floatingControls{right:12px;top:12px}.langBtn{display:none}.hero{grid-template-columns:1fr}.services,.aboutCopy,.reviewGrid{grid-template-columns:1fr}.intro{grid-template-columns:1fr}.nums{grid-template-columns:1fr 1fr}.projects{grid-template-columns:1fr;padding:0 12px 50px}.project img{height:360px}.portfolioIntro{grid-template-columns:1fr;min-height:auto;gap:50px;padding-bottom:60px}.portfolioIntroLeft,.portfolioIntroRight{padding:0 18px}.portfolioIntroRight h2{font-size:58px}.smart{height:auto}.smartInner{position:relative;height:auto;min-height:1380px}.smartCopy{position:relative;width:100%;height:620px}.smartCopy:after{display:none}.smartStage{position:relative;left:0;width:100%;height:760px;min-height:760px}.screenRail{left:-30vw;width:160vw}.ph{width:min(250px,42vw)}.case{grid-template-columns:50px 1fr}.case p{grid-column:2}.footerGrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -58,6 +71,7 @@ footer{padding:90px 28px 28px;background:#111;color:#f3f1ea}footer h2{font-size:
   const section=document.getElementById('smart');
   if(!section)return;
 
+  const stage=section.querySelector('.smartStage');
   const wall=section.querySelector('.screenRail');
   const cards=[...section.querySelectorAll('.scr')];
   const phones=[...section.querySelectorAll('.ph')];
@@ -68,10 +82,10 @@ footer{padding:90px 28px 28px;background:#111;color:#f3f1ea}footer h2{font-size:
   const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
   const smooth=t=>{t=clamp(t);return t*t*(3-2*t)};
 
-  function sectionProgress(){
-    const rect=section.getBoundingClientRect();
+  function progress(){
+    const r=section.getBoundingClientRect();
     const travel=Math.max(1,section.offsetHeight-innerHeight);
-    return clamp(-rect.top/travel);
+    return clamp(-r.top/travel);
   }
 
   let raf=0;
@@ -79,17 +93,27 @@ footer{padding:90px 28px 28px;background:#111;color:#f3f1ea}footer h2{font-size:
     raf=0;
     if(reduce || innerWidth<=900)return;
 
-    const p=sectionProgress();
-    const story=clamp(p/.86);
-    const exit=smooth(clamp((p-.86)/.14));
+    const p=progress();
 
-    // Exact V4 principle: wall moves vertically; never translate/scale the stage horizontally.
+    // Phase 1: right panel grows leftward while its right edge stays locked to viewport.
+    const expand=smooth(clamp(p/.24));
+    stage.style.left=(59*(1-expand))+'vw';
+
+    if(copy){
+      copy.style.opacity=String(1-expand);
+      copy.style.transform='translate3d(0,'+(-expand*18)+'px,0)';
+    }
+
+    // Phase 2: reuse hero-v4 immersive wall logic — vertical only.
+    const story=clamp((p-.18)/.68);
+    const exit=smooth(clamp((p-.88)/.12));
+
     const wallY=18-story*150-exit*16;
     const wallScale=1+story*.045;
     wall.style.transform='translate3d(0,'+wallY+'vh,0) scale('+wallScale+')';
     wall.style.opacity=String(.70+story*.22-exit*.14);
 
-    cards.forEach((card)=>{
+    cards.forEach(card=>{
       card.style.transform='translate3d(0,0,0) scale('+(0.98+story*.025)+')';
     });
 
@@ -109,15 +133,9 @@ footer{padding:90px 28px 28px;background:#111;color:#f3f1ea}footer h2{font-size:
       hand.style.transform='translate3d(0,'+phoneY+'px,0) scale('+phoneScale+')';
       hand.style.opacity=String(phoneOpacity);
     }
-
-    if(copy){
-      const copyExit=smooth(clamp((p-.68)/.18));
-      copy.style.transform='translate3d(0,'+(-copyExit*34)+'px,0)';
-      copy.style.opacity=String(1-copyExit*.96);
-    }
   }
 
-  function request(){ if(!raf)raf=requestAnimationFrame(render); }
+  function request(){if(!raf)raf=requestAnimationFrame(render)}
   addEventListener('scroll',request,{passive:true});
   addEventListener('resize',request,{passive:true});
   render();
