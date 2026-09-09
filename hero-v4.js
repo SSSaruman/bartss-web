@@ -89,28 +89,25 @@ document.addEventListener("pointerdown",e=>{
 })();
 
 const solutionMap={
-  brand:{
-    title:"Brand Strategy + Identity + Motion + Web",
-    chips:["Strategy","Identity","Motion","Web"]
+  en:{
+    brand:{title:"Brand Strategy + Identity + Motion + Web",chips:["Strategy","Identity","Motion","Web"]},
+    product:{title:"UX + Content Architecture + Web + Motion + Conversion System",chips:["UX","Content architecture","Web","Motion","Conversion system"]},
+    attention:{title:"Campaign Strategy + Motion + 3D + Content System",chips:["Campaign strategy","Motion","3D","Content system"]},
+    automation:{title:"Workflow Analysis + AI + Automation + Custom Systems",chips:["Workflow analysis","AI","Automation","Custom systems"]}
   },
-  product:{
-    title:"UX + Content Architecture + Web + Motion + Conversion System",
-    chips:["UX","Content architecture","Web","Motion","Conversion system"]
-  },
-  attention:{
-    title:"Campaign Strategy + Motion + 3D + Content System",
-    chips:["Campaign strategy","Motion","3D","Content system"]
-  },
-  automation:{
-    title:"Workflow Analysis + AI + Automation + Custom Systems",
-    chips:["Workflow analysis","AI","Automation","Custom systems"]
+  tr:{
+    brand:{title:"Marka Stratejisi + Kimlik + Motion + Web",chips:["Strateji","Kimlik","Motion","Web"]},
+    product:{title:"UX + İçerik Mimarisi + Web + Motion + Dönüşüm Sistemi",chips:["UX","İçerik mimarisi","Web","Motion","Dönüşüm sistemi"]},
+    attention:{title:"Kampanya Stratejisi + Motion + 3D + İçerik Sistemi",chips:["Kampanya stratejisi","Motion","3D","İçerik sistemi"]},
+    automation:{title:"İş Akışı Analizi + AI + Otomasyon + Özel Sistemler",chips:["İş akışı analizi","AI","Otomasyon","Özel sistemler"]}
   }
 };
 document.querySelectorAll(".need-card").forEach(btn=>btn.addEventListener("click",()=>{
   document.querySelectorAll(".need-card").forEach(x=>x.classList.remove("active"));
   btn.classList.add("active");
 
-  const config=solutionMap[btn.dataset.solution]||solutionMap.brand;
+  const lang=document.documentElement.dataset.lang==="tr"?"tr":"en";
+  const config=solutionMap[lang][btn.dataset.solution]||solutionMap[lang].brand;
   const title=document.getElementById("solutionTitle");
   const chips=document.getElementById("solutionStackChips");
 
