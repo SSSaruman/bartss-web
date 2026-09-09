@@ -38,7 +38,7 @@ function circularDistance(index,active){
 
 function heroStep(){
   const w=heroRailWrap?.clientWidth||innerWidth;
-  return Math.max(340,Math.min(455,w*.245));
+  return Math.max(430,Math.min(520,w*.315));
 }
 
 function applyHeroLayout({animate=true}={}){
@@ -49,10 +49,10 @@ function applyHeroLayout({animate=true}={}){
     const i=Number(card.dataset.logical);
     const d=circularDistance(i,activeIndex);
     const abs=Math.abs(d);
-    const push=heroBusy && d!==0 ? (d<0?-170:170) : (abs===1 ? (d<0?-44:44) : 0);
+    const push=heroBusy && d!==0 ? (d<0?-115:115) : 0;
     const x=d*step+push;
-    const scale=d===0?1.15:(abs===1?.985:.94);
-    const opacity=d===0?1:(abs===1?.82:.56);
+    const scale=d===0?1.08:(abs===1?.94:.88);
+    const opacity=d===0?1:(abs===1?.78:.52);
 
     const prev=Number(card.dataset.heroDistance ?? d);
     const wraps=Math.abs(prev-d) > (baseCount/2-.5);
@@ -159,7 +159,8 @@ const heroFeatureMap=[
   ["POSITIONING CLARITY","OWNABLE IDENTITY","CONSISTENT ROLLOUT"],
   ["CLEARER JOURNEY","LOWER FRICTION","CONVERSION FLOW"],
   ["STRONGER HOOK","MOTION LANGUAGE","MEMORABLE STORY"],
-  ["WORKFLOW AUDIT","AI AUTOMATION","CUSTOM SYSTEMS"]
+  ["WORKFLOW AUDIT","AI AUTOMATION","CUSTOM SYSTEMS"],
+  ["CONNECTED STRATEGY","SHARED SYSTEM","SCALABLE GROWTH"]
 ];
 
 function updateFeatureStack(index){
@@ -271,7 +272,8 @@ const heroV2Data=[
  {title:"Brand clarity",eyebrow:"BARTSS / BRAND",art:"https://images.unsplash.com/photo-1600508774634-4e11d34730e2?auto=format&fit=crop&w=1200&q=84",build:[["Positioning","Clarify the promise"],["Identity","Create ownable signals"],["Motion","Make the system recognisable"],["Web","Carry it into experience"]],resultTitle:"Brand system ready",resultSub:"Strategy, identity, motion and web working as one.",value:"Brand clarity",metric:"+38%"},
  {title:"Digital conversion",eyebrow:"BARTSS / DIGITAL",art:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=84",build:[["UX","Reduce friction"],["Content architecture","Explain value faster"],["Web","Make actions obvious"],["Conversion system","Move visitors toward decisions"]],resultTitle:"Conversion path ready",resultSub:"Clearer journey, less friction, stronger action.",value:"Task completion",metric:"+31%"},
  {title:"Attention",eyebrow:"BARTSS / ATTENTION",art:"https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1200&q=84",build:[["Campaign idea","Create the hook"],["Motion","Build behaviour"],["3D","Add depth"],["Content system","Extend across channels"]],resultTitle:"Attention system ready",resultSub:"One idea designed to be noticed and remembered.",value:"Attention lift",metric:"+42%"},
- {title:"Efficiency",eyebrow:"BARTSS / SYSTEMS",art:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=84",build:[["Workflow analysis","Find repetitive work"],["AI","Automate decisions"],["Automation","Connect the steps"],["Custom systems","Make it usable"]],resultTitle:"Workflow system ready",resultSub:"Manual production reduced into a controlled system.",value:"Production speed",metric:"3.4×"}
+ {title:"Efficiency",eyebrow:"BARTSS / SYSTEMS",art:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=84",build:[["Workflow analysis","Find repetitive work"],["AI","Automate decisions"],["Automation","Connect the steps"],["Custom systems","Make it usable"]],resultTitle:"Workflow system ready",resultSub:"Manual production reduced into a controlled system.",value:"Production speed",metric:"3.4×"},
+ {title:"Growth system",eyebrow:"BARTSS / GROWTH",art:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=84",build:[["Strategy","Align the direction"],["Experience","Connect the touchpoints"],["Systems","Remove fragmentation"],["Scale","Extend what works"]],resultTitle:"Growth system ready",resultSub:"Strategy, experience and systems moving together.",value:"System coherence",metric:"+35%"}
 ];
 
 liveCards().forEach(card=>{
