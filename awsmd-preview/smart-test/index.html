@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AWSMD Smart Test</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#d9fb4a;font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
+.spacer{height:35vh;background:#f4f2ec;display:grid;place-items:center;font-size:13px}
+#immersiveWork{height:340vh;width:100%;position:relative;overflow:visible;background:#0b0e10}
+.immersive-sticky{position:sticky;top:0;height:100vh;overflow:hidden;background:#a58ae7}
+.smart-copy{position:absolute;z-index:20;left:0;top:0;width:40vw;height:100vh;background:#d9fb4a;padding:28px 22px 76px;display:flex;flex-direction:column;will-change:transform,opacity}
+.smart-copy:before{content:"AWSMD";font-size:22px;font-weight:900;color:#3326ff}
+.smart-copy h1{font-size:clamp(84px,8.8vw,156px);line-height:.73;letter-spacing:-.075em;margin:12px 0 0}
+.smart-copy p{font-size:19px;line-height:1.2;max-width:430px;margin-top:auto}
+.mosaic-layer{position:absolute;z-index:2;left:-7vw;top:-18vh;width:114vw;height:250vh;transform:translate3d(0,var(--wall-y,10vh),0) scale(var(--wall-scale,1));will-change:transform;pointer-events:none}
+.mosaic-card{position:absolute;overflow:hidden;border-radius:30px;box-shadow:0 28px 70px rgba(0,0,0,.22);opacity:var(--wall-card-opacity,.86);transform:translate3d(0,var(--card-y,0px),0) scale(var(--card-scale,1));will-change:transform,opacity}
+.mosaic-card img{width:100%;height:100%;object-fit:cover;display:block}
+.m1{width:28vw;height:47vh;left:0;top:6vh}.m2{width:27vw;height:50vh;right:2vw;top:18vh}.m3{width:30vw;height:44vh;left:3vw;top:72vh}.m4{width:28vw;height:46vh;right:0;top:86vh}.m5{width:24vw;height:38vh;left:24vw;top:132vh}.m6{width:24vw;height:40vh;right:24vw;top:166vh}
+.phone-wrap{position:absolute;z-index:12;left:50%;top:50%;width:min(390px,27vw);transform:translate3d(-50%,calc(-50% + var(--phone-y,0px)),0) scale(var(--phone-scale,1));opacity:var(--phone-opacity,1);will-change:transform,opacity}
+.phone-wrap img{width:100%;display:block;filter:drop-shadow(0 48px 80px rgba(0,0,0,.45))}
+.hand-wrap{position:absolute;z-index:13;left:50%;top:50%;width:min(760px,54vw);transform:translate3d(-10%,calc(-35% + var(--phone-y,0px)),0) scale(var(--phone-scale,1));opacity:var(--phone-opacity,1);will-change:transform,opacity;pointer-events:none}
+.hand-wrap img{width:100%;display:block;filter:drop-shadow(0 40px 80px rgba(0,0,0,.35))}
+@media(max-width:900px){#immersiveWork{height:300vh}.smart-copy{width:100vw;height:45vh}.smart-copy h1{font-size:18vw}.phone-wrap{width:min(320px,38vw)}.mosaic-layer{width:128vw;left:-14vw}.m1,.m3{width:42vw}.m2,.m4{width:42vw}}
+</style>
+</head>
+<body>
+<div class="spacer">Scroll ↓</div>
+<section id="immersiveWork">
+  <div class="immersive-sticky">
+    <div class="smart-copy">
+      <h1>{SMART}<br>DEVELOPMENT**</h1>
+      <p>Making your business outstanding is a science. We take it (a) seriously and (b) creatively.</p>
+    </div>
+    <div class="mosaic-layer">
+      <div class="mosaic-card m1"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-1.a20752cf.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
+      <div class="mosaic-card m2"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-2.8514041a.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
+      <div class="mosaic-card m3"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-3.d005e2e1.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
+      <div class="mosaic-card m4"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen2-1.63042a32.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
+      <div class="mosaic-card m5"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen2-2.7428647f.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
+      <div class="mosaic-card m6"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen2-3.2ba450f4.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
+    </div>
+    <div class="phone-wrap"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fphone-01.9afcffea.png%3Fq%3D90%26fm%3Dwebp&w=3840"></div>
+    <div class="hand-wrap"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fhand.509eef57.png%3Fq%3D90%26fm%3Dwebp&w=3840"></div>
+  </div>
+</section>
+<div class="spacer">End</div>
+<script>
+(() => {
+  const section=document.getElementById('immersiveWork');
+  const wall=section.querySelector('.mosaic-layer');
+  const device=section.querySelector('.phone-wrap');
+  const hand=section.querySelector('.hand-wrap');
+  const copy=section.querySelector('.smart-copy');
+  const cards=[...section.querySelectorAll('.mosaic-card')];
+  const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+  const smooth=t=>{t=clamp(t);return t*t*(3-2*t)};
+  function sectionProgress(){
+    const rect=section.getBoundingClientRect();
+    const travel=Math.max(1,section.offsetHeight-innerHeight);
+    return clamp(-rect.top/travel);
+  }
+  let raf=0;
+  function render(){
+    raf=0;
+    const p=sectionProgress();
+    const story=clamp(p/.86);
+    const exit=smooth(clamp((p-.86)/.14));
+    const wallY=18-story*150-exit*16;
+    const wallScale=1+story*.045;
+    wall.style.setProperty('--wall-y',wallY.toFixed(2)+'vh');
+    wall.style.setProperty('--wall-scale',wallScale.toFixed(4));
+    wall.style.setProperty('--wall-card-opacity',(0.70+story*.22-exit*.14).toFixed(3));
+    cards.forEach((card,i)=>{
+      const dir=i%2===0?-1:1;
+      const band=(i%4)*.045;
+      const drift=(story-band)*dir*(18+(i%3)*5);
+      card.style.setProperty('--card-y',drift.toFixed(2)+'px');
+      card.style.setProperty('--card-scale',(.98+story*.025).toFixed(4));
+    });
+    const py=(-exit*innerHeight*.18).toFixed(2)+'px';
+    const ps=(1-exit*.06).toFixed(4);
+    const po=(1-exit*.22).toFixed(3);
+    device.style.setProperty('--phone-y',py); device.style.setProperty('--phone-scale',ps); device.style.setProperty('--phone-opacity',po);
+    hand.style.setProperty('--phone-y',py); hand.style.setProperty('--phone-scale',ps); hand.style.setProperty('--phone-opacity',po);
+    const copyExit=smooth(clamp((p-.68)/.18));
+    copy.style.transform='translate3d(0,'+(-copyExit*34).toFixed(2)+'px,0)';
+    copy.style.opacity=(1-copyExit*.96).toFixed(3);
+  }
+  function request(){if(!raf)raf=requestAnimationFrame(render)}
+  addEventListener('scroll',request,{passive:true}); addEventListener('resize',request,{passive:true}); render();
+})();
+</script>
+</body></html>
