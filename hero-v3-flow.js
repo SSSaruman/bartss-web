@@ -103,3 +103,51 @@
     requestAnimationFrame(animateRail);
   }
 })();
+
+
+// Section settle: after wheel/trackpad motion ends, glide to the nearest main panel.
+// Tall sticky storytelling sections keep their internal scroll range.
+(() => {
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const snapSections=[...document.querySelectorAll("main > section")];
+  let settleTimer=null;
+  let snapping=false;
+
+  function insideLongStory(){
+    const y=window.scrollY + innerHeight*0.5;
+    return [document.querySelector(".immersive-work"),document.querySelector(".tablet-experience")]
+      .filter(Boolean)
+      .some(section=>{
+        const top=section.offsetTop;
+        const bottom=top+section.offsetHeight;
+        return y>top+innerHeight*.35 && y<bottom-innerHeight*.35;
+      });
+  }
+
+  function settleToNearest(){
+    if(snapping || insideLongStory()) return;
+    const current=window.scrollY;
+    let best=null;
+    for(const section of snapSections){
+      const top=section.offsetTop;
+      const d=Math.abs(top-current);
+      if(!best || d<best.d) best={section,d};
+    }
+    if(!best || best.d<18) return;
+    snapping=true;
+    best.section.scrollIntoView({behavior:"smooth",block:"start"});
+    setTimeout(()=>snapping=false,700);
+  }
+
+  addEventListener("wheel",()=>{
+    if(snapping)return;
+    clearTimeout(settleTimer);
+    settleTimer=setTimeout(settleToNearest,140);
+  },{passive:true});
+
+  addEventListener("touchend",()=>{
+    clearTimeout(settleTimer);
+    settleTimer=setTimeout(settleToNearest,180);
+  },{passive:true});
+})();
