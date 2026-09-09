@@ -81,6 +81,49 @@
 })();
 
 
+
+
+/* layered motion-graphic card internals */
+function registerMotionGraphicParts(section){
+  const cardSelectors=[
+    ".need-card",
+    ".project-tile",
+    ".system-card",
+    ".package-card",
+    ".proof-case",
+    ".footer-panel"
+  ];
+  const partSelectors=[
+    ".card-top",".visual",".card-copy",".round-arrow",
+    ".project-meta",".project-object",".project-name",
+    ".system-card-top",".system-visual",".system-copy",
+    ".package-top",".package-visual",".package-copy",".package-footer",
+    ".case-meta",".case-art",".case-info",
+    ".footer-panel > span",".footer-panel > strong",".footer-panel > i"
+  ];
+
+  section.querySelectorAll(cardSelectors.join(",")).forEach(card=>{
+    card.classList.add("ref-card");
+    const parts=[];
+    partSelectors.forEach(sel=>{
+      card.querySelectorAll(sel).forEach(el=>{
+        if(!parts.includes(el)) parts.push(el);
+      });
+    });
+
+    if(parts.length===0){
+      [...card.children].forEach(el=>parts.push(el));
+    }
+
+    parts.forEach((el,i)=>{
+      el.classList.add("ref-part");
+      if(el.matches(".visual,.project-object,.system-visual,.package-visual,.case-art,.footer-panel > i")){
+        el.classList.add("ref-part-visual");
+      }
+      el.style.setProperty("--part-delay",(320+i*72)+"ms");
+    });
+  });
+}
 // Reference-style section choreography: section first, then internal blocks.
 (() => {
   if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -124,6 +167,7 @@
 
   sections.forEach(section=>{
     section.classList.add("ref-section");
+    registerMotionGraphicParts(section);
     let order=0;
 
     blockSelectors.forEach(sel=>{
@@ -144,10 +188,22 @@
     entries.forEach(entry=>{
       if(!entry.isIntersecting) return;
       const section=entry.target;
-      section.classList.add("ref-section-in");
+
+      // Phase 1: background plate.
+      section.classList.add("ref-bg-in");
+
+      // Phase 2: section copy / major blocks.
       requestAnimationFrame(()=>{
+        section.classList.add("ref-section-in");
         section.querySelectorAll(".ref-block").forEach(el=>el.classList.add("ref-block-in"));
       });
+
+      // Phase 3: card internals, independently staggered after shell arrival.
+      section.querySelectorAll(".ref-card").forEach((card,i)=>{
+        card.style.setProperty("--card-index",i);
+        setTimeout(()=>card.classList.add("ref-card-in"),260+i*72);
+      });
+
       observer.unobserve(section);
     });
   },{threshold:.16,rootMargin:"0px 0px -10% 0px"});
