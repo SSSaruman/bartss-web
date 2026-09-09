@@ -1,0 +1,1223 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BARTSS V4 — We change what isn’t working</title>
+  <meta name="description" content="BARTSS creative studio — brand, web, motion and AI systems." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./hero-v2.css?v=three-features-31" />
+<style>
+/* =========================================================
+   HERO V3 / ITEM 1 — FINAL 3-SECOND TEST COMPOSITION
+   Problem → Outcome → Capability. V2 structure preserved.
+   ========================================================= */
+.hero{
+  width:min(1480px,calc(100vw - 120px));
+  margin:36px auto 18px;
+  grid-template-columns:1.08fr .92fr;
+  column-gap:92px;
+  align-items:start;
+}
+.hero-copy::before{
+  content:"THREE PROBLEMS / ONE SYSTEM";
+  display:block;
+  margin:0 0 14px;
+  font-size:9px;
+  line-height:1;
+  letter-spacing:.30em;
+  font-weight:600;
+  color:rgba(17,20,24,.48);
+}
+.v3-problem-head{
+  margin:0!important;
+  max-width:820px;
+  display:grid;
+  gap:0;
+  font-size:inherit!important;
+  line-height:1!important;
+  letter-spacing:0!important;
+}
+.v3-problem-head span{
+  display:block;
+  width:min(560px,92%);
+  padding:7px 0 8px;
+  border-bottom:1px solid rgba(17,20,24,.14);
+  font-size:clamp(18px,1.45vw,23px);
+  line-height:1.08;
+  letter-spacing:-.025em;
+  font-weight:400;
+  color:rgba(17,20,24,.62);
+}
+.v3-problem-head span:nth-child(1){color:rgba(17,20,24,.82)}
+.v3-problem-head em{
+  position:relative;
+  display:block;
+  max-width:760px;
+  margin-top:16px;
+  padding-top:14px;
+  font-style:normal;
+  font-size:clamp(48px,4.35vw,72px);
+  line-height:.91;
+  letter-spacing:-.06em;
+  font-weight:500;
+  color:#111418;
+  text-wrap:balance;
+}
+.v3-problem-head em::before{
+  content:"";
+  position:absolute;
+  left:0;top:0;
+  width:150px;height:3px;
+  border-radius:999px;
+  background:linear-gradient(90deg,#111418 0 36%,#dce879 36% 100%);
+}
+.hero-intro{
+  padding-top:28px;
+  min-height:220px;
+}
+.hero-intro>p{
+  width:min(520px,78%);
+  margin:0 0 20px;
+  font-size:16px;
+  line-height:1.42;
+  color:rgba(17,20,24,.68);
+}
+.cta{
+  min-width:242px;
+  justify-content:space-between;
+  transition:transform .35s var(--ease),box-shadow .35s ease,background .35s ease;
+}
+.cta:hover{
+  transform:translateY(-2px);
+  box-shadow:0 18px 38px rgba(0,0,0,.18);
+  background:#111418;
+}
+.cta span{transition:transform .35s var(--ease)}
+.cta:hover span{transform:translateX(4px)}
+.discipline-list{top:28px}
+.rail-wrap{
+  margin-top:18px;
+  min-height:425px;
+}
+.card-rail{
+  gap:74px;
+  padding-top:6px;
+}
+.show-card{width:280px}
+.show-card.active{transform:scale(1.10)}
+.feature-stack{
+  top:308px;
+  width:300px;
+  height:120px;
+}
+.feature-stack button:nth-child(1){width:180px}
+.feature-stack button:nth-child(2){width:225px}
+.feature-stack button:nth-child(3){width:270px}
+.hero-footer{
+  margin-top:-2px;
+  padding-bottom:2px;
+}
+
+@media(max-width:1100px){
+  .hero{
+    width:calc(100vw - 36px);
+    grid-template-columns:1fr;
+    row-gap:18px;
+    margin-top:30px;
+  }
+  .hero-copy::before{margin-bottom:12px}
+  .v3-problem-head span{
+    width:min(620px,100%);
+    font-size:18px;
+  }
+  .v3-problem-head em{
+    max-width:720px;
+    font-size:clamp(46px,8vw,66px);
+  }
+  .hero-intro{
+    padding-top:0;
+    min-height:0;
+  }
+  .hero-intro>p{width:min(620px,100%)}
+  .discipline-list{display:none}
+  .rail-wrap{margin-top:8px;min-height:330px}
+  .show-card,.show-card.active{width:260px;transform:none}
+}
+@media(max-width:700px){
+  .hero{margin-top:24px}
+  .hero-copy::before{font-size:8px}
+  .v3-problem-head span{
+    padding:6px 0 7px;
+    font-size:16px;
+  }
+  .v3-problem-head em{
+    margin-top:14px;
+    padding-top:12px;
+    font-size:clamp(40px,12.4vw,54px);
+    line-height:.93;
+  }
+  .hero-intro>p{font-size:15px}
+  .rail-wrap{min-height:318px}
+  .hero-footer{margin-top:12px}
+}
+/* menu control rail — dedicated X + language column */
+.menu-panel{
+  width:min(1235px,calc(100vw - 54px));
+}
+.menu-rail{
+  grid-template-columns:repeat(7,minmax(128px,1fr)) 82px;
+  gap:12px;
+  padding-right:14px;
+}
+.menu-controls{
+  min-width:82px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 0 2px;
+  border-left:1px solid rgba(255,255,255,.10);
+}
+.menu-controls .menu-x{
+  position:static;
+  flex:0 0 auto;
+  width:40px;
+  height:40px;
+  margin-top:2px;
+}
+.menu-lang{
+  width:52px;
+  padding:7px 0;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.025);
+  display:grid;
+  gap:2px;
+}
+.lang-btn{
+  width:100%;
+  height:38px;
+  border:0;
+  background:transparent;
+  color:rgba(255,255,255,.28);
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.06em;
+  cursor:pointer;
+  transition:color .25s ease,transform .25s var(--ease);
+}
+.lang-btn:hover{color:rgba(255,255,255,.72)}
+.lang-btn.active{color:#fff;transform:scale(1.05)}
+@media(max-width:1100px){
+  .menu-panel{width:calc(100vw - 20px)}
+  .menu-rail{
+    grid-template-columns:repeat(7,140px) 82px;
+    overflow-x:auto;
+  }
+  .menu-controls{
+    position:sticky;
+    right:0;
+    background:linear-gradient(180deg,rgba(17,23,30,.99),rgba(17,23,30,.96));
+    z-index:6;
+  }
+}
+/* hero loop: viewport is the mask; wrapped cards teleport while invisible */
+@media(min-width:1101px){
+  .rail-wrap{overflow:clip!important}
+  .show-card.hero-teleport{
+    opacity:0!important;
+    pointer-events:none!important;
+    transition:none!important;
+  }
+}
+/* hero composition correction: cards first, message below */
+.hero{
+  grid-template-columns:1fr!important;
+  row-gap:0!important;
+  margin-top:30px!important;
+}
+.rail-wrap{
+  grid-column:1!important;
+  order:1!important;
+  margin-top:0!important;
+  min-height:500px!important;
+}
+.hero-message-below{
+  order:2;
+  display:grid;
+  grid-template-columns:1.08fr .92fr;
+  column-gap:92px;
+  align-items:start;
+  margin-top:18px;
+  padding-top:24px;
+  border-top:1px solid rgba(17,20,24,.10);
+}
+.hero-message-below .hero-copy,
+.hero-message-below .hero-intro{
+  grid-column:auto!important;
+}
+.hero-message-below .hero-copy::before{
+  margin-bottom:10px;
+}
+.hero-message-below .v3-problem-head span{
+  width:min(520px,92%);
+  font-size:15px;
+  padding:5px 0 6px;
+}
+.hero-message-below .v3-problem-head em{
+  max-width:620px;
+  margin-top:12px;
+  padding-top:12px;
+  font-size:clamp(38px,3.4vw,56px);
+  line-height:.94;
+}
+.hero-message-below .hero-intro{
+  padding-top:16px;
+  min-height:0;
+}
+.hero-message-below .discipline-list{
+  top:16px;
+}
+.hero-footer{
+  order:3;
+  grid-column:1!important;
+  margin-top:20px!important;
+}
+
+/* larger hero cards */
+@media(min-width:1101px){
+  .rail-wrap{
+    height:500px!important;
+    min-height:500px!important;
+  }
+  .card-rail{
+    top:22px!important;
+    height:390px!important;
+  }
+  .show-card{
+    width:360px!important;
+    height:360px!important;
+  }
+  .feature-stack{
+    top:365px!important;
+  }
+
+  /* animation build composition: close the dead gap */
+  .hv2-exact-scene{
+    width:780px!important;
+  }
+  .hv2-build-copy{
+    left:calc(50% - 170px)!important;
+    width:230px!important;
+  }
+  .hv2-pin-grid{
+    left:calc(50% + 120px)!important;
+    width:310px!important;
+  }
+  .hero-v2-stage[data-phase="build"] .hv2-building{
+    left:calc(50% - 170px)!important;
+    top:calc(50% - 108px)!important;
+  }
+}
+@media(max-width:1100px){
+  .hero-message-below{
+    grid-template-columns:1fr;
+    gap:20px;
+    margin-top:14px;
+  }
+}
+/* five-card centered slider */
+@media(min-width:1101px){
+  .rail-wrap{
+    overflow:clip!important;
+  }
+  .card-rail{
+    left:50%!important;
+    top:22px!important;
+    width:0!important;
+    height:390px!important;
+  }
+  .show-card{
+    width:360px!important;
+    height:360px!important;
+  }
+  .show-card.active{
+    transform:translateX(calc(-50% + var(--hero-x,0px))) scale(1.08)!important;
+  }
+}
+/* full-bleed five-card rail: no empty side gutters */
+@media(min-width:1101px){
+  .hero{overflow:visible!important}
+  .rail-wrap{
+    width:100vw!important;
+    max-width:none!important;
+    margin-left:calc(50% - 50vw)!important;
+    margin-right:calc(50% - 50vw)!important;
+    overflow:clip!important;
+  }
+  .card-rail{
+    left:50vw!important;
+  }
+}
+/* item 4 — problem choice builds the service stack, not a service menu */
+.solution-output{
+  align-items:flex-end!important;
+  gap:28px;
+}
+.solution-stack-copy{
+  min-width:0;
+  flex:1;
+}
+.solution-stack-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:14px;
+}
+.solution-stack-chips span{
+  display:inline-flex;
+  align-items:center;
+  min-height:30px;
+  padding:0 11px;
+  border-radius:999px;
+  border:1px solid rgba(17,20,24,.12);
+  background:rgba(255,255,255,.42);
+  font-size:9px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(17,20,24,.68);
+  backdrop-filter:blur(10px);
+}
+@media(max-width:700px){
+  .solution-output{align-items:flex-start!important}
+}
+</style>
+  <link rel="stylesheet" href="./hero-v3-flow.css?v=motion-system-01" />
+  <link rel="stylesheet" href="./hero-v3-immersive.css?v=immersive-v4" />
+  <link rel="stylesheet" href="./hero-v3-stage.css?v=stage-v1" />
+  <link rel="stylesheet" href="./hero-v3-projects.css?v=projects-v1" />
+  <link rel="stylesheet" href="./hero-v3-viewport.css?v=viewport-v1" />
+  <link rel="stylesheet" href="./hero-v3-team.css?v=team-v1" />
+  <link rel="stylesheet" href="./hero-v4.css?v=hero-gate-01" />
+</head>
+<body>
+  <div class="background" aria-hidden="true">
+    <div class="bg-blue"></div>
+    <div class="bg-lime"></div>
+    <div class="bg-cloud cloud-a"></div>
+    <div class="bg-cloud cloud-b"></div>
+    <div class="bg-cloud cloud-c"></div>
+    <div class="grain"></div>
+  </div>
+
+  <header class="site-top">
+    <div class="micro micro-left">A MORE AMBITIOUS TOMORROW</div>
+    <button class="menu-trigger" id="menuTrigger" aria-expanded="false" aria-controls="menuPanel">
+      <span class="brand-mark">◉</span><span class="brand-word">BARTSS</span>
+      <span class="menu-word">Menu</span>
+      <span class="hamburger" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+    <div class="micro micro-right">BRANDS&nbsp;&nbsp;×&nbsp;&nbsp;SYSTEMS&nbsp;&nbsp;×&nbsp;&nbsp;GROWTH</div>
+  </header>
+
+  <nav class="menu-panel" id="menuPanel" aria-hidden="true">
+    <div class="menu-rail">
+      <a class="menu-tile" href="#brand"><span class="menu-icon">◇</span><span data-i18n="menu_brand">Brand<br>Identity</span></a>
+      <a class="menu-tile" href="#web"><span class="menu-icon">▱</span><span data-i18n="menu_web">Web &<br>Product</span></a>
+      <a class="menu-tile" href="#motion"><span class="menu-icon">◯</span><span data-i18n="menu_motion">Motion & 3D</span></a>
+      <a class="menu-tile" href="#ai"><span class="menu-icon">✦</span><span data-i18n="menu_ai">AI Systems</span></a>
+      <a class="menu-tile" href="#products"><span class="menu-icon">⬡</span><span data-i18n="menu_products">Labs</span></a>
+      <a class="menu-tile" href="#process"><span class="menu-icon">≋</span><span data-i18n="menu_process">Process</span></a>
+      <a class="menu-tile" href="#about"><span class="menu-icon">◔</span><span data-i18n="menu_about">About</span></a>
+      <div class="menu-controls" aria-label="Menu controls">
+        <button class="menu-x" id="menuClose" aria-label="Menüyü kapat">×</button>
+        <div class="menu-lang" role="group" aria-label="Language">
+          <button type="button" class="lang-btn active" data-lang="en">EN</button>
+          <button type="button" class="lang-btn" data-lang="tr">TR</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero-v4" id="heroV4" data-motion="problem-stage">
+      <div class="v4-hero-copy">
+        <span class="v4-eyebrow">BARTSS / BUSINESS CHANGE SYSTEMS</span>
+
+        <h1>
+          <span>Your brand looks generic.</span>
+          <span>Your website doesn’t sell.</span>
+          <span>Your production is too manual.</span>
+          <strong>We change what isn’t working.</strong>
+        </h1>
+
+        <div class="v4-hero-bottom">
+          <p>Strategy, identity, product, motion and AI — assembled around the business problem, not a shopping list of services.</p>
+          <div class="v4-hero-actions">
+            <a class="v4-primary" href="#solution">Tell us what’s not working <i>→</i></a>
+            <a class="v4-secondary" href="#transformation">See how we change it <i>↘</i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="v4-stage" id="v4Stage" data-state="0" aria-label="BARTSS problem to outcome motion system">
+        <div class="v4-stage-bg" aria-hidden="true">
+          <i class="v4-glow v4-glow-a"></i>
+          <i class="v4-glow v4-glow-b"></i>
+          <i class="v4-grid-ring r1"></i>
+          <i class="v4-grid-ring r2"></i>
+          <i class="v4-grid-ring r3"></i>
+        </div>
+
+        <div class="v4-stage-label">
+          <span>PROBLEM → SYSTEM → OUTCOME</span>
+          <b id="v4StageIndex">01 / 03</b>
+        </div>
+
+        <article class="v4-problem-node p-brand" data-v4-node="0">
+          <small>01 / BRAND</small>
+          <b>Looks generic</b>
+          <span>Low differentiation</span>
+        </article>
+        <article class="v4-problem-node p-digital" data-v4-node="1">
+          <small>02 / DIGITAL</small>
+          <b>Doesn’t convert</b>
+          <span>Friction before action</span>
+        </article>
+        <article class="v4-problem-node p-production" data-v4-node="2">
+          <small>03 / PRODUCTION</small>
+          <b>Too manual</b>
+          <span>Repetitive handoffs</span>
+        </article>
+
+        <div class="v4-system-core">
+          <div class="v4-core-orbit orbit-a"></div>
+          <div class="v4-core-orbit orbit-b"></div>
+          <div class="v4-core-face">
+            <span>BARTSS</span>
+            <b id="v4CoreWord">CLARIFY</b>
+            <small>STRATEGY × CREATIVE × TECHNOLOGY</small>
+          </div>
+        </div>
+
+        <div class="v4-route route-brand" aria-hidden="true"><i></i></div>
+        <div class="v4-route route-digital" aria-hidden="true"><i></i></div>
+        <div class="v4-route route-production" aria-hidden="true"><i></i></div>
+
+        <article class="v4-outcome o-brand" data-v4-outcome="0">
+          <small>OUTCOME / PERCEPTION</small>
+          <b>Be unmistakable.</b>
+          <span>Strategy · Identity · Motion</span>
+        </article>
+        <article class="v4-outcome o-digital" data-v4-outcome="1">
+          <small>OUTCOME / CONVERSION</small>
+          <b>Turn visits into decisions.</b>
+          <span>UX · Content · Web</span>
+        </article>
+        <article class="v4-outcome o-production" data-v4-outcome="2">
+          <small>OUTCOME / EFFICIENCY</small>
+          <b>Remove repetitive work.</b>
+          <span>Workflow · AI · Automation</span>
+        </article>
+
+        <div class="v4-stage-status">
+          <i></i>
+          <span id="v4StageStatus">Clarifying the signal</span>
+        </div>
+      </div>
+
+      <div class="v4-hero-foot">
+        <span>BRAND → PERCEPTION</span>
+        <span>WEB / PRODUCT → CONVERSION</span>
+        <span>MOTION → ATTENTION</span>
+        <span>AI → EFFICIENCY</span>
+      </div>
+    </section>
+
+    <!-- V3 / ITEM 2: need-based navigation moved directly after hero -->
+<section class="solution-section reveal" id="solution">
+      <div class="section-kicker">01 / FIND THE RIGHT WAY IN</div>
+      <div class="solution-head">
+        <h2 data-i18n="solution_title">What are you<br>trying to change?</h2>
+        <p data-i18n="solution_desc">Don’t browse a list of services. Start with the problem. BARTSS shapes the right mix of strategy, design, motion and technology around the outcome you need.</p>
+      </div>
+      <div class="need-grid" id="needGrid">
+        <button class="need-card active" data-solution="brand"><span>01</span><b data-i18n="need_brand">I need a stronger brand.</b><small>Positioning · identity · campaigns</small><i>↗</i></button>
+        <button class="need-card" data-solution="product"><span>02</span><b data-i18n="need_product">I need a better digital product.</b><small>Web · UX · product systems</small><i>↗</i></button>
+        <button class="need-card" data-solution="attention"><span>03</span><b data-i18n="need_attention">I need more attention.</b><small>Motion · content · launch</small><i>↗</i></button>
+        <button class="need-card" data-solution="automation"><span>04</span><b data-i18n="need_ai">I need AI to remove the repetitive work.</b><small>Automation · agents · custom systems</small><i>↗</i></button>
+      </div>
+      <div class="solution-output" id="solutionOutput">
+        <div class="solution-stack-copy">
+          <span class="output-label" data-i18n="stack_label">YOUR LIKELY BARTSS STACK</span>
+          <h3 id="solutionTitle">Brand Strategy + Identity + Motion + Web</h3>
+          <div class="solution-stack-chips" id="solutionStackChips" aria-live="polite">
+            <span>Strategy</span><span>Identity</span><span>Motion</span><span>Web</span>
+          </div>
+        </div>
+        <a href="#transformation"><span data-i18n="solution_cta">See how we change it</span> <span>→</span></a>
+      </div>
+    </section>
+
+
+    <section class="immersive-work" id="immersiveWork" data-motion="immersive-v4">
+      <div class="immersive-sticky">
+        <div class="immersive-title">
+          <span>DESIGN / MOTION / SYSTEMS</span>
+          <h2>See the work.<br>Feel the system.</h2>
+          <p>Scroll through a living wall of products, interfaces and campaigns. The phone stays in focus while the world around it keeps moving.</p>
+        </div>
+
+        <div class="mosaic-layer mosaic-back" data-parallax="0.26" aria-hidden="true">
+          <div class="mosaic-card m1"><div class="fake-ui purple"><b>Health Overview</b><i></i><i></i><i></i></div></div>
+          <div class="mosaic-card m2"><div class="fake-ui dark"><b>Your goals</b><i></i><i></i><i></i></div></div>
+          <div class="mosaic-card m3"><div class="fake-ui cream"><b>Balance</b><i></i><i></i><i></i></div></div>
+          <div class="mosaic-card m4"><div class="fake-ui white"><b>Share smarter</b><i></i><i></i><i></i></div></div>
+          <div class="mosaic-card m5"><div class="fake-ui lime"><b>AI Workflows</b><i></i><i></i><i></i></div></div>
+          <div class="mosaic-card m6"><div class="fake-ui blue"><b>Launch System</b><i></i><i></i><i></i></div></div>
+        </div>
+
+        <div class="phone-wrap" aria-label="Animated mobile product preview">
+          <div class="phone-shadow"></div>
+          <div class="phone">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="phone-scene active" data-scene="0">
+                <div class="phone-status"><span>9:41</span><span>● 5G ▰</span></div>
+                <span class="phone-overline">TODAY / BARTSS</span>
+                <h3>Planning</h3>
+                <div class="agenda-card"><b>21</b><span>November<br>10 AM</span><em>Share link ↗</em></div>
+                <div class="members"><span>Members (2)</span><div><i></i><i></i><button>+</button></div></div>
+                <div class="task"><small>GOALS (3)</small><b>Analyze<br>The Interview</b></div>
+                <div class="task"><small>PRODUCT</small><b>Discuss<br>Screen Map</b></div>
+              </div>
+              <div class="phone-scene" data-scene="1">
+                <div class="phone-status"><span>9:41</span><span>● 5G ▰</span></div>
+                <span class="phone-overline">AUTOLAB / PRODUCTION</span>
+                <h3>Storyboard</h3>
+                <div class="progress-ring"><strong>82%</strong><span>READY</span></div>
+                <div class="shot-row"><i></i><div><small>SCENE 08</small><b>Motion approved</b></div><em>✓</em></div>
+                <div class="shot-row"><i></i><div><small>SCENE 09</small><b>Generating visual</b></div><em>•••</em></div>
+                <div class="shot-row"><i></i><div><small>SCENE 10</small><b>Waiting for QC</b></div><em>→</em></div>
+              </div>
+              <div class="phone-scene" data-scene="2">
+                <div class="phone-status"><span>9:41</span><span>● 5G ▰</span></div>
+                <span class="phone-overline">AIFINANCE / SIGNALS</span>
+                <h3>Momentum</h3>
+                <div class="metric-big"><small>THIS WEEK</small><b>+24.8%</b><span>Growth signal</span></div>
+                <div class="mini-chart"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="signal"><span>Opportunity</span><b>High-intent audience detected</b><em>↗</em></div>
+                <div class="signal"><span>Action</span><b>Launch next creative variant</b><em>→</em></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="scroll-note"><span>SCROLL TO MOVE THE SYSTEM</span><i></i></div>
+      </div>
+    </section>
+
+
+    <section class="tablet-experience" id="tabletExperience">
+      <div class="tablet-sticky">
+        <div class="tablet-copy">
+          <span>WEB / PRODUCT EXPERIENCE</span>
+          <h2>Not a mockup.<br>A living interface.</h2>
+          <p>Scroll changes the website inside the tablet. Each state demonstrates a different kind of BARTSS thinking: brand experience, product UX and conversion systems.</p>
+          <div class="tablet-tabs" aria-label="Tablet scene progress">
+            <button class="active" data-tablet-tab="0">Brand Site</button>
+            <button data-tablet-tab="1">Product UX</button>
+            <button data-tablet-tab="2">Conversion</button>
+          </div>
+        </div>
+
+        <div class="tablet-world" aria-hidden="true">
+          <div class="tablet-float tf1"><span>STRATEGY</span><b>Positioning</b></div>
+          <div class="tablet-float tf2"><span>UX</span><b>Task-led flow</b></div>
+          <div class="tablet-float tf3"><span>MOTION</span><b>Responsive feedback</b></div>
+          <div class="tablet-float tf4"><span>GROWTH</span><b>Conversion layer</b></div>
+          <div class="tablet-float tf5"><span>AI</span><b>Adaptive content</b></div>
+        </div>
+
+        <div class="tablet-device">
+          <div class="tablet-frame">
+            <div class="tablet-camera"></div>
+            <div class="tablet-screen">
+              <section class="tablet-scene active" data-tablet-scene="0">
+                <div class="web-topbar">
+                  <div class="web-brand">BARTSS / BRAND</div>
+                  <div class="web-links"><span>Work</span><span>Studio</span><span>Contact</span></div>
+                </div>
+                <div class="brand-web-hero">
+                  <div class="brand-web-copy">
+                    <span>MAKE THE BRAND IMPOSSIBLE TO CONFUSE.</span>
+                    <h3>Distinct enough<br>to be remembered.</h3>
+                    <p>Positioning, identity and motion built as one recognisable system.</p>
+                    <button>View identity →</button>
+                  </div>
+                  <div class="brand-web-art">
+                    <div class="brand-shape bs1"></div><div class="brand-shape bs2"></div><div class="brand-shape bs3"></div>
+                    <strong>B</strong>
+                  </div>
+                </div>
+                <div class="web-marquee"><span>STRATEGY</span><span>IDENTITY</span><span>MOTION</span><span>CAMPAIGN</span></div>
+              </section>
+
+              <section class="tablet-scene" data-tablet-scene="1">
+                <div class="product-shell">
+                  <aside>
+                    <strong>AutoLAB</strong>
+                    <span class="active">Overview</span><span>Storyboard</span><span>Production</span><span>QC</span>
+                  </aside>
+                  <div class="product-main">
+                    <div class="product-head"><div><small>PROJECT / EPISODE 12</small><h3>Production Overview</h3></div><button>New run +</button></div>
+                    <div class="product-stats"><article><small>SCENES</small><b>18</b><em>16 ready</em></article><article><small>QC PASS</small><b>94%</b><em>+8% this week</em></article><article><small>TIME SAVED</small><b>6.4h</b><em>per episode</em></article></div>
+                    <div class="product-board">
+                      <div class="board-card"><span>01</span><i></i><b>Opening hook</b><small>Approved</small></div>
+                      <div class="board-card"><span>02</span><i></i><b>Context scene</b><small>Approved</small></div>
+                      <div class="board-card processing"><span>03</span><i></i><b>Key reveal</b><small>Generating</small></div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="tablet-scene" data-tablet-scene="2">
+                <div class="conversion-site">
+                  <div class="conversion-nav"><b>ASIATIC</b><span>Collections</span><span>Projects</span><span>About</span><button>Request Samples</button></div>
+                  <div class="conversion-grid">
+                    <div class="conversion-copy">
+                      <span>FOR ARCHITECTS & DESIGNERS</span>
+                      <h3>From interest<br>to qualified lead.</h3>
+                      <p>Product discovery, sample selection and follow-up designed as one conversion journey.</p>
+                      <button>Build my flow →</button>
+                    </div>
+                    <div class="sample-builder">
+                      <div class="sample-card"><i></i><b>Loop / Sand</b><span>Added ✓</span></div>
+                      <div class="sample-card"><i></i><b>Grid / Stone</b><span>Add sample +</span></div>
+                      <div class="sample-drawer"><span>Sample basket</span><b>2 selected</b><button>Request →</button></div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+
+        <div class="tablet-progress"><i></i><span>SCROLL</span></div>
+      </div>
+    </section>
+
+    <section class="project-gallery solution-gallery" id="projects" data-motion="solution-gallery">
+      <div class="solution-gallery-head">
+        <div>
+          <span class="section-kicker">01 / SELECTED WORK</span>
+          <h2>See what changed,<br>not just what we made.</h2>
+        </div>
+        <p>Each project is shown as a decision chain: the problem, the intervention and the outcome. The visual is evidence, not decoration.</p>
+      </div>
+
+      <div class="solution-flow" aria-label="Problem to outcome">
+        <span><b>01</b> PROBLEM</span>
+        <i>→</i>
+        <span><b>02</b> BARTSS INTERVENTION</span>
+        <i>→</i>
+        <span><b>03</b> OUTCOME</span>
+      </div>
+
+      <div class="solution-project-grid">
+        <a class="solution-project project-violet" href="#" data-project="BARTSS / Brand System">
+          <div class="solution-project-top"><span>BRAND SYSTEM</span><em>01</em></div>
+          <div class="solution-project-visual">
+            <div class="project-object project-lock"><div>↗</div></div>
+          </div>
+          <div class="solution-project-chain">
+            <div><span>PROBLEM</span><p>Too many capabilities, not enough clarity.</p></div>
+            <div><span>INTERVENTION</span><p>Positioning, identity and motion rebuilt as one system.</p></div>
+            <div><span>OUTCOME</span><p>A clearer offer with fewer competing messages.</p></div>
+          </div>
+          <div class="solution-project-foot"><strong>Building clarity from complexity.</strong><span>See project →</span></div>
+        </a>
+
+        <a class="solution-project project-ice" href="#" data-project="AutoLAB / AI Product">
+          <div class="solution-project-top"><span>AI PRODUCT</span><em>02</em></div>
+          <div class="solution-project-visual">
+            <div class="project-object project-cube"><div>AI</div></div>
+          </div>
+          <div class="solution-project-chain">
+            <div><span>PROBLEM</span><p>Production depended on too many manual handoffs.</p></div>
+            <div><span>INTERVENTION</span><p>Storyboard, automation and QC connected into one flow.</p></div>
+            <div><span>OUTCOME</span><p>A controlled path from idea to approved output.</p></div>
+          </div>
+          <div class="solution-project-foot"><strong>From idea to production.</strong><span>See system →</span></div>
+        </a>
+
+        <a class="solution-project project-gold" href="#" data-project="Campaign / Motion">
+          <div class="solution-project-top"><span>CAMPAIGN + MOTION</span><em>03</em></div>
+          <div class="solution-project-visual">
+            <div class="project-object project-orb"><div></div></div>
+          </div>
+          <div class="solution-project-chain">
+            <div><span>PROBLEM</span><p>Attention existed, but the message did not stick.</p></div>
+            <div><span>INTERVENTION</span><p>Campaign idea, motion and 3D built around one narrative.</p></div>
+            <div><span>OUTCOME</span><p>A more memorable visual system for the launch.</p></div>
+          </div>
+          <div class="solution-project-foot"><strong>Make attention worth something.</strong><span>See project →</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="motion-manifesto bartss-stage" id="motionManifesto" data-motion="hightouch-stage">
+      <div class="stage-sticky">
+        <div class="stage-copy">
+          <div class="stage-kicker">05 / CAPABILITY IN MOTION</div>
+          <h2>Complex work<br>looks simple here.</h2>
+          <div class="stage-copy-side">
+            <p>Brand, product, motion and AI stop behaving like separate services when they are designed as one system.</p>
+            <a href="#work">See the proof <span>→</span></a>
+          </div>
+        </div>
+
+        <div class="stage-window" aria-label="BARTSS capability showcase">
+          <div class="stage-ambient stage-ambient-a"></div>
+          <div class="stage-ambient stage-ambient-b"></div>
+
+          <div class="stage-card" data-stage-card="0">
+            <div class="stage-card-top"><span>01</span><b>BRAND SYSTEM</b></div>
+            <div class="stage-art stage-art-brand">
+              <img src="./hero-assets/brand.svg" alt="" aria-hidden="true">
+            </div>
+            <div class="stage-card-copy"><span>MAKE THE BRAND UNMISTAKABLE</span><strong>Identity that behaves like a system.</strong></div>
+          </div>
+
+          <div class="stage-card" data-stage-card="1">
+            <div class="stage-card-top"><span>02</span><b>DIGITAL PRODUCT</b></div>
+            <div class="stage-art stage-art-web">
+              <img src="./hero-assets/web.svg" alt="" aria-hidden="true">
+            </div>
+            <div class="stage-card-copy"><span>TURN VISITS INTO DECISIONS</span><strong>Interfaces that explain what matters.</strong></div>
+          </div>
+
+          <div class="stage-card" data-stage-card="2">
+            <div class="stage-card-top"><span>03</span><b>MOTION</b></div>
+            <div class="stage-art stage-art-motion">
+              <img src="./hero-assets/motion.svg" alt="" aria-hidden="true">
+            </div>
+            <div class="stage-card-copy"><span>MAKE ATTENTION USEFUL</span><strong>Motion that carries the message.</strong></div>
+          </div>
+
+          <div class="stage-card" data-stage-card="3">
+            <div class="stage-card-top"><span>04</span><b>AI PRODUCTION</b></div>
+            <div class="stage-art stage-art-ai">
+              <img src="./hero-assets/autolab.svg" alt="" aria-hidden="true">
+            </div>
+            <div class="stage-card-copy"><span>REMOVE MANUAL HANDOFFS</span><strong>Production logic built into the workflow.</strong></div>
+          </div>
+
+          <div class="stage-card" data-stage-card="4">
+            <div class="stage-card-top"><span>05</span><b>GROWTH SYSTEM</b></div>
+            <div class="stage-art stage-art-growth">
+              <img src="./hero-assets/finance.svg" alt="" aria-hidden="true">
+            </div>
+            <div class="stage-card-copy"><span>CONNECT THE PARTS</span><strong>Strategy, systems and scale in one view.</strong></div>
+          </div>
+
+          <div class="stage-status"><i></i><span>CONTEXT LOADING</span><b>01 / 05</b></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="systems-hub reveal" id="systemsHub">
+      <div class="systems-head">
+        <div>
+          <span class="section-kicker">BARTSS LABS</span>
+          <h2>We build our own systems<br>to solve beyond the surface.</h2>
+        </div>
+        <p>These are not a second service menu. They are working proof that BARTSS can solve problems traditional studios usually stop before: production, decision logic, automation and operational workflows.</p>
+      </div>
+
+      <div class="labs-bridge">
+        <span>WHY LABS EXISTS</span>
+        <p>Brand, product and motion change what people see. BARTSS Labs changes what happens behind the interface — the workflow, logic and automation that make the experience possible.</p>
+      </div>
+
+      <div class="systems-grid">
+        <a class="system-card system-autolab" href="./autolab.html">
+          <div class="system-card-top"><span>01 / AI PRODUCTION</span><em>TECHNOLOGY PROOF</em></div>
+          <div class="system-visual">
+            <div class="sys-window">
+              <div class="sys-toolbar"><i></i><i></i><i></i></div>
+              <div class="sys-flow"><b>IDEA</b><span>→</span><b>STORY</b><span>→</span><b>VISUAL</b><span>→</span><b>QC</b></div>
+              <div class="sys-progress"><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+          <div class="system-copy"><h3>AutoLAB</h3><p>AI-assisted visual production from idea to approved asset.</p><div><span>Storyboard</span><span>Automation</span><span>QC</span></div></div>
+          <span class="system-link">See the system ↗</span>
+        </a>
+
+        <a class="system-card system-finance" href="./aifinance.html">
+          <div class="system-card-top"><span>02 / FINANCIAL INTELLIGENCE</span><em>TECHNOLOGY PROOF</em></div>
+          <div class="system-visual">
+            <div class="finance-radar"><strong>+24.8%</strong><span>Signal detected</span><div class="radar-lines"><i></i><i></i><i></i><i></i><i></i></div></div>
+          </div>
+          <div class="system-copy"><h3>AiFinance</h3><p>A decision layer for signals, portfolio context and financial workflows.</p><div><span>Signals</span><span>Analysis</span><span>Automation</span></div></div>
+          <span class="system-link">See the system ↗</span>
+        </a>
+
+        <a class="system-card system-coach" href="./aicoach.html">
+          <div class="system-card-top"><span>03 / PERSONAL OPERATING SYSTEM</span><em>TECHNOLOGY PROOF</em></div>
+          <div class="system-visual">
+            <div class="coach-stack"><span>Today</span><b>3 things need your attention</b><i>Finish current task</i><i>Review project drift</i><i>Protect focus time</i></div>
+          </div>
+          <div class="system-copy"><h3>AiCoach</h3><p>A personal operating layer that turns activity into priorities and next actions.</p><div><span>Focus</span><span>Tracking</span><span>Recommendations</span></div></div>
+          <span class="system-link">See the system ↗</span>
+        </a>
+
+        <a class="system-card system-offer" href="./offers.html">
+          <div class="system-card-top"><span>04 / SALES EXPERIENCE</span><em>TECHNOLOGY PROOF</em></div>
+          <div class="system-visual">
+            <div class="offer-stage">
+              <div class="offer-card oc1"><small>BRAND</small><b>Identity System</b><span>Selected ✓</span></div>
+              <div class="offer-card oc2"><small>MOTION</small><b>Prototype</b><span>Add +</span></div>
+              <div class="offer-total"><span>Your proposal</span><b>Build the right scope.</b><i>Continue →</i></div>
+            </div>
+          </div>
+          <div class="system-copy"><h3>BARTSS Offer System</h3><p>Interactive proposals that help clients understand, configure and approve what they are buying.</p><div><span>Proposal builder</span><span>Approval</span><span>Sales tracking</span></div></div>
+          <span class="system-link">See the system ↗</span>
+        </a>
+      </div>
+    </section>
+
+    
+
+
+    <section class="packages-section reveal" id="packages">
+      <div class="packages-head">
+        <div><span class="section-kicker">SERVICE PACKAGES</span><h2>Start with an outcome.<br>Not a shopping list.</h2></div>
+        <p>Pre-structured service stacks make buying easier. Every package can expand into a custom scope after the first conversation.</p>
+      </div>
+      <div class="package-grid">
+        <article class="package-card">
+          <div class="package-no">01</div><span class="package-tag">BRAND LAUNCH</span>
+          <h3>Make the business look as valuable as it is.</h3>
+          <ul><li>Positioning & narrative</li><li>Visual identity system</li><li>Core brand applications</li><li>Launch motion kit</li></ul>
+          <div class="package-bottom"><span>Custom scope</span><a href="#contact">Build this package →</a></div>
+        </article>
+        <article class="package-card featured">
+          <div class="package-no">02</div><span class="package-tag">DIGITAL GROWTH</span>
+          <h3>Turn your website into a sales experience.</h3>
+          <ul><li>UX & content architecture</li><li>Premium web design</li><li>Motion interaction system</li><li>Conversion & lead flows</li></ul>
+          <div class="package-bottom"><span>Most requested</span><a href="#contact">Build this package →</a></div>
+        </article>
+        <article class="package-card">
+          <div class="package-no">03</div><span class="package-tag">AI TRANSFORMATION</span>
+          <h3>Remove repetitive work and build your own system.</h3>
+          <ul><li>Workflow audit</li><li>AI automation design</li><li>Custom agents / tools</li><li>Integration & operating layer</li></ul>
+          <div class="package-bottom"><span>Custom scope</span><a href="#contact">Build this package →</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="transformation reveal" id="transformation">
+      <div class="section-kicker light">02 / FROM FRICTION TO MOMENTUM</div>
+      <div class="transform-head">
+        <h2>We don’t decorate<br>problems. We change them.</h2>
+        <p>Drag the control. The visual language changes with the business state: fragmented to focused, generic to ownable, manual to scalable.</p>
+      </div>
+      <div class="transform-stage" id="transformStage">
+        <div class="before-layer">
+          <div class="state-label">BEFORE</div>
+          <div class="mess"><span>Disconnected</span><span>Generic</span><span>Manual</span><span>Slow</span><span>Invisible</span></div>
+          <div class="state-copy"><b>Too many pieces.<br>No clear system.</b><small>Brand, product and operations moving in different directions.</small></div>
+        </div>
+        <div class="after-layer" id="afterLayer">
+          <div class="state-label">AFTER BARTSS</div>
+          <div class="system-orbit"><i></i><i></i><i></i><strong>B</strong></div>
+          <div class="state-copy"><b>One idea.<br>One system. More growth.</b><small>Strategy, experience, content and automation working as one.</small></div>
+        </div>
+        <div class="drag-line" id="dragLine"><button id="dragHandle" aria-label="Before after slider">↔</button></div>
+      </div>
+    </section>
+
+    <section class="work-section reveal" id="work">
+      <div class="section-kicker">03 / PROOF — SELECTED TRANSFORMATIONS</div>
+      <div class="work-head">
+        <h2>Show the problem.<br>Show what changed.</h2>
+        <p>No invented performance numbers. Each case separates the starting condition, the intervention, the resulting state and the business impact we can honestly support.</p>
+      </div>
+
+      <div class="proof-legend" aria-label="Proof standard">
+        <span><b>01</b> PROJECT</span>
+        <span><b>02</b> BEFORE</span>
+        <span><b>03</b> WHAT CHANGED</span>
+        <span><b>04</b> AFTER</span>
+        <span><b>05</b> BUSINESS IMPACT</span>
+      </div>
+
+      <div class="case-stack">
+        <article class="case-card case-a proof-case">
+          <div class="case-meta"><span>BARTSS / BRAND SYSTEM</span><span>01</span></div>
+          <div class="case-art">
+            <div class="case-object">B</div>
+            <div class="case-evidence-badge">INTERNAL PROJECT</div>
+          </div>
+          <div class="case-info">
+            <div class="proof-project">
+              <span>PROJECT</span>
+              <p>BARTSS brand, digital and motion system.</p>
+            </div>
+            <h3>From many capabilities<br>to one clear system.</h3>
+            <div class="case-proof-grid">
+              <div><span>PROBLEM</span><p>Too many disciplines were visible at once, making the offer harder to understand.</p></div>
+              <div><span>BEFORE</span><p>Brand, product, motion and AI read as separate capabilities instead of one proposition.</p></div>
+              <div><span>WHAT CHANGED</span><p>Positioning, identity, web and motion were reorganised around customer problems and outcomes.</p></div>
+              <div><span>AFTER</span><p>One recognisable system explains what BARTSS changes before listing what BARTSS can make.</p></div>
+              <div class="business-impact"><span>BUSINESS IMPACT</span><p>Clearer offer hierarchy and fewer competing messages in the buying journey.</p></div>
+            </div>
+            <div class="proof-status"><span>MEASURED RESULT</span><b>Not published — no number invented.</b></div>
+          </div>
+        </article>
+
+        <article class="case-card case-b proof-case">
+          <div class="case-meta"><span>ASIATIC / PRODUCT DISCOVERY</span><span>02</span></div>
+          <div class="case-art">
+            <div class="case-object">UI</div>
+            <div class="case-evidence-badge">PRODUCT + UX</div>
+          </div>
+          <div class="case-info">
+            <div class="proof-project">
+              <span>PROJECT</span>
+              <p>Product discovery, sample selection and request flow.</p>
+            </div>
+            <h3>From product interest<br>to a qualified enquiry path.</h3>
+            <div class="case-proof-grid">
+              <div><span>PROBLEM</span><p>Finding a product and requesting a sample were disconnected actions.</p></div>
+              <div><span>BEFORE</span><p>Interest could stall before the visitor reached a clear sample-request action.</p></div>
+              <div><span>WHAT CHANGED</span><p>Product discovery, sample basket and request flow were designed as one continuous journey.</p></div>
+              <div><span>AFTER</span><p>Visitors can discover, compare, select and request without leaving the same decision path.</p></div>
+              <div class="business-impact"><span>BUSINESS IMPACT</span><p>Fewer steps between product discovery and qualified enquiry.</p></div>
+            </div>
+            <div class="proof-status"><span>MEASURED RESULT</span><b>Not published — outcome stated without a fabricated percentage.</b></div>
+          </div>
+        </article>
+
+        <article class="case-card case-c proof-case">
+          <div class="case-meta"><span>AUTOLAB / AI PRODUCTION</span><span>03</span></div>
+          <div class="case-art">
+            <div class="case-object">AI</div>
+            <div class="case-evidence-badge">SYSTEM PRODUCT</div>
+          </div>
+          <div class="case-info">
+            <div class="proof-project">
+              <span>PROJECT</span>
+              <p>AI-assisted storyboard, visual production and QC workflow.</p>
+            </div>
+            <h3>From manual handoffs<br>to a controlled production pipeline.</h3>
+            <div class="case-proof-grid">
+              <div><span>PROBLEM</span><p>Too much manual work sat between an idea and an approved visual output.</p></div>
+              <div><span>BEFORE</span><p>Storyboard, references, visual generation and QC behaved like separate handoffs.</p></div>
+              <div><span>WHAT CHANGED</span><p>Storyboard logic, automation, consistency controls and QC were connected into one workflow.</p></div>
+              <div><span>AFTER</span><p>The production state is visible from idea through review instead of being scattered across tools.</p></div>
+              <div class="business-impact"><span>BUSINESS IMPACT</span><p>Fewer manual handoffs and a clearer approval path between production stages.</p></div>
+            </div>
+            <div class="proof-status"><span>MEASURED RESULT</span><b>Not published — proof is the working system, not an invented metric.</b></div>
+            <a href="./autolab.html">Explore AutoLAB →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  
+    <section class="team-collage" id="about" data-motion="team-collage-v1">
+      <div class="team-head">
+        <div>
+          <span class="section-kicker">07 / THE PEOPLE BEHIND THE SYSTEM</span>
+          <h2>Different skills.<br>One direction.</h2>
+        </div>
+        <p>Each BARTSS profile is a moving map of what that person actually brings to the work — craft, systems thinking and the outcomes they own.</p>
+      </div>
+
+      <div class="team-stage">
+        <article class="team-person active" data-person="ufuk">
+          <div class="team-backplate"></div>
+
+          <div class="team-portrait" aria-label="Ufuk portrait placeholder">
+            <div class="team-portrait-placeholder">
+              <span>UF</span>
+              <small>PORTRAIT</small>
+            </div>
+          </div>
+
+          <div class="team-nameplate">
+            <span>UFUK</span>
+            <strong>Creative Systems<br>Designer</strong>
+          </div>
+
+          <div class="team-badge badge-role">
+            <small>ROLE</small>
+            <b>Brand × Motion × AI</b>
+          </div>
+
+          <div class="team-badge badge-skill-1">
+            <small>SKILL</small>
+            <b>2D / 3D Design</b>
+          </div>
+
+          <div class="team-badge badge-skill-2">
+            <small>TOOLS</small>
+            <b>Photoshop · Blender · Unity</b>
+          </div>
+
+          <div class="team-badge badge-skill-3">
+            <small>FOCUS</small>
+            <b>Motion systems</b>
+          </div>
+
+          <div class="team-badge badge-outcome">
+            <small>OUTCOME</small>
+            <b>Turn complexity into something people can understand.</b>
+          </div>
+
+          <div class="team-skill-pill pill-1"><i></i><span>Identity systems</span></div>
+          <div class="team-skill-pill pill-2"><i></i><span>3D direction</span></div>
+          <div class="team-skill-pill pill-3"><i></i><span>AI workflows</span></div>
+
+          <a href="#projects" class="team-profile-link">See selected work <span>↗</span></a>
+        </article>
+
+        <div class="team-stage-index">
+          <span>01</span>
+          <i></i>
+          <b>PROFILE / BARTSS</b>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bartss-footer" id="contact">
+      <div class="footer-intro">
+        <span class="section-kicker">08 / LET’S CHANGE WHAT ISN’T WORKING</span>
+        <p>Strategy, design, motion and technology — assembled around the problem, not a preset service list.</p>
+      </div>
+      <div class="footer-main">
+        <h2>We don’t do<br>cookie-cutter solutions.</h2>
+        <a href="#solution" class="footer-cta">Show us what’s not working <span>→</span></a>
+      </div>
+      <div class="footer-showcase">
+        <article class="footer-panel footer-panel-light">
+          <span>BRAND / DIGITAL</span>
+          <strong>Make the value<br>easier to understand.</strong>
+          <i>B</i>
+        </article>
+        <article class="footer-panel footer-panel-dark">
+          <span>PRODUCT / AI</span>
+          <strong>Turn complexity<br>into a usable system.</strong>
+          <i>AI</i>
+        </article>
+      </div>
+      <div class="footer-bottom">
+        <span>◉ BARTSS</span>
+        <span>BRAND · PRODUCT · MOTION · AI</span>
+        <span>© 2026</span>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="./hero-v4.js?v=hero-gate-01"></script>
+
+  <aside class="bartss-cookie" id="bartssCookie" aria-label="Cookie preferences">
+    <div class="utility-head"><span>◉ BARTSS</span><button type="button" data-close-cookie>×</button></div>
+    <h3>Cookie Preferences</h3>
+    <p>We use cookies to understand usage and improve the BARTSS experience.</p>
+    <div class="cookie-actions">
+      <button class="cookie-primary" type="button" data-close-cookie>Accept all</button>
+      <button class="cookie-secondary" type="button" id="cookieCustomize">Customize</button>
+    </div>
+    <div class="cookie-detail" id="cookieDetail" hidden>
+      <label><span>Analytics</span><input type="checkbox" checked></label>
+      <label><span>Functional</span><input type="checkbox" checked></label>
+      <label><span>Necessary</span><strong>Always active</strong></label>
+    </div>
+  </aside>
+
+  <aside class="bartss-chat" id="bartssChat" aria-label="Talk to BARTSS">
+    <button class="chat-launcher" id="chatLauncher" type="button" aria-expanded="false">✦</button>
+    <div class="chat-panel" id="chatPanel">
+      <div class="utility-head"><span>◉ BARTSS</span><button id="chatClose" type="button">−</button></div>
+      <div class="chat-intro"><i>✦</i><div><h3>Talk to BARTSS</h3><p>Got a project in mind?<br>We typically reply within a few hours.</p></div></div>
+      <div class="chat-input"><span>Type a message…</span><button type="button">↗</button></div>
+      <div class="chat-chips"><button>Start a project</button><button>Our services</button><button>Pricing</button></div>
+    </div>
+  </aside>
+
+
+<script>
+(() => {
+  const copy = {
+    en: {
+      menu_brand:"Brand<br>Identity", menu_web:"Web &<br>Product", menu_motion:"Motion & 3D",
+      menu_ai:"AI Systems", menu_products:"Labs", menu_process:"Process", menu_about:"About",
+      hero_p1:"Your brand looks generic.", hero_p2:"Your website doesn’t sell.", hero_p3:"Your production is too manual.",
+      hero_fix:"We fix the system behind all three.",
+      hero_desc:"Strategy, identity, web, motion and AI systems designed around measurable business outcomes.",
+      hero_cta:"Tell us what’s not working",
+      solution_title:"What are you<br>trying to change?",
+      solution_desc:"Don’t browse a list of services. Start with the problem. BARTSS shapes the right mix of strategy, design, motion and technology around the outcome you need.",
+      need_brand:"I need a stronger brand.", need_product:"I need a better digital product.",
+      need_attention:"I need more attention.", need_ai:"I need AI to remove the repetitive work.",
+      stack_label:"YOUR LIKELY BARTSS STACK", stack_default:"Brand Strategy + Identity + Launch System",
+      solution_cta:"See how we change it"
+    },
+    tr: {
+      menu_brand:"Marka<br>Kimliği", menu_web:"Web &<br>Ürün", menu_motion:"Motion & 3D",
+      menu_ai:"AI Sistemleri", menu_products:"Labs", menu_process:"Süreç", menu_about:"Hakkımızda",
+      hero_p1:"Markanız jenerik görünüyor.", hero_p2:"Web siteniz satışa dönüştürmüyor.", hero_p3:"Üretim süreciniz fazla manuel.",
+      hero_fix:"Üçünün arkasındaki sistemi biz değiştiriyoruz.",
+      hero_desc:"Ölçülebilir iş sonuçlarına odaklanan strateji, marka kimliği, web, motion ve AI sistemleri.",
+      hero_cta:"Neyin çalışmadığını bize gösterin",
+      solution_title:"Neyi<br>değiştirmek istiyorsunuz?",
+      solution_desc:"Hizmet listesinde kaybolmayın. Problemden başlayın. BARTSS ihtiyaç duyduğunuz sonuca göre strateji, tasarım, motion ve teknolojiyi doğru kombinasyonda kurar.",
+      need_brand:"Daha güçlü bir markaya ihtiyacım var.", need_product:"Daha iyi bir dijital ürüne ihtiyacım var.",
+      need_attention:"Daha fazla dikkat çekmem gerekiyor.", need_ai:"Tekrarlayan işleri AI ile kaldırmak istiyorum.",
+      stack_label:"OLASI BARTSS ÇÖZÜM YAPINIZ", stack_default:"Marka Stratejisi + Kimlik + Lansman Sistemi",
+      solution_cta:"Nasıl değiştirdiğimizi görün"
+    }
+  };
+
+  function applyLang(lang){
+    const dict=copy[lang]||copy.en;
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-i18n]").forEach(el=>{
+      const key=el.dataset.i18n;
+      if(dict[key]!==undefined) el.innerHTML=dict[key];
+    });
+    document.querySelectorAll(".lang-btn").forEach(btn=>{
+      const active=btn.dataset.lang===lang;
+      btn.classList.toggle("active",active);
+      btn.setAttribute("aria-pressed",active?"true":"false");
+    });
+    try{localStorage.setItem("bartss-lang",lang)}catch(e){}
+  }
+
+  document.querySelectorAll(".lang-btn").forEach(btn=>{
+    btn.addEventListener("click",e=>{
+      e.stopPropagation();
+      applyLang(btn.dataset.lang);
+    });
+  });
+
+  let saved="en";
+  try{saved=localStorage.getItem("bartss-lang")||"en"}catch(e){}
+  applyLang(saved);
+})();
+</script>
+
+  <script src="./hero-v3-flow.js?v=motion-system-01"></script>
+  <script src="./hero-v3-immersive.js?v=immersive-v4"></script>
+  <script src="./hero-v3-stage.js?v=stage-v1"></script>
+  <script src="./hero-v3-projects.js?v=projects-v1"></script>
+  <script src="./hero-v3-team.js?v=team-v1"></script>
+</body>
+</html>
