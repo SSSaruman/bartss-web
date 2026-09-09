@@ -2,143 +2,196 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AWSMD Smart Test v2</title>
+<title>AWSMD Smart Test v3</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;background:#f4f2ec}
-#smartTest{height:340vh;position:relative;background:#a58ae7}
-.sticky{position:sticky;top:0;height:100vh;overflow:hidden;background:#d9fb4a}
-.copy{
-  position:absolute;z-index:1;left:0;top:0;width:59vw;height:100vh;
-  padding:26px 22px 72px;background:#d9fb4a;display:flex;flex-direction:column;
-  will-change:opacity,transform
+img{display:block}
+
+/* PHASE 1 — exact split composition, no animation */
+.intro{
+  height:100vh;display:grid;grid-template-columns:59% 41%;
+  background:#d9fb4a;overflow:hidden
 }
-.copy:before{content:"AWSMD";font-weight:900;font-size:22px;color:#3326ff}
-.copy:after{
+.intro-copy{
+  position:relative;padding:28px 22px 76px;background:#d9fb4a;
+  display:flex;flex-direction:column;min-width:0
+}
+.intro-copy:before{content:"AWSMD";font-size:22px;font-weight:900;color:#3326ff}
+.intro-copy:after{
   content:"About Us     Cases     Reviews     Contact Us";
-  position:absolute;top:28px;right:56px;font-size:11px;font-weight:700;color:#2b20ff;white-space:pre
+  position:absolute;right:54px;top:28px;font-size:11px;font-weight:700;color:#2b20ff;white-space:pre
 }
-.copy h1{
-  margin:10px 0 0;font-size:clamp(76px,8.2vw,148px);line-height:.75;
+.intro-copy h1{
+  margin:12px 0 0;font-size:clamp(76px,8vw,145px);line-height:.74;
   letter-spacing:-.075em;font-weight:900;max-width:56vw
 }
-.copy p{font-size:18px;line-height:1.2;max-width:430px;margin-top:auto}
+.intro-copy p{margin-top:auto;font-size:19px;line-height:1.2;max-width:430px}
+.intro-preview{position:relative;background:#a58ae7;overflow:hidden}
+.preview-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:0}
+.preview-grid img{width:100%;height:100%;object-fit:cover}
+.preview-phone{position:absolute;z-index:3;width:42%;left:8%;top:16%;filter:drop-shadow(0 24px 34px rgba(0,0,0,.34));transform:rotate(-9deg)}
+.preview-phone2{position:absolute;z-index:3;width:42%;right:4%;top:10%;filter:drop-shadow(0 24px 34px rgba(0,0,0,.34));transform:rotate(8deg)}
+.preview-hand{position:absolute;z-index:4;width:90%;right:-25%;bottom:-10%;filter:drop-shadow(0 20px 32px rgba(0,0,0,.28))}
 
-.stage{
-  position:absolute;z-index:2;top:0;right:0;bottom:0;left:59vw;
-  overflow:hidden;background:#a58ae7;will-change:left
+/* PHASE 2 — direct V4 immersive structure */
+#immersiveWork{
+  height:340vh;width:100%;position:relative;overflow:visible;background:#a58ae7;color:#fff
 }
-.wall{
-  position:absolute;z-index:1;left:-7vw;top:-18vh;width:114vw;height:250vh;
+.immersive-sticky{
+  position:sticky;top:0;height:100vh;overflow:hidden;
+  background:#a58ae7
+}
+.mosaic-layer{
+  position:absolute;z-index:2;left:-7vw;top:-18vh;
+  width:114vw;height:250vh;
   transform:translate3d(0,var(--wall-y,18vh),0) scale(var(--wall-scale,1));
-  transform-origin:center;will-change:transform,opacity
+  transform-origin:center;will-change:transform;pointer-events:none
 }
-.tile{
+.mosaic-card{
   position:absolute;overflow:hidden;border-radius:30px;
-  box-shadow:0 28px 70px rgba(0,0,0,.2);
-  opacity:var(--tile-opacity,.82);will-change:transform
+  box-shadow:0 28px 70px rgba(0,0,0,.26);
+  opacity:var(--wall-card-opacity,.86);
+  transform:translate3d(0,var(--card-y,0px),0) scale(var(--card-scale,1));
+  will-change:transform,opacity
 }
-.tile img{width:100%;height:100%;object-fit:cover;display:block}
-.t1{left:0;top:6vh;width:28vw;height:47vh}
-.t2{right:2vw;top:18vh;width:27vw;height:50vh}
-.t3{left:3vw;top:72vh;width:30vw;height:44vh}
-.t4{right:0;top:86vh;width:28vw;height:46vh}
-.t5{left:24vw;top:132vh;width:24vw;height:38vh}
-.t6{right:24vw;top:166vh;width:24vw;height:40vh}
+.mosaic-card img{width:100%;height:100%;object-fit:cover}
+.m1{width:28vw;height:47vh;left:0;top:6vh}
+.m2{width:27vw;height:50vh;right:2vw;top:18vh}
+.m3{width:30vw;height:44vh;left:3vw;top:72vh}
+.m4{width:28vw;height:46vh;right:0;top:86vh}
+.m5{width:24vw;height:38vh;left:24vw;top:132vh}
+.m6{width:24vw;height:40vh;right:24vw;top:166vh}
 
-.phoneA,.phoneB,.hand{position:absolute;z-index:4;will-change:transform,opacity;pointer-events:none}
-.phoneA{width:min(24vw,310px);left:18%;top:18%;filter:drop-shadow(0 26px 38px rgba(0,0,0,.36));transform:rotate(-9deg)}
-.phoneB{width:min(24vw,310px);right:15%;top:10%;filter:drop-shadow(0 26px 38px rgba(0,0,0,.36));transform:rotate(8deg)}
-.hand{z-index:5;width:min(52vw,700px);right:-5vw;bottom:-8vh;filter:drop-shadow(0 20px 34px rgba(0,0,0,.28))}
-.after{height:70vh;background:#f4f2ec;display:grid;place-items:center;font-size:13px}
+.phone-wrap{
+  position:absolute;z-index:12;left:50%;top:50%;
+  width:min(390px,27vw);
+  transform:translate3d(-50%,calc(-50% + var(--phone-y,0px)),0) scale(var(--phone-scale,1));
+  opacity:var(--phone-opacity,1);will-change:transform,opacity
+}
+.phone-wrap img{width:100%;filter:drop-shadow(0 48px 80px rgba(0,0,0,.5))}
+.hand-wrap{
+  position:absolute;z-index:13;left:50%;top:50%;
+  width:min(760px,54vw);
+  transform:translate3d(-10%,calc(-35% + var(--phone-y,0px)),0) scale(var(--phone-scale,1));
+  opacity:var(--phone-opacity,1);will-change:transform,opacity;pointer-events:none
+}
+.hand-wrap img{width:100%;filter:drop-shadow(0 40px 80px rgba(0,0,0,.38))}
+.scene-label{
+  position:absolute;z-index:20;left:5vw;top:6vh;color:#fff;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase
+}
+.end{height:70vh;background:#f4f2ec;display:grid;place-items:center;font-size:13px;color:#111}
+
 @media(max-width:900px){
-  #smartTest{height:auto;background:#a58ae7}.sticky{position:relative;height:auto;min-height:1380px}
-  .copy{position:relative;width:100%;height:620px}.copy:after{display:none}.copy h1{max-width:94vw;font-size:18vw}
-  .stage{position:relative;left:0;width:100%;height:760px}.wall{left:-30vw;width:160vw}
+ .intro{grid-template-columns:1fr;height:auto}.intro-copy{min-height:620px}.intro-copy:after{display:none}.intro-copy h1{max-width:94vw;font-size:18vw}
+ .intro-preview{min-height:760px}
+ #immersiveWork{height:300vh}
+ .phone-wrap{width:min(320px,38vw)}
+ .mosaic-layer{width:128vw;left:-14vw}
+ .m1,.m3{width:42vw}.m2,.m4{width:42vw}
 }
 </style>
 </head>
 <body>
-<section id="smartTest">
-  <div class="sticky">
-    <div class="copy">
-      <h1>{SMART}<br>DEVELOPMENT**</h1>
-      <p>Making your business outstanding is a science.<br>We take it (a) seriously and (b) creatively.</p>
+
+<section class="intro">
+  <div class="intro-copy">
+    <h1>{SMART}<br>DEVELOPMENT**</h1>
+    <p>Making your business outstanding is a science.<br>We take it (a) seriously and (b) creatively.</p>
+  </div>
+  <div class="intro-preview">
+    <div class="preview-grid">
+      <img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-1.a20752cf.jpg%3Fq%3D95%26fm%3Dwebp&w=3840">
+      <img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-2.8514041a.jpg%3Fq%3D95%26fm%3Dwebp&w=3840">
+      <img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-3.d005e2e1.jpg%3Fq%3D95%26fm%3Dwebp&w=3840">
+      <img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen2-1.63042a32.jpg%3Fq%3D95%26fm%3Dwebp&w=3840">
+      <img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen2-2.7428647f.jpg%3Fq%3D95%26fm%3Dwebp&w=3840">
+      <img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen2-3.2ba450f4.jpg%3Fq%3D95%26fm%3Dwebp&w=3840">
     </div>
-    <div class="stage">
-      <div class="wall">
-        <div class="tile t1"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-1.a20752cf.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
-        <div class="tile t2"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-2.8514041a.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
-        <div class="tile t3"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-3.d005e2e1.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
-        <div class="tile t4"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen2-1.63042a32.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
-        <div class="tile t5"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen2-2.7428647f.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
-        <div class="tile t6"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen2-3.2ba450f4.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
-      </div>
-      <img class="phoneA" src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fphone-01.9afcffea.png%3Fq%3D90%26fm%3Dwebp&w=3840">
-      <img class="phoneB" src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fphone-02.cbcae9b6.png%3Fq%3D90%26fm%3Dwebp&w=3840">
-      <img class="hand" src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fhand.509eef57.png%3Fq%3D90%26fm%3Dwebp&w=3840">
+    <img class="preview-phone" src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fphone-01.9afcffea.png%3Fq%3D90%26fm%3Dwebp&w=3840">
+    <img class="preview-phone2" src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fphone-02.cbcae9b6.png%3Fq%3D90%26fm%3Dwebp&w=3840">
+    <img class="preview-hand" src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fhand.509eef57.png%3Fq%3D90%26fm%3Dwebp&w=3840">
+  </div>
+</section>
+
+<section id="immersiveWork">
+  <div class="immersive-sticky">
+    <div class="scene-label">SCROLL TO MOVE THE SYSTEM</div>
+
+    <div class="mosaic-layer">
+      <div class="mosaic-card m1"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-1.a20752cf.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
+      <div class="mosaic-card m2"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-2.8514041a.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
+      <div class="mosaic-card m3"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen1-3.d005e2e1.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
+      <div class="mosaic-card m4"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen2-1.63042a32.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
+      <div class="mosaic-card m5"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen2-2.7428647f.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
+      <div class="mosaic-card m6"><img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fscreen2-3.2ba450f4.jpg%3Fq%3D95%26fm%3Dwebp&w=3840"></div>
+    </div>
+
+    <div class="phone-wrap">
+      <img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fphone-01.9afcffea.png%3Fq%3D90%26fm%3Dwebp&w=3840">
+    </div>
+    <div class="hand-wrap">
+      <img src="https://awsmd.com/_next/image?q=75&url=%2F_next%2Fstatic%2Fmedia%2Fhand.509eef57.png%3Fq%3D90%26fm%3Dwebp&w=3840">
     </div>
   </div>
 </section>
-<section class="after">Portfolio continues here</section>
+
+<section class="end">Portfolio continues here</section>
 
 <script>
 (() => {
- const section=document.getElementById('smartTest');
- const stage=section.querySelector('.stage');
- const copy=section.querySelector('.copy');
- const wall=section.querySelector('.wall');
- const tiles=[...section.querySelectorAll('.tile')];
- const phoneA=section.querySelector('.phoneA');
- const phoneB=section.querySelector('.phoneB');
- const hand=section.querySelector('.hand');
+ const section=document.getElementById('immersiveWork');
+ const wall=section.querySelector('.mosaic-layer');
+ const device=section.querySelector('.phone-wrap');
+ const hand=section.querySelector('.hand-wrap');
+ const cards=[...section.querySelectorAll('.mosaic-card')];
  const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
  const smooth=t=>{t=clamp(t);return t*t*(3-2*t)};
  let raf=0;
 
- function progress(){
-   const r=section.getBoundingClientRect();
+ function sectionProgress(){
+   const rect=section.getBoundingClientRect();
    const travel=Math.max(1,section.offsetHeight-innerHeight);
-   return clamp(-r.top/travel);
+   return clamp(-rect.top/travel);
  }
 
  function render(){
    raf=0;
-   if(innerWidth<=900)return;
-   const p=progress();
+   const p=sectionProgress();
+   const story=clamp(p/.86);
+   const exit=smooth(clamp((p-.86)/.14));
 
-   // Phase 1 — stage expands ONLY to the left, right edge stays locked.
-   const expand=smooth(clamp(p/.20));
-   stage.style.left=(59*(1-expand))+'vw';
-   copy.style.opacity=String(1-expand);
-   copy.style.transform='translate3d(0,'+(-expand*20)+'px,0)';
-
-   // Phase 2 — V4 wall movement, vertical only.
-   const story=clamp((p-.16)/.70);
-   const exit=smooth(clamp((p-.90)/.10));
    const wallY=18-story*150-exit*16;
    const wallScale=1+story*.045;
    wall.style.setProperty('--wall-y',wallY.toFixed(2)+'vh');
    wall.style.setProperty('--wall-scale',wallScale.toFixed(4));
-   wall.style.opacity=String(.70+story*.22-exit*.12);
+   wall.style.setProperty('--wall-card-opacity',(0.70+story*.22-exit*.14).toFixed(3));
 
-   tiles.forEach((tile,i)=>{
+   cards.forEach((card,i)=>{
      const dir=i%2===0?-1:1;
      const band=(i%4)*.045;
      const drift=(story-band)*dir*(18+(i%3)*5);
-     tile.style.transform='translate3d(0,'+drift.toFixed(2)+'px,0) scale('+(.98+story*.025).toFixed(4)+')';
+     card.style.setProperty('--card-y',drift.toFixed(2)+'px');
+     card.style.setProperty('--card-scale',(.98+story*.025).toFixed(4));
    });
 
-   // Foreground stays centered; only exits upward at the very end.
-   const py=-exit*innerHeight*.16;
-   const sc=1-exit*.05;
-   const op=1-exit*.18;
-   phoneA.style.transform='translate3d(0,'+py+'px,0) rotate(-9deg) scale('+sc+')';
-   phoneB.style.transform='translate3d(0,'+py+'px,0) rotate(8deg) scale('+sc+')';
-   hand.style.transform='translate3d(0,'+py+'px,0) scale('+sc+')';
-   phoneA.style.opacity=phoneB.style.opacity=hand.style.opacity=String(op);
+   const phoneY=(-exit*innerHeight*.18).toFixed(2)+'px';
+   const phoneScale=(1-exit*.06).toFixed(4);
+   const phoneOpacity=(1-exit*.22).toFixed(3);
+
+   device.style.setProperty('--phone-y',phoneY);
+   device.style.setProperty('--phone-scale',phoneScale);
+   device.style.setProperty('--phone-opacity',phoneOpacity);
+
+   hand.style.setProperty('--phone-y',phoneY);
+   hand.style.setProperty('--phone-scale',phoneScale);
+   hand.style.setProperty('--phone-opacity',phoneOpacity);
  }
+
  function request(){if(!raf)raf=requestAnimationFrame(render)}
- addEventListener('scroll',request,{passive:true});addEventListener('resize',request,{passive:true});render();
+ addEventListener('scroll',request,{passive:true});
+ addEventListener('resize',request,{passive:true});
+ render();
 })();
 </script>
 </body></html>
