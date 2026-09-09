@@ -977,3 +977,51 @@ body::-webkit-scrollbar{
   .phone-wrap{width:250px!important}
   .mosaic-card{border-radius:20px!important}
 }
+
+
+/* =========================================================
+   PHONE + TABLET / PROGRESS-DRIVEN TRANSITIONS
+   One motion language: depth, mask, stagger, no hard swaps.
+   ========================================================= */
+.phone-scene,
+.tablet-scene{
+  transition:none!important;
+  will-change:opacity,transform,clip-path;
+}
+.phone-scene{
+  transform-origin:center 44%;
+  clip-path:inset(var(--scene-clip,0%) 0 0 0 round 18px);
+  opacity:var(--scene-opacity,0)!important;
+  transform:
+    translate3d(0,var(--scene-y,24px),0)
+    scale(var(--scene-scale,.985))!important;
+}
+.phone-scene.active{
+  opacity:var(--scene-opacity,1)!important;
+  transform:
+    translate3d(0,var(--scene-y,0px),0)
+    scale(var(--scene-scale,1))!important;
+}
+.phone-scene > *{
+  opacity:var(--child-opacity,1);
+  transform:translate3d(0,var(--child-y,0px),0);
+}
+
+.tablet-scene{
+  transform-origin:center 46%;
+  clip-path:inset(var(--scene-clip,0%) 0 0 0 round 22px);
+  opacity:var(--scene-opacity,0)!important;
+  transform:
+    translate3d(0,var(--scene-y,28px),0)
+    scale(var(--scene-scale,.985))!important;
+}
+.tablet-scene.active{
+  opacity:var(--scene-opacity,1)!important;
+  transform:
+    translate3d(0,var(--scene-y,0px),0)
+    scale(var(--scene-scale,1))!important;
+}
+.tablet-scene > *{
+  opacity:var(--child-opacity,1);
+  transform:translate3d(0,var(--child-y,0px),0);
+}
