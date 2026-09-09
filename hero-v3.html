@@ -233,6 +233,102 @@
     transition:none!important;
   }
 }
+/* hero composition correction: cards first, message below */
+.hero{
+  grid-template-columns:1fr!important;
+  row-gap:0!important;
+  margin-top:30px!important;
+}
+.rail-wrap{
+  grid-column:1!important;
+  order:1!important;
+  margin-top:0!important;
+  min-height:500px!important;
+}
+.hero-message-below{
+  order:2;
+  display:grid;
+  grid-template-columns:1.08fr .92fr;
+  column-gap:92px;
+  align-items:start;
+  margin-top:18px;
+  padding-top:24px;
+  border-top:1px solid rgba(17,20,24,.10);
+}
+.hero-message-below .hero-copy,
+.hero-message-below .hero-intro{
+  grid-column:auto!important;
+}
+.hero-message-below .hero-copy::before{
+  margin-bottom:10px;
+}
+.hero-message-below .v3-problem-head span{
+  width:min(520px,92%);
+  font-size:15px;
+  padding:5px 0 6px;
+}
+.hero-message-below .v3-problem-head em{
+  max-width:620px;
+  margin-top:12px;
+  padding-top:12px;
+  font-size:clamp(38px,3.4vw,56px);
+  line-height:.94;
+}
+.hero-message-below .hero-intro{
+  padding-top:16px;
+  min-height:0;
+}
+.hero-message-below .discipline-list{
+  top:16px;
+}
+.hero-footer{
+  order:3;
+  grid-column:1!important;
+  margin-top:20px!important;
+}
+
+/* larger hero cards */
+@media(min-width:1101px){
+  .rail-wrap{
+    height:500px!important;
+    min-height:500px!important;
+  }
+  .card-rail{
+    top:22px!important;
+    height:390px!important;
+  }
+  .show-card{
+    width:360px!important;
+    height:360px!important;
+  }
+  .feature-stack{
+    top:365px!important;
+  }
+
+  /* animation build composition: close the dead gap */
+  .hv2-exact-scene{
+    width:780px!important;
+  }
+  .hv2-build-copy{
+    left:calc(50% - 170px)!important;
+    width:230px!important;
+  }
+  .hv2-pin-grid{
+    left:calc(50% + 120px)!important;
+    width:310px!important;
+  }
+  .hero-v2-stage[data-phase="build"] .hv2-building{
+    left:calc(50% - 170px)!important;
+    top:calc(50% - 108px)!important;
+  }
+}
+@media(max-width:1100px){
+  .hero-message-below{
+    grid-template-columns:1fr;
+    gap:20px;
+    margin-top:14px;
+  }
+}
 </style>
 </head>
 <body>
@@ -276,14 +372,6 @@
 
   <main>
     <section class="hero">
-      <section class="hero-copy">
-        <h1 class="v3-problem-head"><span data-i18n="hero_p1">Your brand looks generic.</span><span data-i18n="hero_p2">Your website doesn’t sell.</span><span data-i18n="hero_p3">Your production is too manual.</span><em data-i18n="hero_fix">We fix the system behind all three.</em></h1>
-      </section>
-      <section class="hero-intro">
-        <p data-i18n="hero_desc">Strategy, identity, web, motion and AI systems designed around measurable business outcomes.</p>
-        <a class="cta" href="#solution"><span data-i18n="hero_cta">Tell us what’s not working</span> <span>→</span></a>
-        <div class="discipline-list"><span>STRATEGY</span><span>CREATIVE</span><span>TECHNOLOGY</span><span>REAL GROWTH</span></div>
-      </section>
 
       <section class="rail-wrap" aria-label="BARTSS services and products">
         <div class="card-rail" id="cardRail">
@@ -318,6 +406,17 @@
           <button>✓ <span>QC PIPELINE</span></button>
         </div>
       </section>
+
+      <div class="hero-message-below">
+        <section class="hero-copy">
+          <h1 class="v3-problem-head"><span data-i18n="hero_p1">Your brand looks generic.</span><span data-i18n="hero_p2">Your website doesn’t sell.</span><span data-i18n="hero_p3">Your production is too manual.</span><em data-i18n="hero_fix">We fix the system behind all three.</em></h1>
+        </section>
+        <section class="hero-intro">
+          <p data-i18n="hero_desc">Strategy, identity, web, motion and AI systems designed around measurable business outcomes.</p>
+          <a class="cta" href="#solution"><span data-i18n="hero_cta">Tell us what’s not working</span> <span>→</span></a>
+          <div class="discipline-list"><span>STRATEGY</span><span>CREATIVE</span><span>TECHNOLOGY</span><span>REAL GROWTH</span></div>
+        </section>
+      </div>
       <footer class="hero-footer">
         <div><strong>BARTSS</strong><br><span>IDEAS&nbsp;&nbsp;→&nbsp;&nbsp;SYSTEMS&nbsp;&nbsp;→&nbsp;&nbsp;GROWTH</span></div>
         <div class="footer-right"><i></i> BUILT FOR<br>BOLDER BRANDS</div>
