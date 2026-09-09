@@ -275,25 +275,19 @@ function updateImmersive(){
     const passed=Math.max(0,Math.min(max,-r.top));
     const p=max>0?passed/max:0;
 
-    // Three scroll states: enter from above → center → lower handoff.
-    let y;
-    if(p<.34){
-      const q=p/.34;
-      y=-58+(58*(1-Math.pow(1-q,3)));
-    }else if(p<.68){
-      const q=(p-.34)/.34;
-      y=0+q*5;
-    }else{
-      const q=(p-.68)/.32;
-      y=5+q*18;
-    }
+    // Restore the original sticky phone flow:
+    // phone remains on its center rail while the three internal scenes change.
     const phone=document.querySelector(".phone-wrap");
-    if(phone) phone.style.transform=`translate(-50%,calc(-50% + ${y.toFixed(2)}vh))`;
+    if(phone){
+      phone.style.transform="translate(-50%,-49%)";
+    }
 
-    // Background stays stable like the reference; only a subtle depth shift.
-    if(mosaic) mosaic.style.transform=`translate3d(0,${(-p*2.5).toFixed(2)}vh,0) scale(${(1+p*.012).toFixed(3)})`;
+    // Keep only subtle background travel so the phone remains the focal point.
+    if(mosaic){
+      mosaic.style.transform=`translate3d(0,${(-p*6).toFixed(2)}vh,0) scale(${(1+p*.02).toFixed(3)})`;
+    }
 
-    const scene=Math.min(2,Math.floor(Math.min(.999,p)*3));
+    const scene=Math.min(phoneScenes.length-1,Math.floor(Math.min(.999,p)*phoneScenes.length));
     phoneScenes.forEach((el,i)=>el.classList.toggle("active",i===scene));
   });
 }
