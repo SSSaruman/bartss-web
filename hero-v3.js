@@ -23,6 +23,26 @@ const heroRailWrap=document.querySelector(".rail-wrap");
 let heroBusy=false;
 let heroNavToken=0;
 let heroSequenceTimer=null;
+let heroAutoplayTimer=null;
+let heroUserPauseTimer=null;
+
+function stopHeroAutoplay(){
+  clearInterval(heroAutoplayTimer);
+  heroAutoplayTimer=null;
+}
+function startHeroAutoplay(){
+  stopHeroAutoplay();
+  if(innerWidth<=1100 || document.hidden)return;
+  heroAutoplayTimer=setInterval(()=>{
+    if(heroBusy || document.body.classList.contains("menu-open"))return;
+    selectHero(activeIndex+1,{play:false,sequence:false});
+  },3200);
+}
+function pauseHeroAutoplay(ms=6500){
+  stopHeroAutoplay();
+  clearTimeout(heroUserPauseTimer);
+  heroUserPauseTimer=setTimeout(startHeroAutoplay,ms);
+}
 
 rail.replaceChildren(...baseCards);
 
@@ -37,10 +57,10 @@ function circularDistance(index,active){
 }
 
 function heroStep(){
-  const w=heroRailWrap?.clientWidth||innerWidth;
-  // Keep five cards present in the first frame:
-  // center card, two near cards, two edge-peek cards.
-  return Math.max(390,Math.min(430,w*.245));
+  const w=innerWidth;
+  // 5-card viewport composition:
+  // center + 2 near + 2 edge cards, with no empty side gutters.
+  return Math.max(360,Math.min(410,w*.22));
 }
 
 function applyHeroLayout({animate=true}={}){
@@ -112,6 +132,7 @@ rail.addEventListener("click",e=>{
   const card=e.target.closest(".show-card");
   if(!card)return;
   e.preventDefault();
+  pauseHeroAutoplay(9000);
   selectHero(Number(card.dataset.logical),{play:true,sequence:true});
 });
 
@@ -134,6 +155,7 @@ heroRailWrap?.addEventListener("pointerup",e=>{
   const dx=e.clientX-heroSwipeStartX;
   heroSwipeStartX=null;
   if(Math.abs(dx)<55)return;
+  pauseHeroAutoplay();
   const next=activeIndex+(dx<0?1:-1);
   selectHero(next,{play:false,sequence:false});
 });
@@ -141,6 +163,7 @@ heroRailWrap?.addEventListener("pointerup",e=>{
 heroRailWrap?.addEventListener("wheel",e=>{
   if(innerWidth<=1100||heroBusy||Math.abs(e.deltaX)<=Math.abs(e.deltaY))return;
   e.preventDefault();
+  pauseHeroAutoplay();
   const next=activeIndex+(e.deltaX>0?1:-1);
   selectHero(next,{play:false,sequence:false});
 },{passive:false});
@@ -155,6 +178,7 @@ requestAnimationFrame(()=>{
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
     heroRailWrap?.classList.add("hero-intro-done");
     applyHeroLayout({animate:true});
+    setTimeout(startHeroAutoplay,1400);
   }));
 });
 const heroFeatureMap=[
@@ -428,3 +452,10 @@ async function heroV2Play(index,{sequence=false}={}){
     }
   },520);
 }
+
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden) stopHeroAutoplay();
+  else startHeroAutoplay();
+});
+heroRailWrap?.addEventListener("mouseenter",()=>stopHeroAutoplay());
+heroRailWrap?.addEventListener("mouseleave",()=>{ if(!heroBusy) startHeroAutoplay(); });
