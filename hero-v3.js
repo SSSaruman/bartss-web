@@ -264,32 +264,15 @@ document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 const immersive = document.getElementById("immersiveWork");
 const mosaic = document.querySelector(".mosaic-back");
 const phoneScenes = [...document.querySelectorAll(".phone-scene")];
-let immersiveRaf=0;
 function updateImmersive(){
   if(!immersive) return;
-  if(immersiveRaf) return;
-  immersiveRaf=requestAnimationFrame(()=>{
-    immersiveRaf=0;
-    const r=immersive.getBoundingClientRect();
-    const max=immersive.offsetHeight-innerHeight;
-    const passed=Math.max(0,Math.min(max,-r.top));
-    const p=max>0?passed/max:0;
-
-    // Restore the original sticky phone flow:
-    // phone remains on its center rail while the three internal scenes change.
-    const phone=document.querySelector(".phone-wrap");
-    if(phone){
-      phone.style.transform="translate(-50%,-49%)";
-    }
-
-    // Keep only subtle background travel so the phone remains the focal point.
-    if(mosaic){
-      mosaic.style.transform=`translate3d(0,${(-p*6).toFixed(2)}vh,0) scale(${(1+p*.02).toFixed(3)})`;
-    }
-
-    const scene=Math.min(phoneScenes.length-1,Math.floor(Math.min(.999,p)*phoneScenes.length));
-    phoneScenes.forEach((el,i)=>el.classList.toggle("active",i===scene));
-  });
+  const r = immersive.getBoundingClientRect();
+  const max = immersive.offsetHeight - innerHeight;
+  const passed = Math.max(0, Math.min(max, -r.top));
+  const p = max > 0 ? passed / max : 0;
+  if(mosaic) mosaic.style.transform = `translate3d(0,${(p * -42)}vh,0) scale(${1 + p*.06})`;
+  const scene = Math.min(phoneScenes.length - 1, Math.floor(p * phoneScenes.length));
+  phoneScenes.forEach((el,i)=>el.classList.toggle("active",i===scene));
 }
 window.addEventListener("scroll",updateImmersive,{passive:true});
 updateImmersive();
