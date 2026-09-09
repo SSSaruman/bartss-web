@@ -38,7 +38,9 @@ function circularDistance(index,active){
 
 function heroStep(){
   const w=heroRailWrap?.clientWidth||innerWidth;
-  return Math.max(430,Math.min(520,w*.315));
+  // Keep five cards present in the first frame:
+  // center card, two near cards, two edge-peek cards.
+  return Math.max(390,Math.min(430,w*.245));
 }
 
 function applyHeroLayout({animate=true}={}){
@@ -52,7 +54,7 @@ function applyHeroLayout({animate=true}={}){
     const push=heroBusy && d!==0 ? (d<0?-115:115) : 0;
     const x=d*step+push;
     const scale=d===0?1.08:(abs===1?.94:.88);
-    const opacity=d===0?1:(abs===1?.78:.52);
+    const opacity=d===0?1:(abs===1?.80:.62);
 
     const prev=Number(card.dataset.heroDistance ?? d);
     const wraps=Math.abs(prev-d) > (baseCount/2-.5);
