@@ -658,3 +658,24 @@ main>section,main>footer{scroll-snap-align:start}
   .v4-footer-bottom nav{flex-wrap:wrap}
   .v4-footer-bottom>span:last-child{justify-self:start}
 }
+
+.v4-final-footer{
+  position:relative!important;
+  z-index:120!important;
+  isolation:isolate;
+  overflow:hidden!important;
+  scroll-snap-align:start;
+}
+.v4-final-footer::before{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  z-index:-1;
+  background:
+    radial-gradient(circle at 72% 20%,rgba(220,232,121,.12),transparent 24%),
+    radial-gradient(circle at 18% 72%,rgba(110,156,220,.10),transparent 27%);
+  animation:v4FooterDrift 14s ease-in-out infinite alternate;
+}
+@keyframes v4FooterDrift{
+  to{transform:translate3d(2.5%,-1.5%,0) scale(1.05)}
+}
