@@ -79,7 +79,8 @@ function applyHeroLayout({animate=true}={}){
     const abs=Math.abs(d);
     const push=heroBusy && d!==0 ? (d<0?-115:115) : 0;
     const x=d*step+push;
-    const scale=d===0?1.08:(abs===1?.94:.88);
+    const baseScale=d===0?1.08:(abs===1?.94:.88);
+    const scale=heroBusy && d!==0 ? baseScale*.91 : baseScale;
     const opacity=abs>3?0:(d===0?1:(abs===1?.80:.62));
 
     card.classList.remove("hero-teleport");
