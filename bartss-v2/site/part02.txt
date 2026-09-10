@@ -1,0 +1,51 @@
+p class="muted">Problem</p>
+        <p>Great work can still disappear when the brand, product and story are pulling in different directions.</p>
+        <p>People don't experience strategy as a deck. They experience what they see, click, watch and remember.</p>
+        <p>That's where <span class="hl-orange">Bartss</span> comes in. We identify what's not working and turn it into a system people can understand, use and want.</p>
+      </div>
+      <div class="orange-panel" id="orangePanel"></div>
+    </section>
+
+    <section class="characterScene" id="characterScene">
+      <div class="characterPurple" id="characterPurple"></div>
+      <div class="characterTitle" id="characterTitle">Meet Bartss</div>
+      <div class="characterSub" id="characterSub">Two perspectives. One problem-solving team.</div>
+      <div class="characterCopy" id="characterCopy"><span class="characterKicker">Bartss</span>Two different perspectives.<br>A more human intent.</div>
+      <img class="charImg" id="char025" src="" data-src="bartss-v2/char/025.txt" alt="" />
+      <img class="charImg" id="char028" src="" data-src="bartss-v2/char/028.txt" alt="" />
+      <img class="charImg" id="char031" src="" data-src="bartss-v2/char/031.txt" alt="" />
+      <img class="charImg" id="char032" src="" data-src="bartss-v2/char/032.txt" alt="" />
+      <img class="charImg" id="char038" src="" data-src="bartss-v2/char/038.txt" alt="" />
+      <img class="charImg" id="char039" src="" data-src="bartss-v2/char/039.txt" alt="" />
+      <div class="orangeSlash s1" id="slash1"></div><div class="orangeSlash s2" id="slash2"></div>
+    </section>
+  </section>
+</div>
+
+<script>
+(async()=>{for(const el of document.querySelectorAll('img.charImg[data-src]')){try{const b64=await fetch(el.dataset.src).then(r=>r.text());el.src='data:image/webp;base64,'+b64.trim();}catch(e){console.error('character asset load failed',el.id,e);}}})();
+</script>
+<script>
+(() => {
+  const story=document.getElementById('story'), stage=document.getElementById('stage'), bg=document.getElementById('bg');
+  const hero=document.getElementById('hero'), rail=document.getElementById('rail'), identify=document.getElementById('identify'), identifyCopy=document.getElementById('identifyCopy'), ribbons=document.getElementById('ribbons'), transform=document.getElementById('transform'), transformCopy=document.getElementById('transformCopy'), orangePanel=document.getElementById('orangePanel');
+  const characterScene=document.getElementById('characterScene'), characterPurple=document.getElementById('characterPurple'), characterTitle=document.getElementById('characterTitle'), characterSub=document.getElementById('characterSub'), characterCopy=document.getElementById('characterCopy'), slash1=document.getElementById('slash1'), slash2=document.getElementById('slash2'); const charEls=['025','028','031','032','038','039'].map(k=>document.getElementById('char'+k));
+  const cards=Object.fromEntries([...document.querySelectorAll('.card')].map(el=>[el.dataset.id,el]));
+  const OFFL=-340, OFFR=1430; const names=['green','yellow','blue','orange','purple'];
+  const frameData=[
+    {bg:'#070707',hero:1,rail:1,identify:0,ribbons:0,transform:0,orangePanel:0,copy:0,p:{green:[OFFR,516,1],yellow:[310,516,1],blue:[OFFR,516,1],orange:[OFFR,516,1],purple:[69,516,1]}},
+    {bg:'#070707',hero:1,rail:1,identify:0,ribbons:0,transform:0,orangePanel:0,copy:0,p:{green:[49,516,1],yellow:[299,516,1],blue:[547,516,1],orange:[794,516,1],purple:[1077,516,1]}},
+    {bg:'#070707',hero:1,rail:1,identify:0,ribbons:0,transform:0,orangePanel:0,copy:0,p:{green:[50,516,1],yellow:[OFFL,516,1],blue:[OFFL,516,1],orange:[849,516,1],purple:[1085,516,1]}},
+    {bg:'#070707',hero:1,rail:1,identify:0,ribbons:0,transform:0,orangePanel:0,copy:0,p:{green:[297,516,1],yellow:[830,516,1],blue:[1078,516,1],orange:[546,516,1],purple:[48,516,1]}},
+    {bg:'#070707',hero:0,rail:0,identify:0,ribbons:0,transform:0,orangePanel:0,copy:0,p:{green:[OFFL,516,1],yellow:[OFFL,516,1],blue:[OFFL,516,1],orange:[OFFR,516,1],purple:[OFFR,516,1]}},
+    {bg:'#070707',hero:1,rail:1,identify:0,ribbons:0,transform:0,orangePanel:0,copy:0,p:{green:[297,516,1],yellow:[830,516,1],blue:[1078,516,1],orange:[546,516,1],purple:[49,516,1]}},
+    {bg:'#070707',hero:1,rail:1,identify:0,ribbons:0,transform:0,orangePanel:0,copy:0,p:{green:[OFFL,516,1],yellow:[299,516,1],blue:[547,516,1],orange:[810,516,1],purple:[OFFR,516,1]}},
+    {bg:'#070707',hero:1,rail:1,identify:0,ribbons:0,transform:0,orangePanel:0,copy:0,p:{green:[49,516,1],yellow:[299,516,1],blue:[547,516,1],orange:[794,516,1],purple:[1078,516,1]}},
+    {bg:'#070707',hero:0.1,rail:1,identify:0,ribbons:0,transform:0,orangePanel:0,copy:0,p:{green:[76,395,.82],yellow:[284,408,.82],blue:[492,404,.82],orange:[719,400,.82],purple:[972,394,.82]}},
+    {bg:'#070707',hero:0,rail:1,identify:0,ribbons:0,transform:0,orangePanel:0,copy:0,p:{green:[400,230,.48],yellow:[515,230,.48],blue:[624,230,.48],orange:[742,230,.48],purple:[860,214,.48]}},
+    {bg:'#f1ece2',hero:0,rail:1,identify:0, ribbons:0,transform:0,orangePanel:0,copy:0,p:{green:[547,296,.26],yellow:[601,296,.26],blue:[655,296,.26],orange:[709,296,.26],purple:[772,274,.26]}},
+    {bg:'#f1ece2',hero:0,rail:1,identify:1,ribbons:0,transform:0,orangePanel:0,copy:1,p:{green:[603,341,.20],yellow:[OFFL,341,.20],blue:[OFFL,341,.20],orange:[OFFL,341,.20],purple:[867,285,.20]}},
+    {bg:'#f1ece2',hero:0,rail:1,identify:1,ribbons:0,transform:0,orangePanel:0,copy:2,p:{green:[363,390,.20],yellow:[626,451,.20],blue:[679,451,.20],orange:[565,389,.20],purple:[860,321,.20]}},
+    {bg:'#f1ece2',hero:0,rail:1,identify:1,ribbons:0,transform:0,orangePanel:0,copy:3,p:{green:[363,390,.20],yellow:[626,451,.20],blue:[679,451,.20],orange:[565,389,.20],purple:[860,321,.20]}},
+    {bg:'#f1ece2',hero:0,rail:1,identify:1,ribbons:0,transform:0,orangePanel:0,copy:4,p:{green:[363,390,.20],yellow:[858,468,.20],blue:[913,468,.20],orange:[736,416,.20],purple:[761,316,.20]}},
+    {bg:'#f1ece2',hero:0,rail:1
