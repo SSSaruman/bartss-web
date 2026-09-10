@@ -1,0 +1,57 @@
+i .note-head{left:11px;top:23px;width:14px;height:9px}.mini .note-flag{left:22px;top:8px;width:12px;height:11px;border-radius:2px}
+.ribbons{position:absolute;inset:0;z-index:23;opacity:0;overflow:hidden}.band{position:absolute;left:-12%;width:124%;height:29%;background:#ccc}.band:after{content:"";position:absolute;right:-7%;top:0;width:24%;height:100%;clip-path:polygon(0 0,100% 50%,0 100%);background:inherit}.band.green{top:0;background:#c5fd77}.band.purple{top:0;background:#7a79f1}.band.blue{top:34%;background:#a8c8e4}.band.yellow{top:35%;background:#fdc625}.band.orange{top:71%;background:#ff6d41}.curve{position:absolute;border-radius:999px;background:transparent;border:0 solid transparent}.curve.curve-purple{width:1150px;height:620px;left:-120px;top:210px;border-top:178px solid #7a79f1}.curve.curve-blue{width:970px;height:430px;left:-220px;top:320px;border-top:132px solid #a8c8e4}.curve.curve-yellow{width:940px;height:420px;left:-60px;top:190px;border-top:142px solid #fdc625}.curve.curve-orange{width:980px;height:420px;left:-120px;top:430px;border-top:136px solid #ff6d41}
+.transform{position:absolute;inset:0;z-index:24;opacity:0;color:var(--fg)}.transform-copy{position:absolute;left:148px;top:126px;width:630px;font-size:25px;line-height:1.08;font-weight:900;letter-spacing:-.03em}.transform-copy p{margin:0 0 26px 0}.transform-copy .muted{color:rgba(244,241,235,.36)}.hl-green{background:#c5fd77;color:#111;padding:0 .18em;border-radius:.18em}.hl-orange{background:#ff6d41;color:#111;padding:0 .18em;border-radius:.18em}.orange-panel{position:absolute;left:47px;right:47px;bottom:20px;height:0;border-radius:26px 26px 0 0;background:#ff6d41}
+@media(max-width:720px){.nav{transform:translateX(-50%) scale(.82);transform-origin:top center}.hero{top:135px;width:92vw}.hero h1{font-size:42px}.secondary{margin-top:34px}.primary{min-width:220px}.card{transform-origin:top left}.identify-copy{font-size:34px;top:250px}.identify-row{gap:10px}.transform-copy{left:24px;top:120px;width:84vw;font-size:18px}.orange-panel{left:16px;right:16px}}
+@media(prefers-reduced-motion:reduce){.story{height:100vh}.stage{position:relative}}
+
+/* 025–039 reference-locked character section */
+.characterScene{position:absolute;inset:0;z-index:26;opacity:0;background:#ff6d41;overflow:hidden;color:#111}
+.characterTitle{position:absolute;z-index:30;left:50%;top:112px;transform:translateX(-50%);text-align:center;font-size:74px;line-height:.84;letter-spacing:-.055em;font-weight:900;white-space:nowrap}
+.characterSub{position:absolute;z-index:30;left:50%;top:265px;transform:translateX(-50%);font-size:14px;font-weight:700;text-align:center}
+.characterCopy{position:absolute;z-index:30;right:95px;top:245px;width:355px;font-size:32px;line-height:.95;letter-spacing:-.04em;font-weight:900}
+.characterKicker{display:block;font-size:12px;letter-spacing:0;margin-bottom:14px;font-weight:700}
+.charImg{position:absolute;z-index:28;display:block;max-width:none;pointer-events:none;user-select:none;will-change:transform,opacity}
+#char025{left:50%;bottom:-28px;width:430px;transform:translateX(-50%)}
+#char028,#char031,#char038,#char039{left:0;bottom:0;width:100%;height:100%;object-fit:cover;object-position:center bottom}
+#char032{left:0;bottom:0;height:100%;width:auto}
+.characterPurple{position:absolute;inset:0;background:#7a79f1;opacity:0;z-index:27}
+.orangeSlash{position:absolute;z-index:29;background:#ff6d41;clip-path:polygon(0 0,100% 50%,0 100%);opacity:0}
+.orangeSlash.s1{left:0;top:95px;width:300px;height:180px}.orangeSlash.s2{left:0;bottom:0;width:420px;height:220px}
+@media(max-width:720px){.characterTitle{font-size:44px;top:110px}.characterCopy{right:22px;top:240px;width:42vw;font-size:24px}#char025{width:340px}.characterSub{top:215px}}
+</style>
+</head>
+<body>
+<div class="story" id="story">
+  <section class="stage" id="stage">
+    <div class="bg" id="bg"></div>
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="logo" href="#" aria-label="Bartss">B</a>
+      <a href="#">Problem</a><a href="#">Capabilities</a><a href="#">Work</a><a href="#">Labs</a>
+      <a class="launch" href="#">Start a Project</a>
+    </nav>
+    <div class="hero" id="hero"><h1>Something in your business<br>isn't working as well<br>as it should.</h1><div class="secondary">See how we solve problems →</div><a class="primary" href="#">Show us what's not working →</a></div>
+    <div class="rail" id="rail">
+      <div class="card green" data-id="green"><div class="icon"><i class="clap-bit b1"></i><i class="clap-bit b2"></i><i class="clap-bit b3"></i><i class="clap-body"></i><i class="clap-notch"></i></div></div>
+      <div class="card yellow" data-id="yellow"><div class="icon"><i class="bag-handle"></i><i class="bag-body"></i></div></div>
+      <div class="card blue" data-id="blue"><div class="icon"><i class="shirt-left"></i><i class="shirt-right"></i><i class="shirt-body"></i><i class="shirt-neck"></i></div></div>
+      <div class="card orange" data-id="orange"><div class="icon"><i class="ghost-head"></i><i class="eye e1"></i><i class="eye e2"></i></div></div>
+      <div class="card purple" data-id="purple"><div class="icon"><i class="note-stem"></i><i class="note-head"></i><i class="note-flag"></i></div></div>
+    </div>
+    <section class="identify" id="identify">
+      <div class="tiny-note">Here's what fuels<br>Bartss when we solve problems</div>
+      <div class="identify-copy" id="identifyCopy"></div>
+    </section>
+    <section class="ribbons" id="ribbons" aria-hidden="true">
+      <div class="band green"></div>
+      <div class="band blue"></div>
+      <div class="band purple"></div>
+      <div class="band orange"></div>
+      <div class="band yellow"></div>
+      <div class="curve curve-purple"></div>
+      <div class="curve curve-blue"></div>
+      <div class="curve curve-yellow"></div>
+      <div class="curve curve-orange"></div>
+    </section>
+    <section class="transform" id="transform">
+      <div class="transform-copy" id="transformCopy">
+        <
