@@ -21,15 +21,83 @@
 @media(max-width:800px){.site-nav{inset:18px 20px auto;grid-template-columns:1fr auto}.nav-center,.nav-lang,.nav-actions>.pill{display:none}.nav-actions{grid-column:2}.brand{font-size:26px}.site-nav{color:#fff}.nav-contrast .brand{color:#17171b}.nav-menu{background:#fff;color:#17171b}.side-rail{display:none}.hero-wrap{padding:6px 6px 0}.hero{height:calc(100svh - 12px);min-height:630px;border-radius:16px}.hero-copy{left:5%;bottom:8%}.hero h1{font-size:clamp(64px,12.6vw,108px)}.hero-mark{width:120%;right:-33%;top:10%;height:57%;opacity:.96}.hero-index{top:110px;left:5%}.hero-side-note{right:5%;top:120px}.hero-meta{right:5%;bottom:20px}.hero-blurb{max-width:320px;font-size:11px}.section{padding:75px 20px}.marquee{padding:18px 0}.marquee-line{font-size:110px}.service-grid{grid-template-columns:1fr}.service-card{min-height:520px;padding:26px}.service-card h3{font-size:42px;max-width:80%}.svc-one .mock-device{width:45%;left:35%;top:20%}.svc-two .plastic-ring{left:30%;top:18%}.svc-three .mock-browser{left:34%;top:21%;right:0}.about-content{grid-template-columns:1fr}.about-orbit{min-height:450px;max-width:600px;margin:auto;width:100%}.about-orbit .orbit-outer{width:66%}.smart{min-height:820px;padding:75px 20px}.smart h2{font-size:clamp(67px,10vw,100px)}.smart-devices{top:37%;width:460px;right:0;transform:scale(.8);transform-origin:top right}.smart-content{margin-top:350px}.portfolio-intro{grid-template-columns:1fr}.portfolio-intro>div{justify-content:space-between}.portfolio-grid{grid-template-columns:1fr}.work-frame{height:420px}.process-header{display:block}.process-grid{grid-template-columns:1fr}.process-item,.process-item+.process-item{padding:25px 0;border-right:0;border-bottom:1px solid var(--line);min-height:245px}.process-glyph{height:95px;font-size:65px}.contact-grid{grid-template-columns:1fr 1fr}.contact-main{grid-column:1/-1}.footer-bottom{margin-top:50px}}
 @media(max-width:520px){.hero h1{font-size:clamp(51px,13.6vw,79px)}.hero-mark{width:158%;height:60%;right:-59%;top:7%}.hero-kicker{font-size:10px}.hero-blurb{font-size:11px}.hero-side-note{display:none}.hero-meta{font-size:9px}.section-heading h2{font-size:37px}.intro-text{font-size:25px}.service-card{min-height:495px}.service-card h3{font-size:36px}.svc-one .mock-device{left:27%;width:62%;top:28%}.svc-two .plastic-ring{left:17%;width:220px;height:220px;border-width:45px;top:29%}.svc-three .mock-browser{left:17%;top:28%}.about-cards{gap:9px}.about-card{height:185px;padding:16px}.about-card strong{font-size:29px}.about-card p{font-size:11px}.about-card .mini-art{font-size:130px}.about-orbit{min-height:330px}.orbit-tag{font-size:10px}.partners-scroll{gap:27px}.smart{min-height:780px}.smart h2{font-size:61px}.smart-devices{right:-80px;top:37%;transform:scale(.65)}.smart-content{margin-top:350px;display:block}.smart-content p{font-size:15px}.portfolio .section-heading{margin-bottom:35px}.portfolio-intro h2{font-size:35px}.portfolio-intro>div{display:block}.portfolio-intro p{font-size:13px}.work-card .work-frame{height:350px}.work-a .big-website{height:230px}.work-c .app-stack{left:1%;transform:scale(.85) rotate(-10deg)}.contact-grid{gap:30px 10px}.contact h2{font-size:49px}.footer-bottom{gap:15px;line-height:1.5}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}}
+
+/* Novra glass texture, Shotbase menu navigation and Syfter editorial storytelling */
+.site-nav.novra-glass{position:fixed;inset:15px auto auto 50%;transform:translateX(-50%);width:min(1120px,calc(100% - 38px));height:62px;border-radius:17px;display:grid;grid-template-columns:1fr auto 1fr;padding:0 17px;background:linear-gradient(103deg,rgba(13,13,17,.88),rgba(41,40,48,.73) 32%,rgba(18,18,23,.86) 67%,rgba(11,11,14,.92));border:1px solid #ffffff4d;box-shadow:inset 0 1px 1px #ffffff48,0 9px 27px #00000035;color:#fff;backdrop-filter:blur(23px) saturate(125%);-webkit-backdrop-filter:blur(23px) saturate(125%);isolation:isolate}
+.site-nav.novra-glass:before{position:absolute;content:"";inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(135deg,#ffffff14 0%,transparent 33%,#ffffff1e 63%,transparent 82%);mix-blend-mode:screen}
+.site-nav.novra-glass .brand,.site-nav.novra-glass.nav-contrast .brand{color:#fff;text-shadow:none;font-size:23px;position:relative;z-index:1}
+.site-nav.novra-glass .nav-center{background:transparent;border:0;box-shadow:none;color:#fff;position:relative;z-index:1;gap:3px}
+.site-nav.novra-glass .nav-center a,.site-nav.novra-glass .nav-center button{color:#f0eef5;font-size:12px;letter-spacing:-.02em;font-weight:600;border:none;background:transparent;padding:12px 13px;border-radius:8px}
+.site-nav.novra-glass .nav-center a:hover,.site-nav.novra-glass .nav-center button:hover,.site-nav.novra-glass .nav-center button[aria-expanded=true]{background:#ffffff22}
+.solutions-toggle{display:inline-flex;gap:8px;align-items:center}.solutions-toggle .chevron{font-size:17px;display:inline-block;transition:transform .25s}.solutions-toggle[aria-expanded=true] .chevron{transform:rotate(180deg)}
+.site-nav.novra-glass .nav-actions{position:relative;z-index:1;gap:10px}
+.site-nav.novra-glass .nav-actions .pill-violet{background:#f4f1f6;color:#201c29;padding:12px 17px;font-size:11px}
+.site-nav.novra-glass .nav-actions .pill-violet:hover{background:#cec1fd}
+.site-nav.novra-glass .nav-lang,.site-nav.novra-glass.nav-contrast .nav-lang{border:0;background:transparent;color:#fff;padding:10px 4px}
+.site-nav.novra-glass .nav-menu,.site-nav.novra-glass.nav-contrast .nav-menu{width:33px;height:33px;border:1px solid #ffffff50;background:#ffffff21;color:white;border-radius:9px}
+.hamburger{display:flex;flex-direction:column;gap:5px}.hamburger i{display:block;height:1.5px;width:14px;border-radius:3px;background:#fff;transition:transform .25s}.nav-menu[aria-expanded=true] .hamburger i:first-child{transform:translateY(3.25px) rotate(45deg)}.nav-menu[aria-expanded=true] .hamburger i:last-child{transform:translateY(-3.25px) rotate(-45deg)}
+.nav-menu-panel{position:fixed;z-index:48;top:89px;left:50%;right:auto;transform:translate(-50%,-9px) scale(.97);width:min(760px,calc(100% - 38px));padding:16px;border:1px solid #ffffff33;box-shadow:0 24px 75px #07070b72;backdrop-filter:blur(29px) saturate(125%);-webkit-backdrop-filter:blur(29px) saturate(125%);border-radius:23px;background:linear-gradient(143deg,rgba(31,30,38,.96),rgba(20,20,25,.98));color:#fff;opacity:0;visibility:hidden;pointer-events:none;display:block;transition:opacity .25s,transform .3s,visibility .25s}
+.nav-menu-panel.open{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0)}
+.mega-top{display:flex;justify-content:space-between;align-items:center;padding:6px 7px 16px;font-size:11px;letter-spacing:.1em;color:#a7a4b2;font-weight:700}
+.mega-close{border:1px solid #ffffff2d;border-radius:8px;width:26px;height:26px;background:#ffffff13;color:#fff;font-size:20px;line-height:1}
+.mega-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.mega-tile{border:1px solid #ffffff0e;background:#ffffff0e;border-radius:15px;min-height:104px;padding:16px 12px;display:flex;align-items:center;gap:12px;transition:background .18s,border-color .18s,transform .18s}
+.mega-tile:hover,.mega-tile:focus-visible{background:#ffffff1c;border-color:#ffffff28;transform:translateY(-2px)}
+.mega-glyph{width:40px;height:40px;flex:0 0 40px;display:grid;place-items:center;border-radius:12px;font-size:23px;font-weight:700}
+.mega-glyph.indigo{background:#5551c6;color:#e8e2ff}.mega-glyph.coral{background:#a96059;color:#ffe2bf}.mega-glyph.lime{background:#52764b;color:#d9ff9b}.mega-glyph.lilac{background:#7755a5;color:#ead5ff}.mega-glyph.rose{background:#ab5978;color:#ffd1df}.mega-glyph.sky{background:#527e9b;color:#caf1ff}
+.mega-body{display:flex;flex-direction:column;gap:6px;min-width:0}.mega-body strong{font-size:13px;line-height:1.25;letter-spacing:-.025em}.mega-body small{font-size:10.5px;line-height:1.45;color:#b4b1c0}.mega-go{margin-left:auto;align-self:start;color:#aaa4bc;font-size:16px}
+.mega-footer{padding:17px 6px 4px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:11px;font-weight:700;color:#9b9aa7}.mega-footer a{background:#e1d9ff;border-radius:30px;color:#1e1638;padding:11px 17px;white-space:nowrap;transition:background .2s}.mega-footer a:hover{background:#fff}.mega-footer a span{margin-left:8px}
+body.menu-open:after{content:"";position:fixed;inset:0;z-index:45;background:rgba(3,3,11,.18);pointer-events:auto}
+.side-rail{z-index:26}
+.syfter-inspired{background:#101013;color:#fff;padding:18px 14px 0;position:relative;isolation:isolate}
+.case-frame{border-radius:23px;overflow:hidden;min-height:790px;position:relative;background:radial-gradient(ellipse at 50% 22%,#e5e2e8 0%,#adaeb6 45%,#575965 100%);color:#fff}
+.case-crumb{display:flex;justify-content:space-between;position:relative;z-index:8;padding:25px 28px;font-size:11px;font-weight:700;letter-spacing:.03em;color:#fff}
+.case-art{position:absolute;inset:0;perspective:1400px;overflow:hidden}
+.case-halo{position:absolute;width:64%;height:70%;left:23%;top:10%;border-radius:50%;background:#fff7;filter:blur(90px);transform:rotate(-8deg)}
+.case-glass-card{position:absolute;width:300px;height:350px;background:linear-gradient(160deg,#f9f7ff,#9da4b7);border:7px solid #333c51;border-radius:24px;left:23%;top:23%;transform:rotate(-18deg) skewY(4deg);box-shadow:25px 32px 45px #24232f72;padding:18px;color:#1c1a27}
+.case-card-top{display:flex;gap:6px}.case-card-top i{width:7px;height:7px;border-radius:50%;background:#715ed7}.case-mini{font-size:9px;letter-spacing:.08em;font-weight:800;display:block;margin-top:23px}.case-mini-title{font-size:48px;letter-spacing:-.09em;line-height:.99;font-weight:800;margin-top:18px}.case-chart{height:93px;margin-top:25px;display:flex;align-items:flex-end;gap:9px}.case-chart b{flex:1;background:linear-gradient(#5d46dc,#ac9df4);height:49%;border-radius:6px 6px 0 0}.case-chart b:nth-child(2){height:80%}.case-chart b:nth-child(3){height:65%}.case-chart b:nth-child(4){height:100%}.case-chart b:nth-child(5){height:55%}
+.case-phone{width:286px;height:557px;border:10px solid #191a1f;border-radius:48px;background:#191a1f;position:absolute;box-shadow:19px 24px 32px #16131865,inset 0 0 0 2px #58545c;overflow:hidden}
+.case-phone-back{left:42%;top:19%;transform:rotate(-21deg);z-index:2}.case-phone-front{left:58%;top:12%;transform:rotate(14deg);z-index:3}
+.case-phone-screen{border-radius:39px;background:#e7defb;color:#1c1928;height:100%;padding:65px 23px 20px;position:relative;overflow:hidden}
+.case-phone-screen.dark-screen{background:radial-gradient(ellipse at 50% 80%,#5540bd 0%,transparent 75%),#171621;color:#fff}
+.case-phone-notch{height:21px;width:89px;background:#191a1f;border-radius:0 0 17px 17px;position:absolute;left:calc(50% - 44px);top:0}
+.case-phone-kicker{font-size:10px;font-weight:800;letter-spacing:.045em;color:inherit;opacity:.7}.case-phone-big{font-size:43px;font-weight:800;line-height:1.08;letter-spacing:-.09em;margin-top:40px}.case-phone-big em{font-style:normal;color:#cbb4ff}
+.case-pill-list{display:grid;gap:13px;margin-top:45px}.case-pill-list i{display:block;background:#c8bdf0;height:30px;border-radius:30px}.case-pill-list i:nth-child(2){width:73%;background:#a9a0d8}.case-pill-list i:nth-child(3){width:90%;background:#a8cee9}
+.case-phone-orb{width:120px;height:120px;position:absolute;bottom:14px;right:-17px;border-radius:50%;background:radial-gradient(circle at 28% 22%,#fff,#9479e0 70%);box-shadow:8px 18px 25px #55518860}
+.case-app-icon{font-size:100px;color:#b9a4ff;line-height:1;margin-top:35px;text-shadow:0 0 19px #836deb80}.case-phone-info{position:absolute;bottom:33px;left:22px;right:22px;display:flex;justify-content:space-between;font-size:10px;letter-spacing:.03em}
+.case-float-chip{position:absolute;left:30%;top:57%;font-size:18px;font-weight:800;background:#fff;color:#382c8d;border-radius:16px;padding:15px 25px;z-index:7;transform:rotate(10deg);box-shadow:12px 16px 27px #1716215a}.case-float-chip small{font-size:8px;color:#76678e;letter-spacing:.09em}
+.case-bottom{position:absolute;bottom:0;left:0;right:0;padding:28px 32px;display:flex;justify-content:space-between;align-items:end;z-index:8;background:linear-gradient(transparent,#1a192559)}
+.case-bottom h2{font-weight:600;line-height:1.03;letter-spacing:-.07em;font-size:clamp(35px,5vw,74px);margin:0}.case-bottom h2 em{font-style:normal;font-weight:400}.case-bottom p{font-size:13px;line-height:1.5;text-align:right;max-width:300px;margin:0}
+.case-scope{max-width:950px;margin:auto;text-align:center;padding:135px 24px 110px}
+.case-scope-number{color:#9896a5;font-size:11px;letter-spacing:.1em;font-weight:700}.case-scope h3{font-size:clamp(42px,6vw,90px);line-height:1.03;letter-spacing:-.08em;font-weight:600;margin:25px 0}.case-scope h3 em{font-style:normal;color:#ac9dff}.case-scope p{font-size:clamp(15px,1.7vw,19px);line-height:1.7;color:#aaa9b2;max-width:710px;margin:0 auto}
+.scope-split{margin:65px 0 0;border-top:1px solid #35353b;padding-top:23px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#a6a3ae;font-weight:700;letter-spacing:.03em}.scope-split a{font-size:13px;color:#fff;border-radius:35px;border:1px solid #88848c;padding:14px 18px;transition:background .2s}.scope-split a:hover{background:#5c40df}
+.case-editorial{background:#c5b8f5;color:#fff;border-radius:23px;padding:45px 4%;position:relative;min-height:725px;overflow:hidden;text-align:center}
+.case-ed-label{font-size:11px;letter-spacing:.08em;font-weight:700;color:#524894}.case-editorial>p{font-size:clamp(60px,8vw,130px);line-height:.9;letter-spacing:-.08em;font-weight:600;margin:32px 0;position:relative;z-index:4}.case-editorial>p em{font-style:normal;font-weight:400}.case-editorial-art{position:absolute;bottom:-190px;left:50%;width:820px;height:500px;transform:translateX(-50%);display:flex;gap:15px;align-items:flex-start;justify-content:center}
+.case-ed-panel{width:245px;height:395px;background:#161620;border:7px solid #282435;border-radius:28px;padding:26px 15px;box-shadow:13px 25px 28px #57479a75;text-align:left;transform:rotate(-15deg)}.case-ed-panel span{font-size:10px;letter-spacing:.04em}.case-ed-panel strong{display:block;font-size:210px;line-height:1.2;color:#a3a0ff;text-align:center}.case-ed-panel.panel-b{background:#efe8ff;color:#231b46;transform:rotate(5deg) translateY(-25px)}.case-ed-panel.panel-b strong{color:#7251d9}.case-ed-panel.panel-c{background:#aaa3f0;transform:rotate(16deg) translateY(12px)}
+.case-disclaimer{font-size:11px;color:#817f8d;margin:0;padding:18px 14px 25px;line-height:1.5}
+@media(max-width:950px){.site-nav.novra-glass{grid-template-columns:1fr auto;max-width:750px}.site-nav.novra-glass .nav-center{display:none}.site-nav.novra-glass .nav-actions .pill-violet{display:inline-flex}.site-nav.novra-glass .nav-actions{grid-column:2}.site-nav.novra-glass .nav-lang{display:none}.case-frame{min-height:700px}.case-phone-back{left:30%}.case-phone-front{left:51%}.case-glass-card{left:10%}.case-float-chip{left:15%}.case-bottom{align-items:start;flex-direction:column;gap:20px}.case-bottom p{text-align:left}}
+@media(max-width:650px){.site-nav.novra-glass{inset:12px auto auto 50%;width:calc(100% - 24px);height:56px;padding:0 12px;border-radius:14px}.site-nav.novra-glass .nav-actions .pill-violet{display:none}.site-nav.novra-glass .brand{font-size:24px}.nav-menu-panel{top:77px;width:calc(100% - 24px);max-height:calc(100dvh - 92px);overflow-y:auto;border-radius:17px;padding:11px}.mega-top{padding:8px 6px 12px}.mega-grid{grid-template-columns:1fr;gap:6px}.mega-tile{min-height:74px;padding:10px 12px;border-radius:12px}.mega-glyph{width:39px;height:39px;flex-basis:39px}.mega-body strong{font-size:12.5px}.mega-body small{font-size:10px}.mega-footer{padding:12px 3px 1px;font-size:9px}.mega-footer a{padding:10px 11px}.case-frame{min-height:750px}.case-crumb{padding:70px 14px 10px;font-size:8px;gap:20px}.case-crumb span:last-child{text-align:right}.case-art{top:12%;bottom:13%}.case-glass-card{width:190px;height:254px;padding:12px;left:5%;top:15%;border-width:5px}.case-mini-title{font-size:30px}.case-mini{font-size:7px}.case-chart{height:55px;margin-top:20px}.case-phone{width:173px;height:357px;border-width:6px;border-radius:31px}.case-phone-back{left:24%;top:23%}.case-phone-front{left:51%;top:17%}.case-phone-screen{border-radius:25px;padding:46px 13px 15px}.case-phone-notch{height:12px;width:64px;left:calc(50% - 32px)}.case-phone-kicker{font-size:7px}.case-phone-big{font-size:27px;margin-top:25px}.case-pill-list{gap:7px;margin-top:25px}.case-pill-list i{height:18px}.case-phone-orb{width:83px;height:83px}.case-app-icon{font-size:67px;margin-top:25px}.case-phone-info{left:10px;right:10px;bottom:22px;font-size:6px}.case-float-chip{left:8%;top:56%;font-size:12px;padding:11px 13px}.case-float-chip small{font-size:7px}.case-bottom{padding:16px 17px;gap:9px}.case-bottom h2{font-size:39px}.case-bottom p{font-size:11px}.case-scope{padding:95px 14px 85px}.case-scope h3{font-size:46px}.scope-split{gap:22px;align-items:start;flex-direction:column}.case-editorial{min-height:570px;padding:34px 12px}.case-editorial>p{font-size:clamp(48px,11.5vw,82px)}.case-editorial-art{transform:translateX(-50%) scale(.7);transform-origin:center bottom;bottom:-200px}.case-disclaimer{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.nav-menu-panel,.mega-tile,.site-nav.novra-glass .nav-center a{transition:none}.case-phone,.case-glass-card{animation:none}}
+
 </style>
 </head>
 <body>
-<nav class="site-nav" aria-label="Ana navigasyon" id="nav">
+<nav class="site-nav novra-glass" aria-label="Ana navigasyon" id="nav">
 <a class="brand" href="#home" aria-label="Bartss anasayfa">bartss<span>✳</span></a>
-<div class="nav-center"><a href="#approach">Hakkımızda</a><a href="#possibilities">Çözümler</a><a href="#work">Olasılıklar</a><a href="#contact">İletişim</a></div>
-<div class="nav-actions"><a class="pill pill-violet" href="#contact">+ Bir şey başlatalım</a><span class="nav-lang" aria-label="Dil Türkçe">TR⌄</span><button class="nav-menu" id="menu-toggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="menu-panel">☰</button></div>
+<div class="nav-center"><a href="#approach">Studio</a><button id="solutions-toggle" class="solutions-toggle" aria-haspopup="true" aria-expanded="false" aria-controls="menu-panel" type="button">Çözümler <span class="chevron">⌄</span></button><a href="#work">Olasılıklar</a><a href="#contact">İletişim</a></div>
+<div class="nav-actions"><a class="pill pill-violet" href="#contact">Bir şey başlatalım ↗</a><span class="nav-lang" aria-label="Dil Türkçe">TR</span><button class="nav-menu" id="menu-toggle" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="menu-panel"><span class="hamburger" aria-hidden="true"><i></i><i></i></span></button></div>
 </nav>
-<div class="nav-menu-panel" id="menu-panel"><a href="#home">Ana sayfa ↗</a><a href="#possibilities">Çözümler ↗</a><a href="#approach">Hakkımızda ↗</a><a href="#work">Olasılıklar ↗</a><a href="#contact">İletişim ↗</a></div>
+<div class="nav-menu-panel" id="menu-panel" role="region" aria-label="Bartss çözüm menüsü" aria-hidden="true">
+<div class="mega-top"><span>EXPLORE WHAT'S POSSIBLE</span><button type="button" class="mega-close" id="mega-close" aria-label="Menüyü kapat">×</button></div>
+<div class="mega-grid">
+<a class="mega-tile" href="#possibilities" data-subject="Yeni ürün fikrim var"><span class="mega-glyph indigo">✦</span><span class="mega-body"><strong>Bir fikrim var</strong><small>Fikirden ürüne, ilk kıvılcımdan çalışan deneyime</small></span><span class="mega-go">↗</span></a>
+<a class="mega-tile" href="#possibilities" data-subject="Markamı büyütmek istiyorum"><span class="mega-glyph coral">◈</span><span class="mega-body"><strong>Markamı büyütmek istiyorum</strong><small>Marka stratejisi, kimlik ve dijital anlatım</small></span><span class="mega-go">↗</span></a>
+<a class="mega-tile" href="#possibilities" data-subject="İşimi otomatikleştirmek istiyorum"><span class="mega-glyph lime">⌘</span><span class="mega-body"><strong>Daha akıllı çalışmak istiyorum</strong><small>AI, otomasyon ve birbirine bağlanan iş akışları</small></span><span class="mega-go">↗</span></a>
+<a class="mega-tile" href="#smart" data-subject="Yazılım projesi"><span class="mega-glyph lilac">⊞</span><span class="mega-body"><strong>Bir dijital sistem kurmak istiyorum</strong><small>Özel yazılım, ürün tasarımı ve sistem deneyimi</small></span><span class="mega-go">↗</span></a>
+<a class="mega-tile" href="#experience" data-subject="Etkileşimli deneyim projesi"><span class="mega-glyph rose">✳</span><span class="mega-body"><strong>Bir deneyim yaratmak istiyorum</strong><small>3D, hareket, oyun ve etkileşimli dünyalar</small></span><span class="mega-go">↗</span></a>
+<a class="mega-tile" href="#process" data-subject="Bartss ile proje başlangıcı"><span class="mega-glyph sky">↗</span><span class="mega-body"><strong>Nasıl birlikte çalışırız?</strong><small>Keşiften üretime, gerçek sonuca giden yol</small></span><span class="mega-go">↗</span></a>
+</div><div class="mega-footer"><span>THE POSSIBLE STARTS WITH A CONVERSATION.</span><a href="#contact">Fikrini paylaş <span>↗</span></a></div>
+</div>
 <aside class="side-rail" aria-label="Bölüm navigasyonu" id="rail"><a class="active" href="#home">Ana sayfa</a><a href="#possibilities">Çözümler</a><a href="#approach">Hakkımızda</a><a href="#smart">Yaklaşım</a><a href="#work">Olasılıklar</a><a href="#contact">İletişim</a></aside>
 <main>
 <div class="hero-wrap"><section class="hero" id="home" aria-labelledby="hero-title">
@@ -89,6 +157,20 @@
 <div class="smart-content"><p>Tasarımı, yazılımı, 3D dünyaları, hareketli anlatımı ve yapay zekâyı tek bir hedef için birleştiriyoruz: Sizin için gerçek bir fark yaratmak.</p><a class="pill pill-white" href="#work">Neler mümkün, keşfet ↗</a></div>
 </section>
 
+<section id="experience" class="syfter-inspired" aria-labelledby="experience-title">
+<div class="case-frame">
+<div class="case-crumb"><span>BARTSS® / WHAT'S POSSIBLE</span><span>AN IDEA → A REAL EXPERIENCE</span></div>
+<div class="case-art" aria-hidden="true">
+<div class="case-halo"></div>
+<div class="case-glass-card card-behind"><div class="case-card-top"><i></i><i></i><i></i></div><span class="case-mini">YOUR IDEA, ALL CONNECTED</span><div class="case-mini-title">Make it<br>possible.</div><div class="case-chart"><b></b><b></b><b></b><b></b><b></b></div></div>
+<div class="case-phone case-phone-back"><div class="case-phone-screen"><div class="case-phone-notch"></div><div class="case-phone-kicker">BARTSS STUDIO</div><div class="case-phone-big">Good ideas<br>deserve<br>to exist.</div><div class="case-pill-list"><i></i><i></i><i></i></div><div class="case-phone-orb"></div></div></div>
+<div class="case-phone case-phone-front"><div class="case-phone-screen dark-screen"><div class="case-phone-notch"></div><div class="case-phone-kicker">POSSIBILITIES / 01</div><div class="case-phone-big">Think.<br>Build.<br><em>Launch.</em></div><div class="case-app-icon">✳</div><div class="case-phone-info"><span>DESIGN ↗</span><span>TECH ↗</span><span>IMPACT ↗</span></div></div></div>
+<div class="case-float-chip">BARTSS ↗<br><small>BUILT AROUND YOU</small></div></div>
+<div class="case-bottom"><div><h2 id="experience-title">From possibility<br><em>to something real.</em></h2></div><p>Tek bir disiplinin değil, doğru fikirlerin bir araya geldiği deneyimler.</p></div></div>
+<div class="case-scope"><div class="case-scope-number">05 / EXPERIENCE</div><h3>İşin özü: <em>sizin ihtiyacınız.</em></h3><p>Bir ürün, bir marka, bir oyun, bir dijital platform ya da henüz keşfedilmemiş bir çözüm. Önce problemi anlarız. Ardından tasarım, teknoloji ve anlatımı gereken yerde birleştiririz.</p><div class="scope-split"><span>BRIEF → INSIGHT → CONCEPT → PRODUCT</span><a href="#contact">Birlikte kurgulayalım ↗</a></div></div>
+<div class="case-editorial"><span class="case-ed-label">AN EXPERIENCE THAT MAKES SENSE.</span><p>Different skills.<br><em>One clear direction.</em></p><div class="case-editorial-art" aria-hidden="true"><div class="case-ed-panel panel-a"><span>01 / DISCOVER</span><strong>?</strong></div><div class="case-ed-panel panel-b"><span>02 / CONNECT</span><strong>✳</strong></div><div class="case-ed-panel panel-c"><span>03 / CREATE</span><strong>↗</strong></div></div></div>
+<p class="case-disclaimer">Bu bölüm Bartss'ın yaklaşımını anlatan temsili görsel senaryodur; gerçekleştirilmiş müşteri projesi veya ölçülmüş başarı iddiası değildir.</p>
+</section>
 <section class="section portfolio" id="work" aria-labelledby="work-heading">
 <div class="label">03 — Neler üretebiliriz?</div><div class="portfolio-intro"><h2 id="work-heading">Hazır kalıplar yok.<br>Size özel çözüm var.</h2><div><p>Aşağıdakiler gerçek müşteri vakası değil, birlikte geliştirebileceğimiz çözüm alanlarının görsel örnekleridir.</p><a class="pill pill-black" href="#contact">Fikrini anlat ↗</a></div></div>
 <div class="portfolio-grid">
@@ -103,18 +185,45 @@
 <footer class="contact" id="contact"><div class="label strong">05 — CONTACT / LET'S TALK</div><div class="contact-grid"><div class="contact-main"><h2>Birlikte neyi<br>mümkün kılabiliriz?</h2><p>Uzun bir brief hazırlamanıza gerek yok. Fikrinizi, ihtiyacınızı ya da aklınızdaki soruyu yazın. Birlikte ilk adımı belirleyelim.</p><a id="contact-email-link" class="contact-cta" href="mailto:hello@bartss.com?subject=Bartss%20ile%20bir%20fikir">Bir şey başlatalım ↗</a><span class="contact-email">hello@bartss.com</span></div><div class="contact-col"><h3>Keşfet</h3><a href="#home">Ana sayfa ↗</a><a href="#possibilities">Çözümler ↗</a><a href="#approach">Yaklaşımımız ↗</a><a href="#work">Olasılıklar ↗</a></div><div class="contact-col"><h3>Birlikte</h3><a href="mailto:hello@bartss.com?subject=Merhaba%20Bartss">Proje konuşalım ↗</a><a href="mailto:hello@bartss.com?subject=İş%20birliği%20-%20Bartss">İş birliği ↗</a><span>Independent multidisciplinary studio</span></div></div><div class="footer-bottom"><span>© <span id="year">2026</span> Bartss Studio. Built for what's possible.</span><a href="#home">Başa dön ↑</a></div></footer>
 <script>
 (function(){
-  const nav=document.getElementById('nav'),rail=document.getElementById('rail'),panel=document.getElementById('menu-panel'),menu=document.getElementById('menu-toggle');
-  document.getElementById('year').textContent=new Date().getFullYear();
-  menu.addEventListener('click',function(){const isOpen=panel.classList.toggle('open');menu.setAttribute('aria-expanded',String(isOpen));menu.setAttribute('aria-label',isOpen?'Menüyü kapat':'Menüyü aç');menu.textContent=isOpen?'×':'☰';});
-  panel.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){panel.classList.remove('open');menu.setAttribute('aria-expanded','false');menu.textContent='☰';});});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'){panel.classList.remove('open');menu.setAttribute('aria-expanded','false');menu.textContent='☰';}});
-  document.addEventListener('click',function(e){if(!menu.contains(e.target)&&!panel.contains(e.target)){panel.classList.remove('open');menu.setAttribute('aria-expanded','false');menu.textContent='☰';}});
-  const sections=['home','possibilities','approach','smart','work','contact'];
-  let ticking=false;
-  function updateScroll(){const y=window.scrollY+Math.min(280,window.innerHeight*.36);let active='home';for(const id of sections){const el=document.getElementById(id);if(el&&el.offsetTop<=y)active=id;}rail.querySelectorAll('a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+active));const hero=document.getElementById('home');const smart=document.getElementById('smart');const onHero=window.scrollY<hero.offsetTop+hero.offsetHeight-100;nav.classList.toggle('nav-contrast',!onHero);rail.classList.toggle('on-dark',onHero||(window.scrollY+window.innerHeight*.4>=smart.offsetTop&&window.scrollY<smart.offsetTop+smart.offsetHeight));ticking=false;}
-  window.addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(updateScroll);ticking=true;}},{passive:true});window.addEventListener('resize',updateScroll);updateScroll();
-  const mail=document.getElementById('contact-email-link');
-  document.querySelectorAll('[data-subject]').forEach(function(a){a.addEventListener('click',function(){const subject=a.getAttribute('data-subject')||'Bir fikrim var';mail.href='mailto:hello@bartss.com?subject='+encodeURIComponent(subject+' — Bartss')+'&body='+encodeURIComponent('Merhaba Bartss,\n\nÜzerinde konuşmak istediğim konu:\n\n');mail.textContent='Bu konuyu konuşalım ↗';});});
+const nav=document.getElementById('nav'),rail=document.getElementById('rail'),panel=document.getElementById('menu-panel'),menu=document.getElementById('menu-toggle'),solutions=document.getElementById('solutions-toggle'),close=document.getElementById('mega-close');
+const allTriggers=[menu,solutions];
+document.getElementById('year').textContent=String(new Date().getFullYear());
+function setMenu(open,returnFocus){
+  panel.classList.toggle('open',open);document.body.classList.toggle('menu-open',open);panel.setAttribute('aria-hidden',String(!open));
+  allTriggers.forEach(btn=>btn.setAttribute('aria-expanded',String(open)));
+  menu.setAttribute('aria-label',open?'Menüyü kapat':'Menüyü aç');
+  if(!open&&returnFocus)(document.activeElement&&panel.contains(document.activeElement)?menu:document.activeElement).focus();
+}
+allTriggers.forEach(btn=>btn.addEventListener('click',function(e){e.stopPropagation();setMenu(!panel.classList.contains('open'));}));
+close.addEventListener('click',()=>setMenu(false,true));
+panel.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+document.addEventListener('keydown',function(e){
+ if(e.key==='Escape'&&panel.classList.contains('open')){setMenu(false,true);}
+ if(e.key==='Tab'&&panel.classList.contains('open')){
+  const nodes=Array.from(panel.querySelectorAll('a,button')).filter(n=>n.getClientRects().length);
+  if(!nodes.length)return;
+  if(e.shiftKey&&document.activeElement===nodes[0]){e.preventDefault();nodes[nodes.length-1].focus();}
+  if(!e.shiftKey&&document.activeElement===nodes[nodes.length-1]){e.preventDefault();nodes[0].focus();}
+ }
+});
+document.addEventListener('click',e=>{if(panel.classList.contains('open')&&!panel.contains(e.target)&&!nav.contains(e.target))setMenu(false);});
+const sections=['home','possibilities','approach','smart','experience','work','contact'];let ticking=false;
+function updateScroll(){
+ const y=window.scrollY+Math.min(280,window.innerHeight*.36);let active='home';
+ for(const id of sections){const el=document.getElementById(id);if(el&&el.offsetTop<=y)active=id;}
+ rail.querySelectorAll('a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+active));
+ const hero=document.getElementById('home'),smart=document.getElementById('smart'),experience=document.getElementById('experience');const onHero=window.scrollY<hero.offsetTop+hero.offsetHeight-100;
+ nav.classList.toggle('nav-contrast',!onHero);
+ rail.classList.toggle('on-dark',onHero||(window.scrollY+window.innerHeight*.4>=smart.offsetTop&&window.scrollY<smart.offsetTop+smart.offsetHeight)||(window.scrollY+window.innerHeight*.4>=experience.offsetTop&&window.scrollY<experience.offsetTop+experience.offsetHeight));
+ ticking=false;
+}
+window.addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(updateScroll);ticking=true;}},{passive:true});window.addEventListener('resize',updateScroll);updateScroll();
+const mail=document.getElementById('contact-email-link');
+document.querySelectorAll('[data-subject]').forEach(a=>a.addEventListener('click',function(){
+ const subject=a.getAttribute('data-subject')||'Bir fikrim var';
+ mail.href='mailto:hello@bartss.com?subject='+encodeURIComponent(subject+' — Bartss')+'&body='+encodeURIComponent('Merhaba Bartss,\n\nÜzerinde konuşmak istediğim konu:\n\n');
+ mail.textContent='Bu konuyu konuşalım ↗';
+}));
 })();
 </script>
 </body></html>
