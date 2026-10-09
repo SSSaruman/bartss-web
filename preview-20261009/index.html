@@ -79,30 +79,109 @@ body.menu-open:after{content:"";position:fixed;inset:0;z-index:45;background:rgb
 @media(max-width:650px){.site-nav.novra-glass{inset:12px auto auto 50%;width:calc(100% - 24px);height:56px;padding:0 12px;border-radius:14px}.site-nav.novra-glass .nav-actions .pill-violet{display:none}.site-nav.novra-glass .brand{font-size:24px}.nav-menu-panel{top:77px;width:calc(100% - 24px);max-height:calc(100dvh - 92px);overflow-y:auto;border-radius:17px;padding:11px}.mega-top{padding:8px 6px 12px}.mega-grid{grid-template-columns:1fr;gap:6px}.mega-tile{min-height:74px;padding:10px 12px;border-radius:12px}.mega-glyph{width:39px;height:39px;flex-basis:39px}.mega-body strong{font-size:12.5px}.mega-body small{font-size:10px}.mega-footer{padding:12px 3px 1px;font-size:9px}.mega-footer a{padding:10px 11px}.case-frame{min-height:750px}.case-crumb{padding:70px 14px 10px;font-size:8px;gap:20px}.case-crumb span:last-child{text-align:right}.case-art{top:12%;bottom:13%}.case-glass-card{width:190px;height:254px;padding:12px;left:5%;top:15%;border-width:5px}.case-mini-title{font-size:30px}.case-mini{font-size:7px}.case-chart{height:55px;margin-top:20px}.case-phone{width:173px;height:357px;border-width:6px;border-radius:31px}.case-phone-back{left:24%;top:23%}.case-phone-front{left:51%;top:17%}.case-phone-screen{border-radius:25px;padding:46px 13px 15px}.case-phone-notch{height:12px;width:64px;left:calc(50% - 32px)}.case-phone-kicker{font-size:7px}.case-phone-big{font-size:27px;margin-top:25px}.case-pill-list{gap:7px;margin-top:25px}.case-pill-list i{height:18px}.case-phone-orb{width:83px;height:83px}.case-app-icon{font-size:67px;margin-top:25px}.case-phone-info{left:10px;right:10px;bottom:22px;font-size:6px}.case-float-chip{left:8%;top:56%;font-size:12px;padding:11px 13px}.case-float-chip small{font-size:7px}.case-bottom{padding:16px 17px;gap:9px}.case-bottom h2{font-size:39px}.case-bottom p{font-size:11px}.case-scope{padding:95px 14px 85px}.case-scope h3{font-size:46px}.scope-split{gap:22px;align-items:start;flex-direction:column}.case-editorial{min-height:570px;padding:34px 12px}.case-editorial>p{font-size:clamp(48px,11.5vw,82px)}.case-editorial-art{transform:translateX(-50%) scale(.7);transform-origin:center bottom;bottom:-200px}.case-disclaimer{font-size:10px}}
 @media(prefers-reduced-motion:reduce){.nav-menu-panel,.mega-tile,.site-nav.novra-glass .nav-center a{transition:none}.case-phone,.case-glass-card{animation:none}}
 
+
+/* Customer-first solution journey; preserve Bartss palette and the approved glass navigation */
+.hero h1{font-size:clamp(76px,9.1vw,156px);line-height:.91}
+.hero h1 .fine{text-transform:none;letter-spacing:-.078em}
+.hero h1 .last{white-space:nowrap}
+.hero-copy{bottom:9%}.hero-subline{font-size:clamp(14px,1.25vw,19px);line-height:1.5;max-width:490px;margin:24px 0 20px;font-weight:600;text-shadow:0 1px 10px #533a765b}
+.hero-solve{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;padding:14px 17px 14px 21px;background:#fff;color:#2c2041;border-radius:100px;font-weight:750;font-size:14px;min-width:235px;box-shadow:0 9px 25px #5041713d;transition:transform .2s}
+.hero-solve:hover{transform:translateY(-3px)}
+.hero-solve span{font-size:24px;line-height:1}
+.solution-explorer{background:#f8f8f8;padding:105px max(4vw,24px) 120px}
+.explorer-heading{max-width:1200px;margin-bottom:65px}
+.explorer-eyebrow{display:block;font-size:11px;letter-spacing:.11em;font-weight:800;color:#767280;margin-bottom:20px}
+.explorer-heading h2{font-size:clamp(48px,6.5vw,96px);font-weight:650;line-height:1.05;letter-spacing:-.074em;margin:0 0 25px}
+.explorer-heading h2 span{color:#6d51c5}
+.explorer-heading>p{font-size:clamp(15px,1.6vw,20px);line-height:1.55;max-width:650px;color:#68656f;margin:0}
+.explorer-layout{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:26px;align-items:start}
+.explorer-questions{padding:0 2px}
+.question-block{margin-bottom:32px}
+.question-caption{display:flex;gap:15px;align-items:baseline;margin-bottom:17px}
+.question-caption>span{font-size:11px;color:#9b98a3;font-weight:800;letter-spacing:.08em}
+.question-caption h3,.question-caption strong{font-size:clamp(18px,2vw,26px);font-weight:700;line-height:1.3;letter-spacing:-.05em;margin:0}
+.question-caption small{margin-left:auto;font-size:11px;color:#93909a}
+.goal-list{display:grid;gap:9px}
+.goal-choice{display:flex;align-items:center;gap:17px;min-height:102px;width:100%;text-align:left;padding:15px 21px;background:white;border-radius:18px;border:1px solid #e8e7eb;transition:border-color .2s,box-shadow .2s,background .2s;cursor:pointer;color:#242129}
+.goal-choice:hover{border-color:#a69acd;box-shadow:0 5px 20px #59507d0f}
+.goal-choice.selected{background:#f0eafd;border-color:#9c88e4;box-shadow:inset 0 0 0 1px #a890e2}
+.goal-icon{width:48px;height:48px;flex:0 0 48px;display:grid;place-items:center;background:#eeeafd;color:#6c4ad4;border-radius:13px;font-size:24px}
+.goal-choice.selected .goal-icon{background:#6d4ce3;color:#fff}
+.goal-copy{display:flex;flex-direction:column;gap:5px;min-width:0}
+.goal-copy strong{font-size:clamp(14px,1.45vw,18px);letter-spacing:-.04em;font-weight:750}
+.goal-copy small{font-size:12px;line-height:1.5;color:#89848e}
+.goal-indicator{margin-left:auto;color:#9983d9;font-size:22px}
+.stage-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.stage-choice{display:flex;gap:15px;align-items:center;justify-content:space-between;text-align:left;padding:20px;border-radius:15px;background:#fff;border:1px solid #e8e7eb;font-size:13px;font-weight:700;min-height:71px;color:#353139}
+.stage-choice.selected{border-color:#9c88e4;background:#f0eafd}
+.stage-choice span{font-size:18px;color:#947cd4}
+.optional-question textarea{font:inherit;width:100%;resize:vertical;min-height:105px;border:1px solid #dedde3;border-radius:15px;background:#fff;color:#231c30;padding:17px;font-size:13px;line-height:1.6;outline-offset:4px}
+.optional-question textarea:focus-visible{outline:2px solid #9675e4}
+.solution-output{background:#17151e;border:1px solid #302b41;color:#fff;border-radius:26px;padding:31px 34px 27px;position:sticky;top:94px;box-shadow:0 20px 55px #130b241e;isolation:isolate}
+.result-top{display:flex;justify-content:space-between;gap:10px;font-size:10px;font-weight:800;letter-spacing:.07em;color:#a7a0b9}
+.result-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#b2f7a3;margin-right:8px;box-shadow:0 0 0 4px #b2f7a31c}
+.result-intro{margin-top:45px}
+.result-label{color:#a5a0b5;font-size:10px;font-weight:750;letter-spacing:.09em}
+.result-intro h3{font-size:clamp(32px,3.5vw,52px);letter-spacing:-.075em;line-height:1.08;margin:13px 0 12px;font-weight:650}
+.result-intro>p{color:#c5bfd0;font-size:14px;line-height:1.62;max-width:490px;margin:0}
+.result-visual{height:230px;position:relative;margin:25px 0 22px;border-radius:19px;overflow:hidden;background:radial-gradient(ellipse at 80% 0%,#ddd2ff,#a1a0d5 43%,#696591 100%);display:grid;place-items:center;isolation:isolate}
+.result-visual-label{position:absolute;top:15px;left:18px;z-index:4;color:#efebff;font-size:9px;font-weight:800;letter-spacing:.07em}
+.result-browser{width:62%;height:194px;margin-top:60px;background:#f8f7ff;border:7px solid #262335;border-radius:16px;transform:rotate(-10deg);box-shadow:10px 14px 30px #16152d67;position:relative;z-index:2;color:#1e1b2e;overflow:hidden}
+.browser-controls{height:25px;display:flex;align-items:center;padding:0 10px;gap:5px;background:#232030;color:#d8d0f2}
+.browser-controls i{width:5px;height:5px;border-radius:50%;background:#b2a1f0}
+.browser-controls span{margin-left:auto;font-size:6px;letter-spacing:.04em}
+.result-mock-head{padding:16px;display:flex;flex-direction:column;gap:10px}
+.result-mock-head>span{font-size:8px;color:#7b719a;letter-spacing:.03em;font-weight:800}
+.result-mock-head strong{font-size:34px;letter-spacing:-.085em;line-height:.95}
+.result-mock-elements{position:absolute;right:10px;top:50px;width:39%;display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.result-mock-elements span{height:42px;border-radius:11px;background:linear-gradient(130deg,#b59df9,#d5cbfb)}
+.result-mock-elements span:nth-child(2){background:#cabce6}.result-mock-elements span:nth-child(3){background:#7970b4}.result-mock-elements span:nth-child(4){background:#e6dcfa}
+.result-orbit{position:absolute;right:8%;top:7%;font-size:140px;color:#dcd2ff;opacity:.9;text-shadow:8px 17px 19px #4d3a8173;animation:rotate 50s linear infinite}
+.result-delivery{padding:20px 0;border-top:1px solid #393444}
+.result-delivery ul{padding:0;list-style:none;margin:15px 0 0;display:grid;gap:11px}
+.result-delivery li{font-size:14px;line-height:1.45;color:#f2edf9;display:flex;gap:11px;align-items:baseline}
+.result-delivery li:before{content:'↗';color:#b9a5fc;font-size:15px}
+.result-next{padding:15px 0 22px;border-top:1px solid #393444}
+.result-next p{margin:11px 0 0;color:#dbd5e9;font-size:14px;line-height:1.55}
+.result-actions{display:flex;flex-wrap:wrap;gap:9px}
+.result-cta{display:flex;gap:25px;align-items:center;justify-content:space-between;min-height:53px;flex:1 1 230px;background:#d9d0fc;color:#251b41;border-radius:30px;padding:12px 17px;font-size:13px;font-weight:800;transition:background .2s}
+.result-cta:hover{background:#fff}
+.result-cta span{font-size:22px}
+.result-copy{border:1px solid #68617d;color:#fff;background:#ffffff10;padding:12px 18px;border-radius:30px;min-height:53px;font-size:12px;font-weight:700}
+.result-copy:hover{background:#ffffff24}
+.result-disclaimer{font-size:11px;color:#928ca0;line-height:1.6;margin:19px 0 0}
+.copy-feedback{font-size:12px;color:#d1f8c5;min-height:17px;margin-top:6px}
+.case-scope{padding:85px 24px 70px}
+.case-frame{min-height:700px}
+.site-nav .nav-center .solutions-toggle{white-space:nowrap}
+@media(max-width:950px){.explorer-layout{grid-template-columns:1fr}.solution-output{position:static}.explorer-heading{margin-bottom:45px}}
+@media(max-width:650px){.hero h1{font-size:clamp(50px,13vw,75px)}.hero-copy{bottom:8.5%}.hero-subline{font-size:13px;max-width:280px}.hero-solve{font-size:12px;padding:12px 14px;min-width:200px}.hero-side-note{display:none}.solution-explorer{padding:78px 15px 85px}.explorer-heading h2{font-size:clamp(37px,10vw,58px)}.explorer-heading p{font-size:14px}.explorer-layout{gap:15px}.goal-choice{min-height:86px;padding:12px}.goal-icon{width:39px;height:39px;flex:0 0 39px;font-size:21px}.goal-copy strong{font-size:14px}.goal-copy small{font-size:11px}.stage-choice{padding:14px 12px;min-height:66px;font-size:12px}.solution-output{padding:25px 18px 22px;border-radius:20px}.result-intro{margin-top:28px}.result-intro h3{font-size:34px}.result-visual{height:205px}.result-browser{width:72%;height:174px}.result-mock-head strong{font-size:28px}.result-orbit{font-size:95px}.result-actions{flex-direction:column}.result-cta,.result-copy{flex:auto;width:100%}.case-frame{min-height:680px}.case-scope{padding:65px 15px 50px}}
+@media(prefers-reduced-motion:reduce){.result-orbit{animation:none}}
+
 </style>
 </head>
 <body>
 <nav class="site-nav novra-glass" aria-label="Ana navigasyon" id="nav">
 <a class="brand" href="#home" aria-label="Bartss anasayfa">bartss<span>✳</span></a>
-<div class="nav-center"><a href="#approach">Studio</a><button id="solutions-toggle" class="solutions-toggle" aria-haspopup="true" aria-expanded="false" aria-controls="menu-panel" type="button">Çözümler <span class="chevron">⌄</span></button><a href="#work">Olasılıklar</a><a href="#contact">İletişim</a></div>
-<div class="nav-actions"><a class="pill pill-violet" href="#contact">Bir şey başlatalım ↗</a><span class="nav-lang" aria-label="Dil Türkçe">TR</span><button class="nav-menu" id="menu-toggle" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="menu-panel"><span class="hamburger" aria-hidden="true"><i></i><i></i></span></button></div>
+<div class="nav-center"><a href="#process">Nasıl çalışırız</a><button id="solutions-toggle" class="solutions-toggle" aria-haspopup="true" aria-expanded="false" aria-controls="menu-panel" type="button">Çözümler <span class="chevron">⌄</span></button><a href="#experience">Deneyim</a><a href="#contact">İletişim</a></div>
+<div class="nav-actions"><a class="pill pill-violet" href="#possibilities">Çözümünü keşfet ↗</a><span class="nav-lang" aria-label="Dil Türkçe">TR</span><button class="nav-menu" id="menu-toggle" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="menu-panel"><span class="hamburger" aria-hidden="true"><i></i><i></i></span></button></div>
 </nav>
 <div class="nav-menu-panel" id="menu-panel" role="region" aria-label="Bartss çözüm menüsü" aria-hidden="true">
 <div class="mega-top"><span>EXPLORE WHAT'S POSSIBLE</span><button type="button" class="mega-close" id="mega-close" aria-label="Menüyü kapat">×</button></div>
 <div class="mega-grid">
-<a class="mega-tile" href="#possibilities" data-subject="Yeni ürün fikrim var"><span class="mega-glyph indigo">✦</span><span class="mega-body"><strong>Bir fikrim var</strong><small>Fikirden ürüne, ilk kıvılcımdan çalışan deneyime</small></span><span class="mega-go">↗</span></a>
-<a class="mega-tile" href="#possibilities" data-subject="Markamı büyütmek istiyorum"><span class="mega-glyph coral">◈</span><span class="mega-body"><strong>Markamı büyütmek istiyorum</strong><small>Marka stratejisi, kimlik ve dijital anlatım</small></span><span class="mega-go">↗</span></a>
-<a class="mega-tile" href="#possibilities" data-subject="İşimi otomatikleştirmek istiyorum"><span class="mega-glyph lime">⌘</span><span class="mega-body"><strong>Daha akıllı çalışmak istiyorum</strong><small>AI, otomasyon ve birbirine bağlanan iş akışları</small></span><span class="mega-go">↗</span></a>
-<a class="mega-tile" href="#smart" data-subject="Yazılım projesi"><span class="mega-glyph lilac">⊞</span><span class="mega-body"><strong>Bir dijital sistem kurmak istiyorum</strong><small>Özel yazılım, ürün tasarımı ve sistem deneyimi</small></span><span class="mega-go">↗</span></a>
-<a class="mega-tile" href="#experience" data-subject="Etkileşimli deneyim projesi"><span class="mega-glyph rose">✳</span><span class="mega-body"><strong>Bir deneyim yaratmak istiyorum</strong><small>3D, hareket, oyun ve etkileşimli dünyalar</small></span><span class="mega-go">↗</span></a>
-<a class="mega-tile" href="#process" data-subject="Bartss ile proje başlangıcı"><span class="mega-glyph sky">↗</span><span class="mega-body"><strong>Nasıl birlikte çalışırız?</strong><small>Keşiften üretime, gerçek sonuca giden yol</small></span><span class="mega-go">↗</span></a>
-</div><div class="mega-footer"><span>THE POSSIBLE STARTS WITH A CONVERSATION.</span><a href="#contact">Fikrini paylaş <span>↗</span></a></div>
+<a class="mega-tile" href="#possibilities" data-goal-link="product"><span class="mega-glyph indigo">✦</span><span class="mega-body"><strong>Bir fikrim var</strong><small>Fikirden ürüne, ilk kıvılcımdan çalışan deneyime</small></span><span class="mega-go">↗</span></a>
+<a class="mega-tile" href="#possibilities" data-goal-link="growth"><span class="mega-glyph coral">◈</span><span class="mega-body"><strong>Markamı büyütmek istiyorum</strong><small>Marka stratejisi, kimlik ve dijital anlatım</small></span><span class="mega-go">↗</span></a>
+<a class="mega-tile" href="#possibilities" data-goal-link="automation"><span class="mega-glyph lime">⌘</span><span class="mega-body"><strong>Daha akıllı çalışmak istiyorum</strong><small>AI, otomasyon ve birbirine bağlanan iş akışları</small></span><span class="mega-go">↗</span></a>
+<a class="mega-tile" href="#possibilities" data-goal-link="product"><span class="mega-glyph lilac">⊞</span><span class="mega-body"><strong>Bir dijital sistem kurmak istiyorum</strong><small>Özel yazılım, ürün tasarımı ve sistem deneyimi</small></span><span class="mega-go">↗</span></a>
+<a class="mega-tile" href="#possibilities" data-goal-link="experience"><span class="mega-glyph rose">✳</span><span class="mega-body"><strong>Bir deneyim yaratmak istiyorum</strong><small>3D, hareket, oyun ve etkileşimli dünyalar</small></span><span class="mega-go">↗</span></a>
+<a class="mega-tile" href="#process"><span class="mega-glyph sky">↗</span><span class="mega-body"><strong>Nasıl birlikte çalışırız?</strong><small>Keşiften üretime, gerçek sonuca giden yol</small></span><span class="mega-go">↗</span></a>
+</div><div class="mega-footer"><span>İHTİYACINIZDAN BAŞLAYALIM.</span><a href="#possibilities">Çözümümü keşfet <span>↗</span></a></div>
 </div>
-<aside class="side-rail" aria-label="Bölüm navigasyonu" id="rail"><a class="active" href="#home">Ana sayfa</a><a href="#possibilities">Çözümler</a><a href="#approach">Hakkımızda</a><a href="#smart">Yaklaşım</a><a href="#work">Olasılıklar</a><a href="#contact">İletişim</a></aside>
+<aside class="side-rail" aria-label="Bölüm navigasyonu" id="rail"><a class="active" href="#home">Ana sayfa</a><a href="#possibilities">Çözümünü bul</a><a href="#experience">Deneyim</a><a href="#process">Süreç</a><a href="#contact">İletişim</a></aside>
 <main>
 <div class="hero-wrap"><section class="hero" id="home" aria-labelledby="hero-title">
 <span class="hero-index">BARTSS® / MULTIDISCIPLINARY CREATIVE STUDIO</span>
-<div class="hero-side-note">STRATEGY • DESIGN • TECHNOLOGY<br>NEW POSSIBILITIES EVERY DAY</div>
+<div class="hero-side-note">PROBLEM → SOLUTION → PRODUCT<br>YOUR NEXT MOVE STARTS HERE</div>
 <svg class="hero-mark" viewBox="0 0 900 740" aria-hidden="true" focusable="false">
 <defs>
 <radialGradient id="orb" cx="30%" cy="25%" r="76%"><stop stop-color="#fff9ff"/><stop offset=".25" stop-color="#edcaff"/><stop offset=".56" stop-color="#aa81dc"/><stop offset=".86" stop-color="#8256c5"/><stop offset="1" stop-color="#5b4099"/></radialGradient>
@@ -129,34 +208,51 @@ body.menu-open:after{content:"";position:fixed;inset:0;z-index:45;background:rgb
 </g>
 <g class="floating2"><circle cx="293" cy="420" r="46" fill="url(#pearl)"/><circle cx="756" cy="441" r="37" fill="url(#pearl)"/><circle cx="697" cy="135" r="18" fill="url(#pearl)"/><path d="M786 453 C879 508 803 582 724 563 C645 544 608 605 686 648" fill="none" stroke="#805ec2" stroke-width="9" stroke-linecap="round"/><path d="M786 449 C879 505 803 579 724 560 C645 541 608 601 686 645" fill="none" stroke="#f9eaff" stroke-width="3" stroke-linecap="round"/></g>
 </svg>
-<div class="hero-copy"><p class="hero-kicker">YOU BRING THE CHALLENGE. WE EXPLORE THE POSSIBLE.</p><h1 id="hero-title" lang="en"><span class="fine">We make</span><span>things</span><span class="last">possible.</span></h1><div class="hero-blurb"><a class="down-pill" href="#possibilities" aria-label="Aşağı kaydır">↓</a><span>Bir fikri, bir markayı veya çözülemeyen bir problemi alın.<br>Birlikte nelerin mümkün olduğunu keşfedelim.</span></div></div>
-<div class="hero-meta"><span>INDEPENDENT THINKING / REAL RESULTS</span><span>SCROLL TO DISCOVER ↘</span></div>
+<div class="hero-copy"><p class="hero-kicker">BARTSS / CREATIVE SOLUTIONS STUDIO</p><h1 id="hero-title" lang="tr"><span class="fine">Sizin için</span><span>neyi</span><span class="last">çözelim?</span></h1><p class="hero-subline">Hedefinizi seçin. Size uygun çözümü ve ortaya çıkacak işi hemen görün.</p><a class="hero-solve" href="#possibilities">Çözümümü keşfet <span aria-hidden="true">↗</span></a></div>
+<div class="hero-meta"><span>PROBLEMLERDEN SOMUT ÜRÜNLERE</span><span>ÇÖZÜMÜ GÖR ↘</span></div>
 </section></div>
 
-<div class="marquee" aria-hidden="true"><div class="marquee-line"><span>better ideas. <b>bigger possibilities.</b> better ideas. <b>bigger possibilities.</b> </span><span>better ideas. <b>bigger possibilities.</b> better ideas. <b>bigger possibilities.</b> </span></div></div>
-
-<section class="section services" id="possibilities" aria-labelledby="solutions-heading">
-<div class="section-heading"><div class="label">01 — Sizin için neler mümkün?</div><h2 id="solutions-heading">Probleminiz nerede başlıyorsa,<br>biz oradan başlarız.</h2></div>
-<p class="intro-text">Bir hizmet kataloğundan seçim yapmanız gerekmiyor. İhtiyacınızı anlatın; doğru çözümü birlikte tasarlayalım.</p>
-<div class="service-grid">
-<article class="service-card svc-one"><div class="card-number">01 / BİR FİKRİM VAR</div><h3>Bir fikirden<br>gerçek bir ürüne.</h3><div class="service-visual" aria-hidden="true"><div class="mock-device"><div class="mock-top"><i></i><i></i><i></i></div><div class="mock-title">Something<br>new.</div><div class="mock-list"><span></span><span></span></div></div><span class="chip">IDEA → REALITY ↗</span><span class="bubble"></span></div><p>Ürün fikriniz henüz kâğıt üstünde olabilir. Stratejisinden tasarımına, prototipinden çalışan deneyimine kadar birlikte inşa edelim.</p><a class="card-link" href="#contact" data-subject="Bir ürün fikrim var">Bu fikri konuşalım ↗</a></article>
-<article class="service-card svc-two"><div class="card-number">02 / BİR MARKAM VAR</div><h3>Sadece görünmeyin.<br>İz bırakın.</h3><div class="service-visual" aria-hidden="true"><div class="plastic-ring"></div><div class="small-ball"></div><div class="card-chess">✳</div></div><p>Markanızın neden hatırlanacağını yeniden düşünelim. Kimlik, dijital deneyim, hareketli anlatım ve içerik tek bir dünyaya dönüşsün.</p><a class="card-link" href="#contact" data-subject="Markamı ileri taşımak istiyorum">Markayı keşfedelim ↗</a></article>
-<article class="service-card svc-three"><div class="card-number">03 / BİR İŞ AKIŞIM VAR</div><h3>Daha çok değil,<br>daha akıllı çalışın.</h3><div class="service-visual" aria-hidden="true"><div class="mock-browser"><header><i></i><i></i><i></i></header><div class="dashboard"><strong>Flow overview ↗</strong><div class="dash-bars"><i></i><i></i><i></i><i></i><i></i></div></div></div><span class="dash-orb"></span></div><p>Tekrarlanan işleri sistemlere dönüştürelim. Otomasyon, yapay zekâ ve özel yazılımla yeni kapasite kazanın.</p><a class="card-link" href="#contact" data-subject="İş süreçlerimi otomatikleştirmek istiyorum">Akışı iyileştirelim ↗</a></article>
-</div></section>
-
-<section class="section about" id="approach" aria-labelledby="about-heading">
-<div class="section-heading about-heading"><div class="label">02 — Yaklaşımımız</div><h2 id="about-heading">Her soruna aynı cevabı vermeyiz.</h2></div>
-<div class="about-content"><div class="about-left"><p>Bizim işimiz bir hizmeti satmak değil; <strong>doğru fikri bulmak, farklı uzmanlıkları bir araya getirmek ve sonuca ulaştırmak.</strong></p>
-<div class="about-cards"><div class="about-card"><strong>01.</strong><p>Önce işinize ve kullanıcılarınıza bakarız.</p><span class="mini-art" aria-hidden="true">◉</span></div><div class="about-card"><strong>02.</strong><p>Yeni olasılıkları görünür kılarız.</p><span class="mini-art" aria-hidden="true">✻</span></div><div class="about-card"><strong>03.</strong><p>Tasarım ve teknolojiyi birleştiririz.</p><span class="mini-art" aria-hidden="true">⌘</span></div><div class="about-card"><strong>04.</strong><p>Fikri çalışan bir deneyime dönüştürürüz.</p><span class="mini-art" aria-hidden="true">✳</span></div></div></div>
-<div class="about-orbit" aria-label="Bartss: fikir, tasarım ve teknoloji döngüsü"><div class="orbit-outer"></div><div class="orbit-center"></div><span class="orbit-tag one">Strateji</span><span class="orbit-tag two">Tasarım</span><span class="orbit-tag three">Teknoloji</span></div></div>
+<section class="solution-explorer" id="possibilities" aria-labelledby="solutions-heading">
+<div class="explorer-heading">
+<span class="explorer-eyebrow">01 / SİZİN İÇİN NE YAPABİLİRİZ?</span>
+<h2 id="solutions-heading">Hizmet seçmeyin.<br><span>Hedefinizi söyleyin.</span></h2>
+<p>Hangi noktada olduğunuzu anlamak için yalnızca iki seçim yeterli. Size nasıl bir çözüm geliştirebileceğimizi somut olarak gösterelim.</p>
+</div>
+<div class="explorer-layout">
+<div class="explorer-questions" id="explorer-questions">
+<div class="question-block">
+<div class="question-caption"><span>01</span><h3>Öncelikli hedefiniz ne?</h3></div>
+<div class="goal-list" role="group" aria-label="Hedef seçin">
+<button type="button" class="goal-choice selected" data-goal="growth" aria-pressed="true"><span class="goal-icon">↗</span><span class="goal-copy"><strong>Daha fazla müşteri kazanmak</strong><small>Görünürlük, marka ve satış dönüşümü</small></span><span class="goal-indicator" aria-hidden="true">↗</span></button>
+<button type="button" class="goal-choice" data-goal="product" aria-pressed="false"><span class="goal-icon">◈</span><span class="goal-copy"><strong>Bir fikri ürüne dönüştürmek</strong><small>Uygulama, platform veya dijital ürün</small></span><span class="goal-indicator" aria-hidden="true">↗</span></button>
+<button type="button" class="goal-choice" data-goal="automation" aria-pressed="false"><span class="goal-icon">⌘</span><span class="goal-copy"><strong>İşimi otomatikleştirmek</strong><small>Zaman kaybı, operasyon ve AI sistemleri</small></span><span class="goal-indicator" aria-hidden="true">↗</span></button>
+<button type="button" class="goal-choice" data-goal="experience" aria-pressed="false"><span class="goal-icon">✳</span><span class="goal-copy"><strong>Etkileyici bir deneyim yaratmak</strong><small>İnteraktif, 3D, motion ve oyun</small></span><span class="goal-indicator" aria-hidden="true">↗</span></button>
+</div>
+</div>
+<div class="question-block stage-question">
+<div class="question-caption"><span>02</span><h3>Şu an hangi aşamadasınız?</h3></div>
+<div class="stage-list" role="group" aria-label="Aşama seçin">
+<button type="button" class="stage-choice selected" data-stage="idea" aria-pressed="true">Henüz başlıyorum <span>↗</span></button>
+<button type="button" class="stage-choice" data-stage="existing" aria-pressed="false">Mevcut bir işim var <span>↗</span></button>
+</div>
+</div>
+<div class="question-block optional-question">
+<label class="question-caption" for="goal-detail"><span>03</span><strong>Eklemek istediğiniz bir detay var mı?</strong><small>Opsiyonel</small></label>
+<textarea id="goal-detail" rows="3" maxlength="600" placeholder="Örn: Yeni bir kahve markasını internette satışa açmak istiyorum..."></textarea>
+</div>
+</div>
+<article class="solution-output" id="solution-result" aria-labelledby="result-title">
+<div class="result-top"><span><i class="result-dot" aria-hidden="true"></i> BARTSS / ÇÖZÜM ÖNERİSİ</span><span id="result-code">01 / 08</span></div>
+<div class="result-intro"><div class="result-label">HEDEFİNİZ İÇİN ÖNERİMİZ</div><h3 id="result-title" aria-live="polite">Markanız için dönüşüm odaklı dijital başlangıç.</h3><p id="result-description">Doğru müşteriyle buluşan bir marka ve ölçülebilir bir dijital yolculuk tasarlarız.</p></div>
+<div class="result-visual" aria-hidden="true"><div class="result-visual-label">THE SOLUTION / PREVIEW</div><div class="result-browser"><div class="browser-controls"><i></i><i></i><i></i><span>BARTSS / CONCEPT</span></div><div class="result-mock-head"><span id="mock-kicker">GROW YOUR BRAND</span><strong id="mock-headline">Görün.<br>Dönüştür.</strong></div><div class="result-mock-elements"><span></span><span></span><span></span><span></span></div></div><div class="result-orbit">✳</div></div>
+<div class="result-delivery"><span class="result-label">ORTAYA NE ÇIKACAK?</span><ul id="result-deliverables" aria-live="polite"><li>Dijital marka yönü</li><li>Satışa hazırlık sayfası</li><li>Ölçüm ve takip planı</li></ul></div>
+<div class="result-next"><span class="result-label">İLK ADIM</span><p id="result-first">Hedef müşteri ve teklifinizi netleştirerek başlarız.</p></div>
+<div class="result-actions"><a class="result-cta" id="result-cta" href="mailto:hello@bartss.com?subject=Bartss%20proje%20fikri">Bu çözümü konuşalım <span>↗</span></a><button type="button" id="copy-plan" class="result-copy">Öneriyi kopyala <span>⧉</span></button></div>
+<p class="result-disclaimer">Bu otomatik hazırlanmış bir başlangıç önerisidir, kesin teklif veya sonuç garantisi değildir. Kapsam ihtiyaç görüşmesinde netleşir.</p>
+<div class="copy-feedback" role="status" id="copy-feedback" aria-live="polite"></div>
+</article>
+</div>
 </section>
-<div class="partners" aria-label="Birlikte kullandığımız disiplinler"><div class="partners-scroll"><b>STRATEGY</b><b>DESIGN</b><b class="asterisk">✳</b><b>MOTION</b><b>AI SYSTEMS</b><b>SOFTWARE</b><b>3D WORLDS</b><b>CREATIVE TECHNOLOGY</b></div></div>
-
-<section class="smart" id="smart" aria-labelledby="smart-heading"><div class="smart-label">BARTSS / MAKE THE COMPLEX FEEL SIMPLE</div><h2 id="smart-heading"><span>{SMART}</span><span><em>CREATIVE</em></span><span>THINKING.</span></h2>
-<div class="smart-devices" aria-hidden="true"><div class="smart-phone one"><div class="phone-notch"></div><div class="phone-ui dark"><div class="ui-sub">BARTSS / INTELLIGENT FLOW</div><h4>Make work<br>flow better.</h4><div class="ui-widget">AUTOMATION READY<strong>↗ 04</strong></div><div class="ui-row">● Ideation & strategy</div><div class="ui-row">● Smart workflows</div><div class="ui-row">● Real output</div></div></div><div class="smart-phone two"><div class="phone-notch"></div><div class="phone-ui"><div class="ui-sub">YOUR NEXT BIG IDEA</div><h4>Ideas into<br>impact.</h4><div class="ui-widget">POSSIBILITIES<strong>∞</strong></div><div class="ui-row">Product design ↗</div><div class="ui-row">Creative technology ↗</div><div class="ui-row">Launch & iterate ↗</div></div></div></div>
-<div class="smart-content"><p>Tasarımı, yazılımı, 3D dünyaları, hareketli anlatımı ve yapay zekâyı tek bir hedef için birleştiriyoruz: Sizin için gerçek bir fark yaratmak.</p><a class="pill pill-white" href="#work">Neler mümkün, keşfet ↗</a></div>
-</section>
-
 <section id="experience" class="syfter-inspired" aria-labelledby="experience-title">
 <div class="case-frame">
 <div class="case-crumb"><span>BARTSS® / WHAT'S POSSIBLE</span><span>AN IDEA → A REAL EXPERIENCE</span></div>
@@ -168,21 +264,11 @@ body.menu-open:after{content:"";position:fixed;inset:0;z-index:45;background:rgb
 <div class="case-float-chip">BARTSS ↗<br><small>BUILT AROUND YOU</small></div></div>
 <div class="case-bottom"><div><h2 id="experience-title">From possibility<br><em>to something real.</em></h2></div><p>Tek bir disiplinin değil, doğru fikirlerin bir araya geldiği deneyimler.</p></div></div>
 <div class="case-scope"><div class="case-scope-number">05 / EXPERIENCE</div><h3>İşin özü: <em>sizin ihtiyacınız.</em></h3><p>Bir ürün, bir marka, bir oyun, bir dijital platform ya da henüz keşfedilmemiş bir çözüm. Önce problemi anlarız. Ardından tasarım, teknoloji ve anlatımı gereken yerde birleştiririz.</p><div class="scope-split"><span>BRIEF → INSIGHT → CONCEPT → PRODUCT</span><a href="#contact">Birlikte kurgulayalım ↗</a></div></div>
-<div class="case-editorial"><span class="case-ed-label">AN EXPERIENCE THAT MAKES SENSE.</span><p>Different skills.<br><em>One clear direction.</em></p><div class="case-editorial-art" aria-hidden="true"><div class="case-ed-panel panel-a"><span>01 / DISCOVER</span><strong>?</strong></div><div class="case-ed-panel panel-b"><span>02 / CONNECT</span><strong>✳</strong></div><div class="case-ed-panel panel-c"><span>03 / CREATE</span><strong>↗</strong></div></div></div>
 <p class="case-disclaimer">Bu bölüm Bartss'ın yaklaşımını anlatan temsili görsel senaryodur; gerçekleştirilmiş müşteri projesi veya ölçülmüş başarı iddiası değildir.</p>
 </section>
-<section class="section portfolio" id="work" aria-labelledby="work-heading">
-<div class="label">03 — Neler üretebiliriz?</div><div class="portfolio-intro"><h2 id="work-heading">Hazır kalıplar yok.<br>Size özel çözüm var.</h2><div><p>Aşağıdakiler gerçek müşteri vakası değil, birlikte geliştirebileceğimiz çözüm alanlarının görsel örnekleridir.</p><a class="pill pill-black" href="#contact">Fikrini anlat ↗</a></div></div>
-<div class="portfolio-grid">
-<article class="work-card"><div class="work-frame work-a"><div class="work-stage"><div class="big-website"><h3>Your idea,<br>made real.</h3><div class="web-visual"></div></div><span class="note">From idea to launch ✳</span></div></div><div class="work-meta"><span>Bir fikir → Dijital ürün deneyimi<br><small>ÜRÜN / WEB / ARAYÜZ</small></span><a href="#contact" class="work-view" aria-label="Dijital ürün fikrini konuş">↗</a></div></article>
-<article class="work-card"><div class="work-frame work-b"><div class="work-stage"><div class="system-screen"><h3>Intelligent<br>systems.</h3><div class="system-bar"></div><div class="system-bar"></div><div class="system-bar"></div><div class="system-bar"></div></div><div class="orb"></div></div></div><div class="work-meta"><span>Tekrarlanan iş → Akıllı iş akışı<br><small>AI / OTOMASYON / SİSTEM</small></span><a href="#contact" class="work-view" aria-label="Otomasyon fikrini konuş">↗</a></div></article>
-<article class="work-card"><div class="work-frame work-c"><div class="work-stage"><div class="app-stack"><div class="tiny-phone"><h4>Make it<br>matter.</h4><span></span><span></span></div><div class="tiny-phone"><h4>Think<br>bigger.</h4><span></span><span></span></div></div></div></div><div class="work-meta"><span>Bir marka → Tutarlı dijital dünya<br><small>BRAND / CONTENT / PRODUCT</small></span><a href="#contact" class="work-view" aria-label="Marka projesini konuş">↗</a></div></article>
-<article class="work-card"><div class="work-frame work-d"><div class="work-stage"><div class="aster-obj">✳</div><div class="floating-ticket">NOT ORDINARY. ↗</div></div></div><div class="work-meta"><span>Bir hikâye → Etkileşimli deneyim<br><small>3D / OYUN / MOTION</small></span><a href="#contact" class="work-view" aria-label="Deneyim fikrini konuş">↗</a></div></article>
-</div><p class="portfolio-note"><strong>Önemli:</strong> Bu bölüm konsept görselleştirmelerinden oluşur; gerçekleştirilmiş müşteri çalışması veya ölçülmüş sonuç iddiası içermez.</p>
-</section>
-<section class="section process" id="process" aria-labelledby="process-heading"><div class="label">04 — Çalışma biçimimiz</div><div class="process-header"><h2 id="process-heading">Think. Connect.<br>Make it real.</h2><p>Süreci karmaşık hale getirmeden, gerçek probleminizden yola çıkarak çalışırız.</p></div><div class="process-grid"><article class="process-item"><div class="process-no">01 / ANLA</div><div class="process-glyph">◎</div><h3>Gerçek ihtiyacı keşfet.</h3><p>İş hedeflerini, kullanıcıları ve çözülmesi gereken temel problemi netleştiririz.</p></article><article class="process-item"><div class="process-no">02 / BİRLEŞTİR</div><div class="process-glyph">✳</div><h3>Doğru disiplinleri buluştur.</h3><p>Strateji, tasarım ve teknolojiyi çözümün ihtiyaç duyduğu ölçüde bir araya getiririz.</p></article><article class="process-item"><div class="process-no">03 / GERÇEKLEŞTİR</div><div class="process-glyph">↗</div><h3>Fikri hayata geçir.</h3><p>Yalnızca sunum değil, kullanılabilir, test edilebilir, somut bir çıktı hedefleriz.</p></article></div></section>
+<section class="section process" id="process" aria-labelledby="process-heading"><div class="label">03 — Çalışma biçimimiz</div><div class="process-header"><h2 id="process-heading">Think. Connect.<br>Make it real.</h2><p>Süreci karmaşık hale getirmeden, gerçek probleminizden yola çıkarak çalışırız.</p></div><div class="process-grid"><article class="process-item"><div class="process-no">01 / ANLA</div><div class="process-glyph">◎</div><h3>Gerçek ihtiyacı keşfet.</h3><p>İş hedeflerini, kullanıcıları ve çözülmesi gereken temel problemi netleştiririz.</p></article><article class="process-item"><div class="process-no">02 / BİRLEŞTİR</div><div class="process-glyph">✳</div><h3>Doğru disiplinleri buluştur.</h3><p>Strateji, tasarım ve teknolojiyi çözümün ihtiyaç duyduğu ölçüde bir araya getiririz.</p></article><article class="process-item"><div class="process-no">03 / GERÇEKLEŞTİR</div><div class="process-glyph">↗</div><h3>Fikri hayata geçir.</h3><p>Yalnızca sunum değil, kullanılabilir, test edilebilir, somut bir çıktı hedefleriz.</p></article></div></section>
 </main>
-<footer class="contact" id="contact"><div class="label strong">05 — CONTACT / LET'S TALK</div><div class="contact-grid"><div class="contact-main"><h2>Birlikte neyi<br>mümkün kılabiliriz?</h2><p>Uzun bir brief hazırlamanıza gerek yok. Fikrinizi, ihtiyacınızı ya da aklınızdaki soruyu yazın. Birlikte ilk adımı belirleyelim.</p><a id="contact-email-link" class="contact-cta" href="mailto:hello@bartss.com?subject=Bartss%20ile%20bir%20fikir">Bir şey başlatalım ↗</a><span class="contact-email">hello@bartss.com</span></div><div class="contact-col"><h3>Keşfet</h3><a href="#home">Ana sayfa ↗</a><a href="#possibilities">Çözümler ↗</a><a href="#approach">Yaklaşımımız ↗</a><a href="#work">Olasılıklar ↗</a></div><div class="contact-col"><h3>Birlikte</h3><a href="mailto:hello@bartss.com?subject=Merhaba%20Bartss">Proje konuşalım ↗</a><a href="mailto:hello@bartss.com?subject=İş%20birliği%20-%20Bartss">İş birliği ↗</a><span>Independent multidisciplinary studio</span></div></div><div class="footer-bottom"><span>© <span id="year">2026</span> Bartss Studio. Built for what's possible.</span><a href="#home">Başa dön ↑</a></div></footer>
+<footer class="contact" id="contact"><div class="label strong">04 — BİRLİKTE BAŞLAYALIM</div><div class="contact-grid"><div class="contact-main"><h2>Önce ihtiyacınızı anlayalım.</h2><p>Bir hedef seçip ilk çözüm önerinizi yukarıda görebilirsiniz. İsterseniz öneriyi detaylarıyla bize iletin; birlikte kapsamını netleştirelim.</p><a id="contact-email-link" class="contact-cta" href="mailto:hello@bartss.com?subject=Bartss%20ile%20bir%20fikir">Önerimi paylaş ↗</a><span class="contact-email">hello@bartss.com</span></div><div class="contact-col"><h3>Keşfet</h3><a href="#home">Ana sayfa ↗</a><a href="#possibilities">Çözümler ↗</a><a href="#process">Yaklaşımımız ↗</a><a href="#experience">Deneyim ↗</a></div><div class="contact-col"><h3>Birlikte</h3><a href="mailto:hello@bartss.com?subject=Merhaba%20Bartss">Proje konuşalım ↗</a><a href="mailto:hello@bartss.com?subject=İş%20birliği%20-%20Bartss">İş birliği ↗</a><span>Independent multidisciplinary studio</span></div></div><div class="footer-bottom"><span>© <span id="year">2026</span> Bartss Studio. Built for what's possible.</span><a href="#home">Başa dön ↑</a></div></footer>
 <script>
 (function(){
 const nav=document.getElementById('nav'),rail=document.getElementById('rail'),panel=document.getElementById('menu-panel'),menu=document.getElementById('menu-toggle'),solutions=document.getElementById('solutions-toggle'),close=document.getElementById('mega-close');
@@ -207,23 +293,68 @@ document.addEventListener('keydown',function(e){
  }
 });
 document.addEventListener('click',e=>{if(panel.classList.contains('open')&&!panel.contains(e.target)&&!nav.contains(e.target))setMenu(false);});
-const sections=['home','possibilities','approach','smart','experience','work','contact'];let ticking=false;
+const sections=['home','possibilities','experience','process','contact'];let ticking=false;
 function updateScroll(){
  const y=window.scrollY+Math.min(280,window.innerHeight*.36);let active='home';
  for(const id of sections){const el=document.getElementById(id);if(el&&el.offsetTop<=y)active=id;}
  rail.querySelectorAll('a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+active));
- const hero=document.getElementById('home'),smart=document.getElementById('smart'),experience=document.getElementById('experience');const onHero=window.scrollY<hero.offsetTop+hero.offsetHeight-100;
- nav.classList.toggle('nav-contrast',!onHero);
- rail.classList.toggle('on-dark',onHero||(window.scrollY+window.innerHeight*.4>=smart.offsetTop&&window.scrollY<smart.offsetTop+smart.offsetHeight)||(window.scrollY+window.innerHeight*.4>=experience.offsetTop&&window.scrollY<experience.offsetTop+experience.offsetHeight));
+ nav.classList.toggle('nav-contrast',window.scrollY>document.getElementById('home').offsetHeight-100);
+ const experience=document.getElementById('experience');
+ rail.classList.toggle('on-dark',window.scrollY+innerHeight*.4>=experience.offsetTop&&window.scrollY<experience.offsetTop+experience.offsetHeight);
  ticking=false;
 }
 window.addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(updateScroll);ticking=true;}},{passive:true});window.addEventListener('resize',updateScroll);updateScroll();
 const mail=document.getElementById('contact-email-link');
-document.querySelectorAll('[data-subject]').forEach(a=>a.addEventListener('click',function(){
- const subject=a.getAttribute('data-subject')||'Bir fikrim var';
- mail.href='mailto:hello@bartss.com?subject='+encodeURIComponent(subject+' — Bartss')+'&body='+encodeURIComponent('Merhaba Bartss,\n\nÜzerinde konuşmak istediğim konu:\n\n');
- mail.textContent='Bu konuyu konuşalım ↗';
-}));
+const catalog={
+ growth:{
+   label:'Daha fazla müşteri kazanmak',
+   idea:{title:'Markanız için satışa hazır bir dijital başlangıç.',description:'Müşterinizin sizi tanıdığı, teklifinizi anladığı ve harekete geçtiği bir dijital deneyimle başlayalım.',deliverables:['Hedef müşteri ve değer önerisi çalışması','Marka yönü ve dönüşüm odaklı açılış sayfası','Başlangıç ölçüm ve geliştirme planı'],first:'Kime, hangi vaadi sunduğunuzu netleştiren kısa bir keşif oturumu.',visual:['GROW YOUR BRAND','Görün.','Dönüştür.']},
+   existing:{title:'Mevcut müşteri yolculuğunuzu iyileştirelim.',description:'Marka mesajı ve dijital temas noktalarındaki kopuklukları tespit edip ziyaretçiyi doğru aksiyona yönlendiren yeni bir akış kuralım.',deliverables:['Mevcut site ve müşteri yolculuğu analizi','Öncelikli dönüşüm noktaları için yeni UX/UI','Olay takibi ve iyileştirme önerileri'],first:'Mevcut sitenizi, hedef kitlenizi ve en önemli dönüşüm hedefinizi birlikte incelemek.',visual:['CUSTOMER JOURNEY','Daha net.','Daha etkili.']}
+ },
+ product:{
+   label:'Bir fikri ürüne dönüştürmek',
+   idea:{title:'Fikrinizi test edilebilir bir ilk ürüne dönüştürelim.',description:'Büyük yatırımlar yapmadan önce asıl değeri somutlaştıralım; kullanıcı akışını kurgulayıp ilk kullanılabilir deneyimi oluşturalım.',deliverables:['Ürün kapsamı ve temel kullanıcı senaryoları','Tıklanabilir arayüz prototipi','MVP geliştirme planı ve öncelikler'],first:'Kullanıcının hangi problemini çözdüğünüzü tek cümlede tanımlamak.',visual:['BUILD YOUR IDEA','Fikir.','Ürün.']},
+   existing:{title:'Ürününüzün kullanılmasını kolaylaştıralım.',description:'Var olan üründe kullanıcıyı yavaşlatan noktaları bularak kritik ekranları ve akışları daha anlaşılır hale getirelim.',deliverables:['Kritik kullanıcı akışlarının UX incelemesi','Öncelikli ekranlar için yeniden tasarım','Geliştiriciye teslim edilebilir arayüz sistemi'],first:'En fazla kayıp yaşadığınız kullanıcı adımını ve ürün ekranlarını görmek.',visual:['MAKE IT BETTER','Basit.','Kullanışlı.']}
+ },
+ automation:{
+   label:'İşimi otomatikleştirmek',
+   idea:{title:'Tekrarlanan iş için çalışan bir otomasyon kuralım.',description:'En çok zaman kaybettiren adımı tespit edip veri girişinden içerik üretimine kadar uygulanabilir bir otomasyon senaryosu oluşturalım.',deliverables:['İş akışı ve darboğaz haritası','Tek kritik adım için çalışan otomasyon prototipi','Kontrol ve hata yönetimi taslağı'],first:'Haftalık en çok zaman alan tekrar işinizi adım adım tarif etmek.',visual:['SMARTER WORK','Daha az.','Tekrar.']},
+   existing:{title:'Dağınık sistemlerinizi birbirine bağlayalım.',description:'Kullanılan araçları ve onay noktalarını koruyarak manuel aktarımları azaltan, takip edilebilir bir operasyon akışı oluşturalım.',deliverables:['Mevcut araçlar ve veri akışı analizi','Seçilen süreç için entegrasyon/otomasyon','Çıktı izleme ve hata bildirim mekanizması'],first:'Tekrar kullanılan uygulamaları ve halen elle aktarılan verileri görmek.',visual:['CONNECT YOUR TOOLS','Akıllı.','Akış.']}
+ },
+ experience:{
+   label:'Etkileyici bir deneyim yaratmak',
+   idea:{title:'Fikrinizi deneyimlenen bir dünyaya çevirelim.',description:'Hikâyenizin ana etkileşimini tanımlayarak 3D, motion veya oyun mekaniğini bir araya getiren deneyim prototipi hazırlayalım.',deliverables:['Yaratıcı konsept ve deneyim akışı','Ana etkileşimi gösteren prototip','Görsel dünya ve üretim yönergesi'],first:'Ziyaretçinin ne hissetmesini veya yapmasını istediğinizi belirlemek.',visual:['DESIGN AN EXPERIENCE','Hisset.','Keşfet.']},
+   existing:{title:'Mevcut deneyiminize yeni bir katman ekleyelim.',description:'Çalışan ürün veya marka dünyasının dilini koruyup doğru yerde hareket, etkileşim ve anlatım ekleyerek deneyimi güçlendirelim.',deliverables:['Mevcut deneyimin görsel/UX değerlendirmesi','Uyumlu etkileşim ve hareket tasarımı','Uygulanabilir demo ve geliştirme kapsamı'],first:'Mevcut deneyimi ve kullanıcıya eksik gelen anı birlikte incelemek.',visual:['BEYOND THE SCREEN','Etkile.','Hatırla.']}
+ }
+};
+const goalButtons=[...document.querySelectorAll('.goal-choice')];
+const stageButtons=[...document.querySelectorAll('.stage-choice')];
+const detail=document.getElementById('goal-detail'); const copy=document.getElementById('copy-plan');const feedback=document.getElementById('copy-feedback'); const cta=document.getElementById('result-cta');
+let goal='growth',stage='idea';let currentPlan='';
+function updatePlan(){
+ const data=catalog[goal][stage];const topic=catalog[goal].label;const phase=stage==='idea'?'Henüz başlıyorum':'Mevcut bir işim var';
+ goalButtons.forEach(b=>{const on=b.dataset.goal===goal;b.classList.toggle('selected',on);b.setAttribute('aria-pressed',String(on));});
+ stageButtons.forEach(b=>{const on=b.dataset.stage===stage;b.classList.toggle('selected',on);b.setAttribute('aria-pressed',String(on));});
+ document.getElementById('result-title').textContent=data.title;document.getElementById('result-description').textContent=data.description;document.getElementById('result-first').textContent=data.first;
+ const items=document.getElementById('result-deliverables');items.replaceChildren(...data.deliverables.map(str=>{const li=document.createElement('li');li.textContent=str;return li;}));
+ document.getElementById('result-code').textContent=String(['growth','product','automation','experience'].indexOf(goal)*2+(stage==='idea'?1:2)).padStart(2,'0')+' / 08';
+ document.getElementById('mock-kicker').textContent=data.visual[0];
+ document.getElementById('mock-headline').replaceChildren(document.createTextNode(data.visual[1]),document.createElement('br'),document.createTextNode(data.visual[2]));
+ const extra=detail.value.trim();
+ currentPlan='BARTSS / ÇÖZÜM ÖNERİSİ\n\nHedef: '+topic+'\nAşama: '+phase+'\n'+(extra?'İhtiyacım: '+extra+'\n':'')+'\nÖnerilen çözüm: '+data.title+'\n'+data.description+'\n\nÖnerilen teslimatlar:\n'+data.deliverables.map(x=>'- '+x).join('\n')+'\n\nİlk adım: '+data.first+'\n\nBu bir ön değerlendirmedir; kapsam görüşmede netleşir.';
+ const mailto='mailto:hello@bartss.com?subject='+encodeURIComponent('Bartss / '+topic)+'&body='+encodeURIComponent('Merhaba Bartss,\n\n'+currentPlan+'\n\nİletişim bilgilerim:\n');
+ cta.href=mailto;mail.href=mailto;mail.textContent='Önerimle iletişime geç ↗';
+ feedback.textContent='';
+}
+goalButtons.forEach(b=>b.addEventListener('click',()=>{goal=b.dataset.goal;updatePlan();}));
+stageButtons.forEach(b=>b.addEventListener('click',()=>{stage=b.dataset.stage;updatePlan();}));
+detail.addEventListener('input',updatePlan);
+document.querySelectorAll('[data-goal-link]').forEach(a=>a.addEventListener('click',()=>{goal=a.dataset.goalLink;updatePlan();}));
+copy.addEventListener('click',async()=>{
+ try{await navigator.clipboard.writeText(currentPlan);feedback.textContent='Çözüm önerisi kopyalandı.';}
+ catch(e){const temp=document.createElement('textarea');temp.value=currentPlan;temp.style.position='fixed';temp.style.opacity='0';document.body.appendChild(temp);temp.select();try{feedback.textContent=document.execCommand('copy')?'Çözüm önerisi kopyalandı.':'Kopyalama yapılamadı. E-posta bağlantısını kullanabilirsiniz.';}catch(err){feedback.textContent='Kopyalama yapılamadı. E-posta bağlantısını kullanabilirsiniz.';}temp.remove();}
+});
+updatePlan();
 })();
 </script>
 </body></html>
